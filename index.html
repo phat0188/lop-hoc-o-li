@@ -4604,8 +4604,8 @@ const lpLoad = (sid, tid) => { try { return JSON.parse(store(lpKey(sid, tid)) ||
    Không có giọng tiếng Việt hoặc máy không phát được tiếng -> tự chuyển sang phụ đề chạy theo nhịp đọc. */
 const TTS = {
   ok: typeof window !== 'undefined' && 'speechSynthesis' in window && typeof SpeechSynthesisUtterance !== 'undefined', token:0, voices:[], ready:null, broken:false,
-  off: false, pick: '', tm:null,
-  init(){ try { this.off = store('oli.tts.off') === '1'; this.pick = store('oli.voice') || ''; } catch(e){} this.load(); },
+  off: false, pick: '', tm:null, neural:false, cur:null,
+  init(){ try { this.off = store('oli.tts.off') === '1'; this.pick = store('oli.voice') || ''; this.neural = store('oli.tts.nv') === '1'; } catch(e){} this.load(); },
   load(){ if (!this.ok) return Promise.resolve([]); if (this.ready) return this.ready;
     this.ready = new Promise(res => { const get = () => { try { const v = speechSynthesis.getVoices(); if (v && v.length){ this.voices = v; return true; } } catch(e){} return false; };
       if (get()) return res(this.voices); const hd = () => { if (get()){ try { speechSynthesis.removeEventListener('voiceschanged', hd); } catch(e){} res(this.voices); } };
@@ -4619,9 +4619,19 @@ const TTS = {
     const en = this.voices.filter(v => this.norm(v.lang).startsWith('en')); return en.find(v => this.norm(v.lang) === 'en-us' && /google|natural|online|samantha/i.test(v.name)) || en.find(v => this.norm(v.lang) === 'en-us') || en[0] || null; },
   hasVi(){ return !!this.voice('vi-VN'); },
   // 'voice' = đọc thành tiếng; 'novi' = máy không có giọng tiếng Việt; 'off' = em tắt; 'broken' = máy không phát được; 'none' = trình duyệt không hỗ trợ
-  state(){ if (!this.ok) return 'none'; if (this.off) return 'off'; if (this.broken) return 'broken'; this.refresh(); if (!this.hasVi()) return 'novi'; return 'voice'; },
-  stop(){ this.token++; clearTimeout(this.tm); try { if (this.ok) speechSynthesis.cancel(); } catch(e){} },
+  state(){ if (this.off) return 'off'; if (this.neural) return 'neural'; if (!this.ok) return 'none'; if (this.broken) return 'broken'; this.refresh(); if (!this.hasVi()) return 'novi'; return 'voice'; },
+  stop(){ this.token++; clearTimeout(this.tm); try { if (this.cur){ this.cur.pause(); this.cur = null; } } catch(e){} try { if (this.ok) speechSynthesis.cancel(); } catch(e){} },
   play(sents, opt = {}){
+    if (this.neural && !this.off){ this.stop(); const tk = this.token; let i = opt.from || 0; const {rate = 1, onSent, onDone, onMode} = opt; onMode && onMode('neural');
+      const cache = new Map(), get = k => { if (!cache.has(k)) cache.set(k, NV.raw(sents[k])); return cache.get(k); };
+      const bad = () => { if (tk !== this.token) return; this.neural = false; this.nvFail = true; this.play(sents, {...opt, from:i}); this.neural = true; };
+      const one = async () => { if (tk !== this.token) return; if (i >= sents.length){ onDone && onDone(true); return; } onSent && onSent(i);
+        let blob; try { blob = await get(i); } catch(e){ console.warn('nv', e); return bad(); } if (tk !== this.token) return;
+        if (i + 1 < sents.length) get(i + 1).catch(() => {});
+        const a = new Audio(URL.createObjectURL(blob)); this.cur = a; try { a.playbackRate = rate; } catch(e){}
+        a.onended = () => { if (tk !== this.token) return; i++; one(); }; a.onerror = () => bad();
+        a.play().catch(() => bad()); };
+      one(); return; }
     if (this.ok && !this.voices.length && !this._waited){ this.stop(); const tk0 = this.token; this.load().then(() => { this._waited = true; if (tk0 === this.token) this.play(sents, opt); }); return; }
     const {from = 0, rate = 1, onSent, onDone, onMode} = opt;
     this.stop(); const tk = this.token; let i = from; const mode = this.state(); onMode && onMode(mode);
@@ -4648,7 +4658,9 @@ const TTS = {
     };
     one();
   },
-  test(onRes){ if (!this.ok) return onRes(false); this.stop(); const tk = this.token; const u = new SpeechSynthesisUtterance('Xin chào các em, cô giáo lớp Ô Li đây.'); u.lang = 'vi-VN'; const v = this.voice('vi-VN'); if (!v) return onRes(false); try { u.voice = v; } catch(e){}
+  test(onRes){ const T = 'Xin chào các em, cô giáo lớp Ô Li đây.';
+    if (this.neural){ this.stop(); const tk = this.token; NV.raw(T).then(b => { if (tk !== this.token) return; const a = new Audio(URL.createObjectURL(b)); this.cur = a; a.play().then(() => onRes(true)).catch(() => onRes(false)); }).catch(() => onRes(false)); return; }
+    if (!this.ok) return onRes(false); this.stop(); const tk = this.token; const u = new SpeechSynthesisUtterance(T); u.lang = 'vi-VN'; const v = this.voice('vi-VN'); if (!v) return onRes('novi'); try { u.voice = v; } catch(e){}
     let st = false; u.onstart = () => { st = true; onRes(true); }; try { speechSynthesis.speak(u); } catch(e){ return onRes(false); } setTimeout(() => { if (tk === this.token && !st) onRes(false); }, 3500); }
 };
 TTS.init();
@@ -4665,18 +4677,24 @@ function openVoiceSettings(onChange){
   const ov = document.createElement('div'); ov.className = 'lk-overlay'; document.body.appendChild(ov);
   const close = () => { TTS.stop(); ov.remove(); onChange && onChange(); };
   const draw = () => { const vs = TTS.viVoices(), stt = TTS.state(), cur = TTS.voice('vi-VN');
-    const msg = {voice: vs.length ? `Máy có <b>${vs.length} giọng tiếng Việt</b>. Bấm <b>Nghe thử</b> để kiểm tra.` : 'Bấm <b>Nghe thử</b> để kiểm tra máy có đọc được không.', novi:'Máy này <b>chưa có giọng tiếng Việt</b>, nên lời giảng đang hiện bằng chữ (phụ đề tự chạy).', off:'Em đang <b>tắt giọng đọc</b>: lời giảng hiện bằng chữ.', broken:'Máy đã nhận lệnh đọc nhưng <b>không phát ra tiếng</b>, nên lời giảng đang hiện bằng chữ.', none:'Trình duyệt này <b>không hỗ trợ đọc thành tiếng</b>. Thử mở bằng Chrome, Edge hoặc Safari.'}[stt];
+    const msg = {neural:'Đang dùng <b>giọng đọc tự nhiên tải về</b> (chạy ngay trên máy, không cần giọng của máy).', voice: vs.length ? `Máy có <b>${vs.length} giọng tiếng Việt</b>. Bấm <b>Nghe thử</b> để kiểm tra.` : 'Bấm <b>Nghe thử</b> để kiểm tra máy có đọc được không.', novi:'Máy này <b>chưa có giọng tiếng Việt</b>, nên lời giảng đang hiện bằng chữ (phụ đề tự chạy).', off:'Em đang <b>tắt giọng đọc</b>: lời giảng hiện bằng chữ.', broken:'Máy đã nhận lệnh đọc nhưng <b>không phát ra tiếng</b>, nên lời giảng đang hiện bằng chữ.', none:'Trình duyệt này <b>không hỗ trợ đọc thành tiếng</b>. Thử mở bằng Chrome, Edge hoặc Safari.'}[stt];
     ov.innerHTML = `<div class="lk-card" role="dialog" aria-modal="true" aria-label="Giọng đọc bài giảng"><div class="sec-head"><h2>🔊 Giọng đọc bài giảng</h2><button class="hub-mini" id="vsX" style="flex:0 0 auto">Xong</button></div>
-      <p class="vs-st ${stt === 'voice' ? 'ok' : 'bad'}">${msg}</p>
+      <p class="vs-st ${stt === 'voice' || stt === 'neural' ? 'ok' : 'bad'}">${msg}</p>
       ${vs.length > 1 ? `<label class="field">Chọn giọng<select id="vsSel">${vs.map(v => `<option value="${h(v.voiceURI)}" ${cur && cur.voiceURI === v.voiceURI ? 'selected' : ''}>${h(v.name)}</option>`).join('')}</select></label>` : ''}
-      <div class="row" style="gap:8px;flex-wrap:wrap"><button class="btn small" id="vsTest" style="flex:0 0 auto" ${TTS.ok && !TTS.off ? '' : 'disabled'}>▶ Nghe thử</button><label class="vs-off"><input type="checkbox" id="vsOff" ${TTS.off ? 'checked' : ''}> Tắt giọng đọc, chỉ hiện chữ</label></div>
+      <div class="nv-box"><b>🎧 Giọng đọc tự nhiên tải về</b><span class="muted" style="font-size:.84rem">Dùng được trên mọi trình duyệt, kể cả khi máy không có giọng tiếng Việt. Tải một lần khoảng 60 MB (nên dùng Wi-Fi), máy tính đọc mượt hơn điện thoại.</span>
+        ${TTS.neural ? '<label class="chk"><input type="checkbox" id="vsNv" checked> Đang dùng giọng tải về (bỏ chọn để dùng giọng của máy)</label>' : '<button type="button" class="btn small" id="vsNvGo" style="justify-self:start">⬇ Tải và dùng giọng đọc tự nhiên</button>'}<span class="muted" id="vsNvSt" style="font-size:.84rem"></span></div>
+      <div class="row" style="gap:8px;flex-wrap:wrap"><button class="btn small" id="vsTest" style="flex:0 0 auto" ${(TTS.ok || TTS.neural) && !TTS.off ? '' : 'disabled'}>▶ Nghe thử</button><label class="vs-off"><input type="checkbox" id="vsOff" ${TTS.off ? 'checked' : ''}> Tắt giọng đọc, chỉ hiện chữ</label></div>
       <p id="vsRes" class="muted" role="status" style="margin:0;font-size:.88rem"></p>
       <div class="vs-help"><b>Cách bật giọng đọc tiếng Việt</b><p>${VOICE_HELP[platformOf()]}</p><p class="muted" style="font-size:.82rem">Nếu đang mở trang trong ứng dụng Claude trên điện thoại mà không nghe được, em thử mở bằng trình duyệt Chrome hoặc Safari. Bài giảng có <b>giọng cô ghi âm sẵn</b> thì máy nào cũng nghe được.</p></div></div>`;
     $('#vsX', ov).onclick = close;
     const sel = $('#vsSel', ov); if (sel) sel.onchange = () => { TTS.pick = sel.value; try { store('oli.voice', sel.value); } catch(e){} TTS.broken = false; };
     $('#vsOff', ov).onchange = e => { TTS.off = e.target.checked; try { store('oli.tts.off', TTS.off ? '1' : ''); } catch(e){} if (!TTS.off) TTS.broken = false; draw(); };
-    $('#vsTest', ov).onclick = () => { TTS.broken = false; $('#vsRes', ov).textContent = 'Đang đọc thử…';
-      TTS.test(ok => { const r = $('#vsRes', ov); if (!r) return; r.innerHTML = ok ? '✓ Máy đã bắt đầu đọc. Nếu vẫn không nghe thấy, em kiểm tra loa, âm lượng và chế độ im lặng.' : '✗ Máy không phát được tiếng. Em làm theo hướng dẫn bên dưới, hoặc học bằng phụ đề chữ.'; if (!ok){ TTS.broken = true; } }); };
+    const nvGo = $('#vsNvGo', ov); if (nvGo) nvGo.onclick = async () => { nvGo.disabled = true; const st = $('#vsNvSt', ov);
+      try { st.textContent = 'Đang chuẩn bị…'; await NV.ensure(p => { st.textContent = `Đang tải giọng đọc: ${p}%`; }); TTS.neural = true; TTS.broken = false; try { store('oli.tts.nv', '1'); } catch(e){} draw(); $('#vsRes', ov).textContent = 'Đã sẵn sàng. Bấm Nghe thử nhé.'; }
+      catch(e){ console.warn(e); nvGo.disabled = false; st.textContent = 'Chưa tải được giọng đọc. Kiểm tra mạng rồi thử lại (nên dùng Chrome hoặc Edge).'; } };
+    const nvCb = $('#vsNv', ov); if (nvCb) nvCb.onchange = () => { TTS.neural = nvCb.checked; try { store('oli.tts.nv', TTS.neural ? '1' : ''); } catch(e){} draw(); };
+    $('#vsTest', ov).onclick = () => { TTS.broken = false; $('#vsRes', ov).textContent = TTS.neural ? 'Đang tạo giọng đọc thử (lần đầu có thể mất vài giây)…' : 'Đang đọc thử…';
+      TTS.test(ok => { const r = $('#vsRes', ov); if (!r) return; if (ok === 'novi'){ r.innerHTML = 'Máy này <b>chưa có giọng tiếng Việt</b>. Em bấm <b>⬇ Tải và dùng giọng đọc tự nhiên</b> ở trên, hoặc mở trang bằng Microsoft Edge.'; return; } r.innerHTML = ok ? '✓ Máy đã bắt đầu đọc. Nếu vẫn không nghe thấy, em kiểm tra loa, âm lượng và chế độ im lặng.' : '✗ Máy không phát được tiếng. Em làm theo hướng dẫn bên dưới, hoặc học bằng phụ đề chữ.'; if (!ok){ TTS.broken = true; } }); };
   };
   TTS.load().then(() => { if (document.body.contains(ov)) draw(); }); draw();
 }
@@ -4875,7 +4893,7 @@ function lessonPlayer(app, task, practice, opt = {}){
   const markSent = j => { sentI = j; const ss = sentsOf(st.idx); if (j < 0 || !ss[j]) return;
     say(`${h(ss[j].replace(/^\[en\]\s*/i, ''))}<span class="cr-cc">${j + 1}/${ss.length}</span>`, 'speaking');
     const items = $$('.ck', board); if (items.length){ const k = Math.min(items.length - 1, Math.floor(j/ss.length*items.length)); items.forEach((x, n) => x.classList.toggle('on', n === k)); } };
-  const ttsNote = mode => { const el = $('#crTts', app); if (!el) return; const t = {novi:'Máy này chưa có giọng đọc tiếng Việt nên cô hiện lời giảng bằng chữ.', broken:'Máy chưa phát được tiếng nên cô hiện lời giảng bằng chữ.', none:'Trình duyệt này chưa đọc được thành tiếng nên cô hiện lời giảng bằng chữ.', off:''}[mode];
+  const ttsNote = mode => { const el = $('#crTts', app); if (!el) return; const t = {neural:'', novi:'Máy này chưa có giọng đọc tiếng Việt nên cô hiện lời giảng bằng chữ. Bấm 🔊 Giọng đọc để tải giọng đọc tự nhiên (một lần, khoảng 60 MB).', broken:'Máy chưa phát được tiếng nên cô hiện lời giảng bằng chữ.', none:'Trình duyệt này chưa đọc được thành tiếng nên cô hiện lời giảng bằng chữ.', off:''}[mode];
     el.hidden = !t; if (t){ el.innerHTML = `🔇 ${t} <button class="lnk" id="ttsHelp">Cách bật giọng đọc</button>`; $('#ttsHelp', el).onclick = () => { stopAudio(); openVoiceSettings(); }; } };
   const stopAudio = () => { TTS.stop(); if (curAudio){ try { curAudio.pause(); } catch(e){} curAudio = null; } playing = false; talking(false); $$('.ck.on', board).forEach(x => x.classList.remove('on')); ctrls(); };
   const speak = (from = 0) => {
@@ -4937,7 +4955,7 @@ function lessonPlayer(app, task, practice, opt = {}){
     if (follow && liveRoom) liveRoom.emit('ans', {sid, idx:i, j, ok:j === s.a}).catch(() => {}); };
   $('#bprev', app).onclick = () => go2(st.idx - 1, playing);
   $('#bnext', app).onclick = () => go2(st.idx + 1, !teach && started && auto);
-  $('#bvoice', app).onclick = () => { stopAudio(); openVoiceSettings(() => ttsNote(TTS.state() === 'voice' ? 'off' : TTS.state())); };
+  $('#bvoice', app).onclick = () => { stopAudio(); openVoiceSettings(() => ttsNote(TTS.state() === 'voice' || TTS.state() === 'neural' ? 'off' : TTS.state())); };
   $('#bplay', app).onclick = () => { if (playing) stopAudio(); else speak(sentI > 0 ? sentI : 0); };
   $('#brate', app).onclick = () => { rate = rate === 1 ? 1.2 : rate === 1.2 ? 0.85 : 1; ctrls(); if (curAudio) curAudio.playbackRate = rate; else if (playing) speak(Math.max(0, sentI)); };
   const ba = $('#bauto', app); if (ba) ba.onclick = () => { auto = !auto; ctrls(); };
@@ -5267,6 +5285,8 @@ const NV = {id:'vi_VN-vais1000-medium', p:null,
     w(0, 'RIFF'); v.setUint32(4, 36 + n*2, true); w(8, 'WAVE'); w(12, 'fmt '); v.setUint32(16, 16, true); v.setUint16(20, 1, true); v.setUint16(22, 1, true); v.setUint32(24, sr, true); v.setUint32(28, sr*2, true); v.setUint16(32, 2, true); v.setUint16(34, 16, true); w(36, 'data'); v.setUint32(40, n*2, true);
     for (let i = 0; i < n; i++){ const x = Math.max(-1, Math.min(1, f[i])); v.setInt16(44 + i*2, x < 0 ? x*0x8000 : x*0x7fff, true); }
     return new Blob([buf], {type:'audio/wav'}); },
+  async ensure(onDl){ const tts = await this.lib(); try { const have = await tts.stored(); if (have.includes(this.id)) return true; } catch(e){} await tts.download(this.id, pr => onDl && pr && pr.total && onDl(Math.round(pr.loaded*100/pr.total))); return true; },
+  async raw(text){ const tts = await this.lib(); return tts.predict({text:this.norm(text), voiceId:this.id}); },
   async make(text, onDl){ const tts = await this.lib();
     try { const have = await tts.stored(); if (!have.includes(this.id)) await tts.download(this.id, pr => onDl && pr && pr.total && onDl(Math.round(pr.loaded*100/pr.total))); } catch(e){}
     const wav = await tts.predict({text:this.norm(text), voiceId:this.id}); return this.small(wav); }
