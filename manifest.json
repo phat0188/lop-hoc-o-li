@@ -1,0 +1,23 @@
+{
+ "name": "Lớp học Ô Li",
+ "short_name": "Ô Li",
+ "start_url": "./",
+ "display": "standalone",
+ "orientation": "any",
+ "background_color": "#070f2b",
+ "theme_color": "#070f2b",
+ "lang": "vi",
+ "icons": [
+  {
+   "src": "icon-192.png",
+   "sizes": "192x192",
+   "type": "image/png"
+  },
+  {
+   "src": "icon-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "any maskable"
+  }
+ ]
+}
