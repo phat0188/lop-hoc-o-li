@@ -1022,13 +1022,34 @@ body.sc-lock .imm-fab{display:none!important}
 @media (max-width:900px){.chs{grid-template-columns:minmax(0,1fr)}.chs-board{width:min(100%,calc(100svh - 200px))}}
 @media (orientation:landscape) and (max-height:560px){.chs{grid-template-columns:auto minmax(240px,1fr)}.chs-board{width:calc(100svh - 120px);min-width:240px}.chs-side{max-height:calc(100svh - 20px);overflow:auto}}
 
+
+/* ===== phòng STEM ===== */
+.stem-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.stem-card{display:grid;gap:8px;text-align:left;padding:18px;border-radius:18px;border:1.5px solid color-mix(in srgb,var(--c2) 60%,transparent);background:linear-gradient(150deg,color-mix(in srgb,var(--c1) 55%,#0b1230),#0b1230 75%);color:#fff;cursor:pointer;box-shadow:0 0 26px -10px var(--c2);font:inherit}
+.stem-card:hover{transform:translateY(-2px)}.stem-card b{font-size:1.25rem}.stem-ic{font-size:2.4rem}.stem-card .muted{color:#cfd8f0}
+.stem-ms{display:grid;gap:3px;font-size:.88rem}.stem-ms .ok{color:#ffe27a}.stem-go{font-weight:800;color:var(--c2)}
+.seg.stem-ms-sel{display:flex;flex-wrap:wrap;overflow:visible;border-radius:14px;height:auto;gap:4px}.stem-ms-sel button{font-size:.8rem;padding:5px 10px}
+.pe{display:grid;gap:8px}
+.pe-pal{display:flex;flex-wrap:wrap;gap:5px}
+.pe-blk{border:0;border-radius:8px;padding:5px 9px;font:700 .78rem/1.2 var(--f-ui);color:#fff;cursor:pointer}
+.pe-prog{display:grid;gap:4px;min-height:60px;max-height:min(46vh,420px);overflow:auto;padding:6px;border:1px dashed var(--line);border-radius:10px;background:rgba(5,10,30,.35)}
+.pe-line{display:flex;align-items:center;justify-content:space-between;gap:6px;padding:4px 6px 4px 9px;border-radius:8px;color:#fff;font-size:.84rem;font-weight:700;cursor:pointer;border:2px solid transparent}
+.pe-line.sel{border-color:#ffe27a}.pe-line.run{box-shadow:0 0 0 3px #fff,0 0 16px #ffe27a}
+.pe-txt{display:flex;flex-wrap:wrap;align-items:center;gap:4px}.pe-act{display:flex;gap:2px;flex:0 0 auto}.pe-act .x{background:rgba(0,0,0,.25);color:#fff}
+.pe-in{font:inherit;font-size:.8rem;padding:1px 4px;border-radius:6px;border:0;max-width:150px}.pe-in[type=number]{width:64px}
+.c-io{background:#0e7490}.c-mv{background:#2563eb}.c-ctl{background:#d97706}.c-end{background:#92400e}.c-time{background:#7c3aed}.c-cond{background:#be185d}
+.stem-code pre{background:#0a1028;color:#a7f3d0;padding:10px;border-radius:8px;overflow:auto;font-size:.78rem;max-height:240px;margin:6px 0 0}
+.stem-code summary{cursor:pointer;font-weight:700;font-size:.88rem}
+.stem-lcd span{font-size:.92rem}
+.arm-sl{display:flex;flex-wrap:wrap;gap:8px 14px;flex:1 1 100%}.arm-sl .ctrl{flex:1 1 180px}
+.stem-win{border:1.5px solid #ffe27a}
 /* ===== tràn viền: mọi trang dùng hết bề ngang màn hình ===== */
 .wrap,.wrap.wlab{max-width:none;padding-left:max(clamp(12px,1.8vw,28px),env(safe-area-inset-left,0px));padding-right:max(clamp(12px,1.8vw,28px),env(safe-area-inset-right,0px))}
 .cr{max-width:none;padding-inline:max(clamp(10px,1.6vw,24px),env(safe-area-inset-left,0px))}
 .cb{min-height:clamp(260px,calc(100svh - 400px),900px)}
 .chs-board{width:min(100%,820px,calc(100svh - 270px))}
 /* sân trường, hội trường, cờ vua, lớp học: bỏ chân trang, khung lấp đầy màn hình */
-body[data-view="school"] .foot,body[data-view="hallin"] .foot,body[data-view="chess"] .foot,body[data-view="lab"] .foot,body[data-view="task"] .foot,body[data-view="live"] .foot,body[data-view="preview"] .foot{display:none}
+body[data-view="school"] .foot,body[data-view="hallin"] .foot,body[data-view="chess"] .foot,body[data-view="lab"] .foot,body[data-view="stemlab"] .foot,body[data-view="task"] .foot,body[data-view="live"] .foot,body[data-view="preview"] .foot{display:none}
 @media (min-height:561px){
   body[data-view="school"] .hub,body[data-view="hallin"] .hub{padding-block:8px 8px}
   body[data-view="school"] .hub-wrap,body[data-view="hallin"] .hub-wrap{gap:8px!important;padding-left:max(8px,env(safe-area-inset-left,0px));padding-right:max(8px,env(safe-area-inset-right,0px))}
@@ -1358,7 +1379,7 @@ function renderNav(){
   if (m) items.push(['student','Nhiệm vụ của em']);
   if (S.canEdit) items.push(['teacher','Giáo viên']);
   items.push(SB_ON && S.authUid ? ['login','Tài khoản'] : m ? ['logout','Đăng xuất'] : ['login','Đăng nhập']);
-  $('#nav').innerHTML = items.map(([k,l]) => `<button data-go="${k}" ${v===k||(k==='school'&&(v==='hallin'||v==='hall'||v==='chess'))||(k==='labs'&&(v==='room'||v==='lab'))||(k==='student'&&v==='task'&&S.tasks[S.arg]?.kind!=='lesson')||(k==='class'&&(v==='preview'||v==='live'||(v==='task'&&S.tasks[S.arg]?.kind==='lesson')))?'aria-current="page"':''}>${l}</button>`).join('');
+  $('#nav').innerHTML = items.map(([k,l]) => `<button data-go="${k}" ${v===k||(k==='school'&&(v==='hallin'||v==='hall'||v==='chess'))||(k==='labs'&&(v==='room'||v==='lab'||v==='stem'||v==='stemlab'))||(k==='student'&&v==='task'&&S.tasks[S.arg]?.kind!=='lesson')||(k==='class'&&(v==='preview'||v==='live'||(v==='task'&&S.tasks[S.arg]?.kind==='lesson')))?'aria-current="page"':''}>${l}</button>`).join('');
 }
 
 function render(){
@@ -1370,19 +1391,19 @@ function render(){
   app.classList.add('labhub');
   if (SB_ON && S.authUid && !S.loaded && ['student','task','class','teacher','live','preview','school'].includes(S.view)){ app.dataset.view = ''; app.dataset.lock = ''; app.innerHTML = '<div class="wrap"><section class="section"><p class="notice">Đang tải dữ liệu lớp học…</p></section></div>'; return; }
   // keep running labs alive: don't re-render a lab view on data updates
-  if (app.dataset.view === S.view + ':' + S.arg && (S.view === 'lab' || S.view === 'task' || S.view === 'preview' || S.view === 'school' || S.view === 'hallin' || S.view === 'live' || S.view === 'chess') && app.dataset.lock === '1') return;
+  if (app.dataset.view === S.view + ':' + S.arg && (S.view === 'lab' || S.view === 'stemlab' || S.view === 'task' || S.view === 'preview' || S.view === 'school' || S.view === 'hallin' || S.view === 'live' || S.view === 'chess') && app.dataset.lock === '1') return;
   const ae = document.activeElement;
   if (app.dataset.view === S.view + ':' + S.arg && ae && app.contains(ae) && /^(INPUT|TEXTAREA|SELECT)$/.test(ae.tagName) && ae.type !== 'radio' && ae.type !== 'checkbox'){
     if (!S._deferR){ S._deferR = true; ae.addEventListener('blur', () => setTimeout(() => { S._deferR = false; render(); }, 150), {once:true}); } return; }
   app.dataset.view = S.view + ':' + S.arg; app.dataset.lock = '';
   if (S.loaded && !['task','lab','live','preview'].includes(S.view)) setTimeout(() => { try { checkNudge(); } catch(e){ console.warn(e); } }, 400);
   updImm(); try { socStart(); } catch(e){}
-  const V = {home:vHome, chess:vChess, live:vLive, school:vSchool, hallin:vSchool, hall:vHall, labs:vLabs, room:vRoom, lab:vLab, login:SB_ON ? vLoginSB : vLogin, student:vStudent, task:vTask, teacher:vTeacher, 'class':vClass, preview:vPreview}[S.view] || vHome;
+  const V = {home:vHome, stem:vStem, stemlab:vStemLab, chess:vChess, live:vLive, school:vSchool, hallin:vSchool, hall:vHall, labs:vLabs, room:vRoom, lab:vLab, login:SB_ON ? vLoginSB : vLogin, student:vStudent, task:vTask, teacher:vTeacher, 'class':vClass, preview:vPreview}[S.view] || vHome;
   V(app);
 }
 
 /* ===================== điện thoại: xoay ngang & toàn màn hình ===================== */
-const IMM_VIEWS = ['school', 'hallin', 'task', 'lab', 'live', 'preview'];
+const IMM_VIEWS = ['school', 'hallin', 'task', 'lab', 'stemlab', 'live', 'preview'];
 function updImm(){
   const b = document.body, imm = IMM_VIEWS.includes(S.view); b.classList.toggle('imm', imm); b.classList.remove('show-top'); b.dataset.view = S.view;
   let fab = $('#immFab'); if (!fab){ fab = document.createElement('button'); fab.id = 'immFab'; fab.className = 'imm-fab'; fab.type = 'button'; fab.innerHTML = '☰ Menu'; fab.setAttribute('aria-label', 'Hiện thanh menu'); fab.onclick = () => document.body.classList.toggle('show-top'); document.body.appendChild(fab); }
@@ -1594,6 +1615,7 @@ function vLabs(app){
         <button class="hm hm-blue" data-go="room" data-arg="all"><span class="hm-ic">${HUB_ICON.flask}</span><span>Vào phòng thí nghiệm</span><span class="hm-ch">${HUB_ICON.chev}</span></button>
         <button class="hm hm-orange" data-dw="tasks"><span class="hm-ic">${HUB_ICON.task}</span><span>Nhiệm vụ hôm nay</span>${d.pend.length ? `<i class="hm-new">${d.pend.length}</i>` : ''}<span class="hm-ch">${HUB_ICON.chev}</span></button>
         <button class="hm hm-purple" data-go="room" data-arg="all"><span class="hm-ic">${HUB_ICON.cube}</span><span>Thí nghiệm 3D</span><i class="hm-new">Mới</i><span class="hm-ch">${HUB_ICON.chev}</span></button>
+        <button class="hm hm-cyan" data-go="stem"><span class="hm-ic">${HUB_ICON.cube}</span><span>Phòng STEM: Arduino · Robot</span><i class="hm-new">Mới</i><span class="hm-ch">${HUB_ICON.chev}</span></button>
         <button class="hm hm-green" data-dw="rank"><span class="hm-ic">${HUB_ICON.cup}</span><span>Bảng xếp hạng</span><span class="hm-ch">${HUB_ICON.chev}</span></button>
         <button class="hm hm-cyan" data-dw="help"><span class="hm-ic">${HUB_ICON.book}</span><span>Hướng dẫn</span><span class="hm-ch">${HUB_ICON.chev}</span></button>
       </nav>
@@ -1749,7 +1771,8 @@ const SCH = (() => {
     lab:{x:1200, y:330, w:340, h:170, roofH:62, name:'KHU THÍ NGHIỆM', wall:'#dff0f7', roof:'#3d9a8a'},
     can:{x:60, y:760, w:300, h:150, roofH:58, name:'CĂNG TIN', wall:'#fbe1cf', roof:'#d9822b'},
     hall:{x:1610, y:280, w:350, h:220, roofH:76, name:'HỘI TRƯỜNG', wall:'#fde3d0', roof:'#b8302a'},
-    clb:{x:1610, y:820, w:330, h:160, roofH:58, name:'CLB CỜ VUA', wall:'#eef2ff', roof:'#2e3a7a'}
+    clb:{x:1610, y:820, w:330, h:160, roofH:58, name:'CLB CỜ VUA', wall:'#eef2ff', roof:'#2e3a7a'},
+    stem:{x:1420, y:50, w:330, h:150, roofH:58, name:'PHÒNG STEM', wall:'#e3f6f4', roof:'#0e7490'}
   };
   const DOORS = [
     {id:'c6', b:'cls', x:380, label:'Khối 6', kind:'class', grade:6, color:'#2f7dff'},
@@ -1763,7 +1786,8 @@ const SCH = (() => {
     {id:'sinh', b:'lab', x:1478, label:'Sinh học', kind:'lab', subj:'sinh', color:'#5fb32a'},
     {id:'ct', b:'can', x:210, label:'Căng tin', kind:'canteen', color:'#c2662a'},
     {id:'ht', b:'hall', x:1785, label:'Hội trường', kind:'hall', color:'#c2185b'},
-    {id:'cv', b:'clb', x:1775, label:'Cờ vua', kind:'chess', color:'#1c2a5a'}
+    {id:'cv', b:'clb', x:1775, label:'Cờ vua', kind:'chess', color:'#1c2a5a'},
+    {id:'st', b:'stem', x:1585, label:'STEM', kind:'stem', color:'#0e7490'}
   ];
   DOORS.forEach(d => { const b = B[d.b]; d.y = b.y + b.h; d.tx = d.x; d.ty = d.y + 26; });
   const TREES = [[1600,640,'p'],[1960,640,'p'],[1700,1050,'b'],[1930,1040,'p'],[1560,840,'b'],[470,320,'p'],[1130,320,'p'],[455,700,'b'],[1145,700,'b'],[470,985,'p'],[1130,985,'p'],[680,1085,'b'],[920,1085,'b'],[110,640,'p'],[380,650,'b'],[110,1050,'b'],[330,1060,'p'],[1560,1060,'b'],[1170,1080,'p'],[560,620,'b'],[1040,620,'b']];
@@ -1872,7 +1896,7 @@ function schoolStatic(scale){
   g.fillStyle = '#82c46c'; g.fillRect(0, 0, W, H);
   for (let i = 0; i < 900; i++){ g.fillStyle = rnd() < .5 ? 'rgba(255,255,255,.06)' : 'rgba(30,90,30,.08)'; g.beginPath(); g.arc(rnd()*W, rnd()*H, 4 + rnd()*14, 0, 7); g.fill(); }
   const pave = (x, y, w, h, col = '#e9e0cb', line = '#d9cdb2') => { g.fillStyle = col; g.fillRect(x, y, w, h); g.strokeStyle = line; g.lineWidth = 1; g.beginPath(); for (let a = Math.ceil(x/40)*40; a < x + w; a += 40){ g.moveTo(a, y); g.lineTo(a, y + h); } for (let b = Math.ceil(y/40)*40; b < y + h; b += 40){ g.moveTo(x, b); g.lineTo(x + w, b); } g.stroke(); };
-  pave(240, 250, 1120, 60); pave(440, 290, 720, 720); pave(740, 1000, 120, 160); pave(60, 500, 1900, 80); pave(1700, 580, 170, 40); pave(1700, 980, 160, 34); pave(180, 580, 70, 180); pave(1160, 580, 40, 40);
+  pave(240, 250, 1120, 60); pave(440, 290, 720, 720); pave(740, 1000, 120, 160); pave(60, 500, 1900, 80); pave(1700, 580, 170, 40); pave(1700, 980, 160, 34); pave(180, 580, 70, 180); pave(1160, 580, 40, 40); pave(1420, 200, 330, 36); pave(1552, 236, 56, 264);
   // sân thể thao
   g.fillStyle = '#4fae55'; g.fillRect(1190, 640, 350, 330); g.strokeStyle = 'rgba(255,255,255,.85)'; g.lineWidth = 3; g.strokeRect(1205, 655, 320, 300); g.beginPath(); g.moveTo(1205, 805); g.lineTo(1525, 805); g.stroke(); g.beginPath(); g.arc(1365, 805, 40, 0, 7); g.stroke(); g.strokeRect(1325, 655, 80, 34); g.strokeRect(1325, 921, 80, 34);
   g.fillStyle = '#ffffff'; g.font = '700 14px "Be Vietnam Pro", system-ui'; g.textAlign = 'center'; g.fillText('SÂN THỂ THAO', 1365, 990);
@@ -2402,7 +2426,7 @@ function vSchool(app){
     ...M.BOARDS.map(b => ({...b, ax:b.x, ay:b.y + 26, r:36, verb:'Xem ' + b.label.toLowerCase()})),
     {id:'bot', kind:'bot', label:'Robot Ô Li · MC', ax:M.ROBOT_AT.x + 30, ay:M.ROBOT_AT.y + 10, r:36, verb:'Nói chuyện'}
   ] : [
-    ...SCH.DOORS.map(dd => ({...dd, ax:dd.tx, ay:dd.ty, r:36, verb:dd.kind === 'hall' ? 'Vào hội trường' : dd.kind === 'class' ? 'Vào lớp' : dd.kind === 'lab' ? 'Vào phòng' : dd.kind === 'teacher' ? 'Vào phòng GV' : dd.kind === 'library' ? 'Vào thư viện' : dd.kind === 'chess' ? 'Vào CLB cờ vua' : 'Vào căng tin'})),
+    ...SCH.DOORS.map(dd => ({...dd, ax:dd.tx, ay:dd.ty, r:36, verb:dd.kind === 'hall' ? 'Vào hội trường' : dd.kind === 'class' ? 'Vào lớp' : dd.kind === 'lab' ? 'Vào phòng' : dd.kind === 'teacher' ? 'Vào phòng GV' : dd.kind === 'library' ? 'Vào thư viện' : dd.kind === 'chess' ? 'Vào CLB cờ vua' : dd.kind === 'stem' ? 'Vào phòng STEM' : 'Vào căng tin'})),
     ...SCH.BOARDS.map(b => ({...b, ax:b.x, ay:b.y + 26, r:36, verb:'Xem ' + b.label.toLowerCase()})),
     {id:'bot', kind:'bot', label:'Robot Ô Li', ax:SCH.ROBOT_AT.x, ay:SCH.ROBOT_AT.y + 4, r:40, verb:'Nói chuyện'}
   ];
@@ -2430,6 +2454,7 @@ function vSchool(app){
     if (a.kind === 'teacher'){ if (S.canEdit){ P.y = a.ty + 6; return enter('Đang vào phòng giáo viên…', () => go('teacher')); } return dlg('Robot Ô Li', 'Đây là <b>phòng giáo viên</b>. Chỉ thầy cô mới vào được em ạ.'); }
     if (a.kind === 'hall'){ P.y = a.ty + 6; P.dir = 'down'; return enter('Đang vào hội trường…', () => go('hallin')); }
     if (a.kind === 'chess'){ P.y = a.ty + 6; P.dir = 'down'; return enter('Đang vào câu lạc bộ cờ vua…', () => go('chess')); }
+    if (a.kind === 'stem'){ P.y = a.ty + 6; P.dir = 'down'; return enter('Đang vào phòng STEM…', () => go('stem')); }
     if (a.kind === 'canteen') return dlg('Cô căng tin', 'Căng tin đang sửa sang lại. Muốn có <b>kiểu tóc, mũ, kính, áo mới</b> thì em sang <b>Hội trường</b> ở phía đông sân trường tham gia sự kiện nhé!', [], {...defaultLook('canteen'), hair:'bob', bottom:'skirt', scarf:false});
     if (a.kind === 'honor'){ const bd = Object.values(S.boards).filter(b => b.published).sort((x, y) => y.month.localeCompare(x.month))[0];
       if (!bd) return dlg('Bảng vàng', 'Chưa có tháng nào được công bố.'); const [yy, mm] = bd.month.split('-');
@@ -3200,6 +3225,492 @@ function vLab(app){
   }});
 }
 
+/* ===================== PHÒNG STEM: Arduino · Xe điều khiển · Cánh tay robot ===================== */
+const STEM = {
+  ard:{name:'Mạch Arduino', sub:'Ráp mạch đèn LED, nút bấm và lập trình bằng khối lệnh', icon:'🔌', c1:'#0e7490', c2:'#22d3ee',
+    ms:[{id:'blink', name:'Đèn LED nhấp nháy'}, {id:'traffic', name:'Đèn giao thông'}, {id:'button', name:'Nút bấm bật đèn'}]},
+  car:{name:'Xe robot', sub:'Lắp xe từ từng linh kiện, lập trình cho xe về đích và né vật cản', icon:'🚗', c1:'#b45309', c2:'#fbbf24',
+    ms:[{id:'goal', name:'Về đích'}, {id:'avoid', name:'Đi vòng qua vật cản'}, {id:'sensor', name:'Tự né bằng cảm biến'}]},
+  arm:{name:'Cánh tay robot', sub:'Điều khiển 4 động cơ servo để gắp, xếp và phân loại hàng', icon:'🦾', c1:'#6d28d9', c2:'#c084fc',
+    ms:[{id:'move', name:'Gắp hộp sang khay'}, {id:'stack', name:'Xếp chồng hai hộp'}, {id:'sort', name:'Phân loại theo màu'}]}
+};
+const stemKey = () => 'oli.stem.' + (S.session || 'khach');
+const stemDone = () => { try { return JSON.parse(store(stemKey()) || '{}') || {}; } catch(e){ return {}; } };
+const stemMark = (k, m) => { const d = stemDone(); d[k] = d[k] || {}; const first = !d[k][m]; d[k][m] = Date.now(); store(stemKey(), JSON.stringify(d)); return first; };
+
+function vStem(app){
+  const done = stemDone();
+  app.innerHTML = `<div class="wrap"><section class="section">
+    <div class="sec-head"><div><span class="eyebrow">Khoa học · Công nghệ · Kĩ thuật · Toán</span><h1 style="font-size:1.9rem">Phòng STEM</h1><p class="muted" style="margin:0;max-width:70ch">Ráp mạch, lắp robot và lập trình bằng khối lệnh kéo thả trên mô hình 3D. Mỗi phần có 3 thử thách, làm xong được gắn sao.</p></div>
+      <button class="hub-mini" data-go="school">← Sân trường</button></div>
+    <div class="stem-grid">${Object.entries(STEM).map(([k, a]) => { const n = a.ms.filter(m => done[k] && done[k][m.id]).length;
+      return `<button class="stem-card" data-go="stemlab" data-arg="${k}" style="--c1:${a.c1};--c2:${a.c2}"><span class="stem-ic">${a.icon}</span><b>${h(a.name)}</b><span class="muted">${h(a.sub)}</span>
+        <span class="stem-ms">${a.ms.map(m => `<span class="${done[k] && done[k][m.id] ? 'ok' : ''}">${done[k] && done[k][m.id] ? '★' : '☆'} ${h(m.name)}</span>`).join('')}</span><span class="stem-go">${n}/3 thử thách · Vào làm</span></button>`; }).join('')}</div>
+  </section></div>`;
+}
+
+/* ---------- trình soạn khối lệnh dùng chung ---------- */
+function progEditor(box, blocks, init, onChange){
+  let prog = (init || []).map(x => ({...x})), sel = -1;
+  const B = Object.fromEntries(blocks.map(b => [b.op, b]));
+  const depthOf = () => { let d = 0; return prog.map(st => { const b = B[st.op] || {}; if (b.close) d = Math.max(0, d - 1); const r = d; if (b.open) d++; return r; }); };
+  const pHTML = (st, i) => { const b = B[st.op]; if (!b) return ''; return b.label.replace(/\{(\w+)\}/g, (m, k) => { const p = (b.params || []).find(x => x.k === k); if (!p) return m;
+    return p.opts ? `<select class="pe-in" data-i="${i}" data-k="${k}">${p.opts.map(([v, l]) => `<option value="${h(v)}" ${String(st[k]) === String(v) ? 'selected' : ''}>${h(l)}</option>`).join('')}</select>`
+      : `<input class="pe-in" type="number" inputmode="numeric" data-i="${i}" data-k="${k}" value="${h(st[k])}" min="${p.min ?? 0}" max="${p.max ?? 9999}" step="${p.step || 1}">`; }); };
+  const draw = () => { const dp = depthOf();
+    box.innerHTML = `<div class="pe-pal">${blocks.map(b => `<button type="button" class="pe-blk c-${b.cat}" data-add="${b.op}">${h(b.chip || b.label.replace(/\{\w+\}/g, '…'))}</button>`).join('')}</div>
+      <div class="pe-prog" role="list">${prog.length ? prog.map((st, i) => `<div class="pe-line c-${(B[st.op] || {}).cat}${i === sel ? ' sel' : ''}" role="listitem" data-l="${i}" style="margin-left:${dp[i]*18}px"><span class="pe-txt">${pHTML(st, i)}</span><span class="pe-act"><button type="button" class="x" data-mv="${i}" data-d="-1" aria-label="Lên">↑</button><button type="button" class="x" data-mv="${i}" data-d="1" aria-label="Xuống">↓</button><button type="button" class="x" data-rm="${i}" aria-label="Xóa">×</button></span></div>`).join('') : '<p class="muted" style="margin:6px 0;font-size:.85rem">Bấm vào các khối lệnh ở trên để thêm vào chương trình. Bấm vào một dòng để chọn chỗ chèn.</p>'}</div>`;
+    $$('[data-add]', box).forEach(x => x.onclick = () => { const b = B[x.dataset.add]; const st = {op:b.op}; (b.params || []).forEach(p => st[p.k] = p.def);
+      const at = sel >= 0 ? sel + 1 : prog.length; prog.splice(at, 0, st); sel = at;
+      if (b.open && !b.noAutoEnd){ prog.splice(at + 1, 0, {op:'end'}); }
+      draw(); onChange && onChange(prog); });
+    $$('[data-l]', box).forEach(x => x.onclick = e => { if (e.target.closest('button,select,input')) return; sel = sel === +x.dataset.l ? -1 : +x.dataset.l; draw(); });
+    $$('.pe-in', box).forEach(x => x.onchange = () => { const st = prog[+x.dataset.i], p = (B[st.op].params || []).find(q => q.k === x.dataset.k);
+      st[x.dataset.k] = p.opts ? (typeof p.def === 'number' ? +x.value : x.value) : clamp(+x.value || 0, p.min ?? 0, p.max ?? 9999); onChange && onChange(prog); });
+    $$('[data-rm]', box).forEach(x => x.onclick = () => { prog.splice(+x.dataset.rm, 1); sel = Math.min(sel, prog.length - 1); draw(); onChange && onChange(prog); });
+    $$('[data-mv]', box).forEach(x => x.onclick = () => { const i = +x.dataset.mv, j = i + +x.dataset.d; if (j < 0 || j >= prog.length) return; [prog[i], prog[j]] = [prog[j], prog[i]]; sel = j; draw(); onChange && onChange(prog); });
+  };
+  draw();
+  return {get:() => prog.map(x => ({...x})), set:p => { prog = p.map(x => ({...x})); sel = -1; draw(); },
+    hl:i => { $$('.pe-line', box).forEach(x => x.classList.toggle('run', +x.dataset.l === i)); }, clear(){ prog = []; sel = -1; draw(); onChange && onChange(prog); }};
+}
+// biến danh sách lệnh thành cây (khối mở … "Hết khối")
+function progTree(prog, blocks){
+  const B = Object.fromEntries(blocks.map(b => [b.op, b])); const root = []; const stack = [root];
+  prog.forEach((st, i) => { const b = B[st.op]; if (!b) return; if (b.close){ if (stack.length > 1) stack.pop(); return; }
+    const n = {...st, i}; stack[stack.length - 1].push(n); if (b.open){ n.body = []; stack.push(n.body); } });
+  return root;
+}
+const STOP = {stop:true};
+async function progRun(tree, api, tok){
+  for (const n of tree){
+    if (tok.stop) throw STOP; api.hl(n.i);
+    if (n.op === 'loop'){ for (let k = 0; k < n.n; k++){ if (tok.stop) throw STOP; await progRun(n.body, api, tok); } }
+    else if (n.op === 'forever'){ let guard = 0; while (!tok.stop){ const t0 = performance.now(); await progRun(n.body, api, tok); if (performance.now() - t0 < 4) await tok.sleep(4); if (++guard > 100000) break; } }
+    else if (n.op === 'if' || n.op === 'ifnot'){ const c = await api.cond(n.c); if (n.op === 'if' ? c : !c) await progRun(n.body, api, tok); }
+    else await api.exec(n);
+  }
+}
+const mkTok = () => { const t = {stop:false, timers:new Set(), sleep:ms => new Promise((res, rej) => { if (t.stop) return rej(STOP); const id = setTimeout(() => { t.timers.delete(id); t.stop ? rej(STOP) : res(); }, ms); t.timers.add(id); })}; t.halt = () => { t.stop = true; t.timers.forEach(clearTimeout); t.timers.clear(); }; return t; };
+const codeIndent = (lines, n) => lines.map(l => '  '.repeat(n) + l);
+function genCode(tree, stmt, n = 1){
+  const out = [];
+  tree.forEach(t => {
+    if (t.op === 'loop'){ out.push(`for (int i = 0; i < ${t.n}; i++) {`); out.push(...codeIndent(genCode(t.body, stmt, 0), 1)); out.push('}'); }
+    else if (t.op === 'forever'){ out.push('while (true) {'); out.push(...codeIndent(genCode(t.body, stmt, 0), 1)); out.push('}'); }
+    else if (t.op === 'if' || t.op === 'ifnot'){ out.push(`if (${stmt({op:'cond', c:t.c, neg:t.op === 'ifnot'})}) {`); out.push(...codeIndent(genCode(t.body, stmt, 0), 1)); out.push('}'); }
+    else out.push(...[].concat(stmt(t)));
+  });
+  return codeIndent(out, n);
+}
+const BLK_CTRL = {
+  loop:{op:'loop', cat:'ctl', label:'🔁 Lặp {n} lần', chip:'🔁 Lặp … lần', params:[{k:'n', def:3, min:1, max:50}], open:true},
+  forever:{op:'forever', cat:'ctl', label:'♾ Lặp mãi mãi', open:true},
+  end:{op:'end', cat:'end', label:'⏹ Hết khối lặp/điều kiện', chip:'⏹ Hết khối', close:true},
+  wait:{op:'wait', cat:'time', label:'⏱ Chờ {ms} mili giây', chip:'⏱ Chờ … ms', params:[{k:'ms', def:500, min:10, max:10000, step:50}]}
+};
+function stemShell(el, key, ms, {how, extraCtl = '', tips}){
+  const A = STEM[key];
+  labShell(el, {how, pnl:'🧩 Lập trình',
+    svg:`<div id="v3"><p class="notice">Đang tải phòng STEM 3D…</p></div>`,
+    meters:`<div class="lcd stem-lcd" id="stLcd"><small>Trạng thái</small><span>Sẵn sàng</span></div>`,
+    controls:`${extraCtl}`,
+    panel:`<div class="goal" id="stGoal"></div>
+      <div class="seg stem-ms-sel" role="group" aria-label="Chọn thử thách">${A.ms.map((m, i) => `<button type="button" data-ms="${m.id}">${i + 1}. ${h(m.name)}</button>`).join('')}</div>
+      <div class="pe" id="stPE"></div>
+      <div class="row" style="gap:6px;flex-wrap:wrap"><button type="button" class="btn small" id="stRun" style="flex:0 0 auto">▶ Chạy</button><button type="button" class="btn ghost small" id="stStop" style="flex:0 0 auto" disabled>■ Dừng</button><button type="button" class="btn ghost small" id="stReset" style="flex:0 0 auto">↺ Đặt lại</button><button type="button" class="btn small" id="stCheck" style="flex:0 0 auto">✔ Kiểm tra thử thách</button></div>
+      <details class="stem-code"><summary>Xem mã Arduino (C++) tương ứng</summary><pre id="stCode"></pre></details>
+      <p id="lerr" class="pen" role="alert" style="font-size:1rem;margin:0"></p>
+      <div class="muted stem-tip" style="font-size:.82rem">${tips || ''}</div>`});
+  return {lcd:(t, k = 'Trạng thái') => { const x = $('#stLcd', el); if (x) x.innerHTML = `<small>${h(k)}</small><span>${t}</span>`; }};
+}
+const stemWin = (el, key, mid, msg) => { const first = stemMark(key, mid); const m = STEM[key].ms.find(x => x.id === mid);
+  $('#labResult', el).innerHTML = `<div class="goal stem-win"><b>⭐ Hoàn thành thử thách “${h(m.name)}”!</b> ${msg || ''} ${first ? 'Em vừa nhận thêm 1 sao STEM.' : ''} Thử sức với thử thách tiếp theo nhé.</div>`;
+  toast('⭐ Hoàn thành: ' + m.name); try { const lb = $('.lab', el); lb && lb.classList.remove('pnl-open'); } catch(e){}
+  setTimeout(() => { const r = $('#labResult', el); r && r.scrollIntoView({behavior:'smooth', block:'nearest'}); }, 120); };
+
+/* ---------- 1. MẠCH ARDUINO ---------- */
+const ARD_PARTS = {led_r:{n:'LED đỏ', kind:'led', col:'#ff3b30'}, led_y:{n:'LED vàng', kind:'led', col:'#ffcc00'}, led_g:{n:'LED xanh', kind:'led', col:'#34c759'},
+  r220:{n:'Điện trở 220 Ω', kind:'res', band:['#e53935', '#e53935', '#8d5524']}, r10k:{n:'Điện trở 10 kΩ', kind:'res', band:['#8d5524', '#111111', '#ff9800']}, btn:{n:'Nút bấm', kind:'btn'}};
+const ARD_MS = {
+  blink:{goal:'Ráp mạch: chân <b>13</b> → điện trở <b>220 Ω</b> → <b>LED đỏ</b> → <b>GND</b>. Rồi lập trình cho đèn <b>nhấp nháy</b> (bật, chờ, tắt, chờ, lặp lại).',
+    ch:[{z:-0.02, pin:13, want:'led_r'}], start:[{op:'forever'}, {op:'end'}]},
+  traffic:{goal:'Ráp 3 đèn: <b>đỏ</b> ở chân 13, <b>vàng</b> ở chân 12, <b>xanh</b> ở chân 11 (mỗi đèn một điện trở 220 Ω). Lập trình đèn giao thông chạy theo thứ tự <b>xanh → vàng → đỏ</b> rồi lặp lại.',
+    ch:[{z:-0.05, pin:13, want:'led_r'}, {z:-0.01, pin:12, want:'led_y'}, {z:0.03, pin:11, want:'led_g'}], start:[]},
+  button:{goal:'Ráp đèn đỏ ở chân 13, và <b>nút bấm</b> nối chân <b>2</b> với <b>5V</b>, có điện trở <b>10 kΩ</b> kéo xuống GND. Lập trình: <b>nhấn nút thì đèn sáng, thả nút thì đèn tắt</b>.',
+    ch:[{z:-0.04, pin:13, want:'led_r'}], btn:{z:0.03, pin:2}, start:[]}
+};
+function stemArduino(el, ctx){
+  let mid = 'blink', M = ARD_MS[mid];
+  const pinOpts = [13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3].map(p => [p, 'chân ' + p]);
+  const blocks = [
+    {op:'set', cat:'io', label:'💡 Đặt {pin} {v}', chip:'💡 Bật/tắt chân', params:[{k:'pin', def:13, opts:pinOpts}, {k:'v', def:'HIGH', opts:[['HIGH', 'BẬT (HIGH)'], ['LOW', 'TẮT (LOW)']]}]},
+    BLK_CTRL.wait, BLK_CTRL.loop, BLK_CTRL.forever,
+    {op:'if', cat:'cond', label:'❓ Nếu {c}', chip:'❓ Nếu nút được nhấn', params:[{k:'c', def:'btn', opts:[['btn', 'nút ở chân 2 được nhấn']]}], open:true},
+    {op:'ifnot', cat:'cond', label:'❔ Nếu {c}', chip:'❔ Nếu nút không nhấn', params:[{k:'c', def:'btn', opts:[['btn', 'nút ở chân 2 KHÔNG được nhấn']]}], open:true},
+    BLK_CTRL.end];
+  const ui = stemShell(el, 'ard', null, {how:['Chọn thử thách ở bảng 🧩 Lập trình.', 'Bấm một linh kiện trên khay (LED, điện trở, nút bấm), rồi bấm vào ô sáng trên bảng mạch để cắm. Bấm vào LED đã cắm để <b>đảo chiều chân</b> (chân dài là cực +).', 'Nối dây: bấm một chân trên Arduino, rồi bấm vào điểm nối màu xanh trên bảng mạch. Bấm vào dây để gỡ.', 'Ghép các khối lệnh thành chương trình, bấm <b>▶ Chạy</b> để nạp và xem mạch chạy, rồi bấm <b>✔ Kiểm tra thử thách</b>.'],
+    tips:'Mẹo: LED cần điện trở để không bị cháy. Chân dài của LED (cực +) quay về phía chân Arduino, chân ngắn (cực −) về phía GND.',
+    extraCtl:`<button type="button" class="btn ghost" id="arBtn">🔘 Giữ để nhấn nút</button><button type="button" class="btn ghost" id="arCirc">🔍 Kiểm tra mạch</button>`});
+  let S3 = null, slots = {}, ends = {}, wires = {}, selPart = null, selPin = null, pins = {}, btnDown = false, tok = null;
+  const pinState = {};
+  const pe = progEditor($('#stPE', el), blocks, M.start, () => code());
+  const stmt = t => t.op === 'set' ? `digitalWrite(${t.pin}, ${t.v});` : t.op === 'wait' ? `delay(${t.ms});` : t.op === 'cond' ? `digitalRead(2) == ${t.neg ? 'LOW' : 'HIGH'}` : '';
+  const code = () => { const tree = progTree(pe.get(), blocks), fv = tree.filter(t => t.op === 'forever'), rest = tree.filter(t => t.op !== 'forever');
+    const used = new Set(pe.get().filter(s => s.op === 'set').map(s => s.pin)); const inBtn = pe.get().some(s => s.op === 'if' || s.op === 'ifnot');
+    const lines = ['void setup() {', ...[...used].map(p => `  pinMode(${p}, OUTPUT);`), ...(inBtn ? ['  pinMode(2, INPUT);'] : []), ...genCode(rest, stmt), '}', '', 'void loop() {', ...(fv.length ? genCode(fv[0].body, stmt) : ['  // (chương trình không lặp)']), '}'];
+    $('#stCode', el).textContent = lines.join('\n'); };
+  // ----- kiểm tra mạch -----
+  const chain = c => ({res:slots['R' + c.pin], led:slots['L' + c.pin], w:wires['W' + c.pin]});
+  const circuit = () => { const errs = [], warn = [];
+    M.ch.forEach(c => { const {res, led, w} = chain(c), want = ARD_PARTS[c.want].n;
+      if (!res || !res.part) errs.push(`Thiếu điện trở trước ${want}: LED nối thẳng vào chân Arduino sẽ bị cháy.`);
+      else if (ARD_PARTS[res.part].kind !== 'res') errs.push(`Ô điện trở của ${want} đang cắm ${ARD_PARTS[res.part].n}.`);
+      else if (res.part === 'r10k') warn.push(`Điện trở 10 kΩ quá lớn nên ${want} sáng rất mờ, nên dùng 220 Ω.`);
+      if (!led || !led.part) errs.push(`Chưa cắm ${want}.`); else if (led.part !== c.want) errs.push(`Ô của ${want} đang cắm ${ARD_PARTS[led.part].n}.`); else if (led.flip) errs.push(`${want} đang cắm <b>ngược chiều</b>: chân dài (+) phải quay về phía điện trở.`);
+      if (!w) errs.push(`Chưa nối dây từ chân ${c.pin} tới điểm nối của ${want}.`); else if (w.pin !== c.pin) errs.push(`Dây của ${want} đang nối vào chân ${w.pin}, cần chân ${c.pin}.`); });
+    if (!wires.G) errs.push('Chưa nối dây GND (đất) vào thanh nguồn âm của bảng mạch.'); else if (wires.G.pin !== 'GND') errs.push(`Dây ở thanh GND đang nối vào chân ${wires.G.pin}, cần chân GND.`);
+    if (M.btn){ const b = slots.B, r = slots.RB;
+      if (!b || b.part !== 'btn') errs.push('Chưa cắm nút bấm vào ô của nút.');
+      if (!r || !r.part) errs.push('Thiếu điện trở kéo xuống (pull-down) cho nút bấm: chân 2 sẽ đọc sai khi thả nút.'); else if (r.part !== 'r10k') errs.push(`Điện trở kéo xuống nên dùng 10 kΩ (đang cắm ${ARD_PARTS[r.part].n}).`);
+      if (!wires.WB) errs.push('Chưa nối dây từ chân 2 tới nút bấm.'); else if (wires.WB.pin !== 2) errs.push(`Dây của nút đang nối vào chân ${wires.WB.pin}, cần chân 2.`);
+      if (!wires.V) errs.push('Chưa nối dây 5V tới chân còn lại của nút bấm.'); else if (wires.V.pin !== '5V') errs.push(`Dây nguồn của nút đang nối vào chân ${wires.V.pin}, cần chân 5V.`); }
+    return {errs, warn}; };
+  const ledOk = c => { const {res, led, w} = chain(c); return res && ARD_PARTS[res.part]?.kind === 'res' && led && led.part && !led.flip && w && wires.G && wires.G.pin === 'GND' ? (res.part === 'r10k' ? .25 : 1) && (w.pin === c.pin ? (res.part === 'r10k' ? .25 : 1) : 0) : 0; };
+  const btnOk = () => M.btn && slots.B?.part === 'btn' && slots.RB?.part === 'r10k' && wires.WB?.pin === 2 && wires.V?.pin === '5V';
+  const readBtn = () => btnOk() ? btnDown : false;
+  const render = () => { if (!S3) return; M.ch.forEach(c => { const L = slots['L' + c.pin]; if (!L || !L.obj || !L.obj.userData.glow) return; const k = pinState[c.pin] ? ledOk(c) : 0; const col = ARD_PARTS[L.part].col;
+      L.obj.userData.glow.material.emissive.set(k ? col : '#000000'); L.obj.userData.glow.material.emissiveIntensity = k ? 0.6 + k : 0; L.obj.userData.light.intensity = k * 0.9; });
+    const st = M.ch.map(c => `${c.pin}: ${pinState[c.pin] ? 'HIGH' : 'LOW'}`).join(' · ') + (M.btn ? ` · nút: ${readBtn() ? 'nhấn' : 'thả'}` : ''); ui.lcd(st, 'Các chân'); };
+  // ----- chạy chương trình -----
+  const stopRun = () => { if (tok){ tok.halt(); tok = null; } $('#stRun', el).disabled = false; $('#stStop', el).disabled = true; pe.hl(-1); };
+  const runProg = async (rec) => { stopRun(); const {errs} = circuit(); if (errs.length){ lerr(el, 'Mạch chưa đúng: ' + errs[0].replace(/<[^>]+>/g, '')); say(el, '🔍 ' + errs.join(' ')); return false; }
+    if (!pe.get().length){ lerr(el, 'Chương trình đang trống.'); return false; } lerr(el);
+    const t = tok = mkTok(); $('#stRun', el).disabled = true; $('#stStop', el).disabled = false; M.ch.forEach(c => pinState[c.pin] = 0); render(); say(el, '⬆ Đã nạp chương trình vào Arduino.');
+    const api = {hl:i => pe.hl(i), cond:async () => readBtn(), exec:async n => { if (n.op === 'set'){ pinState[n.pin] = n.v === 'HIGH' ? 1 : 0; render(); rec && rec(); await t.sleep(2); } else if (n.op === 'wait') await t.sleep(n.ms); }};
+    try { await progRun(progTree(pe.get(), blocks), api, t); if (tok === t){ say(el, 'Chương trình đã chạy xong.'); } } catch(e){ if (e !== STOP) console.warn(e); }
+    if (tok === t) stopRun(); return true; };
+  $('#stRun', el).onclick = () => { try { $('.lab', el).classList.remove('pnl-open'); } catch(e){} runProg(); };
+  $('#stStop', el).onclick = () => { stopRun(); say(el, 'Đã dừng.'); };
+  $('#arCirc', el).onclick = () => { const {errs, warn} = circuit(); say(el, errs.length ? '🔍 ' + errs.join(' ') : '✅ Mạch đã đúng! ' + warn.join(' ')); };
+  const press = v => { btnDown = v; render(); if (S3 && S3.btnCap) S3.btnCap.position.y = v ? 0.026 : 0.032; };
+  const bb = $('#arBtn', el); bb.onpointerdown = e => { e.preventDefault(); press(true); }; bb.onpointerup = bb.onpointerleave = bb.onpointercancel = () => press(false);
+  // ----- kiểm tra thử thách -----
+  $('#stCheck', el).onclick = async () => {
+    const ce = circuit().errs; if (ce.length){ lerr(el, 'Mạch chưa đúng: ' + ce[0].replace(/<[^>]+>/g, '')); say(el, '🔍 ' + ce.join(' ')); return; }
+    if (!pe.get().length){ lerr(el, 'Chương trình đang trống.'); return; }
+    const log = []; const t0 = performance.now(); const snap = () => log.push({t:performance.now() - t0, s:M.ch.map(c => pinState[c.pin] ? ledOk(c) > 0 : false)});
+    if (mid === 'button'){ say(el, '🤖 Máy kiểm tra đang thử nhấn và thả nút…'); const sched = [[400, true], [1400, false], [2200, true], [2900, false]]; const samples = [];
+      sched.forEach(([t, v]) => setTimeout(() => press(v), t)); [[300, 0], [1150, 1], [2000, 0], [2650, 1], [3300, 0]].forEach(([t, want]) => setTimeout(() => samples.push([want, pinState[13] && ledOk(M.ch[0]) ? 1 : 0]), t));
+      const p = runProg(); setTimeout(() => { stopRun(); press(false); const ok = samples.length === 5 && samples.every(([w, g]) => w === g);
+        if (ok) stemWin(el, 'ard', mid, 'Đèn sáng khi nhấn và tắt khi thả nút: em đã dùng được lệnh đọc nút bấm (digitalRead).'); else lerr(el, 'Chưa đạt: khi máy nhấn nút đèn phải sáng, thả nút đèn phải tắt. Gợi ý: Lặp mãi mãi { Nếu nút được nhấn → bật chân 13; Nếu nút không nhấn → tắt chân 13 }.'); }, 3500);
+      return p; }
+    const lim = mid === 'blink' ? 6000 : 16000; say(el, '🤖 Máy kiểm tra đang theo dõi đèn…');
+    const iv = setInterval(snap, 40); const okRun = runProg(snap); const fin = () => { clearInterval(iv); stopRun(); };
+    const judge = () => { const seq = []; log.forEach(x => { const k = x.s.map((b, i) => b ? 'RYG'[i] || 'R' : '').join(''); if (!seq.length || seq[seq.length - 1].k !== k) seq.push({k, t:x.t}); else seq[seq.length - 1].e = x.t; });
+      seq.forEach((x, i) => x.d = (seq[i + 1] ? seq[i + 1].t : log[log.length - 1].t) - x.t);
+      if (mid === 'blink'){ const tr = seq.length - 1; return tr >= 4 && seq.slice(1, -1).every(x => x.d >= 120) ? 'ok' : tr < 4 ? 'Đèn chưa nhấp nháy (bật – tắt nhiều lần). Gợi ý: Lặp mãi mãi { bật chân 13, chờ 500, tắt chân 13, chờ 500 }.' : 'Đèn đổi trạng thái quá nhanh, mắt không kịp thấy. Thêm lệnh Chờ khoảng 300–1000 ms.'; }
+      const ks = seq.filter(x => x.d >= 250).map(x => x.k).join(','); return /G,Y,R/.test(ks) ? 'ok' : 'Chưa thấy đèn chạy đúng thứ tự xanh → vàng → đỏ (mỗi lúc chỉ sáng 1 đèn, mỗi đèn sáng ít nhất 0,3 giây).'; };
+    const end = setInterval(() => { const r = log.length > 10 ? judge() : ''; if (r === 'ok' || performance.now() - t0 > lim){ clearInterval(end); fin(); const res = judge();
+        if (res === 'ok') stemWin(el, 'ard', mid, mid === 'blink' ? 'Đèn LED nhấp nháy đều: em đã biết dùng lệnh digitalWrite và delay.' : 'Đèn giao thông chạy đúng thứ tự xanh → vàng → đỏ.'); else lerr(el, 'Chưa đạt: ' + res); } }, 250);
+    const ok = await okRun; if (!ok){ clearInterval(iv); clearInterval(end); } };
+  // ----- chọn thử thách -----
+  const setMs = id => { stopRun(); say(el, ''); mid = id; M = ARD_MS[id]; $$('[data-ms]', el).forEach(b => b.setAttribute('aria-pressed', String(b.dataset.ms === id)));
+    $('#stGoal', el).innerHTML = '<b>Thử thách:</b> ' + M.goal; $('#arBtn', el).hidden = !M.btn; pe.set(M.start); code(); lerr(el); $('#labResult', el).innerHTML = ''; Object.keys(pinState).forEach(k => delete pinState[k]); btnDown = false; if (S3) S3.build(); render(); };
+  $$('[data-ms]', el).forEach(b => b.onclick = () => setMs(b.dataset.ms));
+  $('#stReset', el).onclick = () => setMs(mid);
+  mount3D(el, {target:[0, 0.02, 0.04], r:1.05, th:0, ph:0.82, rMin:0.3, rMax:2.2, label:'Bàn ráp mạch Arduino', views:[{t:'Nhìn từ trên', r:0.95, th:0, ph:0.25}]}, s3 => { S3 = s3;
+    const {THREE, scene, M:Mt, box, mesh, label, cyl, group, hitbox} = s3;
+    s3.table(1.5, 0.75);
+    // Arduino UNO
+    const ax = -0.4, az = -0.06;
+    box(0.22, 0.012, 0.16, Mt('#00878f', {roughness:.5}), ax, 0.012, az);
+    box(0.06, 0.03, 0.045, Mt('#c0c6cc', {metalness:.7, roughness:.3}), ax - 0.09, 0.032, az - 0.045); box(0.04, 0.03, 0.03, Mt('#222'), ax - 0.095, 0.03, az + 0.055);
+    box(0.05, 0.008, 0.016, Mt('#1f1f1f'), ax + 0.02, 0.022, az + 0.01);
+    const lb = label('ARDUINO UNO', 0.03, '#00606a'); lb.position.set(ax, 0.05, az + 0.02); scene.add(lb);
+    box(0.19, 0.012, 0.012, Mt('#1b1b1b'), ax + 0.01, 0.024, az - 0.07); box(0.11, 0.012, 0.012, Mt('#1b1b1b'), ax + 0.03, 0.024, az + 0.07);
+    const pinPos = {}; const mkPin = (id, x, z, txt) => { const p = box(0.009, 0.006, 0.009, Mt('#d4af37', {metalness:.8, roughness:.3}), x, 0.033, z); const hb = hitbox(0.016, 0.03, 0.016, x, 0.035, z);
+      const cv = makeCanvas(96, 64), cg = cv.getContext('2d'); cg.fillStyle = 'rgba(255,255,255,.95)'; cg.fillRect(0, 0, 96, 64); cg.fillStyle = '#0b1f3a'; cg.font = '800 40px system-ui, sans-serif'; cg.textAlign = 'center'; cg.textBaseline = 'middle'; cg.fillText(txt, 48, 34);
+      const l = new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(cv), depthTest:false})); l.scale.set(0.0135, 0.009, 1); l.renderOrder = 10; l.position.set(x, 0.05 + (txt.length > 2 ? 0.012 : 0), z); scene.add(l); pins[id] = p; pinPos[id] = [x, z];
+      s3.click(hb, () => { selPart = null; trayHL(); selPin = selPin === id ? null : id; Object.entries(pins).forEach(([k, m]) => m.material.emissive.set(k === selPin ? '#ffcc00' : '#000000')); say(el, selPin ? `Đã chọn chân ${id}. Bấm vào một điểm nối (chấm xanh) trên bảng mạch để nối dây.` : ''); }); };
+    ['GND', 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2].forEach((id, i) => mkPin(id, ax + 0.095 - i*0.0145, az - 0.07, String(id)));
+    mkPin('5V', ax + 0.01, az + 0.07, '5V'); mkPin('GND2', ax + 0.03, az + 0.07, 'GND');
+    // breadboard
+    const bx = 0.12, bz = 0.0;
+    const bt = s3.screenTex(1024, 384); bt.g.fillStyle = '#f4f4f0'; bt.g.fillRect(0, 0, 1024, 384); bt.g.fillStyle = '#9a9a96';
+    for (let i = 0; i < 40; i++) for (let j = 0; j < 12; j++){ if (j === 1 || j === 10) continue; bt.g.fillRect(14 + i*25, 14 + j*31, 7, 7); }
+    bt.g.fillStyle = '#d33'; bt.g.fillRect(0, 352, 1024, 4); bt.g.fillStyle = '#33d'; bt.g.fillRect(0, 300, 1024, 3); bt.g.fillStyle = '#ccc'; bt.g.fillRect(0, 183, 1024, 14);
+    box(0.5, 0.02, 0.19, Mt('#f4f4f0'), bx, 0.01, bz); const bpl = mesh(new THREE.PlaneGeometry(0.5, 0.19), new THREE.MeshStandardMaterial({map:bt.tex}), bx, 0.0205, bz); bpl.rotation.x = -Math.PI/2;
+    const gl = label('GND (−)', 0.016, '#2233aa'); gl.position.set(bx + 0.27, 0.04, bz + 0.075); scene.add(gl);
+    // khay linh kiện
+    const tray = {}; const trayX = {led_r:-0.5, led_y:-0.38, led_g:-0.26, r220:-0.12, r10k:0.02, btn:0.16};
+    box(0.8, 0.008, 0.12, Mt('#5b6b84'), -0.17, 0.004, 0.27);
+    const mkLED = (part, parent) => { const g = group(0, 0, 0, parent); const col = ARD_PARTS[part].col;
+      const mat = new THREE.MeshStandardMaterial({color:col, transparent:true, opacity:.85, roughness:.2, emissive:'#000000'});
+      const bulb = mesh(new THREE.CylinderGeometry(0.009, 0.009, 0.014, 18), mat, 0, 0.03, 0, g); mesh(new THREE.SphereGeometry(0.009, 16, 10, 0, Math.PI*2, 0, Math.PI/2), mat, 0, 0.037, 0, g);
+      mesh(new THREE.CylinderGeometry(0.0012, 0.0012, 0.028, 6), Mt('#bbb', {metalness:.8}), -0.005, 0.012, 0, g); mesh(new THREE.CylinderGeometry(0.0012, 0.0012, 0.02, 6), Mt('#bbb', {metalness:.8}), 0.005, 0.016, 0, g);
+      const pl = new THREE.PointLight(col, 0, 0.25); pl.position.set(0, 0.05, 0); g.add(pl); g.userData = {glow:bulb, light:pl}; bulb.material = mat; return g; };
+    const mkRes = (part, parent) => { const g = group(0, 0, 0, parent); const r = mesh(new THREE.CylinderGeometry(0.005, 0.005, 0.024, 12), Mt('#d9c39a'), 0, 0.014, 0, g); r.rotation.z = Math.PI/2;
+      ARD_PARTS[part].band.forEach((c, i) => { const b = mesh(new THREE.CylinderGeometry(0.0055, 0.0055, 0.003, 12), Mt(c), -0.006 + i*0.005, 0.014, 0, g); b.rotation.z = Math.PI/2; });
+      const w = mesh(new THREE.CylinderGeometry(0.001, 0.001, 0.05, 6), Mt('#bbb', {metalness:.8}), 0, 0.012, 0, g); w.rotation.z = Math.PI/2; return g; };
+    const mkBtn = parent => { const g = group(0, 0, 0, parent); box(0.024, 0.01, 0.024, Mt('#2b2b2b'), 0, 0.022, 0, g); const cap = mesh(new THREE.CylinderGeometry(0.007, 0.007, 0.008, 16), Mt('#e53935'), 0, 0.032, 0, g); g.userData.cap = cap; return g; };
+    const mkPart = (part, parent) => ARD_PARTS[part].kind === 'led' ? mkLED(part, parent) : ARD_PARTS[part].kind === 'res' ? mkRes(part, parent) : mkBtn(parent);
+    const trayHL = () => Object.entries(tray).forEach(([k, o]) => { o.ring.material.color.set(k === selPart ? '#ffcc00' : '#8fa3c4'); });
+    Object.entries(trayX).forEach(([k, x]) => { const g = group(x, 0.008, 0.26); mkPart(k, g); const ring = mesh(new THREE.TorusGeometry(0.035, 0.003, 8, 28), new THREE.MeshBasicMaterial({color:'#8fa3c4'}), 0, 0.002, 0, g); ring.rotation.x = Math.PI/2;
+      const l = label(ARD_PARTS[k].n, 0.019); l.position.set(0, 0.075, 0.02); g.add(l); const hb = hitbox(0.08, 0.08, 0.08, 0, 0.03, 0, g); tray[k] = {g, ring};
+      s3.click(hb, () => { selPin = null; Object.values(pins).forEach(m => m.material.emissive.set('#000000')); selPart = selPart === k ? null : k; trayHL(); say(el, selPart ? `Đã chọn ${ARD_PARTS[k].n}. Bấm vào ô sáng trên bảng mạch để cắm.` : ''); }); });
+    // dựng bố cục theo thử thách
+    let built = [];
+    const clearBuilt = () => { built.forEach(o => { if (o.parent) o.parent.remove(o); }); built = []; slots = {}; ends = {}; wires = {}; };
+    const tube = (pts, col) => { const c = new THREE.CatmullRomCurve3(pts.map(p => new THREE.Vector3(...p))); const m = new THREE.Mesh(new THREE.TubeGeometry(c, 24, 0.0022, 6, false), Mt(col, {roughness:.6})); scene.add(m); built.push(m); return m; };
+    const mkSlot = (id, kind, x, z, wantTxt) => { const g = group(x, 0.02, z); built.push(g);
+      const gh = mesh(new THREE.BoxGeometry(kind === 'res' ? 0.05 : 0.03, 0.002, 0.026), new THREE.MeshBasicMaterial({color:'#22d3ee', transparent:true, opacity:.35}), 0, 0.002, 0, g);
+      const l = label(wantTxt, 0.013, '#0e7490'); l.position.set(0, 0.05, -0.02); g.add(l);
+      const hb = hitbox(kind === 'res' ? 0.06 : 0.035, 0.06, 0.035, 0, 0.025, 0, g); slots[id] = {kind, g, gh, part:null, obj:null, flip:false};
+      s3.click(hb, () => { const s = slots[id];
+        if (selPart){ if (s.obj) g.remove(s.obj); s.part = selPart; s.obj = mkPart(selPart, g); s.flip = ARD_PARTS[selPart].kind === 'led' ? Math.random() < 0.5 : false; if (s.flip) s.obj.rotation.y = Math.PI; gh.visible = false; l.visible = false;
+          say(el, `Đã cắm ${ARD_PARTS[selPart].n}.${ARD_PARTS[selPart].kind === 'led' ? ' Chân dài (+) của LED là chân bên trái khi nhìn từ phía em; bấm vào LED để đảo chiều nếu cần.' : ''}`); selPart = null; trayHL(); render(); return; }
+        if (s.part === 'btn'){ press(true); setTimeout(() => press(false), 600); return; }
+        if (s.part && ARD_PARTS[s.part].kind === 'led'){ s.flip = !s.flip; s.obj.rotation.y = s.flip ? Math.PI : 0; say(el, s.flip ? 'LED đang cắm: chân dài (+) quay về phía GND (ngược).' : 'LED đang cắm: chân dài (+) quay về phía điện trở (đúng chiều).'); render(); return; }
+        if (s.part){ g.remove(s.obj); s.obj = null; s.part = null; gh.visible = true; l.visible = true; say(el, 'Đã tháo linh kiện.'); render(); return; }
+        say(el, 'Chọn một linh kiện trên khay trước, rồi bấm vào ô này.'); }); };
+    const mkEnd = (id, x, z, txt) => { const g = group(x, 0.024, z); built.push(g); const dot = mesh(new THREE.SphereGeometry(0.006, 12, 8), new THREE.MeshBasicMaterial({color:'#16a34a'}), 0, 0.004, 0, g);
+      const l = label(txt, 0.013, '#166534'); l.position.set(0, 0.03, 0.012); g.add(l); const hb = hitbox(0.03, 0.04, 0.03, 0, 0.01, 0, g); ends[id] = {x, z, g};
+      s3.click(hb, () => { if (wires[id]){ scene.remove(wires[id].m); delete wires[id]; say(el, 'Đã gỡ dây.'); render(); return; }
+        if (!selPin){ say(el, 'Bấm một chân trên Arduino trước, rồi bấm vào điểm nối này.'); return; }
+        const pid = selPin === 'GND2' ? 'GND' : selPin, [px, pz] = pinPos[selPin], col = pid === 'GND' ? '#1a1a1a' : pid === '5V' ? '#e67e22' : ['#d32f2f', '#f9a825', '#2e7d32', '#1565c0'][(+pid) % 4];
+        const m = tube([[px, 0.036, pz], [px, 0.09, pz], [(px + x)/2, 0.13, (pz + z)/2], [x, 0.08, z], [x, 0.026, z]], col); wires[id] = {pin:isNaN(+pid) ? pid : +pid, m};
+        selPin = null; Object.values(pins).forEach(mm => mm.material.emissive.set('#000000')); say(el, `Đã nối dây từ chân ${pid}.`); render(); }); };
+    s3.build = () => { clearBuilt();
+      M.ch.forEach(c => { const z = bz + c.z; mkEnd('W' + c.pin, bx - 0.2, z, 'Dây tín hiệu'); mkSlot('R' + c.pin, 'res', bx - 0.12, z, 'Điện trở'); mkSlot('L' + c.pin, 'led', bx - 0.04, z, ARD_PARTS[c.want].n);
+        tube([[bx - 0.025, 0.022, z], [bx, 0.03, z], [bx + 0.02, 0.03, bz + 0.07], [bx + 0.02, 0.022, bz + 0.078]], '#333'); });
+      mkEnd('G', bx + 0.2, bz + 0.078, 'Thanh GND');
+      if (M.btn){ const z = bz + M.btn.z; mkEnd('WB', bx + 0.03, z, 'Dây chân 2'); mkSlot('B', 'btn', bx + 0.1, z, 'Nút bấm'); mkEnd('V', bx + 0.2, z - 0.035, 'Dây 5V'); mkSlot('RB', 'res', bx + 0.07, z + 0.035, 'Điện trở kéo xuống');
+        tube([[bx + 0.115, 0.022, z], [bx + 0.16, 0.03, z - 0.02], [bx + 0.2, 0.022, z - 0.035]], '#e67e22'); tube([[bx + 0.095, 0.022, z + 0.035], [bx + 0.11, 0.03, bz + 0.07], [bx + 0.12, 0.022, bz + 0.078]], '#333'); }
+      render(); };
+    s3.build();
+    s3.frame(() => { const b = slots.B; if (b && b.obj && b.obj.userData.cap) b.obj.userData.cap.position.y = btnDown ? 0.026 : 0.032; });
+  });
+  setMs('blink');
+}
+
+/* ---------- 2. XE ROBOT ---------- */
+const CAR_PARTS = {motor:{n:'Động cơ giảm tốc', info:'Động cơ DC giảm tốc biến điện năng thành cơ năng làm quay bánh xe.'}, wheel:{n:'Bánh xe', info:'Bánh xe gắn vào trục động cơ.'},
+  battery:{n:'Hộp pin', info:'Hộp pin 2 viên 18650 cung cấp điện cho cả xe (khoảng 7,4 V).'}, uno:{n:'Arduino', info:'Arduino là "bộ não", chạy chương trình em viết.'},
+  driver:{n:'Mạch L298N', info:'Mạch điều khiển động cơ L298N giúp Arduino đổi chiều quay và tốc độ của động cơ.'}, sonar:{n:'Cảm biến siêu âm', info:'Cảm biến HC-SR04 phát sóng siêu âm và đo thời gian dội lại để biết khoảng cách tới vật cản.'}};
+const CAR_SLOTS = [['mL', 'motor', -0.03, 0.006, -0.05], ['mR', 'motor', -0.03, 0.006, 0.05], ['wL', 'wheel', -0.03, 0.03, -0.072], ['wR', 'wheel', -0.03, 0.03, 0.072], ['bat', 'battery', -0.05, 0.05, 0], ['uno', 'uno', 0.015, 0.05, 0], ['drv', 'driver', -0.055, 0.075, 0], ['son', 'sonar', 0.085, 0.05, 0]];
+const CAR_MS = {
+  goal:{goal:'Lắp đủ các bộ phận của xe, rồi lập trình cho xe đi tới <b>lá cờ</b>.', start:{c:0, r:3, d:0}, flag:[4, 1], obs:[]},
+  avoid:{goal:'Có một hàng thùng chắn đường. Lập trình cho xe <b>đi vòng</b> qua vật cản để tới <b>lá cờ</b> mà không đâm vào thùng.', start:{c:0, r:2, d:0}, flag:[5, 2], obs:[[2, 1], [2, 2], [2, 3]]},
+  sensor:{goal:'Dùng <b>cảm biến siêu âm</b>: lặp mãi mãi { nếu phía trước có vật cản thì rẽ phải, nếu không thì tiến 1 ô }. Xe phải tự tìm đường tới <b>lá cờ</b>.', start:{c:0, r:0, d:0}, flag:[1, 2], obs:[[4, 0], [3, 3]], needSensor:true}
+};
+function stemCar(el, ctx){
+  let mid = 'goal', M = CAR_MS[mid];
+  const blocks = [
+    {op:'fwd', cat:'mv', label:'⬆ Tiến {n} ô', chip:'⬆ Tiến … ô', params:[{k:'n', def:1, min:1, max:10}]},
+    {op:'back', cat:'mv', label:'⬇ Lùi {n} ô', chip:'⬇ Lùi … ô', params:[{k:'n', def:1, min:1, max:10}]},
+    {op:'left', cat:'mv', label:'↰ Rẽ trái 90°'}, {op:'right', cat:'mv', label:'↱ Rẽ phải 90°'},
+    BLK_CTRL.loop, BLK_CTRL.forever,
+    {op:'if', cat:'cond', label:'📡 Nếu {c}', chip:'📡 Nếu có vật cản', params:[{k:'c', def:'obs', opts:[['obs', 'phía trước có vật cản']]}], open:true},
+    {op:'ifnot', cat:'cond', label:'📡 Nếu {c}', chip:'📡 Nếu không có vật cản', params:[{k:'c', def:'obs', opts:[['obs', 'phía trước KHÔNG có vật cản']]}], open:true},
+    BLK_CTRL.end];
+  const ui = stemShell(el, 'car', null, {how:['Lắp xe: bấm một bộ phận trên khay bên trái, rồi bấm vào ô sáng trên khung xe. Lắp động cơ trước rồi mới lắp bánh.', 'Lắp đủ 8 bộ phận thì xe tự nối dây và lăn ra sân tập.', 'Ghép khối lệnh ở bảng 🧩 Lập trình rồi bấm ▶ Chạy. Có thể lái thử bằng các nút điều khiển bên dưới.', 'Mỗi ô trên sân dài 20 cm. Xe đâm vào thùng hoặc ra khỏi sân là phải làm lại.'],
+    tips:'Mẹo: hướng của xe là hướng mũi tên vàng. Rẽ trái/phải chỉ quay xe tại chỗ, không đi tới.',
+    extraCtl:`<div class="row car-pad" style="gap:6px;flex:0 0 auto"><button type="button" class="btn ghost small" data-man="left">↰</button><button type="button" class="btn ghost small" data-man="fwd">⬆</button><button type="button" class="btn ghost small" data-man="back">⬇</button><button type="button" class="btn ghost small" data-man="right">↱</button></div>`});
+  let S3 = null, tok = null, car = {c:0, r:0, d:0}, crashed = false, won = false, built = {}, usedSensor = false;
+  const pe = progEditor($('#stPE', el), blocks, [], () => code());
+  const stmt = t => ({fwd:`tien(${t.n});`, back:`lui(${t.n});`, left:'reTrai();', right:'rePhai();', cond:`${t.neg ? '' : ''}khoangCach() ${t.neg ? '>=' : '<'} 20`})[t.op] || '';
+  const code = () => { const tree = progTree(pe.get(), blocks);
+    $('#stCode', el).textContent = ['// Hàm tien(), lui(), reTrai(), rePhai() điều khiển 2 động cơ qua mạch L298N', '// khoangCach() đọc cảm biến siêu âm HC-SR04 (đơn vị cm)', 'void setup() {', '  khoiDongXe();', ...genCode(tree, stmt), '}', '', 'void loop() {', '}'].join('\n'); };
+  const DIRS = [[1, 0], [0, 1], [-1, 0], [0, -1]]; // đông, nam, tây, bắc (c, r)
+  const blockedAt = (c, r) => c < 0 || r < 0 || c > 5 || r > 3 || M.obs.some(([a, b]) => a === c && b === r);
+  const assembled = () => CAR_SLOTS.every(([id]) => built[id]);
+  const st = () => ui.lcd(assembled() ? `Ô (${car.c + 1}, ${car.r + 1}) · hướng ${['Đông', 'Nam', 'Tây', 'Bắc'][car.d]}` : `Đã lắp ${Object.keys(built).length}/8 bộ phận`, assembled() ? 'Vị trí xe' : 'Lắp ráp');
+  const stopRun = () => { if (tok){ tok.halt(); tok = null; } $('#stRun', el).disabled = false; $('#stStop', el).disabled = true; pe.hl(-1); };
+  const anim = (dur, f) => new Promise((res, rej) => { const t0 = performance.now(), my = tok; const step = () => { if (my && my.stop) return rej(STOP); const k = Math.min(1, (performance.now() - t0)/dur); f(k); if (k < 1) requestAnimationFrame(step); else res(); }; requestAnimationFrame(step); });
+  const move = async dir => { const [dc, dr] = DIRS[car.d]; const nc = car.c + dc*dir, nr = car.r + dr*dir;
+    if (blockedAt(nc, nr)){ crashed = true; await anim(300, k => S3 && S3.place(car.c + dc*dir*0.3*Math.sin(k*Math.PI), car.r + dr*dir*0.3*Math.sin(k*Math.PI), car.d)); say(el, nc < 0 || nr < 0 || nc > 5 || nr > 3 ? '💥 Xe chạy ra khỏi sân!' : '💥 Xe đâm vào thùng!'); throw STOP; }
+    const c0 = car.c, r0 = car.r; await anim(550, k => S3 && S3.place(c0 + dc*dir*k, r0 + dr*dir*k, car.d, k*dir)); car.c = nc; car.r = nr; st();
+    if (car.c === M.flag[0] && car.r === M.flag[1]){ won = true; say(el, '🏁 Xe đã tới lá cờ!'); throw STOP; } };
+  const turn = async s => { const d0 = car.d; await anim(450, k => S3 && S3.place(car.c, car.r, d0 + s*k)); car.d = (car.d + s + 4) % 4; st(); };
+  const sense = () => { const [dc, dr] = DIRS[car.d]; const o = blockedAt(car.c + dc, car.r + dr); usedSensor = true; if (S3) S3.beam(o); return o; };
+  const exec = async n => { if (n.op === 'fwd') for (let k = 0; k < n.n; k++) await move(1); else if (n.op === 'back') for (let k = 0; k < n.n; k++) await move(-1); else if (n.op === 'left') await turn(-1); else if (n.op === 'right') await turn(1); };
+  const resetCar = () => { car = {...M.start}; crashed = false; won = false; usedSensor = false; if (S3) S3.place(car.c, car.r, car.d); st(); };
+  const runProg = async () => { stopRun(); if (!assembled()){ lerr(el, 'Em lắp đủ 8 bộ phận của xe trước đã.'); return; } if (!pe.get().length){ lerr(el, 'Chương trình đang trống.'); return; } lerr(el);
+    resetCar(); const t = tok = mkTok(); $('#stRun', el).disabled = true; $('#stStop', el).disabled = false; let steps = 0;
+    const api = {hl:i => pe.hl(i), cond:async () => { await t.sleep(150); return sense(); }, exec:async n => { if (++steps > 200) throw STOP; await exec(n); }};
+    try { await progRun(progTree(pe.get(), blocks), api, t); } catch(e){ if (e !== STOP) console.warn(e); }
+    if (tok === t) stopRun();
+    if (won){ if (M.needSensor && !usedSensor) lerr(el, 'Xe đã tới đích, nhưng thử thách này yêu cầu dùng khối 📡 cảm biến vật cản.'); else stemWin(el, 'car', mid, M.needSensor ? 'Xe đã tự tìm đường nhờ cảm biến siêu âm, giống robot hút bụi thật!' : 'Xe đã về đích an toàn.'); }
+    else if (!crashed) say(el, 'Xe dừng lại nhưng chưa tới lá cờ. Em sửa chương trình rồi chạy lại nhé.'); };
+  $('#stRun', el).onclick = () => { try { $('.lab', el).classList.remove('pnl-open'); } catch(e){} runProg(); };
+  $('#stCheck', el).onclick = () => { try { $('.lab', el).classList.remove('pnl-open'); } catch(e){} runProg(); };
+  $('#stStop', el).onclick = () => { stopRun(); say(el, 'Đã dừng xe.'); };
+  $$('[data-man]', el).forEach(b => b.onclick = async () => { if (!assembled()) return say(el, 'Lắp xong xe rồi mới lái được.'); if (tok) return; tok = mkTok(); const t = tok; crashed = false;
+    try { await exec({op:b.dataset.man, n:1}); } catch(e){} if (tok === t) tok = null; if (crashed) setTimeout(resetCar, 600); });
+  const setMs = id => { stopRun(); say(el, ''); mid = id; M = CAR_MS[id]; $$('[data-ms]', el).forEach(b => b.setAttribute('aria-pressed', String(b.dataset.ms === id))); $('#stGoal', el).innerHTML = '<b>Thử thách:</b> ' + M.goal; pe.set([]); code(); lerr(el); $('#labResult', el).innerHTML = ''; if (S3) S3.arena(); resetCar(); };
+  $$('[data-ms]', el).forEach(b => b.onclick = () => setMs(b.dataset.ms));
+  $('#stReset', el).onclick = () => { stopRun(); resetCar(); };
+  const T = 0.2, X0 = -0.45, Z0 = -0.3; const tx = c => X0 + c*T, tz = r => Z0 + r*T;
+  mount3D(el, {target:[0.05, 0.02, 0.05], r:1.7, th:0.15, ph:0.95, rMin:0.3, rMax:3, label:'Sân tập xe robot', views:[{t:'Nhìn từ trên', r:1.6, th:0, ph:0.2}, {t:'Bàn lắp ráp', r:0.55, th:-0.6, ph:0.95}]}, s3 => { S3 = s3;
+    const {THREE, scene, M:Mt, box, mesh, label, group, hitbox, cyl} = s3;
+    s3.table(2.0, 1.25, 0, 0.05);
+    // sân 6 × 4 ô
+    const ft = s3.screenTex(1200, 800); ft.g.fillStyle = '#e8eef5'; ft.g.fillRect(0, 0, 1200, 800); ft.g.strokeStyle = '#9fb0c8'; ft.g.lineWidth = 4;
+    for (let i = 0; i <= 6; i++){ ft.g.beginPath(); ft.g.moveTo(i*200, 0); ft.g.lineTo(i*200, 800); ft.g.stroke(); } for (let j = 0; j <= 4; j++){ ft.g.beginPath(); ft.g.moveTo(0, j*200); ft.g.lineTo(1200, j*200); ft.g.stroke(); }
+    const fl = mesh(new THREE.PlaneGeometry(1.2, 0.8), new THREE.MeshStandardMaterial({map:ft.tex}), X0 - T/2 + 0.6, 0.001, Z0 - T/2 + 0.4); fl.rotation.x = -Math.PI/2;
+    let arenaObjs = [];
+    s3.arena = () => { arenaObjs.forEach(o => scene.remove(o)); arenaObjs = [];
+      M.obs.forEach(([c, r]) => { const b = box(0.14, 0.1, 0.14, Mt('#c58b4a', {roughness:.9}), tx(c), 0.05, tz(r)); arenaObjs.push(b); });
+      const fg = group(tx(M.flag[0]), 0, tz(M.flag[1])); cyl(0.004, 0.004, 0.2, Mt('#999'), 0, 0.1, 0, fg); const flag = mesh(new THREE.PlaneGeometry(0.07, 0.045), new THREE.MeshStandardMaterial({color:'#e53935', side:THREE.DoubleSide}), 0.035, 0.175, 0, fg); arenaObjs.push(fg);
+      const pad = mesh(new THREE.PlaneGeometry(0.17, 0.17), new THREE.MeshBasicMaterial({color:'#34c759', transparent:true, opacity:.35}), tx(M.flag[0]), 0.002, tz(M.flag[1])); pad.rotation.x = -Math.PI/2; arenaObjs.push(pad); };
+    // xe
+    const carG = group(0, 0, 0); const body = group(0, 0, 0, carG);
+    box(0.17, 0.006, 0.11, new THREE.MeshStandardMaterial({color:'#7cc4ff', transparent:true, opacity:.75, roughness:.2}), 0, 0.03, 0, body);
+    const arrow = mesh(new THREE.ConeGeometry(0.015, 0.035, 12), new THREE.MeshBasicMaterial({color:'#ffcc00'}), 0.06, 0.04, 0, body); arrow.rotation.z = -Math.PI/2;
+    cyl(0.008, 0.008, 0.012, Mt('#444'), 0.06, 0.012, 0, body);
+    const wheels = [];
+    const partMesh = (kind, parent) => { const g = group(0, 0, 0, parent);
+      if (kind === 'motor'){ box(0.05, 0.022, 0.022, Mt('#f5c518'), 0, 0, 0, g); }
+      else if (kind === 'wheel'){ const w = cyl(0.03, 0.03, 0.02, Mt('#222', {roughness:.9}), 0, 0, 0, g); w.rotation.x = Math.PI/2; const hub = cyl(0.012, 0.012, 0.022, Mt('#f5c518'), 0, 0, 0, g); hub.rotation.x = Math.PI/2; wheels.push(g); }
+      else if (kind === 'battery'){ box(0.06, 0.02, 0.04, Mt('#222'), 0, 0, 0, g); box(0.05, 0.016, 0.016, Mt('#2e7d32'), 0, 0.012, -0.01, g); box(0.05, 0.016, 0.016, Mt('#2e7d32'), 0, 0.012, 0.01, g); }
+      else if (kind === 'uno'){ box(0.06, 0.006, 0.045, Mt('#00878f'), 0, 0, 0, g); }
+      else if (kind === 'driver'){ box(0.035, 0.012, 0.035, Mt('#c62828'), 0, 0, 0, g); box(0.012, 0.02, 0.03, Mt('#222'), -0.01, 0.012, 0, g); }
+      else if (kind === 'sonar'){ box(0.008, 0.02, 0.045, Mt('#1565c0'), 0, 0, 0, g); [-0.012, 0.012].forEach(z => { const e = cyl(0.008, 0.008, 0.012, Mt('#cfd8dc', {metalness:.6}), 0.008, 0, z, g); e.rotation.z = Math.PI/2; }); }
+      return g; };
+    const slotObjs = {}, slotClick = {};
+    CAR_SLOTS.forEach(([id, kind, x, y, z]) => { const gh = mesh(new THREE.BoxGeometry(kind === 'wheel' ? 0.06 : kind === 'sonar' ? 0.02 : 0.05, kind === 'wheel' ? 0.06 : 0.02, kind === 'wheel' ? 0.02 : kind === 'sonar' ? 0.05 : 0.035), new THREE.MeshBasicMaterial({color:'#22d3ee', transparent:true, opacity:.4}), x, y + (kind === 'wheel' ? 0 : 0.012), z, body);
+      slotObjs[id] = gh; const hb = hitbox(0.07, 0.06, 0.05, x, y + 0.012, z, body);
+      s3.click(hb, slotClick[id] = () => { if (built[id]) return say(el, CAR_PARTS[kind].info);
+        if (!selPart) return say(el, `Ô này dành cho ${CAR_PARTS[kind].n}. Chọn bộ phận trên khay trước.`);
+        if (selPart !== kind){ const alt = CAR_SLOTS.find(([i2, k2, x2, y2, z2]) => k2 === selPart && !built[i2] && Math.hypot(x2 - x, z2 - z) < 0.07); if (alt) return slotClick[alt[0]](); return say(el, `Ô này dành cho ${CAR_PARTS[kind].n}, không phải ${CAR_PARTS[selPart].n}.`); }
+        if (kind === 'wheel' && !built[id === 'wL' ? 'mL' : 'mR']) return say(el, 'Lắp động cơ trước rồi mới gắn bánh xe vào trục động cơ.');
+        const p = partMesh(kind, body); p.position.set(x, y + (kind === 'wheel' ? 0 : 0.012), z); built[id] = p; gh.visible = false; selPart = null; trayHL();
+        say(el, '✅ ' + CAR_PARTS[kind].info); st();
+        if (assembled()){ wiresOn(); s3.look([0.05, 0.02, 0.05], 1.7, 0.15, 0.95); say(el, '🎉 Xe đã lắp xong! Arduino đã được nối dây với mạch L298N, động cơ, pin và cảm biến. Giờ hãy lập trình cho xe nhé.'); } }); });
+    const wireObjs = [];
+    const wiresOn = () => { const tubeW = (pts, col) => { const c = new THREE.CatmullRomCurve3(pts.map(p => new THREE.Vector3(...p))); const m = new THREE.Mesh(new THREE.TubeGeometry(c, 16, 0.0016, 5, false), Mt(col)); body.add(m); wireObjs.push(m); };
+      tubeW([[-0.055, 0.085, 0.01], [-0.02, 0.1, 0.01], [0.015, 0.06, 0.01]], '#d32f2f'); tubeW([[-0.06, 0.085, -0.012], [-0.04, 0.05, -0.05], [-0.03, 0.02, -0.05]], '#f9a825');
+      tubeW([[-0.06, 0.085, 0.012], [-0.04, 0.05, 0.05], [-0.03, 0.02, 0.05]], '#f9a825'); tubeW([[0.03, 0.06, 0], [0.06, 0.08, 0], [0.085, 0.06, 0]], '#1565c0'); tubeW([[-0.05, 0.065, 0.015], [-0.06, 0.08, 0.01]], '#222'); };
+    // khay bộ phận (bàn lắp ráp bên trái)
+    const tray = {}; let selPart = null; const trayHL = () => Object.entries(tray).forEach(([k, r]) => r.material.color.set(k === selPart ? '#ffcc00' : '#8fa3c4'));
+    box(0.2, 0.008, 0.62, Mt('#5b6b84'), -0.8, 0.004, 0.05);
+    Object.keys(CAR_PARTS).forEach((k, i) => { const g = group(-0.8, 0.03, -0.2 + i*0.1); partMesh(k, g); const ring = mesh(new THREE.TorusGeometry(0.045, 0.003, 8, 28), new THREE.MeshBasicMaterial({color:'#8fa3c4'}), 0, -0.02, 0, g); ring.rotation.x = Math.PI/2; tray[k] = ring;
+      const l = label(CAR_PARTS[k].n, 0.02); l.position.set(0, 0.06, 0); g.add(l); const hb = hitbox(0.1, 0.08, 0.09, 0, 0, 0, g);
+      s3.click(hb, () => { selPart = selPart === k ? null : k; trayHL(); say(el, selPart ? `Đã chọn ${CAR_PARTS[k].n}. ${CAR_PARTS[k].info} Bấm vào ô sáng trên khung xe để lắp.` : ''); }); });
+    // cảm biến: chùm siêu âm
+    const beam = mesh(new THREE.ConeGeometry(0.04, 0.18, 16, 1, true), new THREE.MeshBasicMaterial({color:'#22c55e', transparent:true, opacity:0, side:THREE.DoubleSide, depthWrite:false}), 0.18, 0.05, 0, body); beam.rotation.z = Math.PI/2;
+    let beamT = 0; s3.beam = o => { beam.material.color.set(o ? '#ef4444' : '#22c55e'); beamT = 0.6; };
+    let spin = 0;
+    s3.place = (c, r, d, roll = 0) => { carG.position.set(tx(c), 0, tz(r)); carG.rotation.y = -d*Math.PI/2; spin = roll; wheels.forEach(w => { w.rotation.z = -roll*6; }); };
+    s3.frame(dt => { if (beamT > 0){ beamT -= dt; beam.material.opacity = Math.max(0, beamT)*0.6; } });
+    s3.arena(); resetCar(); s3.look([tx(car.c), 0.03, tz(car.r)], 0.6, -0.5, 0.95);
+  });
+  setMs('goal');
+}
+
+/* ---------- 3. CÁNH TAY ROBOT ---------- */
+const ARM_MS = {
+  move:{goal:'Gắp <b>hộp đỏ</b> và đặt vào <b>khay xanh</b>. Gợi ý: hộp đỏ ở góc đế khoảng <b>135°</b>, khay xanh ở góc đế khoảng <b>45°</b>. Dùng thanh trượt để dò góc vai và khuỷu, rồi ghi các góc vào chương trình.',
+    boxes:[{id:'r', col:'#e53935', a:135, d:0.22}], zones:[{id:'g', col:'#22c55e', a:45, d:0.22}], win:B => B.r.zone === 'g'},
+  stack:{goal:'Xếp <b>hộp vàng chồng lên hộp đỏ</b> trong khay xanh: đặt hộp đỏ vào khay trước, rồi đặt hộp vàng lên trên.',
+    boxes:[{id:'r', col:'#e53935', a:150, d:0.22}, {id:'y', col:'#facc15', a:115, d:0.22}], zones:[{id:'g', col:'#22c55e', a:45, d:0.22}], win:B => B.r.zone === 'g' && B.y.zone === 'g' && B.y.on === 'r'},
+  sort:{goal:'Phân loại: <b>hộp đỏ</b> vào <b>khay đỏ</b>, <b>hộp xanh dương</b> vào <b>khay xanh dương</b>.',
+    boxes:[{id:'r', col:'#e53935', a:100, d:0.2}, {id:'b', col:'#2563eb', a:80, d:0.24}], zones:[{id:'zr', col:'#ef4444', a:160, d:0.22}, {id:'zb', col:'#3b82f6', a:25, d:0.22}], win:B => B.r.zone === 'zr' && B.b.zone === 'zb'}
+};
+function stemArm(el, ctx){
+  let mid = 'move', M = ARM_MS[mid];
+  const J = {base:{n:'Đế', min:0, max:180, def:90}, sh:{n:'Vai', min:0, max:150, def:90}, el:{n:'Khuỷu', min:30, max:180, def:90}};
+  const blocks = [
+    {op:'base', cat:'mv', label:'🔄 Xoay đế tới {v}°', chip:'🔄 Xoay đế', params:[{k:'v', def:90, min:0, max:180}]},
+    {op:'sh', cat:'mv', label:'💪 Vai tới {v}°', chip:'💪 Vai', params:[{k:'v', def:90, min:0, max:150}]},
+    {op:'el', cat:'mv', label:'🦾 Khuỷu tới {v}°', chip:'🦾 Khuỷu', params:[{k:'v', def:90, min:30, max:180}]},
+    {op:'open', cat:'io', label:'✋ Mở kẹp'}, {op:'close', cat:'io', label:'✊ Đóng kẹp'},
+    {op:'home', cat:'io', label:'🏠 Về tư thế ban đầu'},
+    BLK_CTRL.wait, BLK_CTRL.loop, BLK_CTRL.end];
+  const ui = stemShell(el, 'arm', null, {how:['Cánh tay có 4 động cơ servo: <b>đế</b> (xoay trái – phải), <b>vai</b>, <b>khuỷu</b> (nâng – hạ) và <b>kẹp</b>.', 'Kéo các thanh trượt bên dưới để dò góc đưa kẹp xuống sát hộp, bấm <b>Đóng kẹp</b> để gắp, đưa sang khay rồi <b>Mở kẹp</b>.', 'Ghi các góc dò được vào chương trình bằng khối lệnh, bấm <b>▶ Chạy</b> để cánh tay tự làm.', 'Ô "Vị trí kẹp" cho biết kẹp đang cách mặt bàn bao nhiêu: gắp được khi kẹp sát hộp (khoảng 2 cm).'],
+    tips:'Mẹo: vai 90° là thẳng đứng; khuỷu 180° là duỗi thẳng. Nên nâng kẹp lên cao trước khi xoay đế để không quệt vào hộp khác.',
+    extraCtl:`<div class="arm-sl">${Object.entries(J).map(([k, j]) => `<label class="ctrl">${j.n}: <output id="o_${k}">${j.def}°</output><input type="range" id="s_${k}" min="${j.min}" max="${j.max}" value="${j.def}"></label>`).join('')}</div>
+      <button type="button" class="btn ghost small" id="aOpen">✋ Mở kẹp</button><button type="button" class="btn ghost small" id="aClose">✊ Đóng kẹp</button>`});
+  const ang = {base:90, sh:90, el:90}; let grip = 0, held = null, S3 = null, tok = null, boxes = {};
+  const pe = progEditor($('#stPE', el), blocks, [], () => code());
+  const SV = {base:'de', sh:'vai', el:'khuyu'};
+  const stmt = t => t.op in SV ? [`${SV[t.op]}.write(${t.v});`, 'delay(600);'] : t.op === 'open' ? ['kep.write(90);   // mở', 'delay(400);'] : t.op === 'close' ? ['kep.write(20);   // đóng', 'delay(400);'] : t.op === 'home' ? ['de.write(90); vai.write(90); khuyu.write(90);', 'delay(800);'] : t.op === 'wait' ? `delay(${t.ms});` : '';
+  const code = () => { const tree = progTree(pe.get(), blocks); $('#stCode', el).textContent = ['#include <Servo.h>', 'Servo de, vai, khuyu, kep;', '', 'void setup() {', '  de.attach(3); vai.attach(5); khuyu.attach(6); kep.attach(9);', ...genCode(tree, stmt), '}', '', 'void loop() {', '}'].join('\n'); };
+  const H0 = 0.11, L1 = 0.15, L2 = 0.17, rad = d => d*Math.PI/180;
+  const tip = () => { const phi = rad(ang.base), dx = Math.cos(phi), dz = Math.sin(phi), s = rad(ang.sh), a2 = s - rad(180 - ang.el);
+    const r = L1*Math.cos(s) + L2*Math.cos(a2), y = H0 + L1*Math.sin(s) + L2*Math.sin(a2); return {x:r*dx, y, z:r*dz, r}; };
+  const lcd = () => { const p = tip(); ui.lcd(`cao ${vn(Math.max(0, p.y*100), 1)} cm · cách tâm ${vn(p.r*100, 1)} cm${held ? ' · đang giữ hộp' : ''}`, 'Vị trí kẹp'); Object.keys(J).forEach(k => { const o = $('#o_' + k, el), s = $('#s_' + k, el); if (o) o.textContent = Math.round(ang[k]) + '°'; if (s) s.value = Math.round(ang[k]); }); };
+  const posOf = (a, d) => ({x:d*Math.cos(rad(a)), z:d*Math.sin(rad(a))});
+  const settle = id => { const b = boxes[id], p = b.p; let y = 0.02, on = null;
+    Object.entries(boxes).forEach(([k, o]) => { if (k === id || o === held) return; if (Math.hypot(o.p.x - p.x, o.p.z - p.z) < 0.03 && o.p.y + 0.04 > y){ y = o.p.y + 0.04; on = k; p.x = o.p.x; p.z = o.p.z; } });
+    const zn = M.zones.find(z => { const q = posOf(z.a, z.d); return Math.hypot(q.x - p.x, q.z - p.z) < 0.045; });
+    if (zn && !on){ const q = posOf(zn.a, zn.d); p.x = q.x; p.z = q.z; }
+    b.zone = zn ? zn.id : (on ? boxes[on].zone : null); b.on = on; b.target = y; };
+  const doGrip = v => { grip = v; if (v){ if (held) return; const p = tip(); const c = Object.entries(boxes).find(([k, b]) => Math.hypot(b.p.x - p.x, b.p.y - p.y, b.p.z - p.z) < 0.035 && !Object.values(boxes).some(o => o.on === k));
+      if (c){ held = c[0]; boxes[held].zone = null; boxes[held].on = null; say(el, '✊ Đã gắp được hộp!'); } else say(el, 'Kẹp đóng nhưng chưa gắp trúng hộp nào. Hạ kẹp sát vào hộp hơn (khoảng 2 cm phía trên mặt bàn).'); }
+    else if (held){ const id = held; held = null; settle(id); say(el, boxes[id].zone ? '✋ Đã thả hộp vào khay.' : '✋ Đã thả hộp.'); checkWin(); }
+    lcd(); };
+  let running = false;
+  const checkWin = () => { if (!running && M.win(boxes)) stemWin(el, 'arm', mid, 'Cánh tay robot đã làm đúng nhiệm vụ, giống robot trong nhà máy thật.'); };
+  const servo = (k, v, my) => new Promise((res, rej) => { const from = ang[k], to = clamp(v, J[k].min, J[k].max), dur = Math.max(120, Math.abs(to - from)/120*1000), t0 = performance.now();
+    const step = () => { if (my && my.stop) return rej(STOP); const q = Math.min(1, (performance.now() - t0)/dur); ang[k] = from + (to - from)*q; lcd(); if (q < 1) requestAnimationFrame(step); else res(); }; requestAnimationFrame(step); });
+  const stopRun = () => { if (tok){ tok.halt(); tok = null; } running = false; $('#stRun', el).disabled = false; $('#stStop', el).disabled = true; pe.hl(-1); };
+  const resetAll = () => { stopRun(); Object.assign(ang, {base:90, sh:90, el:90}); grip = 0; held = null; boxes = {}; M.boxes.forEach(b => { const q = posOf(b.a, b.d); boxes[b.id] = {p:{x:q.x, y:0.02, z:q.z}, target:0.02, zone:null, on:null, col:b.col}; }); if (S3) S3.scene2(); lcd(); };
+  const runProg = async () => { stopRun(); if (!pe.get().length){ lerr(el, 'Chương trình đang trống.'); return; } lerr(el); resetAll(); const t = tok = mkTok(); running = true; $('#stRun', el).disabled = true; $('#stStop', el).disabled = false;
+    const api = {hl:i => pe.hl(i), cond:async () => false, exec:async n => { if (n.op in J) await servo(n.op, n.v, t); else if (n.op === 'open'){ doGrip(0); await t.sleep(350); } else if (n.op === 'close'){ doGrip(1); await t.sleep(350); }
+      else if (n.op === 'home'){ await Promise.all(['base', 'sh', 'el'].map(k => servo(k, J[k].def, t))); } else if (n.op === 'wait') await t.sleep(n.ms); }};
+    try { await progRun(progTree(pe.get(), blocks), api, t); } catch(e){ if (e !== STOP) console.warn(e); }
+    const was = tok === t; if (was) stopRun(); running = false;
+    if (was){ if (M.win(boxes)) stemWin(el, 'arm', mid, 'Chương trình của em đã điều khiển cánh tay hoàn thành nhiệm vụ.'); else say(el, 'Chương trình chạy xong nhưng chưa hoàn thành nhiệm vụ. Dùng thanh trượt dò lại các góc nhé.'); } };
+  $('#stRun', el).onclick = () => { try { $('.lab', el).classList.remove('pnl-open'); } catch(e){} runProg(); };
+  $('#stCheck', el).onclick = () => { if (M.win(boxes)) stemWin(el, 'arm', mid); else lerr(el, 'Chưa đạt: ' + (mid === 'stack' ? 'hộp vàng phải nằm trên hộp đỏ trong khay xanh.' : 'các hộp chưa nằm đúng khay.')); };
+  $('#stStop', el).onclick = () => { stopRun(); say(el, 'Đã dừng.'); };
+  Object.keys(J).forEach(k => { const s = $('#s_' + k, el); s.oninput = () => { if (tok) return; ang[k] = +s.value; lcd(); }; });
+  $('#aOpen', el).onclick = () => { if (!tok) doGrip(0); }; $('#aClose', el).onclick = () => { if (!tok) doGrip(1); };
+  const setMs = id => { say(el, ''); mid = id; M = ARM_MS[id]; $$('[data-ms]', el).forEach(b => b.setAttribute('aria-pressed', String(b.dataset.ms === id))); $('#stGoal', el).innerHTML = '<b>Thử thách:</b> ' + M.goal; pe.set([]); code(); lerr(el); $('#labResult', el).innerHTML = ''; resetAll(); };
+  $$('[data-ms]', el).forEach(b => b.onclick = () => setMs(b.dataset.ms));
+  $('#stReset', el).onclick = () => resetAll();
+  mount3D(el, {target:[0, 0.08, 0.05], r:0.9, th:0, ph:1.0, rMin:0.3, rMax:2.2, label:'Cánh tay robot gắp hàng', views:[{t:'Nhìn từ trên', r:0.8, th:0, ph:0.2}, {t:'Nhìn ngang', r:0.8, th:0, ph:1.45}]}, s3 => { S3 = s3;
+    const {THREE, scene, M:Mt, box, mesh, label, group, cyl} = s3;
+    s3.table(1.3, 0.8, 0, 0.1);
+    // thước góc trên mặt bàn
+    const at = s3.screenTex(512, 512); at.g.clearRect(0, 0, 512, 512); at.g.strokeStyle = 'rgba(30,40,70,.5)'; at.g.fillStyle = 'rgba(30,40,70,.8)'; at.g.lineWidth = 3; at.g.font = '700 22px system-ui';
+    at.g.beginPath(); at.g.arc(256, 256, 230, 0, Math.PI); at.g.stroke(); at.g.textAlign = 'center';
+    for (let a = 0; a <= 180; a += 15){ const r = rad(a), x = 256 + Math.cos(r)*230, y = 256 + Math.sin(r)*230; at.g.beginPath(); at.g.moveTo(256 + Math.cos(r)*215, 256 + Math.sin(r)*215); at.g.lineTo(x, y); at.g.stroke(); if (a % 45 === 0) at.g.fillText(a + '°', 256 + Math.cos(r)*250 > 500 ? 490 : 256 + Math.cos(r)*250, Math.min(505, 256 + Math.sin(r)*250 + 8)); }
+    const pr = mesh(new THREE.PlaneGeometry(0.56, 0.56), new THREE.MeshBasicMaterial({map:at.tex, transparent:true, depthWrite:false}), 0, 0.001, 0); pr.rotation.x = -Math.PI/2;
+    // cánh tay
+    const ylw = Mt('#f59e0b'), dark = Mt('#374151');
+    cyl(0.07, 0.08, 0.02, dark, 0, 0.01, 0);
+    const baseG = group(0, 0.02, 0); cyl(0.055, 0.055, 0.02, ylw, 0, 0.01, 0, baseG); box(0.04, 0.07, 0.05, ylw, 0, 0.055, 0, baseG);
+    const shG = group(0, H0 - 0.02, 0, baseG); cyl(0.018, 0.018, 0.06, dark, 0, 0, 0, shG).rotation.x = Math.PI/2;
+    const up = box(L1, 0.025, 0.03, ylw, L1/2, 0, 0, shG);
+    const elG = group(L1, 0, 0, shG); cyl(0.015, 0.015, 0.05, dark, 0, 0, 0, elG).rotation.x = Math.PI/2;
+    box(L2 - 0.04, 0.02, 0.024, ylw, (L2 - 0.04)/2, 0, 0, elG);
+    const wr = group(L2 - 0.04, 0, 0, elG); box(0.012, 0.03, 0.04, dark, 0, 0, 0, wr);
+    const f1 = box(0.04, 0.008, 0.004, Mt('#9ca3af', {metalness:.6}), 0.022, 0, -0.012, wr), f2 = box(0.04, 0.008, 0.004, Mt('#9ca3af', {metalness:.6}), 0.022, 0, 0.012, wr);
+    let objs = [];
+    s3.scene2 = () => { objs.forEach(o => scene.remove(o)); objs = [];
+      M.zones.forEach(z => { const q = posOf(z.a, z.d); const m = mesh(new THREE.BoxGeometry(0.075, 0.004, 0.075), new THREE.MeshStandardMaterial({color:z.col, transparent:true, opacity:.55}), q.x, 0.002, q.z); objs.push(m);
+        const l = label('Khay', 0.018); l.position.set(q.x, 0.03, q.z + 0.06); scene.add(l); objs.push(l); });
+      Object.values(boxes).forEach(b => { b.m = box(0.04, 0.04, 0.04, Mt(b.col), b.p.x, b.p.y, b.p.z); objs.push(b.m); }); };
+    s3.frame(dt => { baseG.rotation.y = -rad(ang.base); shG.rotation.z = rad(ang.sh); elG.rotation.z = -rad(180 - ang.el); const g = grip ? 0.006 : 0.016; f1.position.z = -g; f2.position.z = g;
+      const p = tip();
+      Object.entries(boxes).forEach(([k, b]) => { if (k === held){ b.p.x = p.x; b.p.y = p.y; b.p.z = p.z; } else if (b.p.y > b.target){ b.p.y = Math.max(b.target, b.p.y - dt*0.6); } if (b.m) b.m.position.set(b.p.x, b.p.y, b.p.z); }); });
+    s3.scene2();
+  });
+  setMs('move');
+}
+const STEM_IMPL = {ard:stemArduino, car:stemCar, arm:stemArm};
+function vStemLab(app){
+  const k = S.arg, A = STEM[k]; if (!A) return go('stem');
+  app.innerHTML = `<div class="wrap wlab"><section class="section">
+    <div class="sec-head"><div><span class="eyebrow">Phòng STEM · Lập trình và lắp ráp 3D</span><h1 style="font-size:1.9rem">${A.icon} ${h(A.name)}</h1></div><button class="hub-mini" data-go="stem">← Phòng STEM</button></div>
+    <div id="labhost"></div></section></div>`;
+  app.dataset.lock = '1';
+  STEM_IMPL[k]($('#labhost'), {sid:S.session || 'khach', practice:true});
+}
+
 /* ===================== LOGIN ===================== */
 function vLogin(app){
   const classes = [...new Set(Object.values(S.students).map(s=>s.cls))].sort();
@@ -3354,14 +3865,14 @@ function drag(svg, node, o){
     node.addEventListener('pointermove', mv); node.addEventListener('pointerup', up); node.addEventListener('pointercancel', up);
   });
 }
-function labShell(el, {how, svg, meters='', controls='', panel}){
+function labShell(el, {how, svg, meters='', controls='', panel, pnl:pnlLabel='📋 Số liệu · Nộp bài'}){
   const title = ($('#app h1') || {}).textContent || 'Thí nghiệm';
   const goal = (String(panel).match(/<div class="goal">([\s\S]*?)<\/div>/) || [])[1] || '';
   el.innerHTML = `<div class="lab"><div class="stage">
-      <div class="lab-bar"><button type="button" class="btn ghost small lab-help">📖 Hướng dẫn</button><button type="button" class="btn ghost small lab-max">⛶ Toàn màn hình</button><button type="button" class="btn small lab-pnl">📋 Số liệu · Nộp bài</button></div>
+      <div class="lab-bar"><button type="button" class="btn ghost small lab-help">📖 Hướng dẫn</button><button type="button" class="btn ghost small lab-max">⛶ Toàn màn hình</button><button type="button" class="btn small lab-pnl">${pnlLabel}</button></div>
       ${svg}<p class="lab-say" role="status"></p>
       ${meters ? `<div class="meters">${meters}</div>` : ''}${controls ? `<div class="controls">${controls}</div>` : ''}
-    </div><aside class="panel"><div class="pnl-head"><b>📋 Số liệu · Nộp bài</b><button type="button" class="hub-mini pnl-x">✕ Đóng</button></div>${panel}</aside></div>
+    </div><aside class="panel"><div class="pnl-head"><b>${pnlLabel}</b><button type="button" class="hub-mini pnl-x">✕ Đóng</button></div>${panel}</aside></div>
     <div class="lab-intro" role="dialog" aria-modal="true" aria-label="Hướng dẫn thí nghiệm"><div class="lab-intro-card">
       <span class="eyebrow">Hướng dẫn thí nghiệm</span><h2>${h(title)}</h2>
       ${goal ? `<div class="goal">${goal}</div>` : ''}
@@ -3452,9 +3963,10 @@ async function scene3D(host, o = {}){
     else hh = Math.min(hh, vh - (vw > vh && vh < 600 ? 60 : 130));
     hh = Math.round(Math.max(220, hh)); renderer.setSize(w, hh, false); canvas.style.height = hh + 'px'; camera.aspect = w/hh; camera.updateProjectionMatrix(); if (fitN > 1) fitCam(); };
   const ray = new THREE.Raycaster(), ndc = new THREE.Vector2();
-  const drags = [], clicks = [];
+  const drags = [], clicks = []; if (window.__OLI_TEST) window.__s3c = clicks;
   const aim = e => { const r = canvas.getBoundingClientRect(); ndc.set(((e.clientX - r.left)/r.width)*2 - 1, -((e.clientY - r.top)/r.height)*2 + 1); ray.setFromCamera(ndc, camera); };
-  const pick = e => { aim(e); const list = [...drags, ...clicks]; const hits = ray.intersectObjects(list.map(d => d.obj), true);
+  const live = o => { let n = o; while (n && n.parent) n = n.parent; return n === scene; };
+  const pick = e => { aim(e); const list = [...drags, ...clicks].filter(d => live(d.obj)); const hits = ray.intersectObjects(list.map(d => d.obj), true);
     for (const hit of hits){ let n = hit.object; while (n){ const d = list.find(x => x.obj === n); if (d) return {d, point:hit.point.clone()}; n = n.parent; } } return null; };
   const planeHit = (e, plane) => { aim(e); const p = new THREE.Vector3(); return ray.ray.intersectPlane(plane, p) ? p : null; };
   let mode = null, st = null; const pts = new Map();
@@ -3488,7 +4000,7 @@ async function scene3D(host, o = {}){
   canvas.addEventListener('pointerup', up); canvas.addEventListener('pointercancel', up);
   canvas.addEventListener('wheel', e => { e.preventDefault(); userCam = true; cam.r = clamp(cam.r*(1 + Math.sign(e.deltaY)*0.08), rMin, rMax); place(); }, {passive:false});
   $$('[data-z]', host).forEach(b => b.onclick = () => { const z = +b.dataset.z; if (z === 0){ userCam = false; Object.assign(cam, home); } else { userCam = true; cam.r = clamp(cam.r*(1 + z*0.15), rMin, rMax); } place(); });
-  $$('[data-view]', host).forEach(b => b.onclick = () => { userCam = true; const v = o.views[+b.dataset.view]; Object.assign(cam, {r:v.r ?? cam.r, th:v.th ?? cam.th, ph:v.ph ?? cam.ph}); place(); });
+  $$('[data-view]', host).forEach(b => b.onclick = () => { userCam = true; const v = o.views[+b.dataset.view]; if (v.target) target.set(...v.target); Object.assign(cam, {r:v.r ?? cam.r, th:v.th ?? cam.th, ph:v.ph ?? cam.ph}); place(); });
   const frames = [], disposers = []; let last = performance.now(), alive = true;
   const ro = new ResizeObserver(resize); ro.observe(host); window.addEventListener('orientationchange', () => setTimeout(resize, 300)); const wr = () => { if (!document.body.contains(canvas)) return window.removeEventListener('resize', wr); resize(); }; window.addEventListener('resize', wr);
   const dispose = () => { alive = false; ro.disconnect(); disposers.forEach(f => { try { f(); } catch(_){} }); renderer.dispose(); };
@@ -3518,7 +4030,8 @@ async function scene3D(host, o = {}){
   const group = (x = 0, y = 0, z = 0, parent = scene) => { const g = new THREE.Group(); g.position.set(x, y, z); parent.add(g); return g; };
   return {THREE, scene, camera, renderer, canvas, M, mesh, box, hitbox, label, screenTex, wire, beam, planeY, planeZ, glass, table, cyl, group,
     drag:(obj, hd) => drags.push({obj, ...hd}), click:(obj, fn) => clicks.push({obj, fn}),
-    frame:f => frames.push(f), onDispose:f => disposers.push(f)};
+    frame:f => frames.push(f), onDispose:f => disposers.push(f),
+    look:(t, r, th, ph) => { if (t) target.set(...t); Object.assign(cam, {r:r ?? cam.r, th:th ?? cam.th, ph:ph ?? cam.ph}); Object.assign(home, cam); userCam = true; place(); }};
 }
 function mount3D(el, opts, build){
   const host = $('#v3', el);
