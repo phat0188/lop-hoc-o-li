@@ -547,7 +547,7 @@ h1{font-weight:800}
 .hb-rest li{border-color:var(--line)}
 .room.on{outline:3px solid var(--c2);outline-offset:2px}
 .sub-all{justify-self:start}
-.stud-tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.stud-tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
 .login-card{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:16px;align-items:center;max-width:820px;width:100%;margin:0 auto}
 .login-card .hs-left{justify-items:center}
 .player .ptitle{font-family:var(--f-disp)}
@@ -1043,19 +1043,30 @@ body.sc-lock .imm-fab{display:none!important}
 .stem-lcd span{font-size:.92rem}
 .arm-sl{display:flex;flex-wrap:wrap;gap:8px 14px;flex:1 1 100%}.arm-sl .ctrl{flex:1 1 180px}
 .stem-win{border:1.5px solid #ffe27a}
+
+/* ===== nhặt rác ngoài cổng trường ===== */
+.cu-stage{background:#82c46c}.cu-stage canvas{display:block;width:100%;height:100%;touch-action:none;cursor:pointer}
+.cu-hud{position:absolute;left:10px;right:10px;top:10px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;pointer-events:none}
+.cu-hud>*{pointer-events:auto}.cu-hand,.cu-stat{background:rgba(10,20,52,.82);color:#fff;border-radius:12px;padding:6px 12px;font-size:.88rem;border:1px solid rgba(70,226,255,.4)}
+.cu-big{font-size:1.3rem;vertical-align:middle}.cu-hud .hub-mini{margin-left:auto}
+.cu-msg{position:absolute;left:50%;bottom:calc(14px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);width:min(620px,calc(100% - 150px));background:#fff;color:#14204a;border-radius:14px;padding:10px 14px;font-size:.92rem;box-shadow:0 8px 30px rgba(0,0,0,.35);opacity:0;transition:opacity .3s;pointer-events:none}
+.cu-msg.on{opacity:1}.cu-msg.ok{border-left:6px solid #16a34a}.cu-msg.bad{border-left:6px solid #dc2626}
+.cu-end{position:absolute;inset:0;display:grid;place-items:center;background:rgba(7,15,43,.6);z-index:5;padding:16px}
+.cu-card{background:var(--surface);border:1.5px solid #34d399;border-radius:18px;padding:20px;max-width:460px;text-align:center;display:grid;gap:8px}.cu-card h2{margin:0}
+@media (max-width:640px){.cu-msg{width:calc(100% - 20px);bottom:86px}.cu-hand,.cu-stat{font-size:.78rem;padding:4px 8px}}
 /* ===== tràn viền: mọi trang dùng hết bề ngang màn hình ===== */
 .wrap,.wrap.wlab{max-width:none;padding-left:max(clamp(12px,1.8vw,28px),env(safe-area-inset-left,0px));padding-right:max(clamp(12px,1.8vw,28px),env(safe-area-inset-right,0px))}
 .cr{max-width:none;padding-inline:max(clamp(10px,1.6vw,24px),env(safe-area-inset-left,0px))}
 .cb{min-height:clamp(260px,calc(100svh - 400px),900px)}
 .chs-board{width:min(100%,820px,calc(100svh - 270px))}
 /* sân trường, hội trường, cờ vua, lớp học: bỏ chân trang, khung lấp đầy màn hình */
-body[data-view="school"] .foot,body[data-view="hallin"] .foot,body[data-view="chess"] .foot,body[data-view="lab"] .foot,body[data-view="stemlab"] .foot,body[data-view="task"] .foot,body[data-view="live"] .foot,body[data-view="preview"] .foot{display:none}
+body[data-view="school"] .foot,body[data-view="hallin"] .foot,body[data-view="cleanup"] .foot,body[data-view="chess"] .foot,body[data-view="lab"] .foot,body[data-view="stemlab"] .foot,body[data-view="task"] .foot,body[data-view="live"] .foot,body[data-view="preview"] .foot{display:none}
 @media (min-height:561px){
-  body[data-view="school"] .hub,body[data-view="hallin"] .hub{padding-block:8px 8px}
+  body[data-view="school"] .hub,body[data-view="hallin"] .hub,body[data-view="cleanup"] .hub{padding-block:8px 8px}
   body[data-view="school"] .hub-wrap,body[data-view="hallin"] .hub-wrap{gap:8px!important;padding-left:max(8px,env(safe-area-inset-left,0px));padding-right:max(8px,env(safe-area-inset-right,0px))}
 }
 @media (min-width:761px) and (min-height:561px){
-  body[data-view="school"] .sc-stage:not(.sc-max),body[data-view="hallin"] .sc-stage:not(.sc-max){height:calc(100svh - var(--top-h,62px) - 66px);min-height:420px;border-radius:12px}
+  body[data-view="school"] .sc-stage:not(.sc-max),body[data-view="hallin"] .sc-stage:not(.sc-max),body[data-view="cleanup"] .sc-stage:not(.sc-max){height:calc(100svh - var(--top-h,62px) - 66px);min-height:420px;border-radius:12px}
 }
 </style>
 
@@ -1379,7 +1390,7 @@ function renderNav(){
   if (m) items.push(['student','Nhiệm vụ của em']);
   if (S.canEdit) items.push(['teacher','Giáo viên']);
   items.push(SB_ON && S.authUid ? ['login','Tài khoản'] : m ? ['logout','Đăng xuất'] : ['login','Đăng nhập']);
-  $('#nav').innerHTML = items.map(([k,l]) => `<button data-go="${k}" ${v===k||(k==='school'&&(v==='hallin'||v==='hall'||v==='chess'))||(k==='labs'&&(v==='room'||v==='lab'||v==='stem'||v==='stemlab'))||(k==='student'&&v==='task'&&S.tasks[S.arg]?.kind!=='lesson')||(k==='class'&&(v==='preview'||v==='live'||(v==='task'&&S.tasks[S.arg]?.kind==='lesson')))?'aria-current="page"':''}>${l}</button>`).join('');
+  $('#nav').innerHTML = items.map(([k,l]) => `<button data-go="${k}" ${v===k||(k==='school'&&(v==='hallin'||v==='hall'||v==='chess'||v==='cleanup'))||(k==='labs'&&(v==='room'||v==='lab'||v==='stem'||v==='stemlab'))||(k==='student'&&v==='task'&&S.tasks[S.arg]?.kind!=='lesson')||(k==='class'&&(v==='preview'||v==='live'||(v==='task'&&S.tasks[S.arg]?.kind==='lesson')))?'aria-current="page"':''}>${l}</button>`).join('');
 }
 
 function render(){
@@ -1391,19 +1402,19 @@ function render(){
   app.classList.add('labhub');
   if (SB_ON && S.authUid && !S.loaded && ['student','task','class','teacher','live','preview','school'].includes(S.view)){ app.dataset.view = ''; app.dataset.lock = ''; app.innerHTML = '<div class="wrap"><section class="section"><p class="notice">Đang tải dữ liệu lớp học…</p></section></div>'; return; }
   // keep running labs alive: don't re-render a lab view on data updates
-  if (app.dataset.view === S.view + ':' + S.arg && (S.view === 'lab' || S.view === 'stemlab' || S.view === 'task' || S.view === 'preview' || S.view === 'school' || S.view === 'hallin' || S.view === 'live' || S.view === 'chess') && app.dataset.lock === '1') return;
+  if (app.dataset.view === S.view + ':' + S.arg && (S.view === 'lab' || S.view === 'stemlab' || S.view === 'cleanup' || S.view === 'task' || S.view === 'preview' || S.view === 'school' || S.view === 'hallin' || S.view === 'live' || S.view === 'chess') && app.dataset.lock === '1') return;
   const ae = document.activeElement;
   if (app.dataset.view === S.view + ':' + S.arg && ae && app.contains(ae) && /^(INPUT|TEXTAREA|SELECT)$/.test(ae.tagName) && ae.type !== 'radio' && ae.type !== 'checkbox'){
     if (!S._deferR){ S._deferR = true; ae.addEventListener('blur', () => setTimeout(() => { S._deferR = false; render(); }, 150), {once:true}); } return; }
   app.dataset.view = S.view + ':' + S.arg; app.dataset.lock = '';
   if (S.loaded && !['task','lab','live','preview'].includes(S.view)) setTimeout(() => { try { checkNudge(); } catch(e){ console.warn(e); } }, 400);
   updImm(); try { socStart(); } catch(e){}
-  const V = {home:vHome, stem:vStem, stemlab:vStemLab, chess:vChess, live:vLive, school:vSchool, hallin:vSchool, hall:vHall, labs:vLabs, room:vRoom, lab:vLab, login:SB_ON ? vLoginSB : vLogin, student:vStudent, task:vTask, teacher:vTeacher, 'class':vClass, preview:vPreview}[S.view] || vHome;
+  const V = {home:vHome, cleanup:vCleanup, stem:vStem, stemlab:vStemLab, chess:vChess, live:vLive, school:vSchool, hallin:vSchool, hall:vHall, labs:vLabs, room:vRoom, lab:vLab, login:SB_ON ? vLoginSB : vLogin, student:vStudent, task:vTask, teacher:vTeacher, 'class':vClass, preview:vPreview}[S.view] || vHome;
   V(app);
 }
 
 /* ===================== điện thoại: xoay ngang & toàn màn hình ===================== */
-const IMM_VIEWS = ['school', 'hallin', 'task', 'lab', 'stemlab', 'live', 'preview'];
+const IMM_VIEWS = ['school', 'hallin', 'cleanup', 'task', 'lab', 'stemlab', 'live', 'preview'];
 function updImm(){
   const b = document.body, imm = IMM_VIEWS.includes(S.view); b.classList.toggle('imm', imm); b.classList.remove('show-top'); b.dataset.view = S.view;
   let fab = $('#immFab'); if (!fab){ fab = document.createElement('button'); fab.id = 'immFab'; fab.className = 'imm-fab'; fab.type = 'button'; fab.innerHTML = '☰ Menu'; fab.setAttribute('aria-label', 'Hiện thanh menu'); fab.onclick = () => document.body.classList.toggle('show-top'); document.body.appendChild(fab); }
@@ -2428,7 +2439,8 @@ function vSchool(app){
   ] : [
     ...SCH.DOORS.map(dd => ({...dd, ax:dd.tx, ay:dd.ty, r:36, verb:dd.kind === 'hall' ? 'Vào hội trường' : dd.kind === 'class' ? 'Vào lớp' : dd.kind === 'lab' ? 'Vào phòng' : dd.kind === 'teacher' ? 'Vào phòng GV' : dd.kind === 'library' ? 'Vào thư viện' : dd.kind === 'chess' ? 'Vào CLB cờ vua' : dd.kind === 'stem' ? 'Vào phòng STEM' : 'Vào căng tin'})),
     ...SCH.BOARDS.map(b => ({...b, ax:b.x, ay:b.y + 26, r:36, verb:'Xem ' + b.label.toLowerCase()})),
-    {id:'bot', kind:'bot', label:'Robot Ô Li', ax:SCH.ROBOT_AT.x, ay:SCH.ROBOT_AT.y + 4, r:40, verb:'Nói chuyện'}
+    {id:'bot', kind:'bot', label:'Robot Ô Li', ax:SCH.ROBOT_AT.x, ay:SCH.ROBOT_AT.y + 4, r:40, verb:'Nói chuyện'},
+    {id:'gate', kind:'cleanup', label:'Cổng trường · nhặt rác', ax:800, ay:SCH.H - 40, r:34, verb:'Ra cổng nhặt rác'}
   ];
   const near = () => { let best = null, bd = 1e9; acts.forEach(a => { const z = a.zone, dd = z && P.x > z.x && P.x < z.x + z.w && P.y > z.y && P.y < z.y + z.h ? 1 : Math.hypot(P.x - a.ax, P.y - a.ay); if (dd < a.r && dd < bd){ bd = dd; best = a; } });
     mates.forEach(mt => { if (SOC.peers.has(mt.id)) return; const dd = Math.hypot(P.x - mt.x, P.y - mt.y); if (dd < 34 && dd < bd){ bd = dd; best = {kind:'mate', mt, label:mt.first, verb:'Chào ' + mt.first}; } });
@@ -2454,6 +2466,7 @@ function vSchool(app){
     if (a.kind === 'teacher'){ if (S.canEdit){ P.y = a.ty + 6; return enter('Đang vào phòng giáo viên…', () => go('teacher')); } return dlg('Robot Ô Li', 'Đây là <b>phòng giáo viên</b>. Chỉ thầy cô mới vào được em ạ.'); }
     if (a.kind === 'hall'){ P.y = a.ty + 6; P.dir = 'down'; return enter('Đang vào hội trường…', () => go('hallin')); }
     if (a.kind === 'chess'){ P.y = a.ty + 6; P.dir = 'down'; return enter('Đang vào câu lạc bộ cờ vua…', () => go('chess')); }
+    if (a.kind === 'cleanup'){ P.y = SCH.H - 80; P.dir = 'up'; return enter('Đang ra ngoài cổng trường…', () => go('cleanup')); }
     if (a.kind === 'stem'){ P.y = a.ty + 6; P.dir = 'down'; return enter('Đang vào phòng STEM…', () => go('stem')); }
     if (a.kind === 'canteen') return dlg('Cô căng tin', 'Căng tin đang sửa sang lại. Muốn có <b>kiểu tóc, mũ, kính, áo mới</b> thì em sang <b>Hội trường</b> ở phía đông sân trường tham gia sự kiện nhé!', [], {...defaultLook('canteen'), hair:'bob', bottom:'skirt', scarf:false});
     if (a.kind === 'honor'){ const bd = Object.values(S.boards).filter(b => b.published).sort((x, y) => y.month.localeCompare(x.month))[0];
@@ -3038,7 +3051,8 @@ function gearOf(sid){
   return g;
 }
 async function saveGear(sid, g){
-  const doc = {items:[...new Set(g.items || [])], look:g.look || null, at:Date.now()};
+  const prevRl = g.rl || (S.gear && S.gear[sid] && S.gear[sid].rl) || null;
+  const doc = {items:[...new Set(g.items || [])], look:g.look || null, at:Date.now(), ...(prevRl ? {rl:prevRl} : {})};
   store(gearKey(sid), JSON.stringify(doc));
   if (sid){ S.gear = S.gear || {}; S.gear[sid] = doc; }
   if (sid && S.db){ try { await S.db.doc('gear/' + sid).set(doc); } catch(e){ toast('Chưa lưu được lên hệ thống, phần thưởng được giữ tạm trên máy này.'); } }
@@ -3711,6 +3725,138 @@ function vStemLab(app){
   STEM_IMPL[k]($('#labhost'), {sid:S.session || 'khach', practice:true});
 }
 
+/* ===================== NGOÀI CỔNG TRƯỜNG: nhặt và phân loại rác (điểm rèn luyện) ===================== */
+const BINS = [
+  {id:'tc', n:'Tái chế', s:'giấy, nhựa, kim loại', col:'#2563eb', x:520},
+  {id:'hc', n:'Hữu cơ', s:'thức ăn thừa, lá cây', col:'#16a34a', x:640},
+  {id:'kh', n:'Rác khác', s:'không tái chế được', col:'#6b7280', x:960},
+  {id:'nh', n:'Nguy hại', s:'pin, bóng đèn…', col:'#dc2626', x:1080}
+];
+const TRASH = [
+  {e:'🥤', n:'Chai nhựa', b:'tc', f:'Chai nhựa sạch tái chế được thành sợi vải, đồ nhựa mới. Nhớ đổ hết nước trước khi bỏ.'},
+  {e:'🥫', n:'Lon nước ngọt', b:'tc', f:'Lon nhôm tái chế được gần như mãi mãi, tiết kiệm rất nhiều năng lượng so với làm nhôm mới.'},
+  {e:'📰', n:'Báo cũ', b:'tc', f:'Giấy báo khô, sạch tái chế được thành giấy mới.'},
+  {e:'📦', n:'Hộp các-tông', b:'tc', f:'Thùng, hộp các-tông nên gấp dẹt lại rồi bỏ vào thùng tái chế.'},
+  {e:'🍌', n:'Vỏ chuối', b:'hc', f:'Vỏ trái cây là rác hữu cơ, có thể ủ thành phân bón cho cây.'},
+  {e:'🍎', n:'Lõi táo', b:'hc', f:'Thức ăn thừa phân hủy nhanh, ủ được thành phân compost.'},
+  {e:'🍂', n:'Lá cây khô', b:'hc', f:'Lá cây là rác hữu cơ, ủ làm phân bón rất tốt.'},
+  {e:'🦴', n:'Xương gà', b:'hc', f:'Thức ăn thừa thuộc nhóm hữu cơ (chất thải thực phẩm).'},
+  {e:'😷', n:'Khẩu trang đã dùng', b:'kh', f:'Khẩu trang dùng rồi không tái chế được và có thể dính mầm bệnh, bỏ vào thùng rác khác.'},
+  {e:'🍬', n:'Vỏ kẹo, bim bim', b:'kh', f:'Vỏ bim bim, vỏ kẹo là màng nhiều lớp, rất khó tái chế, bỏ vào thùng rác khác.'},
+  {e:'🧻', n:'Giấy ăn đã dùng', b:'kh', f:'Giấy ăn bẩn không tái chế được như giấy báo.'},
+  {e:'🔋', n:'Pin cũ', b:'nh', f:'Pin chứa kim loại nặng độc hại, phải bỏ riêng vào thùng rác nguy hại, tuyệt đối không vứt chung.'},
+  {e:'💡', n:'Bóng đèn hỏng', b:'nh', f:'Bóng đèn huỳnh quang có thủy ngân, là rác nguy hại cần thu gom riêng.'},
+  {e:'🧴', n:'Chai thuốc xịt côn trùng', b:'nh', f:'Bình xịt hóa chất còn sót lại chất độc, là rác nguy hại.'}
+];
+const RL_DAY = 10;
+const rlOf = sid => { const g = gearOf(sid); return g.rl || {pts:0}; };
+async function rlAdd(sid, n){ if (!sid || n <= 0) return 0; const g = gearOf(sid), today = dayKey(); const rl = {...(g.rl || {pts:0})};
+  const dayPts = rl.day === today ? (rl.dayPts || 0) : 0, add = Math.max(0, Math.min(n, RL_DAY - dayPts)); if (!add) return 0;
+  rl.pts = (rl.pts || 0) + add; rl.day = today; rl.dayPts = dayPts + add; rl.at = Date.now(); g.rl = rl; await saveGear(sid, g); return add; }
+
+function vCleanup(app){
+  const m = me(), sid = m ? m.id : null, L = loadLook(sid);
+  app.dataset.lock = '1';
+  app.innerHTML = `<section class="hub school"><div class="wrap hub-wrap" style="gap:8px">
+    <div class="sc-bar"><span style="font-size:1.6rem">♻️</span><h1 class="hub-title" style="font-size:clamp(1.1rem,2.6vw,1.6rem)">NGOÀI CỔNG TRƯỜNG – <span>NHẶT RÁC, PHÂN LOẠI ĐÚNG</span></h1>
+      <span class="muted sc-help" style="font-size:.82rem">Đi tới rác để nhặt, mang tới đúng thùng rồi bấm <b>Bỏ vào thùng</b> · phím mũi tên / WASD · chạm vào nơi muốn đến</span></div>
+    <div class="sc-stage cu-stage" id="cuStage"><canvas id="cuCv"></canvas>
+      <div class="cu-hud"><div class="cu-hand" id="cuHand"></div><div class="cu-stat" id="cuStat"></div><button class="hub-mini" id="cuExit">← Vào trường</button></div>
+      <div class="cu-msg" id="cuMsg" role="status"></div>
+      <button class="sc-act" id="cuAct" hidden><span class="sc-act-ic">✋</span><span class="sc-act-t">Nhặt</span></button>
+      <div class="cu-end" id="cuEnd" hidden></div></div>
+  </div></section>`;
+  const stage = $('#cuStage', app), cv = $('#cuCv', app), ctx = cv.getContext('2d');
+  const W = 1600, H = 1000, SY0 = 170, SY1 = 555;
+  const trees = [[160, 470], [420, 470], [1180, 470], [1440, 470], [300, 250], [1300, 250]];
+  const benches = [[260, 360], [1340, 360]];
+  const binY = 215;
+  const blocked = (x, y) => { if (x < 24 || x > W - 24 || y < SY0 || y > SY1) return !(y < SY0 && Math.abs(x - 800) < 70 && y > 120);
+    if (trees.some(([a, b]) => Math.hypot(a - x, b - y) < 26)) return true; if (benches.some(([a, b]) => Math.abs(a - x) < 52 && Math.abs(b - y) < 14)) return true;
+    if (BINS.some(b => Math.abs(b.x - x) < 30 && y < binY + 14)) return true; return false; };
+  // rác ngẫu nhiên
+  const pick = TRASH.slice().sort(() => Math.random() - .5); const N = 12; const items = [];
+  for (let i = 0; i < N; i++){ const t = pick[i % pick.length]; let x, y, k = 0; do { x = 60 + Math.random()*(W - 120); y = 280 + Math.random()*(SY1 - 300); k++; } while ((blocked(x, y) || items.some(o => Math.hypot(o.x - x, o.y - y) < 70)) && k < 200); items.push({...t, x, y, rot:Math.random()*0.8 - 0.4, done:false}); }
+  const P = {x:800, y:200, dir:'down'}; let hand = null, target = null, moving = false, T = 0, right = 0, wrong = 0, earned = 0, ended = false, alive = true, msgT = 0;
+  const keys = {};
+  const cars = [{x:-200, y:690, v:220, c:'#e11d48'}, {x:700, y:690, v:220, c:'#2563eb'}, {x:1400, y:800, v:-260, c:'#f59e0b'}, {x:300, y:800, v:-260, c:'#10b981'}];
+  // nền tĩnh
+  const bg = document.createElement('canvas'); bg.width = W; bg.height = H; const g = bg.getContext('2d');
+  g.fillStyle = '#82c46c'; g.fillRect(0, 0, W, 130);
+  g.fillStyle = '#c8553d'; g.fillRect(0, 120, 720, 26); g.fillRect(880, 120, 720, 26); g.fillStyle = '#e9a38c'; for (let x = 0; x < W; x += 40){ if (x > 700 && x < 880) continue; g.fillRect(x + 4, 104, 10, 18); }
+  g.fillStyle = '#ffd54a'; g.fillRect(712, 40, 176, 30); g.fillStyle = '#7a2a12'; g.font = '800 15px "Be Vietnam Pro", system-ui'; g.textAlign = 'center'; g.fillText('CỔNG TRƯỜNG', 800, 61);
+  g.fillStyle = '#c8553d'; g.fillRect(700, 40, 14, 106); g.fillRect(886, 40, 14, 106);
+  const tile = (x, y, w, h, c1, c2) => { g.fillStyle = c1; g.fillRect(x, y, w, h); g.strokeStyle = c2; g.lineWidth = 1; g.beginPath(); for (let a = x; a < x + w; a += 40){ g.moveTo(a, y); g.lineTo(a, y + h); } for (let b = y; b < y + h; b += 40){ g.moveTo(x, b); g.lineTo(x + w, b); } g.stroke(); };
+  tile(0, 146, W, SY1 - 146 + 20, '#e9e0cb', '#d9cdb2');
+  g.fillStyle = '#9aa3ad'; g.fillRect(0, SY1 + 20, W, 22); g.fillStyle = '#3b3f48'; g.fillRect(0, SY1 + 42, W, 300);
+  g.strokeStyle = '#f5f5f5'; g.lineWidth = 6; g.setLineDash([46, 34]); g.beginPath(); g.moveTo(0, 750); g.lineTo(W, 750); g.stroke(); g.setLineDash([]);
+  g.fillStyle = '#9aa3ad'; g.fillRect(0, 897, W, 18); tile(0, 915, W, 85, '#d8cdb5', '#c6b998');
+  [[100, 'TIỆM SÁCH', '#7c3aed'], [520, 'TẠP HÓA', '#0e7490'], [980, 'NHÀ THUỐC', '#16a34a'], [1380, 'QUÁN CHÈ', '#d97706']].forEach(([x, t, c]) => { g.fillStyle = c; g.fillRect(x - 10, 930, 160, 30); g.fillStyle = '#fff'; g.font = '800 13px "Be Vietnam Pro", system-ui'; g.fillText(t, x + 70, 950); });
+  // vạch qua đường
+  g.fillStyle = 'rgba(255,255,255,.85)'; for (let i = 0; i < 7; i++) g.fillRect(700 + i*30, SY1 + 50, 16, 290);
+  const drawBin = b => { const x = b.x, y = binY; g.fillStyle = 'rgba(0,0,0,.2)'; g.beginPath(); g.ellipse(x, y + 14, 30, 8, 0, 0, 7); g.fill();
+    g.fillStyle = b.col; g.fillRect(x - 24, y - 50, 48, 62); g.fillStyle = shade(b.col, -0.25); g.fillRect(x - 28, y - 58, 56, 10);
+    g.fillStyle = '#fff'; g.font = '800 11px "Be Vietnam Pro", system-ui'; g.fillText(b.n.toUpperCase(), x, y - 22); g.font = '600 9px "Be Vietnam Pro", system-ui'; g.fillText(b.id === 'tc' ? '♻' : b.id === 'hc' ? '🌿' : b.id === 'nh' ? '⚠' : '🗑', x, y - 6); };
+  BINS.forEach(drawBin);
+  benches.forEach(([x, y]) => { g.fillStyle = '#8b5a2b'; g.fillRect(x - 50, y - 12, 100, 10); g.fillRect(x - 50, y, 100, 6); g.fillStyle = '#5b3a1b'; g.fillRect(x - 46, y + 6, 6, 10); g.fillRect(x + 40, y + 6, 6, 10); });
+  const trash = (x, y) => { g.fillStyle = '#5a8a3a'; g.beginPath(); g.arc(x, y, 22, 0, 7); g.fill(); };
+  trees.forEach(([x, y]) => trash(x, y));
+  // vẽ
+  let dpr = 1, cssW = 800, cssH = 500, zoom = 1, cam = {x:800, y:400};
+  const fit = () => { const r = stage.getBoundingClientRect(); dpr = Math.min(2, window.devicePixelRatio || 1); cssW = r.width; cssH = r.height; cv.width = cssW*dpr; cv.height = cssH*dpr; cv.style.width = cssW + 'px'; cv.style.height = cssH + 'px'; zoom = clamp(Math.max(cssW/1100, cssH/720), 0.6, 1.5); };
+  fit(); const ro = new ResizeObserver(fit); ro.observe(stage);
+  const msg = (t, ok) => { const el = $('#cuMsg', app); if (!el) return; el.innerHTML = t; el.className = 'cu-msg on ' + (ok === true ? 'ok' : ok === false ? 'bad' : ''); msgT = 6; };
+  const hud = () => { const left = items.filter(i => !i.done).length + (hand ? 1 : 0); const rl = rlOf(sid);
+    $('#cuHand', app).innerHTML = hand ? `<span class="cu-big">${hand.e}</span> Đang cầm: <b>${h(hand.n)}</b>` : '✋ Tay đang trống';
+    $('#cuStat', app).innerHTML = `Còn <b>${left}</b> món · ✅ ${right} · ❌ ${wrong}${sid ? ` · ⭐ Rèn luyện: <b>${rl.pts || 0}</b>` : ''}`; };
+  const nearBin = () => BINS.find(b => Math.abs(b.x - P.x) < 46 && P.y < binY + 60);
+  const atGate = () => P.y < SY0 + 20 && Math.abs(P.x - 800) < 80;
+  const act = $('#cuAct', app);
+  const updAct = () => { let v = ''; const b = nearBin(); if (b && hand) v = 'Bỏ vào ' + b.n; else if (atGate()) v = 'Vào trường'; act.hidden = !v; $('.sc-act-t', act).textContent = v; act.dataset.b = b ? b.id : ''; };
+  const drop = async b => { const it = hand; hand = null; if (it.b === b.id){ right++; msg(`✅ Đúng rồi! <b>${h(it.n)}</b> → thùng <b>${h(b.n)}</b>. ${h(it.f)}`, true); if (sid){ const a = await rlAdd(sid, 1); earned += a; if (!a && earned === 0) msg(`✅ Đúng rồi! ${h(it.f)} <br><i>Hôm nay em đã nhận đủ ${RL_DAY} điểm rèn luyện.</i>`, true); } }
+    else { wrong++; const rb = BINS.find(x => x.id === it.b); msg(`❌ Chưa đúng: <b>${h(it.n)}</b> phải bỏ vào thùng <b>${h(rb.n)}</b>. ${h(it.f)}`, false); }
+    hud(); if (!items.some(i => !i.done)) finish(); };
+  const finish = () => { ended = true; const e = $('#cuEnd', app); const total = right + wrong;
+    e.innerHTML = `<div class="cu-card"><h2>🌏 Cổng trường sạch rồi!</h2><p>Em đã phân loại đúng <b>${right}/${total}</b> món rác.</p>${sid ? `<p>⭐ Điểm rèn luyện nhận thêm: <b>+${earned}</b> (tổng ${rlOf(sid).pts || 0}). Mỗi ngày nhận tối đa ${RL_DAY} điểm.</p>` : '<p class="muted">Đăng nhập để được cộng điểm rèn luyện.</p>'}
+      <p class="muted" style="font-size:.88rem">Ngoài đời, em nhớ phân loại rác tại nguồn: tái chế – hữu cơ – rác khác, và bỏ riêng pin, bóng đèn hỏng.</p>
+      <div class="row" style="gap:8px;justify-content:center"><button class="btn" id="cuAgain" style="flex:0 0 auto">Nhặt lượt mới</button><button class="btn ghost" id="cuBack" style="flex:0 0 auto">Vào trường</button></div></div>`;
+    e.hidden = false; $('#cuAgain', app).onclick = () => vCleanup(app); $('#cuBack', app).onclick = () => go('school'); };
+  act.onclick = () => { const b = nearBin(); if (b && hand) drop(b); else if (atGate()) go('school'); updAct(); };
+  $('#cuExit', app).onclick = () => go('school');
+  const kd = e => { if (!document.body.contains(cv)) return; const k = e.key.toLowerCase(); if (['arrowup', 'arrowdown', 'arrowleft', 'arrowright', 'w', 'a', 's', 'd'].includes(k)){ keys[k] = e.type === 'keydown'; target = null; e.preventDefault(); }
+    if (e.type === 'keydown' && (k === ' ' || k === 'enter' || k === 'e') && !act.hidden){ act.click(); e.preventDefault(); } };
+  document.addEventListener('keydown', kd); document.addEventListener('keyup', kd);
+  cv.addEventListener('pointerdown', e => { const r = cv.getBoundingClientRect(); target = {x:cam.x + (e.clientX - r.left - cssW/2)/zoom, y:cam.y + (e.clientY - r.top - cssH/2)/zoom}; });
+  if (window.__OLI_TEST) window.__cu = {P, items, get hand(){ return hand; }};
+  hud(); msg('Nhặt rác quanh cổng trường rồi mang tới đúng thùng: <b>Tái chế</b> · <b>Hữu cơ</b> · <b>Rác khác</b> · <b>Nguy hại</b>. Mỗi món đúng được +1 điểm rèn luyện.');
+  let last = performance.now();
+  const loop = t => { if (!alive) return; if (!document.body.contains(cv)){ alive = false; ro.disconnect(); document.removeEventListener('keydown', kd); document.removeEventListener('keyup', kd); return; }
+    const dt = Math.min(0.05, (t - last)/1000); last = t; T += dt;
+    let vx = (keys.arrowright || keys.d ? 1 : 0) - (keys.arrowleft || keys.a ? 1 : 0), vy = (keys.arrowdown || keys.s ? 1 : 0) - (keys.arrowup || keys.w ? 1 : 0);
+    if (!vx && !vy && target){ const dx = target.x - P.x, dy = target.y - P.y, d = Math.hypot(dx, dy); if (d < 6) target = null; else { vx = dx/d; vy = dy/d; } }
+    moving = !!(vx || vy) && !ended;
+    if (moving){ const d = Math.hypot(vx, vy), sp = 230*dt; const nx = P.x + vx/d*sp, ny = P.y + vy/d*sp; let mv = false;
+      if (!blocked(nx, P.y)){ P.x = nx; mv = true; } if (!blocked(P.x, ny)){ P.y = ny; mv = true; } if (!mv) target = null;
+      P.dir = Math.abs(vx) > Math.abs(vy) ? (vx > 0 ? 'right' : 'left') : (vy > 0 ? 'down' : 'up'); }
+    if (!hand && !ended){ const it = items.find(i => !i.done && Math.hypot(i.x - P.x, i.y - P.y) < 30); if (it){ it.done = true; hand = it; msg(`Đã nhặt <b>${h(it.n)}</b> ${it.e}. Mang tới đúng thùng nhé!`); hud(); } }
+    updAct(); if (msgT > 0){ msgT -= dt; if (msgT <= 0){ const el = $('#cuMsg', app); if (el) el.classList.remove('on'); } }
+    cars.forEach(c => { c.x += c.v*dt; if (c.v > 0 && c.x > W + 200) c.x = -200; if (c.v < 0 && c.x < -200) c.x = W + 200; });
+    cam.x = clamp(P.x, cssW/2/zoom, W - cssW/2/zoom); cam.y = clamp(P.y, cssH/2/zoom, H - cssH/2/zoom); if (cssW/zoom > W) cam.x = W/2; if (cssH/zoom > H) cam.y = H/2;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.fillStyle = '#82c46c'; ctx.fillRect(0, 0, cssW, cssH);
+    ctx.save(); ctx.translate(cssW/2, cssH/2); ctx.scale(zoom, zoom); ctx.translate(-cam.x, -cam.y); ctx.drawImage(bg, 0, 0);
+    cars.forEach(c => { ctx.save(); ctx.translate(c.x, c.y); if (c.v < 0) ctx.scale(-1, 1); ctx.fillStyle = 'rgba(0,0,0,.25)'; ctx.fillRect(-58, 22, 116, 10); ctx.fillStyle = c.c; ctx.beginPath(); ctx.roundRect ? ctx.roundRect(-60, -24, 120, 48, 12) : ctx.rect(-60, -24, 120, 48); ctx.fill(); ctx.fillStyle = '#cfe8ff'; ctx.fillRect(-10, -18, 34, 36); ctx.fillStyle = '#ffe680'; ctx.fillRect(54, -18, 6, 10); ctx.fillRect(54, 8, 6, 10); ctx.restore(); });
+    const ents = [];
+    items.forEach(i => { if (!i.done) ents.push([i.y, () => { ctx.save(); ctx.translate(i.x, i.y); ctx.fillStyle = 'rgba(0,0,0,.18)'; ctx.beginPath(); ctx.ellipse(0, 14, 16, 5, 0, 0, 7); ctx.fill(); ctx.fillStyle = 'rgba(255,255,255,.92)'; ctx.strokeStyle = '#f59e0b'; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.arc(0, 0, 19, 0, 7); ctx.fill(); ctx.stroke(); ctx.rotate(i.rot); ctx.font = '24px "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", system-ui'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(i.e, 0, 1); ctx.restore();
+      if (Math.hypot(i.x - P.x, i.y - P.y) < 120){ ctx.font = '700 12px "Be Vietnam Pro", system-ui'; ctx.textAlign = 'center'; ctx.fillStyle = 'rgba(10,20,52,.8)'; const tw = ctx.measureText(i.n).width + 12; ctx.fillRect(i.x - tw/2, i.y - 38, tw, 18); ctx.fillStyle = '#fff'; ctx.fillText(i.n, i.x, i.y - 25); } }]); });
+    trees.forEach(([x, y]) => ents.push([y, () => drawTree(ctx, x, y, 'p', T)]));
+    ents.push([P.y, () => { drawKid(ctx, P.x, P.y, L, P.dir, T, moving, 1.25); if (hand){ ctx.font = '22px system-ui, "Apple Color Emoji", "Segoe UI Emoji"'; ctx.textAlign = 'center'; ctx.fillText(hand.e, P.x + 16, P.y - 34); } }]);
+    ents.sort((a, b) => a[0] - b[0]).forEach(e => e[1]());
+    const nb = nearBin(); if (nb && hand){ ctx.strokeStyle = '#ffe27a'; ctx.lineWidth = 4; ctx.strokeRect(nb.x - 32, binY - 64, 64, 82); }
+    BINS.forEach(b => { ctx.font = '600 11px "Be Vietnam Pro", system-ui'; ctx.textAlign = 'center'; ctx.fillStyle = 'rgba(10,20,52,.75)'; const tw = ctx.measureText(b.s).width + 10; ctx.fillRect(b.x - tw/2, binY + 18, tw, 16); ctx.fillStyle = '#fff'; ctx.fillText(b.s, b.x, binY + 30); });
+    ctx.restore(); requestAnimationFrame(loop); };
+  requestAnimationFrame(loop);
+}
+
 /* ===================== LOGIN ===================== */
 function vLogin(app){
   const classes = [...new Set(Object.values(S.students).map(s=>s.cls))].sort();
@@ -3763,7 +3909,7 @@ function vStudent(app){
       ${s?`<span class="pen t-score">${vn(s.score)}</span>`:`<span class="btn small">${taskLocked(t)?'Xem':t.kind==='lesson'?'Vào lớp':'Làm bài'}</span>`}</button>`; };
   app.innerHTML = `<div class="wrap"><section class="section">
     ${pageHead('NHIỆM VỤ HỌC TẬP', 'LỚP ' + h(m.cls), 'Bài giảng · Trắc nghiệm · Thí nghiệm 3D · Chấm điểm và nhận xét tự động')}
-    <div class="stud-tiles"><div class="ntile" style="--c:#ffc14a"><span>Điểm ${monthLabel(cm)}</span><b class="num">${mine?.points||0}</b><small>điểm thưởng</small></div><div class="ntile" style="--c:#5dffa5"><span>Hạng trong khối</span><b class="num">${pos>=0?'#'+(pos+1):'—'}</b><small>khối ${h(m.grade)}</small></div><div class="ntile" style="--c:#56c8ff"><span>Nhiệm vụ xong</span><b class="num">${tasks.filter(sub).length}/${tasks.length}</b><small>còn ${tasks.length - tasks.filter(sub).length} nhiệm vụ</small></div><div class="ntile" style="--c:#c58bff"><span>Cấp độ</span><b class="num">Lv. ${hubData().lv}</b><small>${hubData().inLv}/100 XP</small></div></div>
+    <div class="stud-tiles"><div class="ntile" style="--c:#ffc14a"><span>Điểm ${monthLabel(cm)}</span><b class="num">${mine?.points||0}</b><small>điểm thưởng</small></div><div class="ntile" style="--c:#5dffa5"><span>Hạng trong khối</span><b class="num">${pos>=0?'#'+(pos+1):'—'}</b><small>khối ${h(m.grade)}</small></div><div class="ntile" style="--c:#56c8ff"><span>Nhiệm vụ xong</span><b class="num">${tasks.filter(sub).length}/${tasks.length}</b><small>còn ${tasks.length - tasks.filter(sub).length} nhiệm vụ</small></div><div class="ntile" style="--c:#c58bff"><span>Cấp độ</span><b class="num">Lv. ${hubData().lv}</b><small>${hubData().inLv}/100 XP</small></div><div class="ntile" style="--c:#34d399"><span>Điểm rèn luyện</span><b class="num">${rlOf(m.id).pts || 0}</b><small><button class="lnk" data-go="cleanup">♻️ Nhặt rác cổng trường</button></small></div></div>
     <div class="sec-head"><h2>Nhiệm vụ học tập</h2>
       <div class="seg" role="group" aria-label="Lọc môn">${['all',...subjects].map(s=>`<button data-sf="${s}" aria-pressed="${f===s}">${s==='all'?'Tất cả':h(SUBJ[s]?.name||s)}</button>`).join('')}</div></div>
     ${tasks.length ? `
@@ -6034,8 +6180,8 @@ function tOverview(el, classes){
   const tasks = Object.entries(S.tasks).filter(([,t])=>String(t.grade)===String(grade));
   const cm = curMonth();
   el.innerHTML = `<div class="stack">${classSel(classes)}
-    <div class="panel"><div class="tbl-wrap"><table class="matrix"><thead><tr><th>Học sinh</th>${tasks.map(([,t])=>`<th title="${h(t.title)}">${h(SUBJ[t.subject]?.name.replace('KHTN · ','')||t.subject)}${t.kind==='lab'?' · TN':t.kind==='lesson'?' · BG':''}</th>`).join('')}<th>Điểm ${h(cm.slice(5))}/${h(cm.slice(0,4))}</th></tr></thead>
-    <tbody>${studs.map(([id,s])=>{ let pts=0; const cells = tasks.map(([tid])=>{ const sb=S.subs[`${id}__${tid}`]; if (sb && sb.month===cm) pts+=sb.points||0; return `<td>${sb?`<span class="pen">${vn(sb.score)}</span>`:taskHits(S.tasks[tid], s, id)?'<span class="muted">—</span>':'<span class="muted" title="Không giao cho em này">·</span>'}</td>`; }).join(''); return `<tr><td><b>${h(s.name)}</b></td>${cells}<td class="num"><b>${pts}</b></td></tr>`; }).join('')}</tbody></table></div></div>
+    <div class="panel"><div class="tbl-wrap"><table class="matrix"><thead><tr><th>Học sinh</th>${tasks.map(([,t])=>`<th title="${h(t.title)}">${h(SUBJ[t.subject]?.name.replace('KHTN · ','')||t.subject)}${t.kind==='lab'?' · TN':t.kind==='lesson'?' · BG':''}</th>`).join('')}<th>Điểm ${h(cm.slice(5))}/${h(cm.slice(0,4))}</th><th title="Điểm rèn luyện (nhặt, phân loại rác)">Rèn luyện</th></tr></thead>
+    <tbody>${studs.map(([id,s])=>{ let pts=0; const cells = tasks.map(([tid])=>{ const sb=S.subs[`${id}__${tid}`]; if (sb && sb.month===cm) pts+=sb.points||0; return `<td>${sb?`<span class="pen">${vn(sb.score)}</span>`:taskHits(S.tasks[tid], s, id)?'<span class="muted">—</span>':'<span class="muted" title="Không giao cho em này">·</span>'}</td>`; }).join(''); return `<tr><td><b>${h(s.name)}</b></td>${cells}<td class="num"><b>${pts}</b></td><td class="num">${(S.gear && S.gear[id] && S.gear[id].rl && S.gear[id].rl.pts) || 0}</td></tr>`; }).join('')}</tbody></table></div></div>
     <p class="muted" style="font-size:.85rem">Điểm đỏ là điểm cao nhất của mỗi học sinh cho từng nhiệm vụ (thang 10). "TN" là thí nghiệm ảo. "—" là chưa nộp, "·" là nhiệm vụ không giao cho em đó.</p></div>`;
   bindClassSel();
 }
