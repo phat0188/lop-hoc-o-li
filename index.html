@@ -1020,6 +1020,21 @@ body.sc-lock .imm-fab{display:none!important}
 .chess-ic{font-size:2.2rem;line-height:44px;text-align:center;color:#fff}
 @media (max-width:900px){.chs{grid-template-columns:minmax(0,1fr)}.chs-board{width:min(100%,calc(100svh - 200px))}}
 @media (orientation:landscape) and (max-height:560px){.chs{grid-template-columns:auto minmax(240px,1fr)}.chs-board{width:calc(100svh - 120px);min-width:240px}.chs-side{max-height:calc(100svh - 20px);overflow:auto}}
+
+/* ===== tràn viền: mọi trang dùng hết bề ngang màn hình ===== */
+.wrap,.wrap.wlab{max-width:none;padding-left:max(clamp(12px,1.8vw,28px),env(safe-area-inset-left,0px));padding-right:max(clamp(12px,1.8vw,28px),env(safe-area-inset-right,0px))}
+.cr{max-width:none;padding-inline:max(clamp(10px,1.6vw,24px),env(safe-area-inset-left,0px))}
+.cb{min-height:clamp(260px,calc(100svh - 400px),900px)}
+.chs-board{width:min(100%,820px,calc(100svh - 270px))}
+/* sân trường, hội trường, cờ vua, lớp học: bỏ chân trang, khung lấp đầy màn hình */
+body[data-view="school"] .foot,body[data-view="hallin"] .foot,body[data-view="chess"] .foot,body[data-view="lab"] .foot,body[data-view="task"] .foot,body[data-view="live"] .foot,body[data-view="preview"] .foot{display:none}
+@media (min-height:561px){
+  body[data-view="school"] .hub,body[data-view="hallin"] .hub{padding-block:8px 8px}
+  body[data-view="school"] .hub-wrap,body[data-view="hallin"] .hub-wrap{gap:8px!important;padding-left:max(8px,env(safe-area-inset-left,0px));padding-right:max(8px,env(safe-area-inset-right,0px))}
+}
+@media (min-width:761px) and (min-height:561px){
+  body[data-view="school"] .sc-stage:not(.sc-max),body[data-view="hallin"] .sc-stage:not(.sc-max){height:calc(100svh - var(--top-h,62px) - 66px);min-height:420px;border-radius:12px}
+}
 </style>
 
 <header class="top"><div class="wrap">
