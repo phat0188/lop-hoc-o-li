@@ -77,6 +77,20 @@ button,input,select,textarea{font:inherit;color:inherit}
 .chip{display:inline-flex;align-items:center;gap:6px;font-size:.76rem;font-weight:700;padding:3px 9px;border-radius:999px;border:1.5px solid currentColor;white-space:nowrap}
 .chip.s-toan{color:var(--s-toan)}.chip.s-van{color:var(--s-van)}.chip.s-anh{color:var(--s-anh)}.chip.s-ly{color:var(--s-ly)}.chip.s-hoa{color:var(--s-hoa)}.chip.s-sinh{color:var(--s-sinh)}.chip.s-sudia{color:var(--s-sudia)}
 .pill{font-size:.75rem;font-weight:700;padding:3px 9px;border-radius:999px;white-space:nowrap}
+.odot{display:inline-block;width:10px;height:10px;border-radius:50%;background:#b8bec7;flex:0 0 auto;vertical-align:middle;box-shadow:0 0 0 2px var(--surface)}
+.odot.on{background:#22c55e;box-shadow:0 0 0 2px var(--surface),0 0 0 5px rgba(34,197,94,.22);animation:odp 2s infinite}
+@keyframes odp{50%{box-shadow:0 0 0 2px var(--surface),0 0 0 7px rgba(34,197,94,.08)}}
+@media (prefers-reduced-motion:reduce){.odot.on{animation:none}}
+.acc-all details>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:4px 2px;font-size:1.02rem}
+.acc-all details>summary::-webkit-details-marker{display:none}
+.acc-all summary .acc-ic{font-size:1.3rem}.acc-onl{display:inline-flex;align-items:center;gap:6px;margin-left:auto;font-weight:600;color:var(--good);background:var(--good-soft);padding:3px 10px;border-radius:99px;font-size:.88rem}
+.acc-car{transition:transform .2s;font-size:1.1rem}.acc-all details[open] .acc-car{transform:rotate(180deg)}
+.acc-grp{border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.acc-gh{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;padding:8px 12px;background:var(--surface-2);font-size:.92rem}
+.acc-it{display:flex;align-items:center;gap:10px;padding:7px 12px;border-top:1px solid var(--line);flex-wrap:wrap;font-size:.92rem}
+.acc-it.is-on{background:color-mix(in srgb,var(--good-soft) 55%,transparent)}
+.acc-nm{flex:1 1 150px;font-weight:600}.acc-it .pill{margin-left:auto}.acc-st{flex:1 1 170px;font-size:.84rem}
+.seg{display:flex;gap:4px;flex-wrap:wrap}
 .pill.done{background:var(--good-soft);color:var(--good)}
 .pill.todo{background:var(--warn-soft);color:var(--warn)}
 .pill.lab{background:var(--tim-soft);color:var(--tim);display:inline-block}
@@ -1573,6 +1587,54 @@ async function issueAccount(sid, st0){
   try { await S.db.doc('cred/' + sid).set({code:st.code, pw, at:Date.now()}); } catch(e){}
   return {pw};
 }
+/* ---- theo dõi online cho giáo viên ---- */
+const GVW = {room:null, joining:null, on:new Map(), hs:new Set()};
+function gvWatch(){
+  if (GVW.room) return Promise.resolve(GVW.room); if (GVW.joining) return GVW.joining;
+  GVW.joining = getRoomNs().then(ns => ns ? ns.join('truong') : null).then(r => {
+    if (!r){ GVW.joining = null; return null; }
+    GVW.room = r;
+    const up = ps => { const m = new Map(); (ps || []).forEach(p => { const pr = p.presence || {}; if (pr.sid) m.set(pr.sid, pr); }); GVW.on = m; GVW.hs.forEach(f => { try { f(); } catch(e){} }); };
+    r.onPeers(c => up(c.peers)); try { up(r.peers ? r.peers() : []); } catch(e){}
+    return r; }).catch(() => { GVW.joining = null; return null; });
+  return GVW.joining;
+}
+const MAP_NAME = m => ({school:'sân trường', hallin:'hội trường'})[m] || 'trường 3D';
+const gvOnline = sid => GVW.on.has(sid) || (me() && SOC.peers.has(sid));
+function accLast(sid){ let t = 0; Object.values(S.subs || {}).forEach(x => { if (x && x.sid === sid){ const a = Math.max(x.at || 0, x.lastTry?.at || 0); if (a > t) t = a; } }); return t; }
+function agoTxt(t){ if (!t) return 'chưa có hoạt động'; const d = (Date.now() - t)/60000; if (d < 1) return 'vừa xong'; if (d < 60) return Math.round(d) + ' phút trước'; if (d < 1440) return Math.round(d/60) + ' giờ trước'; if (d < 2880) return 'hôm qua'; return new Date(t).toLocaleDateString('vi-VN'); }
+function accAllPanel(el, bySid){
+  const box = $('#accAll', el); if (!box) return;
+  const all = Object.entries(S.students).sort((a, b) => (a[1].cls || '').localeCompare(b[1].cls || '', 'vi', {numeric:true}) || a[1].name.localeCompare(b[1].name, 'vi'));
+  const st = S.accAll || (S.accAll = {open:false, q:'', f:'all', cls:''});
+  const cnt = () => all.filter(([id]) => gvOnline(id)).length;
+  const head = () => { const n = cnt(); $('#accSum', box).innerHTML = `<span class="acc-ic">👥</span><b>Tất cả tài khoản</b> <span class="muted">(${all.length})</span><span class="acc-onl"><i class="odot${n ? ' on' : ''}"></i>${n} đang online</span><span class="acc-car" aria-hidden="true">▾</span>`; };
+  const body = () => {
+    const q = st.q.trim().toLowerCase(), cls = [...new Set(all.map(([, s]) => s.cls))];
+    let rows = all.filter(([id, s]) => (!st.cls || s.cls === st.cls) && (!q || (s.name + ' ' + s.code).toLowerCase().includes(q))
+      && (st.f === 'all' || (st.f === 'on' ? gvOnline(id) : st.f === 'off' ? !gvOnline(id) : !bySid[id])));
+    rows.sort((a, b) => (gvOnline(b[0]) - gvOnline(a[0])));
+    const groups = {}; rows.forEach(r => (groups[r[1].cls] = groups[r[1].cls] || []).push(r));
+    const order = Object.keys(groups).sort((a, b) => a.localeCompare(b, 'vi', {numeric:true}));
+    $('#accBody', box).innerHTML = `<div class="row acc-tools" style="gap:8px;flex-wrap:wrap;align-items:end">
+        <label class="field" style="flex:1 1 180px">Tìm<input id="accQ" type="search" placeholder="Tên hoặc mã học sinh" value="${h(st.q)}"></label>
+        <label class="field" style="flex:0 1 130px">Lớp<select id="accC"><option value="">Tất cả lớp</option>${cls.map(c => `<option ${c === st.cls ? 'selected' : ''}>${h(c)}</option>`).join('')}</select></label>
+        <div class="seg" role="group" aria-label="Lọc">${[['all','Tất cả'],['on','🟢 Online'],['off','Offline'],['none','Chưa cấp']].map(([k, t]) => `<button class="btn small ${st.f === k ? '' : 'ghost'}" data-af="${k}" aria-pressed="${st.f === k}">${t}</button>`).join('')}</div></div>
+      ${order.length ? order.map(c => { const g = groups[c], on = g.filter(([id]) => gvOnline(id)).length; return `<div class="acc-grp"><div class="acc-gh"><b>Lớp ${h(c)}</b><span class="muted">${g.length} học sinh · <span style="color:var(--good)">${on} online</span></span></div>
+        ${g.map(([id, s]) => { const o = gvOnline(id), pr = GVW.on.get(id) || SOC.peers.get(id) || {}; return `<div class="acc-it${o ? ' is-on' : ''}"><i class="odot${o ? ' on' : ''}" title="${o ? 'Đang online' : 'Offline'}"></i><span class="acc-nm">${h(s.name)}</span><code>${h(s.code)}</code><span class="acc-st muted">${o ? `<b style="color:var(--good)">Đang online</b>${pr.map ? ' · đang ở ' + h(MAP_NAME(pr.map)) : ''}` : 'Hoạt động: ' + agoTxt(accLast(id))}</span>${bySid[id] ? '<span class="pill done">Đã có TK</span>' : '<span class="pill todo">Chưa cấp</span>'}</div>`; }).join('')}</div>`; }).join('') : '<p class="muted" style="margin:6px 0">Không có tài khoản phù hợp.</p>'}
+      <p class="muted" style="font-size:.8rem;margin:4px 0 0">Chấm xanh = học sinh đang mở ứng dụng (cập nhật trực tiếp). ${GVW.room ? '' : 'Đang kết nối theo dõi…'}</p>`;
+    const qi = $('#accQ', box); qi.oninput = () => { st.q = qi.value; const pos = qi.selectionStart; body(); const q2 = $('#accQ', box); q2.focus(); try { q2.setSelectionRange(pos, pos); } catch(e){} };
+    $('#accC', box).onchange = e => { st.cls = e.target.value; body(); };
+    $$('[data-af]', box).forEach(b => b.onclick = () => { st.f = b.dataset.af; body(); });
+  };
+  const dt = $('details', box); dt.open = st.open;
+  dt.ontoggle = () => { st.open = dt.open; if (dt.open) body(); };
+  head(); if (st.open) body();
+  const upd = () => { if (!document.body.contains(box)){ GVW.hs.delete(upd); return; } head(); if (dt.open){ const f = document.activeElement?.id === 'accQ', pos = f ? document.activeElement.selectionStart : 0; body(); if (f){ const q2 = $('#accQ', box); q2.focus(); try { q2.setSelectionRange(pos, pos); } catch(e){} } }
+    $$('[data-odot]', el).forEach(d => d.classList.toggle('on', gvOnline(d.dataset.odot))); };
+  GVW.hs.forEach(f => { if (f._acc) GVW.hs.delete(f); }); upd._acc = 1; GVW.hs.add(upd);
+  gvWatch().then(() => upd());
+}
 function tAccounts(el, classes){
   el.innerHTML = '<p class="muted">Đang tải danh sách tài khoản…</p>';
   Promise.all([sb.from('profiles').select('*'), sb.from('docs').select('id,data').eq('col', 'cred')]).then(([pr, cr]) => {
@@ -1582,15 +1644,16 @@ function tAccounts(el, classes){
     const list = Object.entries(S.students).filter(([, s]) => !S.tClass || s.cls === S.tClass).sort((a, b) => a[1].name.localeCompare(b[1].name, 'vi'));
     el.innerHTML = `<div class="stack">
       ${pend.length ? `<div class="panel stack"><h2>Giáo viên chờ duyệt</h2>${pend.map(x => `<div class="row" style="gap:8px;align-items:center"><span style="flex:1 1 200px">${h(x.email)}</span><button class="btn small" data-ok="${h(x.id)}" style="flex:0 0 auto">Duyệt làm giáo viên</button><button class="btn ghost small" data-no="${h(x.id)}" style="flex:0 0 auto">Từ chối</button></div>`).join('')}</div>` : ''}
+      <div class="panel acc-all" id="accAll"><details><summary id="accSum"></summary><div id="accBody" class="stack" style="margin-top:10px"></div></details></div>
       <div class="panel stack"><div class="sec-head"><h2>Tài khoản học sinh</h2><div class="row" style="gap:8px;flex:0 0 auto">${classSel(classes)}</div></div>
         <p class="muted" style="font-size:.88rem;margin:0">Học sinh đăng nhập bằng <b>mã học sinh</b> và <b>mật khẩu</b>. Bấm <b>Cấp tài khoản</b> để tạo mật khẩu ban đầu, rồi <b>In phiếu</b> phát cho các em. Các em nên tự đổi mật khẩu sau khi đăng nhập.</p>
         <div class="row" style="gap:8px;flex-wrap:wrap"><button class="btn small" id="issAll" style="flex:0 0 auto">Cấp tài khoản cho cả lớp</button><button class="btn ghost small" id="prt" style="flex:0 0 auto">In phiếu đăng nhập</button></div>
         <div class="tbl-wrap"><table><thead><tr><th>Họ và tên</th><th>Mã</th><th>Tài khoản</th><th>Mật khẩu ban đầu</th><th></th></tr></thead><tbody>
-        ${list.map(([id, s]) => `<tr><td>${h(s.name)}</td><td><code>${h(s.code)}</code></td><td>${bySid[id] ? '<span class="pill done">Đã có</span>' : '<span class="pill todo">Chưa có</span>'}</td><td><code>${h(creds[id]?.pw || '')}</code></td><td>${bySid[id] ? '' : `<button class="btn small" data-iss="${h(id)}">Cấp tài khoản</button>`}</td></tr>`).join('') || '<tr><td colspan="5" class="muted">Lớp này chưa có học sinh.</td></tr>'}
+        ${list.map(([id, s]) => `<tr><td><i class="odot${gvOnline(id) ? ' on' : ''}" data-odot="${h(id)}"></i> ${h(s.name)}</td><td><code>${h(s.code)}</code></td><td>${bySid[id] ? '<span class="pill done">Đã có</span>' : '<span class="pill todo">Chưa có</span>'}</td><td><code>${h(creds[id]?.pw || '')}</code></td><td>${bySid[id] ? '' : `<button class="btn small" data-iss="${h(id)}">Cấp tài khoản</button>`}</td></tr>`).join('') || '<tr><td colspan="5" class="muted">Lớp này chưa có học sinh.</td></tr>'}
         </tbody></table></div><p id="accSt" class="muted" role="status" style="margin:0"></p>
         <p class="muted" style="font-size:.82rem;margin:0">Nếu em quên mật khẩu: hiện tại thầy cô xóa tài khoản trong Supabase (Authentication › Users) rồi bấm Cấp tài khoản lại. Chức năng đặt lại mật khẩu ngay trong app sẽ có ở bản sau.</p></div>
       <div class="panel stack"><h2>Giáo viên</h2>${teachers.map(x => `<div>${h(x.email)}${x.id === S.authUid ? ' <span class="muted">(thầy cô)</span>' : ''}</div>`).join('')}</div></div>`;
-    bindClassSel();
+    bindClassSel(); accAllPanel(el, bySid);
     $$('[data-ok]', el).forEach(b => b.onclick = async () => { const {error} = await sb.from('profiles').update({role:'teacher'}).eq('id', b.dataset.ok); toast(error ? 'Chưa duyệt được' : 'Đã duyệt'); tAccounts(el, classes); });
     $$('[data-no]', el).forEach(b => b.onclick = async () => { const {error} = await sb.from('profiles').update({role:'blocked'}).eq('id', b.dataset.no); toast(error ? 'Chưa cập nhật được' : 'Đã từ chối'); tAccounts(el, classes); });
     const issue = async ids => { const stt = $('#accSt', el); let ok = 0, bad = []; for (const id of ids){ stt.textContent = `Đang cấp tài khoản ${ok + bad.length + 1}/${ids.length}…`; const r = await issueAccount(id); if (r.pw) ok++; else bad.push(`${S.students[id]?.name}: ${r.err}`); await new Promise(r => setTimeout(r, 400)); }
