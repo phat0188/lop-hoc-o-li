@@ -1305,6 +1305,16 @@ mark{background:transparent;color:inherit;border-radius:4px;padding:0 2px}mark.p
 #olMsg.bad{color:var(--red)}
 .ol-draft{display:grid;gap:8px;padding:12px;border-radius:14px;border:1.5px solid rgba(74,222,128,.5);background:rgba(74,222,128,.06)}
 .ol-qs summary{cursor:pointer;font-weight:700}.ol-qs ol{margin:8px 0 0;padding-left:20px;display:grid;gap:8px;font-size:.88rem;max-height:360px;overflow:auto}.ol-qs ul{list-style:none;padding:0;margin:4px 0}.ol-qs li li.ok{color:#4ade80;font-weight:700}.ol-qs small{color:#c9d6f5}
+.xt-panel{border-color:rgba(34,211,238,.55)}.xt-av{background:linear-gradient(135deg,#22c55e,#22d3ee)}
+.xt-steps{margin:0;padding-left:22px}.xt-steps > li{display:list-item;margin-bottom:12px}.xt-steps > li::marker{font-weight:800;color:#22d3ee}.xt-steps > li > *{display:block;margin-top:6px}.xt-steps > li > .row{display:flex}.xt-steps > li > b{margin-top:0}
+.rp-log td{text-align:left!important;vertical-align:top}.rp-log td:nth-child(3){min-width:260px}.rp-log td:nth-child(n+4){min-width:150px}.xt-steps li > .muted{font-size:.84rem}
+.xt-grid{display:grid;grid-template-columns:2fr .6fr 1.2fr .6fr 1.2fr 1fr;gap:6px}.xt-grid .inp{min-width:0}
+.xt-file{position:relative;overflow:hidden;cursor:pointer}.xt-file input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.xt-err{margin:0;color:#fca5a5;font-size:.88rem}.xt-warn{margin:0;color:#fde68a;font-size:.88rem}.ol-draft.bad{border-color:rgba(248,113,113,.6);background:rgba(248,113,113,.06)}
+.rp-tiles{grid-template-columns:repeat(5,minmax(0,1fr))}.rp-t{font-size:.86rem}.rp-t td,.rp-t th{padding:6px 8px;text-align:center}.rp-t td:first-child,.rp-t th:first-child{text-align:left}
+.rp-gold{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px}.rp-gold > div{padding:10px;border-radius:12px;background:var(--surface-2);border:1px solid var(--line)}.rp-gold ol{margin:6px 0 0;padding-left:20px;font-size:.86rem;display:grid;gap:3px}.rp-gold li b{color:#facc15;margin-left:4px}
+.hb-grades{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:6px;margin-top:8px}.hb-grades span{display:grid;padding:6px 8px;border-radius:10px;background:rgba(250,204,21,.08);border:1px solid rgba(250,204,21,.3);font-size:.8rem}.hb-grades i{font-style:normal;color:#facc15;font-weight:700}.hb-grades small{color:var(--muted)}
+@media (max-width:900px){.xt-grid{grid-template-columns:1fr 1fr}.rp-tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
 </style>
 
 <header class="top"><div class="wrap">
@@ -1977,6 +1987,7 @@ function vHome(app){
         <div class="hboard">
           ${board ? `<div class="hb-head"><span class="hb-cup">${HUB_ICON.cup}</span><div><span class="eyebrow">Đã công bố</span><h2>Bảng vàng tháng ${h(String(+bm[1]))}/${h(bm[0])}</h2></div></div>
             <div class="hpodium">${pod(1)}${pod(0)}${pod(2)}</div>
+            ${board.byGrade ? `<div class="hb-grades">${Object.entries(board.byGrade).map(([g, a]) => a[0] ? `<span><i>Khối ${h(g)}</i><b>${h(a[0].name)}</b><small>${h(a[0].cls)} · ${a[0].points} điểm</small></span>` : '').join('')}</div>` : ''}
             ${board.top?.length > 3 ? `<ol class="rank hb-rest" start="4">${board.top.slice(3, 6).map((p, i) => `<li><span class="pos">${i + 4}</span><span class="who"><b>${h(p.name)}</b><span>Lớp ${h(p.cls)} · ${p.done} nhiệm vụ</span></span><span class="pts">${p.points}</span></li>`).join('')}</ol>` : ''}`
           : `<div class="hb-head"><span class="hb-cup">${HUB_ICON.cup}</span><div><span class="eyebrow">Bảng vàng</span><h2>Chưa có tháng nào được công bố</h2></div></div><p class="muted">Cuối mỗi tháng, thầy cô bấm "Công bố" trong Trang giáo viên, bảng vàng sẽ hiện ở đây.</p>`}
         </div>
@@ -3612,7 +3623,7 @@ function stemStudio(el, key, cfg){
   tab(cfg.tab || 'build');
   return ui;
 }
-const stemWin = (el, key, mid, msg) => { const first = stemMark(key, mid); const m = STEM[key].ms.find(x => x.id === mid);
+const stemWin = (el, key, mid, msg) => { const first = stemMark(key, mid); if (me()) awardActivity('stem_' + key + '_' + mid, 10, 'Hoàn thành thử thách Phòng STEM: ' + key + '/' + mid); const m = STEM[key].ms.find(x => x.id === mid);
   const r = $('#labResult', el); r.innerHTML = `<div class="std-win"><b>⭐ Hoàn thành “${h(m.name)}”!</b> <span>${msg || ''} ${first ? 'Em vừa nhận thêm 1 sao STEM.' : ''}</span><button type="button" class="hub-mini" data-x>Đóng</button></div>`;
   $('[data-x]', r).onclick = () => r.innerHTML = ''; const st = $(`[data-ms="${mid}"] i`, el); if (st){ st.textContent = '★'; st.className = 'ok'; }
   toast('⭐ Hoàn thành: ' + m.name); };
@@ -4544,10 +4555,11 @@ function aiProg(sid){ let loc = {}; try { loc = JSON.parse(store(aiKey(sid)) || 
   return out; }
 const aiDone = p => !!(p && p.a && (p.q || 0) >= 3);
 let _aiSaveT = null;
-function aiSave(sid, lid, patch){ const all = aiProg(sid), cur = all[lid] || {}; const nx = {...cur, ...patch, at:Date.now()};
+function aiSave(sid, lid, patch){ const all = aiProg(sid), cur = all[lid] || {}, was = aiDone(cur); const nx = {...cur, ...patch, at:Date.now()};
   if (patch.q !== undefined) nx.q = Math.max(cur.q || 0, patch.q); if (cur.a) nx.a = 1;
   all[lid] = nx; store(aiKey(sid), JSON.stringify(all)); S.aiMem = S.aiMem || {}; S.aiMem[aiKey(sid)] = all;
   if (sid){ const g = gearOf(sid); g.ai = all; if (S.gear && S.gear[sid]) S.gear[sid].ai = all; clearTimeout(_aiSaveT); _aiSaveT = setTimeout(() => saveGear(sid, g), 600); }
+  if (sid && !was && aiDone(nx)){ const L = AI_BY[lid]; awardActivity('ai_' + lid, Math.round((nx.q || 0)/4*100)/10, 'Hoàn thành chuyên đề Lớp học AI: ' + (L ? L.name : lid)).then(r => { if (r) toast('⭐ +5 điểm thưởng vào bảng vàng'); }); }
   return nx; }
 const aiGradeOf = () => { const m = me(); const g = m && +m.grade; return AI_GRADES[S.aiG] ? S.aiG : AI_GRADES[g] ? g : 6; };
 const aiChip = c => { const st = AI_STRAND[c[0]]; return `<span class="ai-chip" style="--sc:${st.c}" title="${h(st.n)}: ${h(AI_TOPIC[c] || '')}"><b>${c}</b>${h(AI_TOPIC[c] || '')}</span>`; };
@@ -7596,14 +7608,14 @@ function vTeacher(app){
   const classes = [...new Set(Object.values(S.students).map(s=>s.cls))].sort();
   if (!S.tClass || !classes.includes(S.tClass)) S.tClass = classes[0] || null;
   const qOpen = Object.values(S.qna || {}).filter(q => !q.a).length;
-  const tabs = [['overview','Tiến độ lớp'],['tasks','Nhiệm vụ'],['qna', 'Hỏi đáp' + (qOpen ? ` (${qOpen})` : '')],['subs','Bài nộp & nhận xét'],['publish','Công bố tháng'],['students','Học sinh'], ...(SB_ON ? [['acc','Tài khoản']] : [])];
+  const tabs = [['overview','Tiến độ lớp'],['tasks','Nhiệm vụ'],['qna', 'Hỏi đáp' + (qOpen ? ` (${qOpen})` : '')],['subs','Bài nộp & nhận xét'],['publish','Công bố tháng'],['report','📊 Thống kê & báo cáo'],['students','Học sinh'], ...(SB_ON ? [['acc','Tài khoản']] : [])];
   app.innerHTML = `<div class="wrap"><section class="section">
     ${pageHead('TRANG GIÁO VIÊN', 'QUẢN LÍ LỚP HỌC', 'Giao nhiệm vụ · Soạn bài giảng · Nhận xét bài nộp · Công bố bảng vàng')}
     ${!S.live ? `<p class="notice">Chưa kết nối dữ liệu.</p>` : ''}
     <div class="tabs" role="tablist">${tabs.map(([k,l])=>`<button role="tab" data-tt="${k}" aria-selected="${S.tTab===k}">${l}</button>`).join('')}</div>
     <div id="tbody"></div></section></div>`;
   $$('[data-tt]', app).forEach(b => b.onclick = () => { S.tTab = b.dataset.tt; render(); });
-  ({overview:tOverview, acc:tAccounts, tasks:tTasks, qna:tQna, subs:tSubs, publish:tPublish, students:tStudents})[S.tTab]($('#tbody'), classes);
+  ({overview:tOverview, acc:tAccounts, tasks:tTasks, qna:tQna, subs:tSubs, publish:tPublish, report:tReport, students:tStudents})[S.tTab]($('#tbody'), classes);
 }
 function classSel(classes){ return `<label class="field" style="max-width:200px">Lớp<select id="tcls">${classes.map(c=>`<option ${c===S.tClass?'selected':''}>${h(c)}</option>`).join('')}</select></label>`; }
 function bindClassSel(){ const s = $('#tcls'); if (s) s.onchange = e => { S.tClass = e.target.value; render(); }; }
@@ -7784,7 +7796,7 @@ function olAssist(box){
       ${SB_ON ? '' : '<p class="muted" style="margin:0;font-size:.8rem">Đang ở bản Claude: nhiệm vụ giao ở đây chỉ nằm trong bản này. Muốn giao cho học sinh trên trang web, cô bấm <b>📋 Sao chép đề</b> rồi dán vào ô <b>“Dán đề có sẵn”</b> ở trang web.</p>'}</div>`;
     $('#olCopy', D).onclick = () => copyText(t.questions.map((q, i) => `Câu ${i + 1}: ${q.q}\n${q.o.map((o, j) => `${'ABCD'[j]}. ${o}`).join('\n')}\nĐáp án: ${'ABCD'[q.a]}${q.e ? '\nGiải thích: ' + q.e : ''}`).join('\n\n'));
     $('#olX', D).onclick = () => { S.olDraft = null; drawDraft(); };
-    $('#olEdit', D).onclick = () => { S.tEdit = {id:null, t:{...t}, from:'Đề do Trợ lí Ô Li soạn. Cô kiểm tra từng câu, chọn lớp, đặt hạn rồi bấm Giao nhiệm vụ.'}; S.olDraft = null; render(); $('#tf')?.scrollIntoView({behavior:'smooth', block:'start'}); };
+    $('#olEdit', D).onclick = () => { S.tEdit = {id:null, keep:true, t:{...t}, from:'Đề do Trợ lí Ô Li soạn. Cô kiểm tra từng câu, chọn lớp, đặt hạn rồi bấm Giao nhiệm vụ.'}; S.olDraft = null; render(); $('#tf')?.scrollIntoView({behavior:'smooth', block:'start'}); };
     $('#olSend', D).onclick = async () => { const b = $('#olSend', D); b.disabled = true; const id = uid('t'); const doc = {...t, createdAt:Date.now(), by:'ol'};
       try { await S.db.doc('tasks/' + id).set(doc); if ($('#olBank', D).checked){ try { await S.db.doc('bank/' + uid('b')).set({...taskBody(doc), savedAt:Date.now()}); } catch(e){} }
         toast(`Đã giao: ${targetLabel(doc)}`); S.olDraft = null; S.olReq = ''; S.tDetail = id; render(); }
@@ -7797,6 +7809,237 @@ async function olRemedial(tid){
   const miss = wrong.filter(q => q.wrong > 0).sort((a, b) => b.wrong - a.wrong).slice(0, 4);
   return {weak, base:{title:t.title, grade:t.grade, subject:t.subject, sids:weak, miss:miss.length ? miss : wrong.slice(0, 3)}};
 }
+/* ---------- Excel: ghi file nhiều sheet có định dạng, đọc file nhiều sheet ---------- */
+const XS = {head:1, title:2, cell:3, input:4, num:5, pct:6, bold:7, int:8};
+async function xlsxBuild(sheets){
+  const JSZip = await loadJSZip(); const z = new JSZip(); const esc = v => String(v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f]/g, '');
+  const col = n => { let s = ''; n++; while (n){ const m = (n - 1) % 26; s = String.fromCharCode(65 + m) + s; n = Math.floor((n - 1)/26); } return s; };
+  const ct = sheets.map((_, i) => `<Override PartName="/xl/worksheets/sheet${i + 1}.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>`).join('');
+  z.file('[Content_Types].xml', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>${ct}</Types>`);
+  z.file('_rels/.rels', '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>');
+  z.file('xl/workbook.xml', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets>${sheets.map((s, i) => `<sheet name="${esc(s.name.slice(0, 31))}" sheetId="${i + 1}" r:id="rId${i + 1}"/>`).join('')}</sheets></workbook>`);
+  z.file('xl/_rels/workbook.xml.rels', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">${sheets.map((_, i) => `<Relationship Id="rId${i + 1}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet${i + 1}.xml"/>`).join('')}<Relationship Id="rId${sheets.length + 1}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>`);
+  z.file('xl/styles.xml', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><numFmts count="1"><numFmt numFmtId="164" formatCode="0.0"/></numFmts>
+<fonts count="3"><font><sz val="12"/><name val="Times New Roman"/></font><font><b/><sz val="12"/><name val="Times New Roman"/></font><font><b/><sz val="14"/><name val="Times New Roman"/></font></fonts>
+<fills count="4"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill><fill><patternFill patternType="solid"><fgColor rgb="FFE7ECF5"/></patternFill></fill><fill><patternFill patternType="solid"><fgColor rgb="FFFFF7D6"/></patternFill></fill></fills>
+<borders count="2"><border/><border><left style="thin"><color rgb="FF999999"/></left><right style="thin"><color rgb="FF999999"/></right><top style="thin"><color rgb="FF999999"/></top><bottom style="thin"><color rgb="FF999999"/></bottom></border></borders>
+<cellStyleXfs count="1"><xf/></cellStyleXfs><cellXfs count="9"><xf/>
+<xf fontId="1" fillId="2" borderId="1" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center" wrapText="1"/></xf>
+<xf fontId="2" applyFont="1"/>
+<xf borderId="1" applyBorder="1" applyAlignment="1"><alignment vertical="top" wrapText="1"/></xf>
+<xf fillId="3" borderId="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment vertical="top" wrapText="1"/></xf>
+<xf numFmtId="164" borderId="1" applyNumberFormat="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center"/></xf>
+<xf numFmtId="9" borderId="1" applyNumberFormat="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center"/></xf>
+<xf fontId="1" borderId="1" applyFont="1" applyBorder="1" applyAlignment="1"><alignment vertical="top" wrapText="1"/></xf>
+<xf numFmtId="1" borderId="1" applyNumberFormat="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center"/></xf></cellXfs><cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles></styleSheet>`);
+  sheets.forEach((sh, i) => { const rows = sh.rows.map((r, ri) => `<row r="${ri + 1}">${(r || []).map((c, ci) => { if (c === null || c === undefined || c === '') return ''; const o = typeof c === 'object' ? c : {v:c}; const ref = col(ci) + (ri + 1); const st = o.s ? ` s="${o.s}"` : '';
+      if (o.v === null || o.v === undefined || o.v === '') return o.s ? `<c r="${ref}"${st}/>` : '';
+      return typeof o.v === 'number' && isFinite(o.v) ? `<c r="${ref}"${st}><v>${o.v}</v></c>` : `<c r="${ref}"${st} t="inlineStr"><is><t xml:space="preserve">${esc(o.v)}</t></is></c>`; }).join('')}</row>`).join('');
+    const cols = sh.widths ? `<cols>${sh.widths.map((w, j) => `<col min="${j + 1}" max="${j + 1}" width="${w}" customWidth="1"/>`).join('')}</cols>` : '';
+    z.file(`xl/worksheets/sheet${i + 1}.xml`, `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">${sh.freeze ? `<sheetViews><sheetView workbookViewId="0"><pane ySplit="${sh.freeze}" topLeftCell="A${sh.freeze + 1}" activePane="bottomLeft" state="frozen"/></sheetView></sheetViews>` : ''}${cols}<sheetData>${rows}</sheetData></worksheet>`); });
+  return z.generateAsync({type:'blob', mimeType:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+}
+async function readXlsxBook(buf){
+  const JSZip = await loadJSZip(); const zip = await JSZip.loadAsync(buf); const rd = p => zip.file(p) ? zip.file(p).async('string') : null;
+  const ss = []; const sx = await rd('xl/sharedStrings.xml'); if (sx){ const d = xmlDoc(sx); [...d.getElementsByTagName('si')].forEach(si => ss.push([...si.getElementsByTagName('t')].map(t => t.textContent).join(''))); }
+  const wb = xmlDoc(await rd('xl/workbook.xml') || '<workbook/>'), rels = xmlDoc(await rd('xl/_rels/workbook.xml.rels') || '<Relationships/>'); const out = [];
+  for (const sh of [...wb.getElementsByTagName('sheet')]){ const rid = sh.getAttribute('r:id') || sh.getAttributeNS('http://schemas.openxmlformats.org/officeDocument/2006/relationships', 'id');
+    const rel = [...rels.getElementsByTagName('Relationship')].find(r => r.getAttribute('Id') === rid); if (!rel) continue; const t = rel.getAttribute('Target').replace(/^\//, ''); const path = t.startsWith('xl/') ? t : 'xl/' + t; const x = await rd(path); if (!x) continue;
+    const d = xmlDoc(x), rows = [];
+    [...d.getElementsByTagName('row')].forEach(r => { const ri = (+r.getAttribute('r') || rows.length + 1) - 1, row = []; let k = 0;
+      [...r.getElementsByTagName('c')].forEach(c => { let ci = colIdx(c.getAttribute('r')); if (ci < 0) ci = k; k = ci + 1; const ty = c.getAttribute('t'), v = c.getElementsByTagName('v')[0]; let val = '';
+        if (ty === 's') val = ss[+(v ? v.textContent : 0)] || ''; else if (ty === 'inlineStr') val = [...c.getElementsByTagName('t')].map(z => z.textContent).join(''); else val = v ? v.textContent : ''; row[ci] = String(val); });
+      rows[ri] = row; });
+    out.push({name:sh.getAttribute('name') || '', rows:[...rows].map(r => (r || []).map(z => z == null ? '' : z))}); }
+  return out;
+}
+const dlBlob = (blob, name) => { const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1500); };
+const noDia = s => String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D').toLowerCase().trim();
+
+/* ---------- giao nhiệm vụ bằng file Excel (mẫu → nhờ Claude điền → tải lên) ---------- */
+const XT_INFO = [['Tên nhiệm vụ', 'Ví dụ: Ôn tập phân số bằng nhau'], ['Khối (6, 7, 8 hoặc 9)', '6'], ['Môn', 'Toán'], ['Giao cho lớp (để trống = cả khối; nhiều lớp ghi: 6A, 6B)', ''], ['Ngày mở bài (dd/mm/yyyy, có thể để trống)', ''], ['Hạn nộp (dd/mm/yyyy)', ''], ['Khóa nộp khi quá hạn (Có/Không)', 'Không'], ['Điểm thưởng (1–50)', '10'], ['Lời dặn học sinh (có thể để trống)', '']];
+const XT_SUBJ = [['toan', 'Toán'], ['van', 'Ngữ văn'], ['anh', 'Tiếng Anh'], ['khtn', 'Khoa học tự nhiên'], ['ly', 'Vật lí'], ['hoa', 'Hóa học'], ['sinh', 'Sinh học'], ['sudia', 'Lịch sử và Địa lí']];
+const xtPrompt = o => `Mình gửi kèm file mẫu ra đề của phần mềm Lớp học Ô Li (file Excel). Bạn hãy soạn một đề trắc nghiệm rồi điền vào chính file này và gửi lại cho mình file .xlsx đã điền.
+- Chủ đề: ${o.topic || '[chủ đề bài học]'}
+- Khối: ${o.grade || '[6/7/8/9]'} · Môn: ${o.subj || '[môn học]'} · Số câu: ${o.n || 10}
+- Giao cho lớp: ${o.cls || '(để trống = cả khối)'} · Hạn nộp: ${o.due || '(để trống)'}
+Yêu cầu:
+1. Giữ nguyên tên các sheet và dòng tiêu đề cột, không thêm cột mới. Xóa các dòng ví dụ có chữ "(Ví dụ)".
+2. Sheet "Thong tin": điền cột "Nội dung" cho từng mục.
+3. Sheet "Cau hoi": mỗi câu một dòng, gồm Câu hỏi, 4 phương án A, B, C, D, cột Đáp án chỉ ghi một chữ A, B, C hoặc D, cột Giải thích ghi ngắn gọn vì sao đúng.
+4. Kiến thức chính xác, đúng chương trình GDPT 2018, vừa sức học sinh THCS; có câu nhận biết, thông hiểu và vận dụng; đáp án đúng phân bố đều ở A, B, C, D; không dùng câu cần hình vẽ.`;
+async function xtTemplate(){
+  const H = XS.head, I = XS.input, C = XS.cell;
+  return xlsxBuild([
+    {name:'Huong dan', widths:[110], rows:[[{v:'MẪU RA ĐỀ TRẮC NGHIỆM – LỚP HỌC Ô LI', s:XS.title}], [''],
+      ['Cách dùng nhanh:'], ['1. Mở file này, hoặc gửi nguyên file cho Claude (hoặc ChatGPT, Gemini) kèm lời nhờ có sẵn trong phần mềm (nút "Chép lời nhờ Claude").'],
+      ['2. Điền sheet "Thong tin" (tên nhiệm vụ, khối, môn, lớp, hạn nộp) và sheet "Cau hoi" (mỗi câu một dòng).'], ['3. Lưu file .xlsx, vào phần mềm: Giáo viên › Nhiệm vụ › "Giao nhiệm vụ bằng file Excel" › Đưa file lên › kiểm tra › Giao.'], [''],
+      ['Quy ước:'], ['• Cột "Đáp án" chỉ ghi một chữ: A, B, C hoặc D.'], ['• Có thể chỉ có 2 hoặc 3 phương án (để trống ô D).'], ['• Ngày ghi dạng ngày/tháng/năm, ví dụ 30/10/2026.'],
+      ['• Môn được phép ghi: ' + XT_SUBJ.map(s => s[1]).join(', ') + '.'], ['• Lớp ghi đúng tên lớp trong phần mềm, ví dụ 6A. Nhiều lớp cách nhau bằng dấu phẩy. Để trống là giao cả khối.'],
+      ['• Không đổi tên sheet, không thêm hoặc xóa cột. Các dòng có chữ "(Ví dụ)" sẽ được bỏ qua.']]},
+    {name:'Thong tin', widths:[58, 60], freeze:1, rows:[[{v:'Mục', s:H}, {v:'Nội dung', s:H}], ...XT_INFO.map(([k, v]) => [{v:k, s:XS.bold}, {v:v.startsWith('Ví dụ') ? '' : v, s:I}])]},
+    {name:'Cau hoi', widths:[6, 52, 24, 24, 24, 24, 9, 44], freeze:1, rows:[['STT', 'Câu hỏi', 'A', 'B', 'C', 'D', 'Đáp án', 'Giải thích'].map(v => ({v, s:H})),
+      [{v:1, s:C}, {v:'(Ví dụ) Phân số nào bằng phân số 1/2?', s:I}, {v:'2/3', s:I}, {v:'2/4', s:I}, {v:'3/4', s:I}, {v:'1/3', s:I}, {v:'B', s:I}, {v:'Nhân cả tử và mẫu của 1/2 với 2 được 2/4.', s:I}],
+      [{v:2, s:C}, {v:'(Ví dụ) 3x + 15 = 51 thì x bằng:', s:I}, {v:'10', s:I}, {v:'11', s:I}, {v:'12', s:I}, {v:'13', s:I}, {v:'C', s:I}, {v:'3x = 36 nên x = 12.', s:I}],
+      ...Array.from({length:28}, (_, i) => [{v:i + 3, s:C}, ...Array(7).fill({v:'', s:I})])]}]);
+}
+function xtDate(v){ v = String(v || '').trim(); if (!v) return ''; if (/^\d+(\.\d+)?$/.test(v) && +v > 30000 && +v < 80000){ const d = new Date(Date.UTC(1899, 11, 30) + Math.round(+v)*864e5); return d.toISOString().slice(0, 10); }
+  let m = v.match(/^(\d{4})[-/.](\d{1,2})[-/.](\d{1,2})/); if (m) return `${m[1]}-${m[2].padStart(2, '0')}-${m[3].padStart(2, '0')}`;
+  m = v.match(/^(\d{1,2})[-/.](\d{1,2})[-/.](\d{2,4})/); if (m){ const y = m[3].length === 2 ? '20' + m[3] : m[3]; return `${y}-${m[2].padStart(2, '0')}-${m[1].padStart(2, '0')}`; } return null; }
+function xtSubj(v){ const n = noDia(v); if (!n) return null; if (SUBJ[n]) return n;
+  const map = [['toan', /toan/], ['van', /van/], ['anh', /anh|english/], ['khtn', /khoa hoc tu nhien|khtn/], ['ly', /vat li|vat ly|^ly$/], ['hoa', /hoa/], ['sinh', /sinh/], ['sudia', /lich su|dia li|dia ly|su.*dia/]];
+  const f = map.find(([, re]) => re.test(n)); return f ? f[0] : null; }
+function xtParse(book){
+  const errs = [], warns = []; const find = re => book.find(s => re.test(noDia(s.name)));
+  const info = find(/thong ?tin/), qsh = find(/cau ?hoi/) || book.find(s => (s.rows || []).some(r => r.some(c => /^cau hoi$/.test(noDia(c)))));
+  if (!qsh) return {errs:['Không tìm thấy sheet "Cau hoi". Cô dùng đúng file mẫu tải từ phần mềm nhé.'], warns};
+  const val = re => { if (!info) return ''; const r = info.rows.find(r => re.test(noDia(r[0]))); return r ? String(r[1] || '').trim() : ''; };
+  const t = {title:val(/^ten nhiem vu/), grade:+(val(/^khoi/).match(/[6-9]/) || [0])[0], subject:xtSubj(val(/^mon/)), kind:'quiz', cls:[], sids:[], open:'', due:'', lock:/^co/.test(noDia(val(/^khoa nop/))), points:clamp(+val(/^diem thuong/) || 10, 1, 50), intro:val(/^loi dan/).slice(0, 200)};
+  if (!info) warns.push('Không có sheet "Thong tin": cô điền tên, khối, môn ở bước sau.');
+  if (!t.title) warns.push('Chưa có tên nhiệm vụ.'); if (!t.grade) warns.push('Chưa ghi khối (6, 7, 8 hoặc 9).'); if (!t.subject) warns.push('Chưa nhận ra môn học' + (val(/^mon/) ? ` "${val(/^mon/)}"` : '') + '.');
+  const od = xtDate(val(/^ngay mo/)), dd = xtDate(val(/^han nop/)); if (od === null) warns.push('Ngày mở bài không đúng dạng ngày/tháng/năm.'); else t.open = od; if (dd === null) warns.push('Hạn nộp không đúng dạng ngày/tháng/năm.'); else t.due = dd;
+  if (t.due && t.due < dayKey()) warns.push('Hạn nộp đã qua, cô kiểm tra lại.'); if (t.open && t.due && t.open > t.due) warns.push('Ngày mở bài đang sau hạn nộp.');
+  const clsTxt = val(/^giao cho lop/); if (clsTxt && t.grade){ const have = olClasses(t.grade); const want = clsTxt.split(/[,;\s]+/).map(x => x.trim().toUpperCase()).filter(Boolean); const bad = want.filter(c => !have.map(x => x.toUpperCase()).includes(c));
+    t.cls = have.filter(c => want.includes(c.toUpperCase())); if (bad.length) warns.push(`Không có lớp ${bad.join(', ')} trong khối ${t.grade}${t.cls.length ? '' : ', nên sẽ giao cả khối'}.`); }
+  const rows = qsh.rows; const hi = rows.findIndex(r => r.some(c => /^cau hoi$/.test(noDia(c)))); if (hi < 0) return {errs:['Sheet "Cau hoi" thiếu dòng tiêu đề "Câu hỏi".'], warns, t};
+  const hd = rows[hi].map(noDia), ix = k => hd.findIndex(c => c === k), iq = ix('cau hoi'), io = ['a', 'b', 'c', 'd'].map(ix), ia = hd.findIndex(c => /^dap an/.test(c)), ie = hd.findIndex(c => /^giai thich/.test(c));
+  if (io.some(x => x < 0) || ia < 0) return {errs:['Sheet "Cau hoi" cần đủ các cột A, B, C, D và Đáp án.'], warns, t};
+  const qs = []; let skipped = 0;
+  rows.slice(hi + 1).forEach((r, k) => { const q = String(r[iq] || '').trim(); if (!q) return; if (/^\(vi du\)/.test(noDia(q))){ skipped++; return; }
+    const o = io.map(j => String(r[j] || '').trim()); const raw = String(r[ia] || '').trim(); const L = (noDia(raw).match(/^(?:dap an\s*)?([abcd])(?![a-z])/) || [])[1]; let a = L ? 'abcd'.indexOf(L) : -1;
+    if (a < 0){ const m = o.findIndex(x => x && noDia(x) === noDia(raw)); a = m; }
+    const keep = o.map((x, j) => [x, j]).filter(([x]) => x); const line = hi + k + 2;
+    if (keep.length < 2){ errs.push(`Dòng ${line}: cần ít nhất 2 phương án.`); return; } if (a < 0 || !o[a]){ errs.push(`Dòng ${line}: chưa có đáp án đúng (ghi A, B, C hoặc D).`); return; }
+    qs.push({q:q.slice(0, 400), o:keep.map(([x]) => x.slice(0, 200)), a:keep.findIndex(([, j]) => j === a), e:ie >= 0 ? String(r[ie] || '').trim().slice(0, 400) : ''}); });
+  if (skipped && !qs.length) errs.push('File chỉ có các câu ví dụ. Cô (hoặc Claude) điền câu hỏi thật rồi tải lên lại nhé.');
+  else if (!qs.length) errs.push('Chưa đọc được câu hỏi nào trong sheet "Cau hoi".');
+  if (qs.length){ const cnt = [0, 0, 0, 0]; qs.forEach(q => cnt[q.a]++); if (qs.length >= 6 && Math.max(...cnt) > qs.length*0.6) warns.push('Phần lớn đáp án đúng nằm ở cùng một phương án, cô xem lại nhé.'); }
+  t.questions = qs; if (!t.title) t.title = 'Bài trắc nghiệm'; if (!t.grade) t.grade = 6; if (!t.subject) t.subject = 'toan';
+  return {t, errs, warns, skipped};
+}
+function xtPanel(box){
+  const X = S.xt = S.xt || {res:null, msg:'', o:{}};
+  const draw = () => { const r = X.res, t = r && r.t;
+    box.innerHTML = `<div class="ol-h"><span class="ol-av xt-av">📥</span><div><h2 style="margin:0">Giao nhiệm vụ bằng file Excel</h2><p class="muted" style="margin:0;font-size:.84rem">Cách đơn giản nhất: tải mẫu, nhờ Claude điền đề, đưa file lên là giao được. Bài giảng PowerPoint vẫn giao ở khung bên phải như cũ.</p></div></div>
+    <ol class="xt-steps">
+      <li><b>Tải file mẫu</b><div class="row" style="gap:8px"><button type="button" class="btn small" id="xtTpl" style="flex:0 0 auto">⬇ Tải mẫu Excel</button></div></li>
+      <li><b>Nhờ Claude điền đề</b><span class="muted">Gửi file mẫu cho Claude kèm lời nhờ bên dưới (điền chủ đề cho Claude hiểu rõ).</span>
+        <div class="xt-grid"><input class="inp" id="xtT" placeholder="Chủ đề, ví dụ: Phân số bằng nhau" value="${h(X.o.topic || '')}"><select class="inp" id="xtG">${[6, 7, 8, 9].map(g => `<option ${+X.o.grade === g ? 'selected' : ''}>${g}</option>`).join('')}</select><select class="inp" id="xtS">${XT_SUBJ.map(([k, n]) => `<option value="${n}" ${X.o.subj === n ? 'selected' : ''}>${n}</option>`).join('')}</select><input class="inp" id="xtN" type="number" min="3" max="30" value="${X.o.n || 10}" title="Số câu"><input class="inp" id="xtC" placeholder="Lớp (để trống = cả khối)" value="${h(X.o.cls || '')}"><input class="inp" id="xtD" type="date" value="${h(X.o.due || '')}" title="Hạn nộp"></div>
+        <div class="row" style="gap:8px;flex-wrap:wrap"><button type="button" class="btn ghost small" id="xtCopy" style="flex:0 0 auto">📋 Chép lời nhờ Claude</button><a class="btn ghost small" href="https://claude.ai/new" target="_blank" rel="noopener" style="flex:0 0 auto">Mở Claude ↗</a></div></li>
+      <li><b>Đưa file Claude trả về lên</b><label class="btn small xt-file" style="justify-self:start">📤 Chọn file .xlsx<input type="file" id="xtF" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"></label></li></ol>
+    <p id="xtMsg" class="muted" role="status" style="margin:0;font-size:.86rem">${X.msg || ''}</p>
+    ${r ? `<div class="ol-draft${r.errs.length ? ' bad' : ''}">${t ? `<div class="row" style="justify-content:space-between;gap:8px;align-items:flex-start"><div><span class="eyebrow">Đọc từ file ${h(X.fname || '')}</span><h3 style="margin:2px 0">${h(t.title)}</h3>
+        <p class="muted" style="margin:0;font-size:.85rem">Khối ${t.grade} · ${h(SUBJ[t.subject]?.name || '')} · ${(t.questions || []).length} câu · giao cho <b>${h(targetLabel(t))}</b>${t.open ? ' · mở ' + ddmm(t.open) : ''}${t.due ? ' · hạn ' + ddmm(t.due) : ' · chưa đặt hạn'}${t.lock ? ' · khóa khi quá hạn' : ''} · ${t.points} điểm thưởng</p></div><button type="button" class="hub-mini" id="xtX" style="flex:0 0 auto">✕</button></div>` : ''}
+      ${r.errs.map(e => `<p class="xt-err">⛔ ${h(e)}</p>`).join('')}${r.warns.map(w => `<p class="xt-warn">⚠ ${h(w)}</p>`).join('')}
+      ${t && t.questions && t.questions.length ? `<details class="ol-qs"><summary>Xem ${t.questions.length} câu hỏi và đáp án</summary><ol>${t.questions.map(q => `<li><b>${h(q.q)}</b><ul>${q.o.map((o, j) => `<li class="${j === q.a ? 'ok' : ''}">${'ABCD'[j]}. ${h(o)}${j === q.a ? ' ✓' : ''}</li>`).join('')}</ul>${q.e ? `<small>💡 ${h(q.e)}</small>` : ''}</li>`).join('')}</ol></details>` : ''}
+      ${t && t.questions && t.questions.length ? `<div class="row" style="gap:8px;flex-wrap:wrap"><button type="button" class="btn small" id="xtGo" style="flex:0 0 auto" ${r.errs.length ? 'disabled' : ''}>✅ Giao ngay</button><button type="button" class="btn ghost small" id="xtEd" style="flex:0 0 auto">✏️ Sửa trước khi giao</button><label class="chk" style="flex:0 0 auto"><input type="checkbox" id="xtB"> Cất vào kho đề</label></div>${r.errs.length ? '<p class="muted" style="margin:0;font-size:.8rem">Còn dòng lỗi: cô sửa trong file rồi tải lại, hoặc bấm “Sửa trước khi giao” để sửa trực tiếp (các dòng lỗi bị bỏ qua).</p>' : ''}` : ''}</div>` : ''}`;
+    const o = () => ({topic:$('#xtT', box).value.trim(), grade:$('#xtG', box).value, subj:$('#xtS', box).value, n:clamp(+$('#xtN', box).value || 10, 3, 30), cls:$('#xtC', box).value.trim(), due:$('#xtD', box).value ? ddmm($('#xtD', box).value) + '/' + $('#xtD', box).value.slice(0, 4) : ''});
+    ['xtT', 'xtG', 'xtS', 'xtN', 'xtC', 'xtD'].forEach(k => { const e = $('#' + k, box); e.onchange = e.oninput = () => { X.o = {...o(), due:$('#xtD', box).value}; }; });
+    $('#xtTpl', box).onclick = async () => { try { dlBlob(await xtTemplate(), 'Mau-ra-de-Lop-hoc-O-Li.xlsx'); } catch(e){ toast('Chưa tạo được file mẫu.'); } };
+    $('#xtCopy', box).onclick = () => copyText(xtPrompt(o()));
+    $('#xtF', box).onchange = async e => { const f = e.target.files[0]; if (!f) return; X.msg = 'Đang đọc file…'; X.fname = f.name; draw();
+      try { const book = await readXlsxBook(await f.arrayBuffer()); X.res = xtParse(book); X.msg = X.res.errs.length ? '' : `✅ Đọc được ${X.res.t.questions.length} câu hỏi. Cô kiểm tra rồi bấm Giao ngay.`; }
+      catch(err){ console.warn(err); X.res = null; X.msg = '⛔ Không đọc được file. Cô kiểm tra file có đúng định dạng .xlsx (Excel) không nhé.'; }
+      draw(); };
+    const x = $('#xtX', box); if (x) x.onclick = () => { X.res = null; X.msg = ''; draw(); };
+    const ed = $('#xtEd', box); if (ed) ed.onclick = () => { S.tEdit = {id:null, keep:true, t:{...r.t}, from:`Đề đọc từ file ${X.fname || 'Excel'}. Cô kiểm tra từng câu rồi bấm Giao nhiệm vụ.`}; X.res = null; X.msg = ''; render(); $('#tf')?.scrollIntoView({behavior:'smooth', block:'start'}); };
+    const go = $('#xtGo', box); if (go) go.onclick = async () => { go.disabled = true; const id = uid('t'); const doc = {...r.t, createdAt:Date.now(), by:'xlsx'};
+      try { await S.db.doc('tasks/' + id).set(doc); if ($('#xtB', box).checked){ try { await S.db.doc('bank/' + uid('b')).set({...taskBody(doc), savedAt:Date.now()}); } catch(e){} }
+        toast(`Đã giao: ${targetLabel(doc)}`); X.res = null; X.msg = ''; S.tDetail = id; render(); }
+      catch(e){ go.disabled = false; X.msg = '⛔ Chưa giao được, cô thử lại.'; draw(); } }; };
+  draw();
+}
+/* ---------- Thống kê & báo cáo (phục vụ hồ sơ KHKT: số liệu thử nghiệm, Nhật ký nghiên cứu PL V) ---------- */
+const RP_KIND = {lesson:'Bài giảng tương tác', quiz:'Trắc nghiệm', lab:'Thí nghiệm ảo 3D', ai:'Lớp học AI', stem:'Phòng STEM', ev:'Hội trường (sự kiện)', other:'Khác'};
+const rpKind = sb => { const t = S.tasks[sb.tid]; if (t) return RP_KIND[t.kind] ? t.kind : 'other'; const id = String(sb.tid || ''); return id.startsWith('ai_') ? 'ai' : id.startsWith('stem_') ? 'stem' : id.startsWith('ev_') ? 'ev' : 'other'; };
+const RP_PART = [['tc', 'Tích cực (từ 10 lượt)', n => n >= 10], ['tx', 'Thường xuyên (5–9 lượt)', n => n >= 5 && n < 10], ['tt', 'Thỉnh thoảng (1–4 lượt)', n => n >= 1 && n < 5], ['no', 'Chưa tham gia', n => n === 0]];
+const RP_RANK = [['g', 'Giỏi (TB từ 8,0)', a => a >= 8], ['k', 'Khá (6,5 – dưới 8,0)', a => a >= 6.5 && a < 8], ['tb', 'Trung bình (5,0 – dưới 6,5)', a => a >= 5 && a < 6.5], ['y', 'Yếu (dưới 5,0)', a => a < 5]];
+function rpData(from, to){
+  const inR = at => { const d = dayKey(new Date(at || 0)); return (!from || d >= from) && (!to || d <= to); };
+  const studs = Object.entries(S.students).sort((a, b) => (+a[1].grade - +b[1].grade) || String(a[1].cls).localeCompare(String(b[1].cls)) || String(a[1].name).localeCompare(String(b[1].name), 'vi'));
+  const code = {}; studs.forEach(([id], i) => code[id] = 'HS' + String(i + 1).padStart(3, '0'));
+  const subs = Object.values(S.subs).filter(sb => S.students[sb.sid] && inR(sb.at));
+  const per = {}; studs.forEach(([id, s]) => per[id] = {id, s, n:0, sum:0, pts:0, kinds:{}, days:new Set(), ai:0, rl:0});
+  subs.forEach(sb => { const p = per[sb.sid]; p.n++; p.sum += sb.score || 0; p.pts += sb.points || 0; const k = rpKind(sb); p.kinds[k] = (p.kinds[k] || 0) + 1; p.days.add(dayKey(new Date(sb.at))); });
+  studs.forEach(([id, s]) => { const g = (S.gear && S.gear[id]) || {}; const L = (AI_GRADES[+s.grade] || AI_GRADES[6]).lessons; per[id].ai = L.filter(l => aiDone((g.ai || {})[l.id])).length; per[id].rl = (g.rl && g.rl.pts) || 0; });
+  const agg = list => { const act = list.filter(p => p.n > 0), n = list.length, sc = act.map(p => p.sum/p.n), turns = act.reduce((a, p) => a + p.n, 0);
+    const all = subs.filter(sb => list.some(p => p.id === sb.sid)), avg = all.length ? all.reduce((a, sb) => a + (sb.score || 0), 0)/all.length : null;
+    return {n, act:act.length, rate:n ? act.length/n : 0, turns, perHS:act.length ? turns/act.length : 0, avg, p5:all.length ? all.filter(sb => sb.score >= 5).length/all.length : null, p8:all.length ? all.filter(sb => sb.score >= 8).length/all.length : null,
+      ai:n ? list.reduce((a, p) => a + p.ai, 0)/n : 0, rl:list.reduce((a, p) => a + p.rl, 0), part:RP_PART.map(([k, , f]) => list.filter(p => f(p.n)).length), rank:RP_RANK.map(([k, , f]) => act.filter(p => f(p.sum/p.n)).length), sc}; };
+  const P = Object.values(per);
+  const grades = [6, 7, 8, 9].map(g => ({g, ...agg(P.filter(p => +p.s.grade === g))})).filter(x => x.n);
+  const classes = [...new Set(studs.map(([, s]) => s.cls))].map(c => ({c, g:(studs.find(([, s]) => s.cls === c) || [, {}])[1].grade, ...agg(P.filter(p => p.s.cls === c))}));
+  const kinds = Object.keys(RP_KIND).map(k => { const l = subs.filter(sb => rpKind(sb) === k); return {k, name:RP_KIND[k], turns:l.length, hs:new Set(l.map(sb => sb.sid)).size, avg:l.length ? l.reduce((a, sb) => a + (sb.score || 0), 0)/l.length : null}; }).filter(x => x.turns);
+  const tasks = Object.entries(S.tasks).filter(([, t]) => inR(t.createdAt));
+  const days = {}; subs.forEach(sb => { const d = dayKey(new Date(sb.at)); const x = days[d] = days[d] || {d, subs:[], tasks:[]}; x.subs.push(sb); });
+  tasks.forEach(([id, t]) => { const d = dayKey(new Date(t.createdAt)); const x = days[d] = days[d] || {d, subs:[], tasks:[]}; x.tasks.push(t); });
+  const log = Object.values(days).sort((a, b) => a.d.localeCompare(b.d)).map(x => { const hs = new Set(x.subs.map(sb => sb.sid)), gs = [...new Set([...hs].map(id => S.students[id].grade))].sort();
+    const kc = {}; x.subs.forEach(sb => { const k = rpKind(sb); kc[k] = (kc[k] || 0) + 1; }); const avg = x.subs.length ? x.subs.reduce((a, sb) => a + (sb.score || 0), 0)/x.subs.length : null;
+    const nd = [x.tasks.length ? `Giáo viên giao ${x.tasks.length} nhiệm vụ: ${x.tasks.map(t => '“' + t.title + '”').join('; ')}` : '', x.subs.length ? `Học sinh học và làm bài trên ứng dụng: ${Object.entries(kc).map(([k, n]) => `${n} lượt ${RP_KIND[k].replace(/^./, c => c.toLowerCase())}`).join(', ')}` : ''].filter(Boolean).join('. ');
+    return {d:x.d, nd, place:'Trực tuyến trên ứng dụng Lớp học Ô Li', who:[x.tasks.length ? 'Giáo viên' : '', hs.size ? `${hs.size} học sinh (khối ${gs.join(', ')})` : ''].filter(Boolean).join('; '),
+      kq:x.subs.length ? `${x.subs.length} lượt nộp bài, điểm TB ${vn(avg, 1)}; ${Math.round(x.subs.filter(sb => sb.score >= 5).length/x.subs.length*100)}% lượt đạt từ 5 điểm` : `Đã giao ${x.tasks.length} nhiệm vụ`, mc:'Dữ liệu xuất tự động từ hệ thống (sheet "Theo hoc sinh", "Theo ngay")'}; });
+  const total = agg(P);
+  return {from, to, code, per:P, grades, classes, kinds, log, total, ntasks:tasks.length, nsubs:subs.length, studs};
+}
+const rpPct = x => x === null || x === undefined ? '—' : Math.round(x*100) + '%';
+const rpAvg = x => x === null || x === undefined ? '—' : vn(x, 2);
+function tReport(el){
+  const R = S.rp = S.rp || {}; const allAt = Object.values(S.subs).map(s => s.at).filter(Boolean); const first = allAt.length ? dayKey(new Date(Math.min(...allAt))) : dayKey();
+  const from = R.from || first, to = R.to || dayKey(); const D = rpData(from, to), T = D.total, cm = curMonth();
+  const tbl = (head, rows, cls = '') => `<div class="tbl-wrap"><table class="rp-t ${cls}"><thead><tr>${head.map(x => `<th>${x}</th>`).join('')}</tr></thead><tbody>${rows.map(r => `<tr>${r.map(c => `<td>${c}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+  const gRows = [...D.grades.map(x => [`Khối ${x.g}`, x.n, x.act, rpPct(x.rate), x.turns, vn(x.perHS, 1), rpAvg(x.avg), rpPct(x.p5), rpPct(x.p8), vn(x.ai, 1)]), ['<b>Toàn trường</b>', `<b>${T.n}</b>`, `<b>${T.act}</b>`, `<b>${rpPct(T.rate)}</b>`, `<b>${T.turns}</b>`, `<b>${vn(T.perHS, 1)}</b>`, `<b>${rpAvg(T.avg)}</b>`, `<b>${rpPct(T.p5)}</b>`, `<b>${rpPct(T.p8)}</b>`, `<b>${vn(T.ai, 1)}</b>`]];
+  const gH = ['Khối', 'Số HS', 'HS tham gia', 'Tỉ lệ tham gia', 'Lượt học/nộp bài', 'Lượt TB/HS', 'Điểm TB', '% lượt đạt ≥5', '% lượt đạt ≥8', 'Chuyên đề AI TB/HS'];
+  const top = g => ranking(cm, g).slice(0, 5);
+  el.innerHTML = `<div class="stack rp">
+    <div class="panel stack"><div class="row" style="justify-content:space-between;align-items:flex-end;gap:10px;flex-wrap:wrap"><div><h2 style="margin:0">📊 Thống kê và báo cáo số liệu</h2><p class="muted" style="margin:0;font-size:.86rem">Số liệu lấy trực tiếp từ hệ thống, dùng cho báo cáo kết quả dự án (mục kết quả thu được, xử lí số liệu) và Nhật ký nghiên cứu, minh chứng dữ liệu (Phụ lục V). Học sinh được mã hóa HS001, HS002… để không lộ tên.</p></div>
+      <div class="row" style="gap:8px;flex:0 0 auto;align-items:flex-end"><label class="field" style="flex:0 0 150px">Từ ngày<input type="date" id="rpF" value="${from}"></label><label class="field" style="flex:0 0 150px">Đến ngày<input type="date" id="rpT" value="${to}"></label><button class="btn" id="rpX" style="flex:0 0 auto">⬇ Xuất Excel báo cáo</button></div></div>
+      <div class="ntiles rp-tiles"><div class="ntile" style="--c:#56c8ff"><span>Học sinh trong hệ thống</span><b class="num">${T.n}</b><small>${D.classes.length} lớp</small></div><div class="ntile" style="--c:#5dffa5"><span>Học sinh tham gia</span><b class="num">${T.act}</b><small>${rpPct(T.rate)} tổng số</small></div>
+        <div class="ntile" style="--c:#ffc14a"><span>Lượt học, nộp bài</span><b class="num">${T.turns}</b><small>${vn(T.perHS, 1)} lượt / em</small></div><div class="ntile" style="--c:#c58bff"><span>Điểm trung bình</span><b class="num">${rpAvg(T.avg)}</b><small>${rpPct(T.p5)} lượt đạt từ 5</small></div><div class="ntile" style="--c:#ff8ab8"><span>Nhiệm vụ đã giao</span><b class="num">${D.ntasks}</b><small>trong khoảng thời gian</small></div></div></div>
+    <div class="panel stack"><h3 style="margin:0">Bảng 1. Số lượng người học và kết quả theo khối lớp</h3>${tbl(gH, gRows)}</div>
+    <div class="grid-2"><div class="panel stack"><h3 style="margin:0">Bảng 2. Mức độ tham gia (số học sinh)</h3>${tbl(['Mức độ', ...D.grades.map(x => 'Khối ' + x.g), 'Tổng', 'Tỉ lệ'], RP_PART.map(([, n], i) => [n, ...D.grades.map(x => x.part[i]), `<b>${T.part[i]}</b>`, rpPct(T.n ? T.part[i]/T.n : 0)]))}</div>
+      <div class="panel stack"><h3 style="margin:0">Bảng 3. Xếp loại theo điểm trung bình (học sinh có tham gia)</h3>${tbl(['Xếp loại', ...D.grades.map(x => 'Khối ' + x.g), 'Tổng', 'Tỉ lệ'], RP_RANK.map(([, n], i) => [n, ...D.grades.map(x => x.rank[i]), `<b>${T.rank[i]}</b>`, rpPct(T.act ? T.rank[i]/T.act : 0)]))}</div></div>
+    <div class="grid-2"><div class="panel stack"><h3 style="margin:0">Bảng 4. Theo lớp</h3>${tbl(['Lớp', 'Số HS', 'Tham gia', 'Tỉ lệ', 'Lượt', 'Điểm TB'], D.classes.map(x => [x.c, x.n, x.act, rpPct(x.rate), x.turns, rpAvg(x.avg)]))}</div>
+      <div class="panel stack"><h3 style="margin:0">Bảng 5. Theo hình thức học tập</h3>${D.kinds.length ? tbl(['Hình thức', 'Lượt', 'Số HS', 'Điểm TB'], D.kinds.map(x => [x.name, x.turns, x.hs, rpAvg(x.avg)])) : '<p class="muted">Chưa có lượt học nào trong khoảng thời gian này.</p>'}</div></div>
+    <div class="panel stack"><h3 style="margin:0">Bảng 6. Nhật ký dữ liệu theo ngày (theo mẫu Nhật ký nghiên cứu, Phụ lục V)</h3>${D.log.length ? tbl(['TT', 'Ngày', 'Nội dung', 'Địa điểm thực hiện', 'Người thực hiện', 'Kết quả', 'Minh chứng'], D.log.map((r, i) => [i + 1, ddmm(r.d) + '/' + r.d.slice(0, 4), h(r.nd), h(r.place), h(r.who), h(r.kq), h(r.mc)]), 'rp-log') : '<p class="muted">Chưa có hoạt động trong khoảng thời gian này.</p>'}
+      <p class="muted" style="margin:0;font-size:.8rem">Cột “Xác nhận của người hướng dẫn nghiên cứu” để trống trong file Excel để thầy cô kí xác nhận khi in.</p></div>
+    <div class="panel stack"><div class="row" style="justify-content:space-between;align-items:center;gap:8px"><h3 style="margin:0">🏆 Bảng vàng ${monthLabel(cm)} (điểm cập nhật trực tiếp)</h3><button class="btn ghost small" id="rpPub" style="flex:0 0 auto">Công bố bảng vàng →</button></div>
+      <p class="muted" style="margin:0;font-size:.84rem">Điểm thưởng gồm: nhiệm vụ thầy cô giao, thí nghiệm ảo, sự kiện ở Hội trường, chuyên đề Lớp học AI và thử thách Phòng STEM đã hoàn thành.</p>
+      <div class="rp-gold">${[['all', 'Toàn trường'], [6, 'Khối 6'], [7, 'Khối 7'], [8, 'Khối 8'], [9, 'Khối 9']].map(([g, n]) => { const t = top(g); return `<div><b>${n}</b>${t.length ? `<ol>${t.map(r => `<li>${h(r.name)} <span class="muted">${h(r.cls)}</span> <b class="num">${r.points}</b></li>`).join('')}</ol>` : '<p class="muted">Chưa có điểm.</p>'}</div>`; }).join('')}</div></div>
+  </div>`;
+  $('#rpF', el).onchange = e => { R.from = e.target.value; render(); }; $('#rpT', el).onchange = e => { R.to = e.target.value; render(); };
+  $('#rpPub', el).onclick = () => { S.tTab = 'publish'; render(); };
+  $('#rpX', el).onclick = async () => { const b = $('#rpX', el); b.disabled = true; try { dlBlob(await rpExcel(D), `Bao-cao-so-lieu-Lop-hoc-O-Li_${from}_${to}.xlsx`); toast('Đã xuất file Excel báo cáo'); } catch(e){ console.warn(e); toast('Chưa xuất được file.'); } b.disabled = false; };
+}
+async function rpExcel(D){
+  const H = XS.head, C = XS.cell, N = XS.num, P = XS.pct, I = XS.int, B = XS.bold;
+  const hd = a => a.map(v => ({v, s:H})), n1 = v => v === null || v === undefined ? {v:'—', s:C} : {v:Math.round(v*100)/100, s:N}, pc = v => v === null || v === undefined ? {v:'—', s:C} : {v:Math.round(v*1000)/1000, s:P}, it = v => ({v, s:I}), tx = v => ({v:String(v), s:C});
+  const T = D.total, gname = D.grades.map(x => 'Khối ' + x.g);
+  const range = `Từ ngày ${ddmm(D.from)}/${D.from.slice(0, 4)} đến ngày ${ddmm(D.to)}/${D.to.slice(0, 4)}`;
+  const sum = [[{v:'BÁO CÁO SỐ LIỆU SỬ DỤNG ỨNG DỤNG LỚP HỌC Ô LI', s:XS.title}], [range], ['Thời điểm xuất: ' + new Date().toLocaleString('vi-VN')], [''],
+    hd(['Khối', 'Số HS', 'HS tham gia', 'Tỉ lệ tham gia', 'Lượt học/nộp bài', 'Lượt TB/HS', 'Điểm TB (thang 10)', '% lượt đạt ≥5', '% lượt đạt ≥8', 'Chuyên đề Lớp học AI TB/HS', 'Tổng điểm rèn luyện']),
+    ...D.grades.map(x => [tx('Khối ' + x.g), it(x.n), it(x.act), pc(x.rate), it(x.turns), n1(x.perHS), n1(x.avg), pc(x.p5), pc(x.p8), n1(x.ai), it(x.rl)]),
+    [{v:'Toàn trường', s:B}, it(T.n), it(T.act), pc(T.rate), it(T.turns), n1(T.perHS), n1(T.avg), pc(T.p5), pc(T.p8), n1(T.ai), it(T.rl)], [''],
+    [{v:'Mức độ tham gia (số học sinh)', s:B}], hd(['Mức độ', ...gname, 'Tổng', 'Tỉ lệ']), ...RP_PART.map(([, n], i) => [tx(n), ...D.grades.map(x => it(x.part[i])), it(T.part[i]), pc(T.n ? T.part[i]/T.n : 0)]), [''],
+    [{v:'Xếp loại theo điểm trung bình (học sinh có tham gia)', s:B}], hd(['Xếp loại', ...gname, 'Tổng', 'Tỉ lệ']), ...RP_RANK.map(([, n], i) => [tx(n), ...D.grades.map(x => it(x.rank[i])), it(T.rank[i]), pc(T.act ? T.rank[i]/T.act : 0)]), [''],
+    [{v:'Theo hình thức học tập', s:B}], hd(['Hình thức', 'Lượt', 'Số HS', 'Điểm TB']), ...D.kinds.map(x => [tx(x.name), it(x.turns), it(x.hs), n1(x.avg)])];
+  const cls = [hd(['Lớp', 'Khối', 'Số HS', 'HS tham gia', 'Tỉ lệ tham gia', 'Lượt', 'Lượt TB/HS', 'Điểm TB', '% lượt đạt ≥5', '% lượt đạt ≥8']), ...D.classes.map(x => [tx(x.c), it(+x.g), it(x.n), it(x.act), pc(x.rate), it(x.turns), n1(x.perHS), n1(x.avg), pc(x.p5), pc(x.p8)])];
+  const ks = Object.keys(RP_KIND);
+  const stu = [hd(['Mã HS', 'Lớp', 'Khối', 'Số lượt', 'Số ngày học', 'Điểm TB', 'Điểm thưởng', ...ks.map(k => RP_KIND[k]), 'Chuyên đề AI hoàn thành', 'Điểm rèn luyện', 'Mức độ tham gia', 'Xếp loại']),
+    ...D.per.map(p => { const avg = p.n ? p.sum/p.n : null; return [tx(D.code[p.id]), tx(p.s.cls), it(+p.s.grade), it(p.n), it(p.days.size), n1(avg), it(p.pts), ...ks.map(k => it(p.kinds[k] || 0)), it(p.ai), it(p.rl), tx(RP_PART.find(([, , f]) => f(p.n))[1]), tx(avg === null ? '—' : RP_RANK.find(([, , f]) => f(avg))[1])]; })];
+  const log = [[{v:'NHẬT KÝ DỮ LIỆU THEO NGÀY (dùng cho mục II – Nhật ký thực hiện, Phụ lục V)', s:XS.title}], [range], hd(['TT', 'Ngày', 'Nội dung', 'Địa điểm thực hiện', 'Người thực hiện', 'Kết quả', 'Minh chứng', 'Xác nhận của người hướng dẫn nghiên cứu']),
+    ...D.log.map((r, i) => [it(i + 1), tx(ddmm(r.d) + '/' + r.d.slice(0, 4)), tx(r.nd), tx(r.place), tx(r.who), tx(r.kq), tx(r.mc), tx('')])];
+  const cm = curMonth(), gold = [[{v:'BẢNG VÀNG ' + monthLabel(cm).toUpperCase() + ' (mã hóa học sinh)', s:XS.title}], hd(['Phạm vi', 'Hạng', 'Mã HS', 'Lớp', 'Điểm thưởng', 'Số bài', 'Điểm TB'])];
+  [['all', 'Toàn trường'], [6, 'Khối 6'], [7, 'Khối 7'], [8, 'Khối 8'], [9, 'Khối 9']].forEach(([g, n]) => ranking(cm, g).slice(0, 10).forEach((r, i) => gold.push([tx(n), it(i + 1), tx(D.code[r.sid] || ''), tx(r.cls), it(r.points), it(r.done), n1(r.done ? r.scoreSum/r.done : null)])));
+  const note = [[{v:'GHI CHÚ VỀ NGUỒN DỮ LIỆU', s:XS.title}], [''], ['• Số liệu được xuất tự động từ cơ sở dữ liệu của ứng dụng Lớp học Ô Li, không chỉnh sửa thủ công.'], ['• ' + range + '. Một lượt là một lần học sinh nộp bài hoặc hoàn thành một hoạt động; mỗi hoạt động tính theo lần nộp có điểm cao nhất.'],
+    ['• Học sinh được mã hóa (HS001, HS002…) theo thứ tự khối, lớp, tên; bảng đối chiếu mã – tên chỉ giáo viên giữ, không đưa vào hồ sơ.'], ['• Mức độ tham gia: Tích cực từ 10 lượt; Thường xuyên 5–9 lượt; Thỉnh thoảng 1–4 lượt.'], ['• Xếp loại theo điểm trung bình các lượt: Giỏi từ 8,0; Khá 6,5 – dưới 8,0; Trung bình 5,0 – dưới 6,5; Yếu dưới 5,0.'],
+    ['• Số liệu khảo sát ý kiến và bài kiểm tra trước/sau được nhập riêng vào file 08_Bang-so-lieu-thu-nghiem.xlsx.'], ['• Khi đưa biểu đồ vẽ từ số liệu này vào báo cáo, ghi rõ công cụ tạo biểu đồ theo quy định khai báo sử dụng công nghệ số (Phụ lục VI).']];
+  return xlsxBuild([{name:'Tong hop', rows:sum, widths:[30, 10, 12, 12, 14, 11, 12, 12, 12, 16, 14]}, {name:'Theo lop', rows:cls, widths:[10, 8, 9, 12, 12, 9, 11, 10, 12, 12], freeze:1},
+    {name:'Theo hoc sinh', rows:stu, widths:[9, 8, 7, 8, 10, 9, 10, ...ks.map(() => 12), 14, 12, 22, 24], freeze:1}, {name:'Theo ngay (PL V)', rows:log, widths:[5, 12, 50, 26, 24, 34, 30, 22], freeze:3},
+    {name:'Bang vang', rows:gold, widths:[14, 7, 10, 8, 12, 9, 9]}, {name:'Ghi chu', rows:note, widths:[120]}]);
+}
+/* điểm thưởng vào bảng vàng: Lớp học AI và Phòng STEM */
+async function awardActivity(id, score, note){ const m = me(); if (!m || !S.db) return null; const prev = S.subs[`${m.id}__${id}`]; if (prev && prev.score >= score) return null;
+  try { return await saveSubmission({id, points:5, subject:'sk'}, {score, detail:{act:id}, notes:[note]}); } catch(e){ return null; } }
 function tTasks(el){
   bankSub();
   const gf = S.tGrade || 'all';
@@ -7823,7 +8066,7 @@ function tTasks(el){
   const bkText = b => (b.title + ' ' + (SUBJ[b.subject]?.name || '') + ' khối ' + b.grade).toLowerCase(); const bankL = bank;
   const classesOf = g => [...new Set(Object.values(S.students).filter(s => String(s.grade) === String(g)).map(s => s.cls))].sort();
   el.innerHTML = `<div class="tk-grid">
-    <div class="stack" style="gap:14px"><div class="panel stack ol-asst" id="olA"></div><div class="panel stack"><div class="row" style="justify-content:space-between;align-items:center;gap:8px"><h2 style="margin:0">Nhiệm vụ đã giao</h2>
+    <div class="stack" style="gap:14px"><div class="panel stack xt-panel" id="xtA"></div><div class="panel stack ol-asst" id="olA"></div><div class="panel stack"><div class="row" style="justify-content:space-between;align-items:center;gap:8px"><h2 style="margin:0">Nhiệm vụ đã giao</h2>
       <div class="seg" role="group" aria-label="Lọc khối">${['all', 6, 7, 8, 9].map(g => `<button type="button" data-gf="${g}" aria-pressed="${String(gf) === String(g)}">${g === 'all' ? 'Tất cả' : 'Khối ' + g}</button>`).join('')}</div></div>
       ${S.tDetail ? detail() : ''}
       ${list.length ? `<div class="tk-list">${list.slice(0, S.tMore ? 999 : 8).map(row).join('')}</div>${list.length > 8 && !S.tMore ? `<button type="button" class="btn ghost small" id="tMore" style="justify-self:center">Xem thêm ${list.length - 8} nhiệm vụ</button>` : ''}` : '<p class="muted">Chưa có nhiệm vụ nào.</p>'}
@@ -7850,7 +8093,7 @@ function tTasks(el){
       <div class="row" style="gap:8px"><button class="btn" type="submit" style="flex:0 0 auto">${editing ? 'Lưu thay đổi' : 'Giao nhiệm vụ'}</button>${editing ? '' : '<label class="chk" style="flex:0 0 auto"><input type="checkbox" id="fbank"> Cất bản sao vào kho đề</label>'}</div>
       <p id="ferr" class="pen" role="alert" style="font-size:1.05rem"></p>
     </form></div>`;
-  olAssist($('#olA', el));
+  xtPanel($('#xtA', el)); olAssist($('#olA', el));
   const orb = $('#olRem', el); if (orb) getSampler().then(sm => { if (!sm) return; orb.hidden = false; orb.onclick = async () => { orb.disabled = true; orb.textContent = '✨ Ô Li đang soạn bài bổ trợ…';
       try { const r = await olRemedial(S.tDetail); S.olDraft = await olDraft({text:`Soạn 6 câu trắc nghiệm bổ trợ cho ${r.weak.length} học sinh còn yếu.`, base:r.base}); render(); $('#olA')?.scrollIntoView({behavior:'smooth', block:'start'}); }
       catch(e){ orb.disabled = false; orb.textContent = 'Chưa soạn được, bấm để thử lại'; } }; });
@@ -7935,7 +8178,7 @@ function tTasks(el){
   if (ed && ed.t){ const t = ed.t;
     $('#fk').value = t.kind || 'quiz'; $('#fg').value = String(t.grade || 6); kind();
     $('#fs').value = t.subject || 'toan'; $('#ft').value = t.title || ''; $('#fi').value = t.intro || ''; if (t.kind !== 'lesson') $('#fp').value = t.points || 10;
-    $('#fd').value = editing ? t.due || '' : ''; $('#fo').value = editing ? t.open || '' : ''; $('#flk').checked = !!(editing && t.lock);
+    const keepD = editing || ed.keep; $('#fd').value = keepD ? t.due || '' : ''; $('#fo').value = keepD ? t.open || '' : ''; $('#flk').checked = !!(keepD && t.lock);
     if (t.kind === 'lab' && t.lab && $('#fl')) $('#fl').value = t.lab;
     if (t.kind === 'lesson' && collectLesson && collectLesson.fill && t.segs) collectLesson.fill(t.segs);
     if (t.sids && t.sids.length){ toMode = 'sids'; t.sids.forEach(x => pickSids.add(x)); } else if (t.cls && t.cls.length){ toMode = 'cls'; t.cls.forEach(x => pickCls.add(x)); }
@@ -8012,6 +8255,8 @@ function tPublish(el){
     <div class="panel stack"><div class="sec-head"><h2>Xếp hạng ${monthLabel(sel)}</h2>
       <label class="field" style="max-width:170px">Tháng<select id="pm">${months.map(m=>`<option value="${m}" ${m===sel?'selected':''}>${monthLabel(m)}</option>`).join('')}</select></label></div>
       ${rk.length ? `<ol class="rank">${rk.slice(0,10).map((r,i)=>`<li><span class="pos">${i+1}</span><span class="who"><b>${h(r.name)}</b><span>Lớp ${h(r.cls)} · ${r.done} nhiệm vụ · TB ${vn(r.scoreSum/r.done)}</span></span><span class="pts">${r.points}</span></li>`).join('')}</ol>` : '<p class="muted">Chưa có bài nộp trong tháng này.</p>'}
+      <h3>Dẫn đầu từng khối</h3><div class="rp-gold">${[6,7,8,9].map(g => { const t = ranking(sel, g).slice(0,3); return `<div><b>Khối ${g}</b>${t.length ? `<ol>${t.map(r=>`<li>${h(r.name)} <span class="muted">${h(r.cls)}</span> <b class="num">${r.points}</b></li>`).join('')}</ol>` : '<p class="muted">Chưa có điểm.</p>'}</div>`; }).join('')}</div>
+      <p class="muted" style="font-size:.82rem;margin:0">Điểm thưởng gồm nhiệm vụ, thí nghiệm, sự kiện Hội trường, chuyên đề Lớp học AI và thử thách Phòng STEM.</p>
       <h3>Theo lớp</h3><div class="tbl-wrap"><table><thead><tr><th>Lớp</th><th class="num">Bài nộp</th><th class="num">Điểm TB</th></tr></thead><tbody>${cstat.map(c=>`<tr><td>${h(c.cls)}</td><td class="num">${c.done}</td><td class="num">${c.done?vn(c.avg):'—'}</td></tr>`).join('')}</tbody></table></div>
     </div>
     <div class="panel stack"><h2>Công bố lên trang chủ</h2>
@@ -8023,7 +8268,8 @@ function tPublish(el){
   $('#pm').onchange = e => { S._pm = e.target.value; render(); };
   $('#pub').onclick = async () => {
     const doc = {month:sel, published:true, publishedAt:Date.now(), note:$('#pn').value.trim(),
-      top: rk.slice(0,10).map(r=>({sid:r.sid, name:r.name, cls:r.cls, points:r.points, done:r.done, avg:Math.round(r.scoreSum/r.done*10)/10})), classes:cstat.map(c=>({...c, avg:Math.round(c.avg*10)/10}))};
+      top: rk.slice(0,10).map(r=>({sid:r.sid, name:r.name, cls:r.cls, points:r.points, done:r.done, avg:Math.round(r.scoreSum/r.done*10)/10})), classes:cstat.map(c=>({...c, avg:Math.round(c.avg*10)/10})),
+      byGrade:Object.fromEntries([6,7,8,9].map(g => [g, ranking(sel, g).slice(0,3).map(r=>({sid:r.sid, name:r.name, cls:r.cls, points:r.points}))]).filter(([,a])=>a.length))};
     try { await S.db.doc('boards/'+sel).set(doc); toast('Đã công bố bảng vàng ' + monthLabel(sel)); } catch(e){ toast('Chưa công bố được, thử lại sau.'); }
   };
 }
