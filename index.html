@@ -1188,7 +1188,7 @@ body[data-view="stemlab"] footer{display:none}
 .ai-map{border:1px solid var(--line);border-radius:14px;padding:10px 14px;background:var(--surface-2)}.ai-map summary{cursor:pointer;font-weight:700}
 .ai-map table{width:100%;border-collapse:collapse;margin-top:8px;font-size:.86rem}.ai-map th,.ai-map td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left}
 .ai-dot{font-size:.74rem;font-weight:800;padding:2px 7px;border-radius:6px;background:color-mix(in srgb,var(--sc) 22%,transparent);color:var(--sc)}
-.ai-les-head{display:grid;gap:10px}.ai-les-head .hub-mini{justify-self:start}
+.ai-les-head{display:grid;gap:10px}.ai-les-t > div{flex:1}.ai-vbtn{align-self:flex-start}.ai-tts{margin:0;padding:10px 14px;border-radius:12px;background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.5);display:flex;flex-wrap:wrap;gap:8px;align-items:center}.ai-les-head .hub-mini{justify-self:start}
 .ai-les-t{display:flex;gap:14px;align-items:center}.ai-les-t h1{font-size:clamp(1.4rem,3.4vw,2rem);margin:2px 0 6px}
 .ai-chips{display:flex;gap:6px;flex-wrap:wrap}
 .ai-chip{display:inline-flex;align-items:center;gap:6px;font-size:.78rem;padding:3px 9px 3px 3px;border-radius:99px;background:color-mix(in srgb,var(--sc) 14%,transparent);border:1px solid color-mix(in srgb,var(--sc) 45%,transparent)}
@@ -4593,7 +4593,8 @@ function vAiLesson(app){
   let step = S.aiStep && S.aiStep.id === l.id ? S.aiStep.k : 'warm';
   app.innerHTML = `<div class="wrap ai-wrap"><section class="section ai-les">
     <div class="ai-les-head"><button class="hub-mini" data-go="ai" id="aiBack">← Lớp học AI · Lớp ${G}</button>
-      <div class="ai-les-t"><span class="ai-ic big">${l.icon}</span><div><span class="eyebrow">Lớp ${G} · ${l.ext ? 'Chuyên đề mở rộng: Học cùng AI đúng cách' : `Chuyên đề ${idx + 1}/6`} · 2 tiết</span><h1>${h(l.name)}</h1><div class="ai-chips">${l.codes.map(aiChip).join('')}</div></div></div></div>
+      <div class="ai-les-t"><span class="ai-ic big">${l.icon}</span><div><span class="eyebrow">Lớp ${G} · ${l.ext ? 'Chuyên đề mở rộng: Học cùng AI đúng cách' : `Chuyên đề ${idx + 1}/6`} · 2 tiết</span><h1>${h(l.name)}</h1><div class="ai-chips">${l.codes.map(aiChip).join('')}</div></div><button class="btn ghost small ai-vbtn" id="aiVoice" title="Cài đặt giọng đọc">🔊 Giọng đọc</button></div></div>
+    <p class="ai-tts" id="aiTts" role="status" hidden></p>
     <nav class="ai-steps" aria-label="Các bước">${AI_STEPS.map(([k, n, ic], i) => `<button data-step="${k}"><span class="d">${ic}</span><span>${i + 1}. ${n}</span></button>`).join('')}</nav>
     <div class="ai-body"><div class="ai-main" id="aiMain"></div>
       <aside class="ai-side"><div class="ai-yc"><b>🎯 Yêu cầu cần đạt</b><p>${h(l.yccd)}</p></div>
@@ -4606,7 +4607,17 @@ function vAiLesson(app){
       ${d ? '<p class="ai-star">⭐ Em đã hoàn thành chuyên đề này!</p>' : ''}${!m ? '<p class="muted" style="font-size:.8rem">Em chưa đăng nhập nên tiến độ chỉ lưu trên máy này.</p>' : ''}`;
     $$('[data-step]', app).forEach(b => { const k = b.dataset.step; b.classList.toggle('ok', (k === 'act' && p.a) || (k === 'quiz' && (p.q || 0) >= 3) || (k === 'reflect' && !!p.r)); }); };
   const nav = k => { const i = AI_STEPS.findIndex(s => s[0] === k); return `<div class="ai-nav">${i > 0 ? `<button class="btn ghost" data-to="${AI_STEPS[i - 1][0]}">← ${AI_STEPS[i - 1][1]}</button>` : '<span></span>'}${i < AI_STEPS.length - 1 ? `<button class="btn" data-to="${AI_STEPS[i + 1][0]}">${AI_STEPS[i + 1][1]} →</button>` : idx >= 0 && idx < 5 ? `<button class="btn" data-go="ailesson" data-arg="${AI_GRADES[G].lessons[idx + 1].id}">Chuyên đề tiếp theo →</button>` : `<button class="btn" data-go="ai">Về Lớp học AI</button>`}</div>`; };
-  const speak = (txt, btn) => { if (btn.classList.contains('on')){ TTS.stop(); btn.classList.remove('on'); return; } $$('.ai-say.on', app).forEach(x => x.classList.remove('on')); btn.classList.add('on'); TTS.play(splitSents(txt), {onDone:() => btn.classList.remove('on')}); };
+  const note = m => { const n = $('#aiTts', app); if (!n) return; if (!m){ n.hidden = true; return; } n.hidden = false;
+    const t = {novi:'Máy này <b>chưa có giọng đọc tiếng Việt</b> nên không phát ra tiếng.', off:'Em đang <b>tắt giọng đọc</b>.', broken:'Trình duyệt <b>chưa phát được âm thanh</b>.', none:'Trình duyệt này <b>không hỗ trợ đọc thành tiếng</b>.'}[m] || 'Máy chưa phát được giọng đọc.';
+    n.innerHTML = `<span>🔇 ${t}</span> <button class="btn small" id="aiNv">⬇ Dùng giọng đọc tự nhiên (tải 1 lần)</button> <button class="lnk" id="aiVs">Cài đặt giọng đọc</button>`;
+    $('#aiVs', n).onclick = () => { TTS.stop(); openVoiceSettings(() => note(null)); };
+    $('#aiNv', n).onclick = async () => { const b = $('#aiNv', n); b.disabled = true; try { TTS.off = false; try { store('oli.tts.off', ''); } catch(e){}
+        await NV.ensure(p => { b.textContent = `Đang tải giọng đọc: ${p}%`; }); TTS.neural = true; TTS.broken = false; try { store('oli.tts.nv', '1'); } catch(e){}
+        n.innerHTML = '✓ Đã bật giọng đọc tự nhiên. Lần đầu mỗi câu có thể chờ vài giây.'; if (lastSay && lastSay.btn.isConnected) speak(lastSay.txt, lastSay.btn); }
+      catch(e){ console.warn(e); b.disabled = false; b.textContent = '⬇ Thử tải lại'; n.insertAdjacentHTML('beforeend', '<br><small>Chưa tải được, em kiểm tra mạng và dùng Chrome hoặc Edge nhé.</small>'); } }; };
+  let lastSay = null;
+  const speak = (txt, btn) => { lastSay = {txt, btn}; if (btn.classList.contains('on')){ TTS.stop(); btn.classList.remove('on'); return; } $$('.ai-say.on', app).forEach(x => x.classList.remove('on')); btn.classList.add('on');
+    TTS.play(splitSents(txt), {onDone:() => btn.classList.remove('on'), onMode:m => { if (m === 'voice' || m === 'neural') note(null); else { TTS.stop(); btn.classList.remove('on'); note(m); } }}); };
   const show = k => { step = k; S.aiStep = {id:l.id, k}; TTS.stop(); const M = $('#aiMain', app);
     $$('[data-step]', app).forEach(b => b.setAttribute('aria-current', String(b.dataset.step === k)));
     if (k === 'warm') M.innerHTML = `<div class="ai-panel ai-warm"><span class="ai-big">${l.icon}</span><h2>Khởi động</h2><p class="ai-q">${h(l.warm)}</p><p class="muted">Em suy nghĩ, trao đổi với bạn bên cạnh 1–2 phút rồi bấm sang bước Tìm hiểu.</p><button class="btn ghost small ai-say" data-txt="${h(l.warm)}">🔊 Nghe câu hỏi</button></div>${nav(k)}`;
@@ -4632,6 +4643,7 @@ function vAiLesson(app){
   };
   $$('[data-step]', app).forEach(b => b.onclick = () => show(b.dataset.step));
   $('#aiBack', app).addEventListener('click', () => TTS.stop());
+  $('#aiVoice', app).onclick = () => { TTS.stop(); openVoiceSettings(() => note(null)); };
   doneBox(); show(step);
 }
 
