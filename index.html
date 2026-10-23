@@ -1158,6 +1158,130 @@ body[data-view="stemlab"] footer{display:none}
   .std-run{order:3}.std-check{order:4}#stHelp{order:1}.std-top > [data-go]{order:0}
   .std-hud{bottom:10px}.std-hud .lcd{font-size:.85rem}
 }
+/* ===== Lớp học AI ===== */
+.ai-wrap .section{display:grid;gap:16px}
+.ai-hero{display:flex;align-items:center;gap:20px;justify-content:space-between;padding:22px 24px;border-radius:20px;border:1.5px solid rgba(34,211,238,.35);background:radial-gradient(120% 140% at 100% 0%,rgba(167,139,250,.28),transparent 55%),radial-gradient(120% 140% at 0% 100%,rgba(34,211,238,.22),transparent 55%),#0b1640;box-shadow:0 0 40px -18px #22d3ee}
+.ai-hero h1{font-family:var(--f-disp);font-size:clamp(2rem,5vw,3rem);margin:2px 0 6px;line-height:1.05}
+.ai-hero h1 span{background:linear-gradient(90deg,#22d3ee,#a78bfa);-webkit-background-clip:text;background-clip:text;color:transparent}
+.ai-hero p{margin:0;max-width:68ch;color:#c9d6f5;line-height:1.55}
+.ai-hero-art{flex:0 0 auto}.ai-pulse{animation:aiP 2.4s ease-in-out infinite}
+@keyframes aiP{0%,100%{stroke-opacity:1}50%{stroke-opacity:.25}}
+@media (prefers-reduced-motion:reduce){.ai-pulse{animation:none}}
+.ai-strands{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.ai-st{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:14px;background:color-mix(in srgb,var(--sc) 12%,#0b1230);border:1px solid color-mix(in srgb,var(--sc) 45%,transparent)}
+.ai-st b{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;background:var(--sc);color:#0a0f24;font-size:1.05rem;flex:0 0 auto}.ai-st span{font-size:.86rem;font-weight:700;line-height:1.3}
+.ai-grades{display:flex;gap:8px;flex-wrap:wrap}
+.ai-grades button{display:grid;grid-template-columns:auto auto;gap:0 10px;align-items:center;text-align:left;padding:10px 16px;border-radius:14px;border:1.5px solid var(--line);background:var(--surface-2);color:var(--ink);cursor:pointer;font:inherit}
+.ai-grades button b{font-size:1.05rem}.ai-grades button small{grid-column:1;color:var(--muted);font-size:.76rem}.ai-grades button i{grid-row:1/span 2;grid-column:2;font-style:normal;font-weight:800;color:#22d3ee;font-size:.9rem}
+.ai-grades button[aria-selected="true"]{border-color:#22d3ee;background:linear-gradient(135deg,rgba(34,211,238,.18),rgba(167,139,250,.18));box-shadow:0 0 18px -8px #22d3ee}
+.ai-prog{display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-size:.9rem}
+.ai-bar{flex:1 1 220px;max-width:420px;height:10px;border-radius:99px;background:var(--surface-2);overflow:hidden;border:1px solid var(--line)}.ai-bar span{display:block;height:100%;background:linear-gradient(90deg,#22d3ee,#a78bfa)}
+.ai-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.ai-card{display:grid;gap:6px;align-content:start;text-align:left;padding:16px;border-radius:16px;border:1.5px solid var(--line);background:linear-gradient(160deg,#121d4d,#0b1230 70%);color:var(--ink);cursor:pointer;font:inherit;position:relative;transition:transform .15s,border-color .15s}
+.ai-card:hover{transform:translateY(-2px);border-color:#22d3ee}.ai-card.done{border-color:#facc15}
+.ai-card b{font-size:1.05rem;line-height:1.35}.ai-ic{font-size:2rem;line-height:1}.ai-ic.big{font-size:2.6rem}
+.ai-n{font-size:.76rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.ai-codes{display:flex;gap:4px;flex-wrap:wrap}.ai-codes i{font-style:normal;font-size:.72rem;font-weight:800;padding:2px 7px;border-radius:6px;background:color-mix(in srgb,var(--sc) 22%,transparent);color:var(--sc);border:1px solid color-mix(in srgb,var(--sc) 50%,transparent)}
+.ai-st2 em{font-style:normal;font-size:.8rem;color:var(--muted)}.ai-st2 em.ok{color:#facc15;font-weight:700}
+.ai-cellb{background:none;border:1px solid var(--line);color:var(--ink);border-radius:8px;padding:2px 8px;cursor:pointer;font:inherit}.ai-cellb:hover{border-color:#22d3ee}.ai-det{margin-top:12px}.ai-det table{width:100%}.ai-det td{vertical-align:top}
+@media (max-width:760px){.ai-grades{display:grid;grid-template-columns:1fr 1fr}}
+.ai-map{border:1px solid var(--line);border-radius:14px;padding:10px 14px;background:var(--surface-2)}.ai-map summary{cursor:pointer;font-weight:700}
+.ai-map table{width:100%;border-collapse:collapse;margin-top:8px;font-size:.86rem}.ai-map th,.ai-map td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left}
+.ai-dot{font-size:.74rem;font-weight:800;padding:2px 7px;border-radius:6px;background:color-mix(in srgb,var(--sc) 22%,transparent);color:var(--sc)}
+.ai-les-head{display:grid;gap:10px}.ai-les-head .hub-mini{justify-self:start}
+.ai-les-t{display:flex;gap:14px;align-items:center}.ai-les-t h1{font-size:clamp(1.4rem,3.4vw,2rem);margin:2px 0 6px}
+.ai-chips{display:flex;gap:6px;flex-wrap:wrap}
+.ai-chip{display:inline-flex;align-items:center;gap:6px;font-size:.78rem;padding:3px 9px 3px 3px;border-radius:99px;background:color-mix(in srgb,var(--sc) 14%,transparent);border:1px solid color-mix(in srgb,var(--sc) 45%,transparent)}
+.ai-chip b{background:var(--sc);color:#0a0f24;border-radius:99px;padding:1px 7px;font-size:.72rem}
+.ai-steps{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px}
+.ai-steps button{flex:1 0 auto;display:flex;align-items:center;gap:8px;justify-content:center;padding:10px 14px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface-2);color:var(--muted);font:700 .9rem var(--f-ui);cursor:pointer;white-space:nowrap}
+.ai-steps button[aria-current="true"]{color:#fff;border-color:#22d3ee;background:linear-gradient(135deg,rgba(34,211,238,.22),rgba(167,139,250,.22))}
+.ai-steps button.ok .d::after{content:' ✓';color:#4ade80}
+.ai-body{display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:16px;align-items:start}
+.ai-side{display:grid;gap:12px;position:sticky;top:calc(var(--top-h,62px) + 10px)}
+.ai-yc,.ai-tip,.ai-done{padding:12px 14px;border-radius:14px;background:var(--surface-2);border:1px solid var(--line);font-size:.88rem;line-height:1.5}
+.ai-yc{border-color:rgba(250,204,21,.45)}.ai-yc p{margin:6px 0 0}.ai-tip summary{cursor:pointer;font-weight:700}.ai-tip p{margin:8px 0 0;color:#c9d6f5}
+.ai-done ul{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:4px}.ai-done li{color:var(--muted)}.ai-done li.ok{color:#4ade80}
+.ai-star{margin:8px 0 0;font-weight:800;color:#facc15}
+.ai-panel{padding:18px 20px;border-radius:16px;background:var(--surface);border:1px solid var(--line)}
+.ai-panel h2{margin:0 0 8px;font-size:1.25rem}
+.ai-warm{text-align:center;display:grid;justify-items:center;gap:8px;padding:30px 20px}.ai-big{font-size:3.4rem}.ai-q{font-size:1.15rem;line-height:1.6;max-width:60ch;margin:0}
+.ai-cards{display:grid;gap:12px}.ai-learn p{margin:0;line-height:1.7;font-size:1.02rem;color:#dbe5ff}
+.ai-lh{display:flex;align-items:center;gap:10px}.ai-lh h2{flex:1;margin:0}.ai-num{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#22d3ee,#a78bfa);color:#0a0f24;font-weight:800;flex:0 0 auto}
+.ai-learn .ai-lh + p{margin-top:8px}.ai-say.on{background:#22d3ee;color:#0a0f24}
+.ai-nav{display:flex;justify-content:space-between;gap:10px;margin-top:12px}
+.ai-quiz{display:grid;gap:14px}.ai-qq{padding:12px;border-radius:12px;border:1px solid var(--line)}.ai-qq.ok{border-color:#22c55e}.ai-qq.bad{border-color:#f87171}
+.ai-qq label.right{outline:2px solid #22c55e}.ai-qq label.wrong{outline:2px solid #f87171}.ai-why{margin:8px 0 0;font-size:.88rem;color:#c9d6f5}
+.ai-qbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:12px}
+.ai-panel textarea{width:100%;margin-top:8px}
+/* hoạt động */
+.aw-h h2{margin:0 0 4px;font-size:1.2rem}.aw-h p{margin:0 0 12px;color:#c9d6f5;line-height:1.55}
+.aw-sub{font-size:.92rem;margin:12px 0 6px;font-weight:800;display:block}.aw-sub small{font-weight:600;color:var(--muted)}
+.aw-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px}
+.aw-two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+.aw-sort{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+.aw-it,.aw-fact,.aw-case{padding:12px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface-2)}
+.aw-it p,.aw-fact p{margin:0 0 8px;font-weight:600;line-height:1.45}
+.aw-it.ok,.aw-fact.ok,.aw-case.ok{border-color:#22c55e;background:rgba(34,197,94,.08)}.aw-it.bad,.aw-fact.bad,.aw-case.bad{border-color:#f87171}.aw-case.mid{border-color:#f59e0b}
+.aw-bins{display:flex;gap:6px;flex-wrap:wrap}
+.aw-res{font-weight:800;color:#4ade80;font-size:.88rem}.aw-res small{display:block;font-weight:500;color:#c9d6f5;margin-top:3px}.aw-res.bad{color:#fca5a5;margin-top:6px}
+.aw-score,.aw-acc{margin-top:10px;font-size:.9rem;color:#c9d6f5}.aw-acc .bad,.aw-score .bad,b.bad{color:#f87171}
+.aw-hint{margin:10px 0 0;padding:10px 12px;border-radius:10px;background:rgba(250,204,21,.08);border:1px solid rgba(250,204,21,.35);font-size:.9rem;line-height:1.5}
+.aw-trash{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px}
+.aw-trash div{display:grid;grid-template-columns:auto 1fr;gap:0 8px;padding:7px 9px;border-radius:10px;background:var(--surface-2);border:1px solid var(--line);font-size:.82rem}
+.aw-trash span{grid-row:1/span 2;font-size:1.5rem}.aw-trash small{color:var(--muted)}
+.aw-rules{margin:0;padding-left:20px;display:grid;gap:6px}.aw-rules li{display:flex;flex-wrap:wrap;align-items:center;gap:5px;padding:7px 9px;border-radius:10px;background:#162557;border:1px solid #2a3f86;font-size:.86rem}
+.aw-rules li.aw-else{background:transparent;border-style:dashed;list-style:none;margin-left:-20px}
+.aw-rules .pe-in{max-width:190px}.aw-ra{margin-left:auto;display:flex;gap:2px}
+.aw-tbl{display:grid;gap:4px}.aw-tbl div{display:grid;grid-template-columns:1.2fr 1.4fr auto;gap:8px;padding:6px 10px;border-radius:8px;font-size:.85rem;background:var(--surface-2)}
+.aw-tbl div.ok b{color:#4ade80}.aw-tbl div.bad{background:rgba(248,113,113,.1)}.aw-tbl div.bad b{color:#fca5a5}
+.aw-strange{display:flex;gap:10px;align-items:center;padding:8px 10px;border-radius:10px;background:var(--surface-2);margin-top:6px;font-size:.88rem}.aw-strange > span{font-size:1.8rem}.aw-strange span span{color:#c9d6f5}
+.aw-run{margin-top:12px;padding:12px;border-radius:12px;border:1px solid var(--line)}
+.aw-draw{display:grid;grid-template-columns:auto minmax(0,1fr);gap:16px;align-items:start}
+.aw-pad canvas{width:240px;height:240px;border-radius:14px;background:#fff;touch-action:none;cursor:crosshair;box-shadow:0 0 0 3px #22d3ee55;display:block}
+.aw-modes{display:flex;gap:6px;flex-wrap:wrap}.aw-modes button{padding:8px 12px;border-radius:10px;border:1.5px solid var(--line);background:var(--surface-2);color:var(--muted);font:700 .86rem var(--f-ui);cursor:pointer}
+.aw-modes button[aria-pressed="true"]{color:#fff;border-color:#22d3ee}.aw-modes button:disabled{opacity:.4;cursor:not-allowed}
+.aw-addc{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.aw-data{margin-top:14px;display:grid;gap:8px}
+.aw-cls{display:grid;grid-template-columns:150px 1fr;gap:8px;align-items:center;padding:6px 8px;border-radius:10px;background:var(--surface-2)}
+.aw-cls b i{font-style:normal;background:#22d3ee;color:#0a0f24;border-radius:99px;padding:0 7px;font-size:.78rem;margin-left:4px}
+.aw-cls div{display:flex;flex-wrap:wrap;gap:4px}.aw-cls img,.aw-nb img{width:34px;height:34px;border-radius:6px;background:#fff;cursor:pointer}
+.aw-tag{font-size:.72rem;padding:2px 8px;border-radius:99px;background:#334;color:#cbd5e1;margin-left:6px;font-weight:700}.aw-tag.ok{background:#14532d;color:#86efac}
+.aw-pred{min-height:60px}.aw-guess{font-size:1.15rem;margin-bottom:8px}
+.aw-pb{display:grid;grid-template-columns:minmax(90px,150px) 1fr 44px;align-items:center;gap:8px;font-size:.86rem;margin:4px 0}
+.aw-pb i{height:12px;border-radius:99px;background:var(--surface-2);overflow:hidden;border:1px solid var(--line)}.aw-pb em{display:block;height:100%;background:linear-gradient(90deg,#22d3ee,#a78bfa)}
+.aw-pb.low em{background:#f87171}.aw-pb b{text-align:right}
+.as-btn{width:100%;border:1px solid var(--line);background:var(--surface-2);color:var(--ink);border-radius:10px;padding:6px 10px;cursor:pointer;font:inherit}.as-btn:hover{border-color:#22d3ee}
+.aw-nb{display:flex;align-items:center;gap:4px;flex-wrap:wrap;margin-top:8px}.aw-nb small{flex:1 0 100%;color:var(--muted)}
+.aw-mark{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:10px}
+.aw-say{color:#fde68a;font-weight:700;margin:0 0 8px}
+.aw-conf{margin-top:10px;font-size:.84rem}.aw-conf table{border-collapse:collapse;margin-top:4px}.aw-conf th,.aw-conf td{padding:4px 9px;border:1px solid var(--line);text-align:center}.aw-conf td.d{background:rgba(34,197,94,.18)}.aw-conf td.e{background:rgba(248,113,113,.2)}
+.aw-chat{display:grid;gap:8px}.aw-bot{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}.aw-bot span{font-size:.8rem;color:var(--muted)}
+.aw-plot{width:100%;max-width:420px;height:auto;border-radius:12px;border:1px solid var(--line)}
+.aw-leg{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:.8rem;margin-top:6px;color:#c9d6f5}.aw-leg i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:4px}.aw-leg i.c0{background:#22d3ee}.aw-leg i.c1{background:#f59e0b}
+.aw-sl{display:block;margin:8px 0;font-size:.88rem}.aw-sl input{width:100%;display:block;margin-top:4px}
+.aw-nw{display:grid;gap:4px}
+.aw-emo{display:flex;gap:12px;align-items:center;margin:8px 0;padding:10px;border-radius:12px;background:var(--surface-2)}.aw-emo .big{font-size:2.4rem}.aw-emo p{margin:4px 0 0}
+mark{background:transparent;color:inherit;border-radius:4px;padding:0 2px}mark.p{background:rgba(34,197,94,.25)}mark.m{background:rgba(248,113,113,.25)}mark.n{background:rgba(167,139,250,.35)}mark sup{font-size:.65rem;margin-left:1px}
+.aw-tog{display:flex;gap:8px;align-items:flex-start;font-size:.88rem;line-height:1.4}
+.aw-lex{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}.aw-lex span{display:inline-flex;align-items:center;gap:3px;font-size:.8rem;padding:2px 4px 2px 8px;border-radius:8px;background:var(--surface-2);border:1px solid var(--line)}
+.aw-lex span.p{border-color:rgba(34,197,94,.5)}.aw-lex span.m{border-color:rgba(248,113,113,.5)}.aw-lex button{width:20px;height:20px;border-radius:5px;border:0;background:#26366e;color:#fff;cursor:pointer;line-height:1}
+.aw-emt{display:grid;gap:5px}.aw-emt div{padding:7px 10px;border-radius:10px;background:var(--surface-2);border-left:4px solid #22c55e}.aw-emt div.bad{border-left-color:#f87171}.aw-emt p{margin:0}.aw-emt span{font-size:.78rem;color:var(--muted)}
+.aw-plan{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px}.aw-plan .field{display:grid;gap:4px;font-size:.88rem}
+.aw-rub{grid-column:1/-1;display:grid;gap:6px;padding:10px;border-radius:12px;background:var(--surface-2)}.aw-rub div{display:flex;align-items:center;gap:6px}.aw-rub div span{flex:0 0 160px}
+.aw-rub button{width:34px;height:30px;border-radius:8px;border:1.5px solid var(--line);background:transparent;color:var(--ink);cursor:pointer;font-weight:800}.aw-rub button.on{background:#22d3ee;color:#0a0f24;border-color:#22d3ee}
+.aw-card{margin-top:12px;padding:16px;border-radius:14px;background:#fffdf5;color:#1f2937;display:grid;gap:8px;border:2px solid #facc15}.aw-card b{color:#0b1f3a}.aw-card p{margin:2px 0 0}.aw-card .eyebrow{color:#b45309}
+.aw-rubv{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.88rem}.aw-card .btn.ghost{color:#1e3a8a;border-color:#93c5fd;background:#eff6ff;justify-self:start}
+.aw-dil{display:grid;gap:10px}.aw-sc{margin:0 0 8px;line-height:1.5}
+.aw-opts{display:grid;gap:6px}.aw-opt{text-align:left;padding:9px 12px;border-radius:10px;border:1.5px solid var(--line);background:#162557;color:var(--ink);font:inherit;cursor:pointer;line-height:1.4}
+.aw-opt:hover:not(:disabled){border-color:#22d3ee}.aw-opt.sel.g2{border-color:#22c55e;background:rgba(34,197,94,.15)}.aw-opt.sel.g1{border-color:#f59e0b}.aw-opt.sel.g0{border-color:#f87171;background:rgba(248,113,113,.1)}.aw-opt:disabled{cursor:default}
+.aw-fb{margin:8px 0 0;font-size:.9rem;line-height:1.45}
+.aw-feed{display:grid;gap:8px}.aw-post{display:grid;grid-template-columns:auto 1fr auto auto;gap:8px;align-items:center;padding:10px;border-radius:12px;background:var(--surface-2);border:1px solid var(--line)}
+.aw-post .ic{font-size:1.8rem}.aw-post small{display:block;color:var(--muted)}
+.aw-meter{display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:center;font-weight:700}.aw-meter i{height:14px;border-radius:99px;background:var(--surface-2);overflow:hidden;border:1px solid var(--line)}.aw-meter em{display:block;height:100%;transition:width .3s}
+.aw-wts{margin-top:8px}.aw-wrap{flex-wrap:wrap}
+@media (max-width:980px){.ai-body{grid-template-columns:1fr}.ai-side{position:static}.ai-strands{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:760px){.ai-hero{padding:16px}.ai-hero-art{display:none}.aw-two,.aw-draw{grid-template-columns:1fr}.aw-pad canvas{width:min(240px,100%);height:auto;aspect-ratio:1}.aw-cls{grid-template-columns:1fr}.aw-post{grid-template-columns:auto 1fr;}.aw-post .btn{grid-column:span 1}.aw-tbl div{grid-template-columns:1fr}.ai-steps button{flex:0 0 auto}}
 </style>
 
 <header class="top"><div class="wrap">
@@ -1475,12 +1599,12 @@ document.addEventListener('click', e => {
 
 function renderNav(){
   const v = S.view, m = me();
-  const items = [['home','Trang chủ'],['school','Trường học'],['labs','Phòng thí nghiệm']];
+  const items = [['home','Trang chủ'],['school','Trường học'],['labs','Phòng thí nghiệm'],['ai','Lớp học AI']];
   if (m || S.canEdit) items.push(['class','Lớp học']);
   if (m) items.push(['student','Nhiệm vụ của em']);
   if (S.canEdit) items.push(['teacher','Giáo viên']);
   items.push(SB_ON && S.authUid ? ['login','Tài khoản'] : m ? ['logout','Đăng xuất'] : ['login','Đăng nhập']);
-  $('#nav').innerHTML = items.map(([k,l]) => `<button data-go="${k}" ${v===k||(k==='school'&&(v==='hallin'||v==='hall'||v==='chess'||v==='cleanup'))||(k==='labs'&&(v==='room'||v==='lab'||v==='stem'||v==='stemlab'))||(k==='student'&&v==='task'&&S.tasks[S.arg]?.kind!=='lesson')||(k==='class'&&(v==='preview'||v==='live'||(v==='task'&&S.tasks[S.arg]?.kind==='lesson')))?'aria-current="page"':''}>${l}</button>`).join('');
+  $('#nav').innerHTML = items.map(([k,l]) => `<button data-go="${k}" ${v===k||(k==='school'&&(v==='hallin'||v==='hall'||v==='chess'||v==='cleanup'))||(k==='labs'&&(v==='room'||v==='lab'||v==='stem'||v==='stemlab'))||(k==='ai'&&v==='ailesson')||(k==='student'&&v==='task'&&S.tasks[S.arg]?.kind!=='lesson')||(k==='class'&&(v==='preview'||v==='live'||(v==='task'&&S.tasks[S.arg]?.kind==='lesson')))?'aria-current="page"':''}>${l}</button>`).join('');
 }
 
 function render(){
@@ -1492,14 +1616,14 @@ function render(){
   app.classList.add('labhub');
   if (SB_ON && S.authUid && !S.loaded && ['student','task','class','teacher','live','preview','school'].includes(S.view)){ app.dataset.view = ''; app.dataset.lock = ''; app.innerHTML = '<div class="wrap"><section class="section"><p class="notice">Đang tải dữ liệu lớp học…</p></section></div>'; return; }
   // keep running labs alive: don't re-render a lab view on data updates
-  if (app.dataset.view === S.view + ':' + S.arg && (S.view === 'lab' || S.view === 'stemlab' || S.view === 'cleanup' || S.view === 'task' || S.view === 'preview' || S.view === 'school' || S.view === 'hallin' || S.view === 'live' || S.view === 'chess') && app.dataset.lock === '1') return;
+  if (app.dataset.view === S.view + ':' + S.arg && (S.view === 'lab' || S.view === 'stemlab' || S.view === 'ailesson' || S.view === 'cleanup' || S.view === 'task' || S.view === 'preview' || S.view === 'school' || S.view === 'hallin' || S.view === 'live' || S.view === 'chess') && app.dataset.lock === '1') return;
   const ae = document.activeElement;
   if (app.dataset.view === S.view + ':' + S.arg && ae && app.contains(ae) && /^(INPUT|TEXTAREA|SELECT)$/.test(ae.tagName) && ae.type !== 'radio' && ae.type !== 'checkbox'){
     if (!S._deferR){ S._deferR = true; ae.addEventListener('blur', () => setTimeout(() => { S._deferR = false; render(); }, 150), {once:true}); } return; }
   app.dataset.view = S.view + ':' + S.arg; app.dataset.lock = '';
   if (S.loaded && !['task','lab','live','preview'].includes(S.view)) setTimeout(() => { try { checkNudge(); } catch(e){ console.warn(e); } }, 400);
   updImm(); try { socStart(); } catch(e){}
-  const V = {home:vHome, cleanup:vCleanup, stem:vStem, stemlab:vStemLab, chess:vChess, live:vLive, school:vSchool, hallin:vSchool, hall:vHall, labs:vLabs, room:vRoom, lab:vLab, login:SB_ON ? vLoginSB : vLogin, student:vStudent, task:vTask, teacher:vTeacher, 'class':vClass, preview:vPreview}[S.view] || vHome;
+  const V = {home:vHome, ai:vAi, ailesson:vAiLesson, cleanup:vCleanup, stem:vStem, stemlab:vStemLab, chess:vChess, live:vLive, school:vSchool, hallin:vSchool, hall:vHall, labs:vLabs, room:vRoom, lab:vLab, login:SB_ON ? vLoginSB : vLogin, student:vStudent, task:vTask, teacher:vTeacher, 'class':vClass, preview:vPreview}[S.view] || vHome;
   V(app);
 }
 
@@ -1821,6 +1945,7 @@ function vHome(app){
         <button class="hm hm-blue" data-go="${m || S.canEdit ? 'class' : 'login'}"><span class="hm-ic">${HUB_ICON.book}</span><span>Vào lớp học</span><span class="hm-ch">${HUB_ICON.chev}</span></button>
         <button class="hm hm-orange" data-go="${m ? 'student' : 'login'}"><span class="hm-ic">${HUB_ICON.task}</span><span>Nhiệm vụ của em</span>${pend ? `<i class="hm-new">${pend}</i>` : ''}<span class="hm-ch">${HUB_ICON.chev}</span></button>
         <button class="hm hm-purple" data-go="labs"><span class="hm-ic">${HUB_ICON.cube}</span><span>Phòng thí nghiệm 3D</span><span class="hm-ch">${HUB_ICON.chev}</span></button>
+        <button class="hm hm-cyan" data-go="ai"><span class="hm-ic">${HUB_ICON.bulb}</span><span>Lớp học AI</span><i class="hm-new">Mới</i><span class="hm-ch">${HUB_ICON.chev}</span></button>
         <button class="hm hm-green" id="toRank"><span class="hm-ic">${HUB_ICON.cup}</span><span>Bảng xếp hạng</span><span class="hm-ch">${HUB_ICON.chev}</span></button>
         ${last}
       </nav>
@@ -3141,8 +3266,8 @@ function gearOf(sid){
   return g;
 }
 async function saveGear(sid, g){
-  const prevRl = g.rl || (S.gear && S.gear[sid] && S.gear[sid].rl) || null;
-  const doc = {items:[...new Set(g.items || [])], look:g.look || null, at:Date.now(), ...(prevRl ? {rl:prevRl} : {})};
+  const prevRl = g.rl || (S.gear && S.gear[sid] && S.gear[sid].rl) || null, prevAi = g.ai || (S.gear && S.gear[sid] && S.gear[sid].ai) || null;
+  const doc = {items:[...new Set(g.items || [])], look:g.look || null, at:Date.now(), ...(prevRl ? {rl:prevRl} : {}), ...(prevAi ? {ai:prevAi} : {})};
   store(gearKey(sid), JSON.stringify(doc));
   if (sid){ S.gear = S.gear || {}; S.gear[sid] = doc; }
   if (sid && S.db){ try { await S.db.doc('gear/' + sid).set(doc); } catch(e){ toast('Chưa lưu được lên hệ thống, phần thưởng được giữ tạm trên máy này.'); } }
@@ -3913,6 +4038,855 @@ function vStemLab(app){
   app.dataset.lock = '1';
   STEM_IMPL[k]($('#labhost'));
 }
+
+/* ===================== LỚP HỌC AI: theo Khung nội dung giáo dục trí tuệ nhân tạo (QĐ 2422/QĐ-BGDĐT, 18/8/2026) ===================== */
+const AI_STRAND = {
+  A:{n:'Tư duy lấy con người làm trung tâm', s:'Con người làm chủ', c:'#f59e0b'},
+  B:{n:'Đạo đức AI', s:'Đạo đức AI', c:'#f87171'},
+  C:{n:'Các kĩ thuật và ứng dụng AI', s:'Kĩ thuật & ứng dụng', c:'#22d3ee'},
+  D:{n:'Thiết kế hệ thống AI', s:'Thiết kế hệ thống', c:'#a78bfa'}
+};
+const AI_TOPIC = {A1:'Tính chủ động của con người', A2:'AI vì sự tiến bộ của con người', A3:'Công dân trong kỉ nguyên AI',
+  B1:'Các khía cạnh đạo đức của AI', B2:'Sử dụng AI an toàn và có trách nhiệm', B3:'Nguyên tắc đạo đức và trách nhiệm xã hội',
+  C1:'Đặc điểm chính của AI', C2:'Ứng dụng AI trong học tập và cuộc sống', C3:'Công nghệ AI', C4:'Dữ liệu trong AI', C5:'Kĩ thuật và thuật toán AI',
+  D1:'Nhận diện và hình thành giải pháp', D2:'Cấu trúc và tương tác, cải tiến hệ thống'};
+const AI_BINS_TRASH = [{id:'giay', n:'Giấy', icon:'📄'}, {id:'nhua', n:'Nhựa', icon:'🧴'}, {id:'kl', n:'Kim loại', icon:'🥫'}, {id:'hc', n:'Hữu cơ', icon:'🍌'}];
+const AI_GRADES = {
+6:{title:'Làm quen với AI', lessons:[
+ {id:'6-1', name:'AI là gì? Con người tạo ra AI', codes:['A1', 'C1'], icon:'🤖',
+  yccd:'Nhận biết được AI là phần mềm do con người tạo ra; phân biệt được thiết bị có dùng AI và thiết bị chỉ chạy theo lệnh cố định.',
+  warm:'Em hãy kể một thiết bị trong nhà biết "gợi ý" hoặc "nhận ra" một điều gì đó. Theo em, nó có tự suy nghĩ như con người không?',
+  cards:[
+   {t:'Trí tuệ nhân tạo (AI) là gì?', b:'Trí tuệ nhân tạo là các chương trình máy tính được con người tạo ra để làm những việc thường cần trí thông minh: nhận ra hình ảnh, hiểu giọng nói, dịch ngôn ngữ, gợi ý nội dung. AI không có ý thức hay cảm xúc thật. Nó làm việc dựa trên dữ liệu và cách con người lập trình cho nó.'},
+   {t:'Máy chạy theo lệnh cố định và máy có AI', b:'Đèn giao thông hẹn giờ chỉ đổi màu theo thời gian cài sẵn, không cần AI. Camera nhận ra khuôn mặt để mở khóa điện thoại thì dùng AI, vì nó phải "nhận ra" một khuôn mặt chưa từng thấy ở đúng góc chụp đó. Dấu hiệu của AI là: học từ dữ liệu, nhận dạng, dự đoán hoặc tạo ra nội dung mới.'},
+   {t:'Con người tạo ra và điều khiển AI', b:'Con người quyết định AI dùng để làm gì, cho AI học từ dữ liệu nào và kiểm tra AI có làm đúng không. Khi AI sai, con người phải phát hiện và sửa. Vì vậy, người dùng AI giỏi là người biết đặt câu hỏi, biết kiểm tra lại và luôn tự quyết định việc quan trọng.'}],
+  act:{type:'sort', title:'Thiết bị nào có dùng AI?', prompt:'Bấm vào từng thẻ rồi chọn nhóm đúng.', bins:[{id:'ai', n:'Có dùng AI', icon:'🤖'}, {id:'no', n:'Chạy theo lệnh cố định', icon:'⚙️'}],
+   items:[
+    {t:'Trợ lý ảo hiểu câu nói "Hôm nay trời có mưa không?"', b:'ai', why:'Trợ lý phải hiểu giọng nói và ý của câu hỏi.'},
+    {t:'Máy tính bỏ túi tính 25 × 4', b:'no', why:'Phép tính được làm theo quy tắc cố định, không cần học hay đoán.'},
+    {t:'Điện thoại mở khóa bằng khuôn mặt', b:'ai', why:'Máy phải nhận dạng khuôn mặt ở nhiều góc, ánh sáng khác nhau.'},
+    {t:'Đèn giao thông đổi màu sau mỗi 30 giây', b:'no', why:'Đèn chạy theo thời gian đã cài sẵn.'},
+    {t:'Ứng dụng gợi ý video em có thể thích', b:'ai', why:'Hệ thống dự đoán sở thích của em từ những video em đã xem.'},
+    {t:'Nồi cơm điện tự chuyển sang chế độ giữ ấm', b:'no', why:'Nồi chỉ dùng công tắc nhiệt: đủ nóng thì chuyển chế độ.'},
+    {t:'Ứng dụng dịch ảnh chụp biển báo tiếng Anh sang tiếng Việt', b:'ai', why:'Máy phải nhận ra chữ trong ảnh rồi dịch ngôn ngữ.'},
+    {t:'Chuông báo thức reo lúc 6 giờ', b:'no', why:'Chuông chỉ so sánh với giờ đã đặt.'}]},
+  quiz:[
+   {q:'Câu nào đúng về AI?', o:['AI có cảm xúc giống con người.', 'AI là chương trình do con người tạo ra, làm việc dựa trên dữ liệu.', 'AI luôn đúng nên không cần kiểm tra.', 'AI tự sinh ra trong máy tính.'], a:1, why:'AI là sản phẩm của con người, không có ý thức và có thể sai.'},
+   {q:'Thiết bị nào KHÔNG cần AI?', o:['Camera nhận dạng biển số xe', 'Loa thông minh hiểu lệnh nói', 'Quạt điện hẹn giờ tắt sau 1 giờ', 'Ứng dụng nhận dạng loài cây qua ảnh'], a:2, why:'Hẹn giờ chỉ là lệnh cố định.'},
+   {q:'Ai chịu trách nhiệm quyết định AI được dùng để làm gì?', o:['Chính AI', 'Con người', 'Máy tính', 'Không ai cả'], a:1, why:'Con người tạo ra, điều khiển và chịu trách nhiệm về AI.'},
+   {q:'Dấu hiệu nào cho thấy một ứng dụng có dùng AI?', o:['Có màu sắc đẹp', 'Chạy rất nhanh', 'Biết nhận dạng, dự đoán hoặc tạo nội dung từ dữ liệu', 'Cần kết nối điện'], a:2, why:'Nhận dạng, dự đoán, tạo nội dung là các khả năng đặc trưng của AI.'}],
+  reflect:'Em hãy viết 1–2 câu: một việc AI có thể giúp em trong học tập và một việc em vẫn nên tự làm.',
+  tip:'Tiết 1: khởi động, tìm hiểu khái niệm, thảo luận nhóm đôi về thiết bị trong gia đình. Tiết 2: hoạt động phân loại, câu hỏi củng cố, chia sẻ suy ngẫm. Có thể mở rộng: mỗi nhóm chụp ảnh 1 thiết bị ở trường và giải thích có dùng AI hay không.'},
+ {id:'6-2', name:'Máy làm theo quy tắc: thử lập trình phân loại rác', codes:['C1', 'C5'], icon:'♻️',
+  yccd:'Nêu được AI và máy tính hoạt động theo chương trình do con người tạo ra; thiết lập được các quy tắc đơn giản và nhận ra giới hạn của quy tắc cố định.',
+  warm:'Ở cổng trường em đã từng nhặt và phân loại rác. Nếu phải viết hướng dẫn cho một robot làm việc đó, em sẽ dặn robot những gì?',
+  cards:[
+   {t:'Chương trình là các quy tắc', b:'Máy tính không tự biết làm gì. Con người viết các quy tắc dạng "Nếu… thì…". Ví dụ: Nếu vật hút được nam châm thì bỏ vào thùng kim loại. Máy làm đúng từng bước theo thứ tự quy tắc.'},
+   {t:'Thứ tự quy tắc rất quan trọng', b:'Vỏ chuối cũng xé được bằng tay giống giấy. Nếu quy tắc "xé được thì là giấy" đứng trước quy tắc "phân hủy được thì là hữu cơ", vỏ chuối sẽ bị bỏ nhầm vào thùng giấy. Máy không biết tự sửa, con người phải sắp xếp lại.'},
+   {t:'Giới hạn của quy tắc cố định', b:'Thế giới có rất nhiều đồ vật lạ mà người viết quy tắc chưa nghĩ tới. Vì vậy người ta tạo ra AI có khả năng học từ nhiều ví dụ (dữ liệu) thay vì chỉ làm theo vài quy tắc viết tay. Bài sau em sẽ thử dạy máy học từ ví dụ.'}],
+  act:{type:'rules'},
+  quiz:[
+   {q:'Máy phân loại rác ở hoạt động trên làm việc dựa vào đâu?', o:['Cảm xúc của máy', 'Các quy tắc "Nếu… thì…" do em đặt', 'May mắn', 'Màu của thùng rác'], a:1, why:'Máy chỉ làm theo quy tắc con người lập trình.'},
+   {q:'Vì sao lon nhôm có thể bị phân loại sai khi chỉ dùng quy tắc "hút nam châm thì là kim loại"?', o:['Vì lon nhôm không hút nam châm', 'Vì lon nhôm là nhựa', 'Vì lon nhôm phân hủy được', 'Vì máy bị hỏng'], a:0, why:'Nhôm là kim loại nhưng không bị nam châm hút, nên cần thêm quy tắc khác.'},
+   {q:'Khi máy gặp đồ vật chưa có trong quy tắc, điều gì thường xảy ra?', o:['Máy tự nghĩ ra quy tắc mới đúng', 'Máy có thể phân loại sai', 'Máy luôn hỏi lại con người', 'Đồ vật tự biến mất'], a:1, why:'Quy tắc cố định không bao quát được mọi trường hợp.'},
+   {q:'Thay đổi thứ tự các quy tắc có thể làm gì?', o:['Không ảnh hưởng gì', 'Làm thay đổi kết quả phân loại', 'Làm máy chạy chậm hơn 10 lần', 'Làm máy có cảm xúc'], a:1, why:'Máy áp dụng quy tắc đầu tiên khớp, nên thứ tự quyết định kết quả.'}],
+  reflect:'Theo em, vì sao không thể viết đủ quy tắc cho mọi đồ vật trên đời? Máy cần thêm khả năng gì?',
+  tip:'Tiết 1: ôn hoạt động nhặt rác ở cổng trường, giới thiệu khái niệm quy tắc, cả lớp cùng đặt quy tắc. Tiết 2: nhóm tự tối ưu quy tắc, thử vật lạ, thảo luận giới hạn của lập trình cố định, dẫn sang học máy.'},
+ {id:'6-3', name:'Dạy máy nhận ra hình vẽ', codes:['C3', 'C4'], icon:'✏️',
+  yccd:'Mô tả được ở mức đơn giản quy trình AI học từ dữ liệu: thu thập ví dụ, huấn luyện, dự đoán; nhận ra kết quả của AI phụ thuộc vào dữ liệu.',
+  warm:'Em học nhận ra con mèo như thế nào khi còn nhỏ? Có ai đưa cho em một danh sách quy tắc không, hay em đã nhìn thấy rất nhiều con mèo?',
+  cards:[
+   {t:'Học từ ví dụ', b:'Thay vì viết quy tắc, ta cho máy xem nhiều ví dụ đã gắn nhãn, ví dụ "đây là hình tròn", "đây là hình tam giác". Tập ví dụ này gọi là dữ liệu huấn luyện.'},
+   {t:'Huấn luyện và dự đoán', b:'Máy so sánh các ví dụ để tìm điểm giống và khác. Khi em vẽ một hình mới, máy tìm những ví dụ giống nhất mà nó đã học rồi đoán nhãn. Cách làm trong bài này gọi là "láng giềng gần nhất", một thuật toán học máy đơn giản.'},
+   {t:'Dữ liệu tốt thì AI tốt', b:'Nếu em chỉ vẽ 1–2 ví dụ, hoặc vẽ cẩu thả, máy sẽ đoán sai nhiều. Ví dụ càng nhiều và đa dạng (to, nhỏ, lệch, nghiêng) thì máy càng đoán tốt. AI không thông minh hơn dữ liệu mà nó được học.'}],
+  act:{type:'draw', classes:[{n:'Hình tròn', icon:'⚪'}, {n:'Hình tam giác', icon:'🔺'}], minPer:4},
+  quiz:[
+   {q:'Dữ liệu huấn luyện là gì?', o:['Các ví dụ có gắn nhãn cho máy học', 'Chương trình diệt virus', 'Pin của máy tính', 'Kết quả máy đoán'], a:0, why:'Máy học từ các ví dụ đã được gắn nhãn đúng.'},
+   {q:'Ba bước em đã làm theo đúng thứ tự là:', o:['Dự đoán → huấn luyện → thu thập', 'Thu thập ví dụ → huấn luyện → dự đoán', 'Huấn luyện → dự đoán → thu thập', 'Chỉ cần dự đoán'], a:1, why:'Phải có dữ liệu, rồi huấn luyện, sau đó mới dự đoán.'},
+   {q:'Muốn máy đoán đúng hơn, em nên làm gì?', o:['Vẽ thêm nhiều ví dụ đa dạng và gắn nhãn đúng', 'Tắt máy rồi bật lại', 'Chỉ vẽ một ví dụ thật đẹp', 'Đổi màu bút vẽ'], a:0, why:'Dữ liệu nhiều và đa dạng giúp máy học tốt hơn.'},
+   {q:'Nếu em gắn nhầm nhãn "tròn" cho hình tam giác, điều gì có thể xảy ra?', o:['Máy tự phát hiện và sửa', 'Máy có thể học sai và đoán nhầm', 'Không ảnh hưởng gì', 'Máy từ chối học'], a:1, why:'Máy tin vào nhãn em cung cấp, nhãn sai dẫn đến học sai.'}],
+  reflect:'Em đã thử cách nào để máy đoán đúng hơn? Kết quả thay đổi ra sao?',
+  tip:'Tiết 1: so sánh học bằng quy tắc và học từ ví dụ; học sinh vẽ và huấn luyện. Tiết 2: thử thách "đánh lừa máy" (vẽ hình xấu, nghiêng), thêm dữ liệu để sửa, rút ra vai trò của dữ liệu.'},
+ {id:'6-4', name:'AI có mặt tốt và mặt chưa tốt', codes:['B1', 'C2'], icon:'⚖️',
+  yccd:'Nêu được một số ứng dụng AI quen thuộc và các mặt tích cực, tiêu cực của AI đối với học tập và đời sống.',
+  warm:'Em đã từng thấy AI giúp ích cho ai đó chưa? Em có từng nghe chuyện AI gây phiền phức hay rắc rối không?',
+  cards:[
+   {t:'AI giúp ích ở nhiều nơi', b:'AI giúp bác sĩ đọc ảnh chụp X-quang, giúp nông dân dự báo sâu bệnh, giúp người khiếm thị nghe máy đọc chữ, giúp học sinh luyện phát âm tiếng Anh. AI làm nhanh những việc lặp lại, giúp con người có thêm thời gian cho việc sáng tạo.'},
+   {t:'Mặt chưa tốt của AI', b:'AI có thể đưa thông tin sai, bị kẻ xấu dùng để làm ảnh giả, giọng nói giả để lừa đảo, hoặc khiến người dùng ỷ lại, lười suy nghĩ. Một số ứng dụng thu thập quá nhiều thông tin cá nhân.'},
+   {t:'Dùng AI một cách khôn ngoan', b:'Cùng một công cụ, dùng đúng thì có ích, dùng sai thì có hại. Em nên dùng AI để hiểu bài sâu hơn chứ không phải để chép đáp án, và luôn hỏi người lớn khi thấy điều gì đáng ngờ.'}],
+  act:{type:'sort', title:'Lợi ích hay rủi ro?', prompt:'Xếp từng tình huống vào nhóm phù hợp.', bins:[{id:'good', n:'Lợi ích', icon:'👍'}, {id:'bad', n:'Rủi ro', icon:'⚠️'}],
+   items:[
+    {t:'Ứng dụng đọc to bài viết cho bạn khiếm thị', b:'good', why:'AI giúp người khuyết tật tiếp cận thông tin.'},
+    {t:'Kẻ gian dùng AI giả giọng người thân để gọi điện xin tiền', b:'bad', why:'Đây là hình thức lừa đảo bằng giọng nói giả.'},
+    {t:'AI gợi ý cách phát âm đúng một từ tiếng Anh', b:'good', why:'AI hỗ trợ luyện tập cá nhân.'},
+    {t:'Bạn chép nguyên bài văn do AI viết rồi nộp', b:'bad', why:'Em không học được gì và vi phạm sự trung thực.'},
+    {t:'Camera AI phát hiện khói để báo cháy sớm', b:'good', why:'AI giúp bảo vệ an toàn.'},
+    {t:'Ảnh ghép giả mạo một bạn trong lớp bị lan truyền', b:'bad', why:'Ảnh giả làm tổn hại danh dự người khác.'},
+    {t:'Xem video gợi ý liên tục đến khuya', b:'bad', why:'Hệ thống gợi ý có thể khiến em dùng thiết bị quá mức.'},
+    {t:'AI dự báo thời tiết giúp nông dân chọn ngày gieo hạt', b:'good', why:'AI hỗ trợ sản xuất.'}]},
+  quiz:[
+   {q:'Ví dụ nào là lợi ích của AI?', o:['Làm ảnh giả bạn bè', 'Giúp phát hiện sớm bệnh qua ảnh chụp', 'Chép bài hộ', 'Thu thập trộm thông tin'], a:1, why:'Hỗ trợ y tế là ứng dụng có ích.'},
+   {q:'Khi nhận cuộc gọi giọng người thân xin chuyển tiền gấp, em nên:', o:['Chuyển ngay', 'Gọi lại số quen của người thân hoặc hỏi bố mẹ để kiểm tra', 'Gửi mật khẩu', 'Im lặng mãi'], a:1, why:'Giọng nói có thể bị AI làm giả, cần kiểm tra bằng kênh khác.'},
+   {q:'Câu nào đúng?', o:['AI chỉ có lợi', 'AI chỉ có hại', 'AI có lợi hay hại tùy cách con người sử dụng', 'AI không ảnh hưởng gì'], a:2, why:'Con người quyết định cách dùng AI.'},
+   {q:'Dùng AI để học tốt là:', o:['Nhờ AI làm hết bài tập', 'Hỏi AI để hiểu cách giải rồi tự làm lại', 'Không bao giờ dùng AI', 'Tin mọi điều AI nói'], a:1, why:'AI là trợ thủ, em vẫn phải tự học.'}],
+  reflect:'Kể một tình huống em có thể dùng AI có ích và một lưu ý để không bị hại.',
+  tip:'Tiết 1: kể chuyện thực tế, phân loại lợi ích và rủi ro. Tiết 2: đóng vai xử lí tình huống lừa đảo giọng nói giả, lập "quy ước dùng AI" của lớp.'},
+ {id:'6-5', name:'Dùng AI an toàn', codes:['B2', 'A3'], icon:'🛡️',
+  yccd:'Nêu được các nguyên tắc cơ bản khi sử dụng AI an toàn: bảo vệ thông tin cá nhân, nhờ người lớn khi cần, không dùng AI để làm hại người khác.',
+  warm:'Nếu một người lạ trên mạng hỏi địa chỉ nhà em, em có trả lời không? Còn nếu đó là một ứng dụng AI hỏi thì sao?',
+  cards:[
+   {t:'Thông tin cá nhân là gì?', b:'Họ tên đầy đủ, địa chỉ nhà, số điện thoại, ảnh khuôn mặt, mật khẩu, tên trường và lớp cụ thể… đều là thông tin cá nhân. Khi em nhập vào ứng dụng AI, thông tin có thể được lưu lại và dùng vào mục đích khác.'},
+   {t:'Ba nguyên tắc an toàn', b:'Một: không đưa mật khẩu, địa chỉ, số điện thoại, ảnh riêng tư cho AI. Hai: dùng ứng dụng AI phù hợp lứa tuổi và có sự đồng ý của bố mẹ, thầy cô. Ba: thấy nội dung lạ, đáng sợ hay bị đề nghị làm điều sai thì dừng lại và báo người lớn.'},
+   {t:'Không dùng AI để làm hại người khác', b:'Không dùng AI để chế ảnh, viết lời chế giễu hay lan tin đồn về bạn bè. Những việc đó gây tổn thương thật và có thể vi phạm pháp luật.'}],
+  act:{type:'sort', title:'Có nên nhập vào ứng dụng AI?', prompt:'Chọn "Có thể nhập" hoặc "Không nên nhập" cho từng thông tin.', bins:[{id:'ok', n:'Có thể nhập', icon:'✅'}, {id:'no', n:'Không nên nhập', icon:'🚫'}],
+   items:[
+    {t:'Câu hỏi: "Vì sao bầu trời có màu xanh?"', b:'ok', why:'Câu hỏi kiến thức không chứa thông tin cá nhân.'},
+    {t:'Mật khẩu tài khoản học tập của em', b:'no', why:'Mật khẩu tuyệt đối không chia sẻ cho bất kì ai hay ứng dụng nào.'},
+    {t:'Địa chỉ nhà và số điện thoại của bố mẹ', b:'no', why:'Đây là thông tin cá nhân có thể bị lợi dụng.'},
+    {t:'Đề bài toán em chưa hiểu cách làm', b:'ok', why:'Hỏi cách làm là hợp lí, nhưng em cần tự giải lại.'},
+    {t:'Ảnh chụp khuôn mặt của một bạn trong lớp', b:'no', why:'Không dùng ảnh người khác khi chưa được đồng ý.'},
+    {t:'Đoạn văn em tự viết để nhờ góp ý chính tả', b:'ok', why:'Được, miễn là đoạn văn không chứa thông tin riêng tư.'},
+    {t:'Mã số căn cước của người thân', b:'no', why:'Đây là thông tin định danh rất quan trọng.'}]},
+  quiz:[
+   {q:'Thông tin nào KHÔNG nên đưa cho ứng dụng AI?', o:['Câu hỏi về quang hợp', 'Mật khẩu email', 'Đề bài toán', 'Tên một loài hoa'], a:1, why:'Mật khẩu là thông tin bí mật.'},
+   {q:'Khi AI đưa ra nội dung khiến em sợ hãi hoặc khó chịu, em nên:', o:['Giấu đi', 'Dừng lại và báo bố mẹ, thầy cô', 'Chia sẻ cho bạn bè xem', 'Tiếp tục xem'], a:1, why:'Người lớn sẽ giúp em xử lí an toàn.'},
+   {q:'Dùng AI chế ảnh trêu bạn là:', o:['Vui vẻ, vô hại', 'Hành vi có thể gây tổn thương và vi phạm pháp luật', 'Bài tập sáng tạo', 'Được nếu bạn không biết'], a:1, why:'Không được dùng AI để làm hại người khác.'},
+   {q:'Ai nên cùng em chọn ứng dụng AI phù hợp?', o:['Người lạ trên mạng', 'Bố mẹ, thầy cô', 'Quảng cáo', 'Không cần ai'], a:1, why:'Người lớn giúp em chọn công cụ phù hợp lứa tuổi.'}],
+  reflect:'Viết 3 điều em cam kết khi dùng AI để bảo vệ bản thân và bạn bè.',
+  tip:'Tiết 1: tìm hiểu thông tin cá nhân, hoạt động phân loại. Tiết 2: xây dựng "Bản cam kết dùng AI an toàn" của lớp, mời phụ huynh cùng kí.'},
+ {id:'6-6', name:'Việc nào để AI, việc nào con người quyết định?', codes:['D1', 'A1'], icon:'🧭',
+  yccd:'Lựa chọn được công cụ AI phù hợp với nhiệm vụ đơn giản; nêu được giới hạn của AI so với con người và vai trò quyết định của con người.',
+  warm:'Nếu có một robot rất giỏi, em có muốn robot chọn bạn thân, chọn món quà sinh nhật cho mẹ thay em không? Vì sao?',
+  cards:[
+   {t:'AI giỏi việc gì?', b:'AI làm tốt các việc lặp lại, cần tính nhanh hoặc xử lí rất nhiều dữ liệu: sắp xếp ảnh, gợi ý từ vựng, dịch câu đơn giản, tìm lỗi chính tả.'},
+   {t:'Con người cần quyết định việc gì?', b:'Những việc cần tình cảm, sự thấu hiểu, giá trị đạo đức hoặc ảnh hưởng lớn đến người khác phải do con người quyết định: an ủi bạn buồn, xử lí mâu thuẫn, quyết định về sức khỏe, chọn điều đúng sai.'},
+   {t:'Chọn đúng công cụ', b:'Trước khi dùng AI, hãy hỏi: Việc này cần gì? AI có làm được không? Ai kiểm tra kết quả? Nếu sai thì hậu quả thế nào? Trả lời được bốn câu hỏi này là em đã biết cách chọn giải pháp phù hợp.'}],
+  act:{type:'sort', title:'Ai nên làm việc này?', prompt:'Xếp từng việc vào nhóm phù hợp.', bins:[{id:'ai', n:'AI hỗ trợ tốt', icon:'🤖'}, {id:'hu', n:'Con người quyết định', icon:'🧑'}],
+   items:[
+    {t:'Tìm lỗi chính tả trong bài văn dài', b:'ai', why:'Việc lặp lại, AI làm nhanh, em vẫn kiểm tra lại.'},
+    {t:'Quyết định có nói dối thầy cô hay không', b:'hu', why:'Đây là lựa chọn đạo đức của chính em.'},
+    {t:'Sắp xếp 500 ảnh theo ngày chụp', b:'ai', why:'Máy xử lí nhanh lượng lớn dữ liệu.'},
+    {t:'An ủi một bạn đang buồn vì điểm kém', b:'hu', why:'Cần tình cảm và sự thấu hiểu thật.'},
+    {t:'Gợi ý từ đồng nghĩa khi viết văn', b:'ai', why:'AI gợi ý, em chọn từ phù hợp.'},
+    {t:'Quyết định uống thuốc gì khi bị ốm', b:'hu', why:'Phải hỏi bác sĩ và bố mẹ, không tự làm theo AI.'},
+    {t:'Dịch nghĩa một câu tiếng Anh ngắn', b:'ai', why:'AI dịch nhanh, em đối chiếu với từ điển khi cần.'},
+    {t:'Phân xử khi hai bạn cãi nhau', b:'hu', why:'Cần lắng nghe hai phía và sự công bằng của con người.'}]},
+  quiz:[
+   {q:'Việc nào nên để con người quyết định?', o:['Đếm số từ trong bài', 'Chọn cách xin lỗi bạn', 'Sắp xếp danh sách theo ABC', 'Tra nghĩa một từ'], a:1, why:'Cần sự chân thành và hiểu cảm xúc của bạn.'},
+   {q:'Câu hỏi nào giúp chọn công cụ AI phù hợp?', o:['Ứng dụng này có màu gì?', 'Nếu AI sai thì hậu quả thế nào?', 'Ứng dụng có nhiều quảng cáo không?', 'Bạn bè có dùng không?'], a:1, why:'Cần cân nhắc hậu quả khi AI sai.'},
+   {q:'Giới hạn của AI so với con người là:', o:['AI không tính toán được', 'AI không có tình cảm và trách nhiệm đạo đức như con người', 'AI không lưu được dữ liệu', 'AI không chạy được trên máy tính'], a:1, why:'AI không có cảm xúc thật và không chịu trách nhiệm thay con người.'},
+   {q:'Khi AI gợi ý câu trả lời cho bài tập, em nên:', o:['Chép ngay', 'Kiểm tra lại và tự quyết định có dùng hay không', 'Gửi cho cả lớp', 'Bỏ qua bài tập'], a:1, why:'Con người luôn là người quyết định cuối cùng.'}],
+  reflect:'Theo em, vì sao con người luôn phải là người quyết định cuối cùng?',
+  tip:'Tiết 1: thảo luận việc nào AI làm tốt, phân loại. Tiết 2: mỗi nhóm chọn một vấn đề của lớp, đề xuất phần việc AI hỗ trợ và phần việc con người quyết định, trình bày trước lớp.'}
+]},
+7:{title:'AI học như thế nào?', lessons:[
+ {id:'7-1', name:'Quyền riêng tư và dữ liệu cá nhân', codes:['A3', 'B2'], icon:'🔐',
+  yccd:'Giải thích được vì sao cần bảo vệ quyền riêng tư và dữ liệu cá nhân khi dùng AI; nhận biết các dữ liệu nhạy cảm và cách hạn chế chia sẻ.',
+  warm:'Em có biết các ứng dụng miễn phí thường "kiếm tiền" từ đâu không?',
+  cards:[
+   {t:'Dữ liệu cá nhân có giá trị', b:'Mỗi lần em tìm kiếm, bấm thích, xem video, các hệ thống AI ghi nhận để hiểu sở thích của em. Dữ liệu này có giá trị với quảng cáo. Có những dữ liệu đặc biệt nhạy cảm như vị trí, khuôn mặt, giọng nói, sức khỏe.'},
+   {t:'Quyền riêng tư', b:'Mỗi người có quyền quyết định thông tin của mình được chia sẻ cho ai và dùng vào việc gì. Pháp luật Việt Nam có quy định về bảo vệ dữ liệu cá nhân. Em có quyền từ chối cấp quyền truy cập không cần thiết cho ứng dụng.'},
+   {t:'Thói quen bảo vệ dữ liệu', b:'Tắt định vị khi không cần, đọc kĩ ứng dụng xin quyền gì, không đăng ảnh có biển số nhà hay đồng phục ghi rõ tên trường, xóa lịch sử trò chuyện với AI nếu có chứa thông tin riêng, đặt mật khẩu mạnh.'}],
+  act:{type:'sort', title:'Mức độ nhạy cảm của dữ liệu', prompt:'Xếp từng loại dữ liệu vào nhóm phù hợp.', bins:[{id:'hi', n:'Rất nhạy cảm, cần bảo vệ', icon:'🔴'}, {id:'lo', n:'Ít nhạy cảm', icon:'🟢'}],
+   items:[
+    {t:'Vị trí GPS theo thời gian thực', b:'hi', why:'Người khác có thể biết em đang ở đâu.'},
+    {t:'Môn thể thao em yêu thích', b:'lo', why:'Ít gây nguy hiểm nếu chia sẻ, nhưng vẫn nên cân nhắc.'},
+    {t:'Ảnh khuôn mặt rõ nét', b:'hi', why:'Có thể bị dùng để làm ảnh, video giả.'},
+    {t:'Bản ghi giọng nói của em', b:'hi', why:'Có thể bị dùng để giả giọng.'},
+    {t:'Màu sắc em thích', b:'lo', why:'Không xác định được danh tính.'},
+    {t:'Thông tin sức khỏe, bệnh tật', b:'hi', why:'Đây là dữ liệu cá nhân nhạy cảm.'},
+    {t:'Tên một cuốn sách em đã đọc', b:'lo', why:'Ít nhạy cảm.'},
+    {t:'Lịch đi học và về nhà mỗi ngày', b:'hi', why:'Kẻ xấu có thể lợi dụng để theo dõi.'}]},
+  quiz:[
+   {q:'Dữ liệu nào nhạy cảm nhất?', o:['Món ăn yêu thích', 'Vị trí hiện tại', 'Bài hát yêu thích', 'Môn học yêu thích'], a:1, why:'Vị trí có thể khiến em gặp nguy hiểm.'},
+   {q:'Một ứng dụng đèn pin xin quyền đọc danh bạ. Em nên:', o:['Đồng ý ngay', 'Từ chối vì không cần thiết', 'Gửi danh bạ cho bạn', 'Xóa điện thoại'], a:1, why:'Chỉ cấp quyền cần thiết cho chức năng của ứng dụng.'},
+   {q:'Quyền riêng tư nghĩa là:', o:['Không được dùng mạng', 'Mỗi người có quyền quyết định thông tin của mình được chia sẻ ra sao', 'Ai cũng xem được thông tin của nhau', 'Chỉ người lớn mới có'], a:1, why:'Đây là quyền của mọi người, kể cả học sinh.'},
+   {q:'Vì sao giọng nói là dữ liệu cần bảo vệ?', o:['Vì giọng nói không có giá trị', 'Vì AI có thể dùng để giả giọng', 'Vì giọng nói làm hỏng máy', 'Vì giọng nói chiếm nhiều bộ nhớ'], a:1, why:'Công nghệ giả giọng có thể bị lợi dụng để lừa đảo.'}],
+  reflect:'Em hãy kiểm tra một ứng dụng trên điện thoại gia đình (cùng bố mẹ): nó xin những quyền gì? Quyền nào không cần thiết?',
+  tip:'Tiết 1: thảo luận dữ liệu cá nhân, phân loại mức độ nhạy cảm. Tiết 2: thực hành cùng giáo viên kiểm tra quyền ứng dụng trên một thiết bị mẫu, lập danh sách thói quen bảo vệ dữ liệu.'},
+ {id:'7-2', name:'Kiểm chứng câu trả lời của AI', codes:['A1', 'C2'], icon:'🔎',
+  yccd:'Biết kiểm chứng kết quả do AI đưa ra bằng nguồn tin cậy; nhận ra AI có thể trả lời sai, bịa nguồn hoặc dùng thông tin đã cũ.',
+  warm:'Bạn em nói: "AI bảo thế mà, chắc chắn đúng!". Em sẽ trả lời bạn thế nào?',
+  cards:[
+   {t:'AI có thể trả lời sai một cách rất tự tin', b:'Chatbot tạo câu trả lời bằng cách đoán chữ tiếp theo dựa trên dữ liệu đã học. Vì thế, nó có thể viết ra điều sai nhưng nghe rất thuyết phục, thậm chí bịa ra tên sách, số trang, đường link. Hiện tượng này thường được gọi là "ảo giác" của AI.'},
+   {t:'Thông tin có thể đã cũ', b:'AI học từ dữ liệu đến một thời điểm nhất định. Những thay đổi sau đó, như sắp xếp lại đơn vị hành chính, giá cả, kết quả thi đấu, có thể AI chưa biết.'},
+   {t:'Cách kiểm chứng', b:'Đối chiếu với sách giáo khoa, trang web chính thức của cơ quan nhà nước, hỏi thầy cô; xem nguồn mà AI đưa ra có thật không; với số liệu quan trọng, tìm ít nhất hai nguồn tin cậy. Người quyết định tin hay không là em.'}],
+  act:{type:'fact'},
+  quiz:[
+   {q:'"Ảo giác" của AI là:', o:['AI bị mệt', 'AI đưa ra thông tin sai hoặc bịa nhưng trình bày như thật', 'AI nhìn thấy ma', 'AI tắt nguồn'], a:1, why:'AI có thể tự tin trình bày thông tin không có thật.'},
+   {q:'Nguồn nào tin cậy nhất để kiểm tra thông tin hành chính?', o:['Bình luận trên mạng xã hội', 'Trang web chính thức của cơ quan nhà nước', 'Lời đồn', 'Một video không rõ nguồn'], a:1, why:'Nguồn chính thức có trách nhiệm về thông tin.'},
+   {q:'AI đưa ra tên một cuốn sách để trích dẫn. Em nên:', o:['Ghi ngay vào bài', 'Kiểm tra xem cuốn sách đó có thật không', 'Xóa bài', 'Tin vì AI thông minh'], a:1, why:'AI có thể bịa nguồn.'},
+   {q:'Vì sao AI có thể đưa thông tin đã cũ?', o:['Vì AI học từ dữ liệu đến một thời điểm nhất định', 'Vì AI thích nói sai', 'Vì máy tính chậm', 'Vì AI không có điện'], a:0, why:'Dữ liệu huấn luyện có giới hạn thời gian.'}],
+  reflect:'Em đặt ra quy tắc gì cho bản thân trước khi dùng thông tin từ AI vào bài làm?',
+  tip:'Tiết 1: giải thích vì sao AI sai, hoạt động kiểm chứng. Tiết 2: nhóm tự đặt câu hỏi cho một công cụ AI (dưới sự giám sát của giáo viên), kiểm chứng ít nhất 3 thông tin bằng sách giáo khoa và nguồn chính thức.'},
+ {id:'7-3', name:'AI học từ dữ liệu như thế nào?', codes:['C4', 'C5'], icon:'🧠',
+  yccd:'Mô tả được vai trò của dữ liệu huấn luyện, số lượng và chất lượng dữ liệu; thực hiện được việc huấn luyện một mô hình nhận dạng đơn giản với nhiều nhóm.',
+  warm:'Nếu chỉ cho em xem 1 bức ảnh con chó, em có chắc nhận ra mọi con chó khác không?',
+  cards:[
+   {t:'Nhãn và đặc điểm', b:'Mỗi ví dụ trong dữ liệu có hai phần: đặc điểm (hình dạng, màu sắc, độ lớn…) và nhãn (tên đúng của nó). Máy tìm mối liên hệ giữa đặc điểm và nhãn.'},
+   {t:'Nhiều nhóm thì khó hơn', b:'Phân biệt 2 nhóm dễ hơn 3 nhóm. Khi có nhiều nhóm giống nhau, máy cần nhiều ví dụ hơn và các ví dụ phải đúng nhãn.'},
+   {t:'Kiểm tra mô hình', b:'Sau khi huấn luyện, ta thử mô hình bằng những ví dụ mới mà nó chưa thấy và đếm số lần đoán đúng. Nếu tỉ lệ đúng thấp, ta bổ sung dữ liệu rồi huấn luyện lại. Vòng "thu thập – huấn luyện – kiểm tra – cải tiến" là cách các kĩ sư AI làm việc.'}],
+  act:{type:'draw', classes:[{n:'Mặt cười', icon:'🙂'}, {n:'Mặt buồn', icon:'🙁'}, {n:'Ngôi sao', icon:'⭐'}], minPer:4},
+  quiz:[
+   {q:'Nhãn trong dữ liệu là:', o:['Tên đúng của ví dụ', 'Màu của bút', 'Kích thước tệp', 'Tên người vẽ'], a:0, why:'Nhãn cho máy biết đáp án đúng của ví dụ.'},
+   {q:'Vì sao cần kiểm tra mô hình bằng ví dụ mới?', o:['Để biết mô hình có dùng được với dữ liệu chưa thấy không', 'Để máy chạy nhanh hơn', 'Để xóa dữ liệu', 'Không cần kiểm tra'], a:0, why:'Mô hình phải đúng với cả dữ liệu mới.'},
+   {q:'Tỉ lệ đoán đúng thấp, em nên làm gì đầu tiên?', o:['Bổ sung ví dụ đa dạng, đúng nhãn rồi huấn luyện lại', 'Bỏ cuộc', 'Đổi tên nhóm', 'Tắt máy'], a:0, why:'Cải tiến dữ liệu là cách hiệu quả nhất.'},
+   {q:'Khi thêm nhóm thứ ba giống nhóm cũ, máy:', o:['Dễ đoán hơn', 'Cần nhiều ví dụ hơn để phân biệt', 'Không thay đổi', 'Tự xóa nhóm cũ'], a:1, why:'Các nhóm giống nhau dễ gây nhầm.'}],
+  reflect:'Ghi lại tỉ lệ đoán đúng trước và sau khi em bổ sung dữ liệu. Em rút ra điều gì?',
+  tip:'Tiết 1: nhắc lại bài lớp 6, huấn luyện mô hình 3 nhóm. Tiết 2: thi đua nhóm nào có tỉ lệ đúng cao nhất trên bộ vẽ kiểm tra chung của lớp, rút ra vai trò của số lượng và chất lượng dữ liệu.'},
+ {id:'7-4', name:'Dữ liệu huấn luyện và sự công bằng', codes:['C4', 'B1'], icon:'🥭',
+  yccd:'Nhận biết được vấn đề đạo đức liên quan đến dữ liệu huấn luyện: dữ liệu thiếu đa dạng làm AI đối xử không công bằng với một nhóm; đề xuất được cách bổ sung dữ liệu.',
+  warm:'Nếu một máy chỉ được học nhận ra quả xoài chín qua màu vàng, nó sẽ đánh giá thế nào về một giống xoài chín mà vỏ vẫn xanh?',
+  cards:[
+   {t:'Dữ liệu lệch dẫn đến AI lệch', b:'Nếu dữ liệu huấn luyện chủ yếu đến từ một nhóm, AI sẽ làm tốt với nhóm đó và làm kém với nhóm ít được đại diện. Đó không phải vì máy "ghét" ai, mà vì máy chưa được học đủ.'},
+   {t:'Chuyện không chỉ của trái cây', b:'Điều tương tự xảy ra với AI nhận dạng giọng nói (ít dữ liệu giọng vùng miền), AI nhận dạng khuôn mặt (ít dữ liệu một số màu da), AI gợi ý (chỉ học từ một nhóm người dùng). Hậu quả có thể là sự thiếu công bằng.'},
+   {t:'Cách khắc phục', b:'Thu thập dữ liệu đa dạng, cân đối giữa các nhóm; kiểm tra kết quả riêng cho từng nhóm chứ không chỉ nhìn tỉ lệ đúng chung; mời người thuộc nhiều nhóm khác nhau cùng đánh giá.'}],
+  act:{type:'bias', title:'Máy nhận biết xoài chín', groups:[{n:'Giống xoài A', icon:'🟡'}, {n:'Giống xoài B', icon:'🟢'}], classes:['Chưa chín', 'Chín'], xl:'Màu vỏ (xanh → vàng)', yl:'Độ mềm', target:85},
+  quiz:[
+   {q:'Vì sao máy đánh giá sai giống xoài B?', o:['Vì máy ghét giống B', 'Vì dữ liệu huấn luyện thiếu ví dụ của giống B', 'Vì giống B không ăn được', 'Vì máy bị hỏng'], a:1, why:'Máy chỉ biết những gì nó được học.'},
+   {q:'Để biết AI có công bằng không, ta nên:', o:['Chỉ xem tỉ lệ đúng chung', 'Xem tỉ lệ đúng riêng của từng nhóm', 'Hỏi AI', 'Không cần kiểm tra'], a:1, why:'Tỉ lệ chung cao vẫn có thể che giấu một nhóm bị sai nhiều.'},
+   {q:'Ví dụ nào là thiên lệch dữ liệu?', o:['AI nhận giọng nói chỉ học giọng một vùng miền', 'AI học từ dữ liệu cân đối', 'AI có nhiều nhóm ví dụ', 'AI được kiểm tra kĩ'], a:0, why:'Thiếu đa dạng giọng nói dẫn đến nhận sai giọng vùng khác.'},
+   {q:'Cách khắc phục thiên lệch tốt nhất là:', o:['Xóa nhóm bị sai', 'Bổ sung dữ liệu đa dạng và cân đối', 'Giấu kết quả', 'Dùng máy mạnh hơn'], a:1, why:'Dữ liệu cân đối giúp AI công bằng hơn.'}],
+  reflect:'Nêu một ví dụ trong đời sống mà AI có thể không công bằng nếu dữ liệu bị lệch.',
+  tip:'Tiết 1: thí nghiệm mô phỏng với hai giống xoài, quan sát tỉ lệ đúng từng nhóm. Tiết 2: thảo luận ví dụ thực tế (giọng nói vùng miền), nhóm đề xuất cách thu thập dữ liệu công bằng cho một ứng dụng của trường.'},
+ {id:'7-5', name:'Rủi ro của AI và cách phòng tránh', codes:['B1', 'B2'], icon:'🚨',
+  yccd:'Nhận diện được một số rủi ro của AI như tin giả, ảnh và giọng nói giả, lừa đảo, phụ thuộc quá mức; nêu được cách phòng tránh phù hợp.',
+  warm:'Em có từng thấy một bức ảnh hay video "khó tin" trên mạng không? Làm sao biết nó thật hay giả?',
+  cards:[
+   {t:'Nội dung giả do AI tạo', b:'AI có thể tạo ảnh, video, giọng nói giống thật (thường gọi là deepfake). Kẻ xấu dùng chúng để lan tin giả, bôi nhọ người khác hoặc lừa đảo chuyển tiền.'},
+   {t:'Dấu hiệu nhận biết', b:'Nội dung gây sốc, thúc giục làm ngay, đề nghị chuyển tiền hay gửi mã OTP, nguồn không rõ ràng, hình ảnh có chi tiết bất thường (ngón tay, chữ viết, ánh sáng lạ). Không có dấu hiệu nào chắc chắn tuyệt đối, nên quan trọng nhất là kiểm chứng.'},
+   {t:'Phòng tránh', b:'Dừng lại, không chia sẻ vội; kiểm tra qua nguồn chính thức hoặc gọi lại bằng số quen; không gửi mật khẩu, mã OTP; báo người lớn và cơ quan chức năng khi nghi ngờ lừa đảo.'}],
+  act:{type:'dilemma', cases:[
+   {s:'Em nhận được tin nhắn kèm video: người nổi tiếng kêu gọi chuyển tiền ủng hộ vào một tài khoản lạ, "chỉ hôm nay".', o:[{t:'Chuyển một ít tiền vì thấy video rất thật', g:0, fb:'Video có thể do AI giả. Không chuyển tiền khi chưa kiểm chứng.'}, {t:'Không chuyển, kiểm tra trang chính thức của người đó và báo bố mẹ', g:2, fb:'Đúng! Kiểm chứng qua kênh chính thức và hỏi người lớn.'}, {t:'Chia sẻ cho bạn bè cùng xem', g:0, fb:'Chia sẻ có thể khiến nhiều người bị lừa hơn.'}]},
+   {s:'Một bạn gửi vào nhóm lớp ảnh ghép mặt bạn khác vào cảnh xấu hổ, cả nhóm đang cười.', o:[{t:'Cũng cười và thả biểu tượng cảm xúc', g:0, fb:'Hành động này góp phần làm tổn thương bạn.'}, {t:'Không chia sẻ, nhắn riêng nhắc bạn gỡ ảnh và báo giáo viên chủ nhiệm', g:2, fb:'Rất tốt! Em đã bảo vệ bạn bè và ngăn nội dung giả lan rộng.'}, {t:'Lặng lẽ rời nhóm', g:1, fb:'Em không tham gia là tốt, nhưng bạn bị hại vẫn cần được giúp đỡ.'}]},
+   {s:'Có người gọi video, khuôn mặt và giọng giống anh họ em, nhờ em đọc mã số vừa gửi về điện thoại của mẹ.', o:[{t:'Đọc mã vì đó là anh họ', g:0, fb:'Khuôn mặt và giọng có thể bị giả. Mã OTP tuyệt đối không đọc cho ai.'}, {t:'Từ chối, cúp máy và báo mẹ, gọi lại cho anh họ bằng số quen', g:2, fb:'Chính xác! Gọi lại bằng số đã biết là cách kiểm chứng tốt.'}]},
+   {s:'Em dùng chatbot nhiều giờ mỗi ngày, ngại nói chuyện với bạn bè thật.', o:[{t:'Không sao, chatbot dễ nói chuyện hơn', g:0, fb:'Phụ thuộc quá mức vào AI có thể ảnh hưởng đến các mối quan hệ thật.'}, {t:'Giới hạn thời gian dùng, dành thời gian chơi và trò chuyện với bạn bè, gia đình', g:2, fb:'Tốt lắm! AI không thay thế được tình bạn thật.'}]}]},
+  quiz:[
+   {q:'Deepfake là:', o:['Một loại virus', 'Ảnh, video, giọng nói giả được tạo bằng AI', 'Một trò chơi', 'Một mạng xã hội'], a:1, why:'Deepfake là nội dung giả mạo rất giống thật.'},
+   {q:'Dấu hiệu đáng ngờ của tin lừa đảo là:', o:['Thúc giục làm ngay và đòi chuyển tiền', 'Có nguồn chính thức rõ ràng', 'Được thầy cô thông báo', 'Đăng trên sách giáo khoa'], a:0, why:'Tạo áp lực thời gian là thủ đoạn quen thuộc.'},
+   {q:'Mã OTP nên được:', o:['Đọc cho người gọi điện', 'Giữ bí mật, không cung cấp cho ai', 'Đăng lên mạng', 'Gửi cho bạn thân'], a:1, why:'OTP là chìa khóa giao dịch.'},
+   {q:'Khi thấy ảnh giả về bạn cùng lớp, em nên:', o:['Chia sẻ tiếp', 'Không chia sẻ và báo thầy cô', 'Bình luận chê bai', 'Lưu lại để trêu'], a:1, why:'Ngăn lan truyền và bảo vệ bạn.'}],
+  reflect:'Em sẽ hướng dẫn ông bà, bố mẹ cách phòng tránh lừa đảo bằng giọng nói giả như thế nào?',
+  tip:'Tiết 1: tìm hiểu nội dung giả, xử lí tình huống. Tiết 2: nhóm thiết kế áp phích "Dừng lại – Kiểm tra – Báo người lớn" để tuyên truyền cho gia đình và các lớp khác.'},
+ {id:'7-6', name:'Ý tưởng dự án AI từ đời sống', codes:['D1', 'A2'], icon:'💡',
+  yccd:'Đề xuất được ý tưởng dự án sử dụng AI xuất phát từ nhu cầu thực tế ở trường, gia đình hoặc địa phương; xác định được người dùng, dữ liệu cần thiết và vai trò của con người.',
+  warm:'Ở trường hoặc ở nhà em có vấn đề gì làm mọi người mất thời gian hoặc khó chịu? AI có thể giúp gì không?',
+  cards:[
+   {t:'Bắt đầu từ con người', b:'Một dự án AI tốt bắt đầu từ câu hỏi: Ai đang gặp khó khăn? Khó khăn đó là gì? Giải pháp có thật sự giúp họ không? Không phải vấn đề nào cũng cần AI.'},
+   {t:'Dữ liệu cần thiết', b:'AI cần dữ liệu để học. Hãy nghĩ: dữ liệu lấy từ đâu, có cần xin phép không, có chứa thông tin cá nhân không, có đủ đa dạng không.'},
+   {t:'Con người làm chủ', b:'Hãy xác định rõ phần nào AI làm, phần nào con người kiểm tra và quyết định, và chuyện gì xảy ra nếu AI sai.'}],
+  act:{type:'plan', fields:[
+   {k:'problem', l:'Vấn đề cần giải quyết', ph:'Ví dụ: Học sinh bỏ rác sai thùng ở cổng trường'},
+   {k:'users', l:'Ai sẽ dùng sản phẩm?', ph:'Ví dụ: Học sinh khối 6, đội Sao đỏ'},
+   {k:'ai', l:'AI sẽ làm gì?', ph:'Ví dụ: Nhận dạng loại rác qua camera và nhắc thùng đúng'},
+   {k:'data', l:'Dữ liệu cần thu thập', ph:'Ví dụ: Ảnh các loại rác thường gặp ở trường, có xin phép'},
+   {k:'human', l:'Con người kiểm tra, quyết định việc gì?', ph:'Ví dụ: Thầy cô và đội Sao đỏ kiểm tra lại khi máy không chắc chắn'},
+   {k:'risk', l:'Rủi ro có thể gặp và cách phòng tránh', ph:'Ví dụ: Camera quay mặt học sinh – chỉ quay vào miệng thùng rác'}]},
+  quiz:[
+   {q:'Bước đầu tiên của một dự án AI tốt là:', o:['Chọn máy tính mạnh nhất', 'Tìm hiểu ai đang gặp khó khăn và khó khăn đó là gì', 'Đặt tên thật hay', 'Mua camera'], a:1, why:'Dự án phải xuất phát từ nhu cầu của con người.'},
+   {q:'Khi thu thập ảnh học sinh làm dữ liệu, cần:', o:['Chụp lén cho tự nhiên', 'Xin phép và hạn chế thông tin cá nhân', 'Đăng lên mạng', 'Không cần làm gì'], a:1, why:'Tôn trọng quyền riêng tư.'},
+   {q:'Câu nào đúng?', o:['Mọi vấn đề đều cần AI', 'Có những vấn đề giải quyết đơn giản hơn không cần AI', 'AI giải quyết được mọi việc', 'AI không cần dữ liệu'], a:1, why:'Hãy chọn giải pháp phù hợp nhất.'},
+   {q:'Vì sao cần nêu rủi ro trong kế hoạch dự án?', o:['Để chuẩn bị cách phòng tránh từ đầu', 'Để làm kế hoạch dài hơn', 'Không cần thiết', 'Để AI biết'], a:0, why:'Nghĩ trước về rủi ro giúp dự án an toàn, có trách nhiệm.'}],
+  reflect:'Nếu được thực hiện, em muốn dự án của mình giúp ai nhất? Vì sao?',
+  tip:'Tiết 1: khảo sát nhanh vấn đề của trường, mỗi nhóm chọn một vấn đề. Tiết 2: nhóm hoàn thành phiếu ý tưởng dự án, trình bày 2 phút, cả lớp góp ý theo tiêu chí: hữu ích, khả thi, an toàn.'}
+]},
+8:{title:'Hiểu sâu cách AI hoạt động', lessons:[
+ {id:'8-1', name:'AI không thay thế con người', codes:['A1', 'A2'], icon:'🤝',
+  yccd:'Giải thích được vì sao con người cần giữ quyền tự chủ khi sử dụng AI; nhận diện và tránh các công cụ AI có hại; nêu được vai trò của AI trong việc hỗ trợ con người tiến bộ.',
+  warm:'Có ý kiến cho rằng: "Sau này AI làm hết, học sinh không cần học nữa". Em đồng ý hay không đồng ý? Vì sao?',
+  cards:[
+   {t:'Tự chủ là gì?', b:'Tự chủ là khả năng tự suy nghĩ, tự lựa chọn và chịu trách nhiệm về quyết định của mình. Khi để AI quyết định thay hoàn toàn, con người dần mất khả năng này.'},
+   {t:'AI là trợ thủ', b:'AI giúp con người làm nhanh hơn, khám phá nhiều hơn: nhà khoa học dùng AI để dự đoán cấu trúc protein, kĩ sư dùng AI để thiết kế, giáo viên dùng AI để chuẩn bị học liệu. Nhưng đặt mục tiêu, đánh giá và chịu trách nhiệm vẫn là con người.'},
+   {t:'Tránh công cụ AI có hại', b:'Có những ứng dụng được thiết kế để giữ chân người dùng càng lâu càng tốt, thu thập dữ liệu quá mức, hoặc tạo nội dung xấu. Hãy chọn công cụ rõ nguồn gốc, phù hợp lứa tuổi và biết dừng đúng lúc.'}],
+  act:{type:'dilemma', cases:[
+   {s:'Cô giao bài: viết đoạn văn cảm nhận về một người thân. Một công cụ AI có thể viết hộ trong 5 giây.', o:[{t:'Để AI viết rồi nộp', g:0, fb:'Đoạn văn sẽ không phải cảm nhận thật của em, em cũng không rèn được kĩ năng viết.'}, {t:'Tự viết, sau đó có thể nhờ AI góp ý chính tả và tự quyết định sửa', g:2, fb:'Tuyệt vời! Em giữ quyền tự chủ và dùng AI đúng vai trò trợ thủ.'}, {t:'Để AI viết rồi sửa vài chữ', g:0, fb:'Vẫn là bài của AI, không trung thực.'}]},
+   {s:'Ứng dụng học tập gợi ý em bỏ qua phần Hình học vì "em có vẻ không thích".', o:[{t:'Làm theo, bỏ Hình học', g:0, fb:'Gợi ý của AI dựa trên hành vi, không phải mục tiêu học tập của em.'}, {t:'Tự quyết định vẫn học đủ, có thể nhờ thầy cô hướng dẫn phần khó', g:2, fb:'Đúng! Em là người đặt mục tiêu học tập của mình.'}]},
+   {s:'Bạn em dùng một ứng dụng "AI bói toán" và tin theo để chọn bạn chơi.', o:[{t:'Thử dùng theo', g:0, fb:'Ứng dụng giải trí kiểu này không có cơ sở khoa học.'}, {t:'Khuyên bạn đó chỉ là trò giải trí, chọn bạn chơi bằng sự hiểu biết thật', g:2, fb:'Hay lắm! Em đã giúp bạn giữ quyền tự quyết.'}]}]},
+  quiz:[
+   {q:'Tự chủ khi dùng AI nghĩa là:', o:['Làm mọi điều AI bảo', 'Tự suy nghĩ, lựa chọn và chịu trách nhiệm về quyết định', 'Không bao giờ dùng AI', 'Để AI chịu trách nhiệm'], a:1, why:'Con người làm chủ quyết định.'},
+   {q:'Vai trò phù hợp của AI trong học tập là:', o:['Làm bài thay học sinh', 'Trợ thủ giúp hiểu bài và luyện tập', 'Thay thế thầy cô', 'Chấm điểm thay bạn bè'], a:1, why:'AI hỗ trợ, không thay thế việc học.'},
+   {q:'Dấu hiệu của công cụ AI có hại là:', o:['Giới hạn thời gian sử dụng hợp lí', 'Thu thập dữ liệu quá mức và giữ chân người dùng liên tục', 'Có hướng dẫn rõ ràng', 'Phù hợp lứa tuổi'], a:1, why:'Đó là những thiết kế không vì lợi ích người dùng.'},
+   {q:'Ai đặt mục tiêu và chịu trách nhiệm khi dùng AI trong dự án khoa học?', o:['AI', 'Con người', 'Máy tính', 'Internet'], a:1, why:'Con người luôn là chủ thể.'}],
+  reflect:'Theo em, kĩ năng nào của con người sẽ càng quan trọng hơn khi AI phát triển?',
+  tip:'Tiết 1: tranh luận "AI có thay thế con người không", xử lí tình huống. Tiết 2: mỗi nhóm lập bảng "AI hỗ trợ – Con người quyết định" cho một nghề nghiệp, trình bày.'},
+ {id:'8-2', name:'Chatbot tạo câu trả lời như thế nào?', codes:['C3', 'C5'], icon:'💬',
+  yccd:'Mô tả được ở mức đơn giản cách AI tạo sinh văn bản: học thống kê từ dữ liệu văn bản và dự đoán từ tiếp theo; giải thích được vì sao chatbot có thể trả lời sai.',
+  warm:'Nếu cô nói "Mẹ em đi chợ mua…", em sẽ đoán từ tiếp theo là gì? Vì sao em đoán được?',
+  cards:[
+   {t:'Đoán từ tiếp theo', b:'Các chatbot hiện đại được huấn luyện trên lượng văn bản khổng lồ. Ở mức đơn giản nhất, chúng học xem sau một cụm từ thì từ nào thường xuất hiện, rồi chọn từ tiếp theo, rồi lại đoán tiếp, cứ thế tạo thành câu.'},
+   {t:'Mô hình trong bài này', b:'Em sẽ dùng một "chatbot tí hon" chỉ học từ vài chục câu tiếng Việt. Nó đếm xem sau mỗi từ thì từ nào hay đi theo. Chatbot thật phức tạp hơn rất nhiều, nhưng ý tưởng dự đoán dựa trên dữ liệu là giống nhau.'},
+   {t:'Vì sao chatbot có thể sai?', b:'Máy chọn từ "có khả năng xuất hiện", không phải từ "đúng sự thật". Nếu dữ liệu ít hoặc lệch, câu tạo ra có thể nghe hợp lí nhưng sai. Vì vậy cần kiểm chứng.'}],
+  act:{type:'nextword'},
+  quiz:[
+   {q:'Chatbot tạo câu bằng cách:', o:['Hiểu và cảm nhận như con người', 'Dự đoán lần lượt từ tiếp theo dựa trên dữ liệu đã học', 'Sao chép nguyên văn một trang web', 'Hỏi một người thật'], a:1, why:'Đây là nguyên lí cơ bản của mô hình ngôn ngữ.'},
+   {q:'Khi em "dạy thêm" câu mới cho chatbot tí hon, điều gì thay đổi?', o:['Không có gì', 'Xác suất các từ tiếp theo thay đổi', 'Máy bị hỏng', 'Máy quên hết'], a:1, why:'Dữ liệu mới làm thay đổi thống kê.'},
+   {q:'Vì sao câu trả lời nghe rất hợp lí vẫn có thể sai?', o:['Vì máy chọn từ hay đi cùng nhau, không kiểm tra sự thật', 'Vì máy cố tình nói dối', 'Vì bàn phím hỏng', 'Vì mạng chậm'], a:0, why:'Hợp lí về ngôn ngữ không đồng nghĩa với đúng sự thật.'},
+   {q:'Tăng "độ sáng tạo" làm chatbot:', o:['Luôn chọn từ phổ biến nhất', 'Chọn cả những từ ít gặp hơn, câu đa dạng hơn nhưng dễ lạc đề', 'Chạy chậm lại', 'Không đổi'], a:1, why:'Độ ngẫu nhiên cao hơn tạo câu mới lạ nhưng kém chính xác.'}],
+  reflect:'Sau khi thử chatbot tí hon, em giải thích cho bạn hiểu "AI không thật sự hiểu" như thế nào?',
+  tip:'Tiết 1: trò chơi đoán từ tiếp theo không dùng máy, thử chatbot tí hon. Tiết 2: nhóm "dạy" chatbot bằng bộ câu về chủ đề riêng (môi trường, trường em), so sánh kết quả, thảo luận ảo giác AI.'},
+ {id:'8-3', name:'AI nhận diện cảm xúc', codes:['C2', 'C5'], icon:'😊',
+  yccd:'Mô tả được cách một hệ thống AI đơn giản nhận diện cảm xúc trong câu văn; thử điều chỉnh mô hình và nhận ra giới hạn (câu phủ định, nói mỉa).',
+  warm:'Khi bạn nói "Ừ, vui lắm" với giọng chán nản, em có biết bạn thật sự vui không? Máy có biết không?',
+  cards:[
+   {t:'Phân tích cảm xúc', b:'Nhiều hệ thống AI đọc bình luận, tin nhắn để đoán người viết vui hay không vui, ví dụ để cửa hàng biết khách hài lòng không. Cách đơn giản: mỗi từ có một "điểm cảm xúc", cộng lại để đoán.'},
+   {t:'Những chỗ máy dễ sai', b:'Câu phủ định ("không vui"), câu nói mỉa ("Tuyệt thật, lại mất điện rồi"), tiếng lóng, biểu tượng cảm xúc… khiến cách cộng điểm đơn giản bị sai. AI hiện đại xử lí tốt hơn nhưng vẫn có thể nhầm.'},
+   {t:'Cẩn trọng với nhận diện cảm xúc', b:'Có hệ thống đoán cảm xúc qua khuôn mặt, giọng nói. Việc này liên quan đến dữ liệu nhạy cảm và có thể sai, nên không được dùng để đánh giá, phạt hay quyết định thay con người.'}],
+  act:{type:'emotion'},
+  quiz:[
+   {q:'Mô hình cảm xúc trong bài đoán bằng cách:', o:['Cộng điểm cảm xúc của các từ', 'Nhìn mặt người viết', 'Hỏi người viết', 'Đếm số chữ'], a:0, why:'Mỗi từ có điểm, tổng điểm cho biết tích cực hay tiêu cực.'},
+   {q:'Câu nào dễ làm mô hình đơn giản đoán sai nhất?', o:['Em rất vui.', 'Em buồn quá.', 'Hay ghê, lại bị mưa ướt hết rồi.', 'Hôm nay em thích lắm.'], a:2, why:'Câu nói mỉa có từ tích cực nhưng ý tiêu cực.'},
+   {q:'Vì sao cần xử lí từ "không"?', o:['Vì "không" đảo ngược ý của từ sau nó', 'Vì "không" là từ dài', 'Vì "không" luôn tích cực', 'Không cần xử lí'], a:0, why:'"Không vui" mang nghĩa ngược với "vui".'},
+   {q:'Dùng AI đoán cảm xúc học sinh qua camera để chấm điểm thái độ là:', o:['Hoàn toàn phù hợp', 'Cần hết sức thận trọng vì dữ liệu nhạy cảm và AI có thể sai', 'Bắt buộc', 'Không ảnh hưởng ai'], a:1, why:'Không để AI đánh giá con người thay cho con người.'}],
+  reflect:'Em đã thêm hoặc sửa từ nào để mô hình đoán đúng hơn? Còn câu nào máy vẫn sai?',
+  tip:'Tiết 1: tìm hiểu phân tích cảm xúc, thử mô hình. Tiết 2: nhóm thi cải thiện độ chính xác trên bộ câu kiểm tra, thảo luận giới hạn và đạo đức của nhận diện cảm xúc.'},
+ {id:'8-4', name:'Xây dựng AI công bằng', codes:['B3', 'C4'], icon:'🎙️',
+  yccd:'Nêu được nguyên tắc công bằng trong phát triển AI; thực hiện kiểm tra kết quả của mô hình theo từng nhóm người dùng và điều chỉnh dữ liệu để giảm thiên lệch.',
+  warm:'Loa thông minh có thể hiểu giọng mọi vùng miền như nhau không? Em đã bao giờ thấy máy nghe nhầm giọng ai đó chưa?',
+  cards:[
+   {t:'Công bằng là một nguyên tắc đạo đức', b:'AI dùng cho nhiều người phải phục vụ tốt cho tất cả, không để một nhóm bị thiệt thòi. Người tạo ra AI có trách nhiệm kiểm tra và giảm thiên lệch.'},
+   {t:'Đo lường công bằng', b:'Một cách đơn giản: tính tỉ lệ đúng riêng cho từng nhóm (ví dụ giọng miền Bắc, Trung, Nam), rồi xem khoảng chênh lệch giữa nhóm cao nhất và thấp nhất. Chênh lệch càng nhỏ, AI càng công bằng.'},
+   {t:'Trách nhiệm xã hội', b:'Khi AI được dùng trong dịch vụ công, ngân hàng, tuyển dụng, sự thiên lệch có thể ảnh hưởng nghiêm trọng đến cuộc sống của nhiều người. Vì vậy cần minh bạch về dữ liệu và cho phép con người khiếu nại, xem xét lại.'}],
+  act:{type:'bias', title:'Trợ lý giọng nói cho mọi vùng miền', groups:[{n:'Giọng miền Bắc', icon:'🔵'}, {n:'Giọng miền Trung', icon:'🟠'}, {n:'Giọng miền Nam', icon:'🟣'}], classes:['Lệnh "Bật đèn"', 'Lệnh "Tắt đèn"'], xl:'Đặc trưng âm thanh 1', yl:'Đặc trưng âm thanh 2', target:85, gap:10},
+  quiz:[
+   {q:'AI công bằng nghĩa là:', o:['Đúng nhiều nhất với nhóm đông người', 'Phục vụ tốt cho mọi nhóm, không nhóm nào bị thiệt thòi', 'Chạy nhanh', 'Miễn phí'], a:1, why:'Công bằng là nguyên tắc đạo đức quan trọng.'},
+   {q:'Cách đo công bằng trong hoạt động:', o:['Chỉ xem tỉ lệ đúng chung', 'So sánh tỉ lệ đúng của từng nhóm và độ chênh lệch', 'Đếm số nhóm', 'Hỏi người dùng'], a:1, why:'Độ chênh lệch cho biết nhóm nào bị thiệt.'},
+   {q:'Ai chịu trách nhiệm giảm thiên lệch của AI?', o:['Người tạo ra và triển khai AI', 'Người bị thiệt', 'Không ai', 'Chính AI'], a:0, why:'Người phát triển có trách nhiệm xã hội.'},
+   {q:'Khi AI ra quyết định sai về một người, cần có:', o:['Cơ chế để con người xem xét lại và khiếu nại', 'Không cần làm gì', 'Xóa người đó khỏi hệ thống', 'Tăng tốc AI'], a:0, why:'Con người phải có quyền được xem xét lại.'}],
+  reflect:'Nếu em là người làm trợ lý giọng nói, em sẽ thu thập dữ liệu như thế nào để công bằng?',
+  tip:'Tiết 1: ôn bài thiên lệch lớp 7, thí nghiệm 3 vùng miền, tính độ chênh lệch. Tiết 2: nhóm xây dựng "bộ nguyên tắc AI công bằng" 5 điều cho một ứng dụng của trường.'},
+ {id:'8-5', name:'Trách nhiệm khi dùng AI trong học tập', codes:['B2', 'B3'], icon:'📚',
+  yccd:'Sử dụng AI có trách nhiệm trong học tập: trung thực, ghi rõ phần có dùng AI, tôn trọng bản quyền, không dùng AI gây hại.',
+  warm:'Nếu em dùng ảnh do AI tạo trong bài thuyết trình, em có cần ghi chú không? Vì sao?',
+  cards:[
+   {t:'Trung thực học thuật', b:'Nộp bài do AI làm như bài của mình là không trung thực. Nếu có dùng AI để tìm ý, góp ý, em cần ghi rõ đã dùng như thế nào. Thầy cô sẽ đánh giá đúng năng lực thật của em.'},
+   {t:'Bản quyền và ghi nguồn', b:'Nội dung do người khác sáng tạo được pháp luật bảo vệ. Khi dùng ảnh, nhạc, đoạn văn, cần ghi nguồn. Với nội dung do AI tạo, ghi rõ "tạo bằng công cụ AI" để người xem biết.'},
+   {t:'Trách nhiệm với cộng đồng', b:'Không dùng AI để tạo tin giả, nội dung bạo lực, xúc phạm. Mỗi người dùng đều góp phần tạo nên môi trường số an toàn hoặc độc hại.'}],
+  act:{type:'dilemma', cases:[
+   {s:'Em dùng AI để gợi ý dàn ý bài thuyết trình về rác thải nhựa, sau đó tự tìm số liệu và viết.', o:[{t:'Không ghi gì vì em đã tự viết', g:1, fb:'Em đã tự làm phần chính, nhưng nên ghi rõ phần dàn ý có tham khảo AI để minh bạch.'}, {t:'Ghi chú: "Dàn ý có tham khảo gợi ý của công cụ AI, số liệu và nội dung do nhóm tự tìm và viết"', g:2, fb:'Rất minh bạch và trung thực!'}]},
+   {s:'Bài kiểm tra trên lớp, bạn ngồi cạnh lén dùng điện thoại hỏi AI.', o:[{t:'Hỏi bạn đáp án', g:0, fb:'Đây là gian lận.'}, {t:'Tự làm bài và sau giờ kiểm tra góp ý với bạn hoặc báo thầy cô', g:2, fb:'Em giữ được sự trung thực và giúp bạn nhận ra lỗi.'}]},
+   {s:'Em muốn dùng một bức tranh của họa sĩ trên mạng làm bìa poster dự án.', o:[{t:'Dùng luôn, không ghi gì', g:0, fb:'Có thể vi phạm bản quyền.'}, {t:'Ghi rõ tác giả và nguồn, hoặc chọn ảnh có giấy phép sử dụng tự do', g:2, fb:'Đúng! Tôn trọng quyền tác giả.'}]},
+   {s:'Nhóm em định dùng AI tạo ảnh một thầy giáo trong trường để làm trò vui.', o:[{t:'Làm vì chỉ để vui', g:0, fb:'Dùng hình ảnh người khác khi chưa đồng ý có thể xúc phạm và vi phạm pháp luật.'}, {t:'Không làm, chọn hình minh họa không dùng hình ảnh người thật', g:2, fb:'Chính xác, tôn trọng người khác.'}]}]},
+  quiz:[
+   {q:'Dùng AI viết hộ bài rồi nộp như bài của mình là:', o:['Sáng tạo', 'Không trung thực', 'Bắt buộc', 'Bình thường'], a:1, why:'Cần trung thực về công sức của mình.'},
+   {q:'Khi dùng ảnh do AI tạo trong bài, em nên:', o:['Ghi rõ ảnh được tạo bằng công cụ AI', 'Nói là ảnh tự chụp', 'Không cần ghi', 'Xóa thông tin'], a:0, why:'Minh bạch giúp người xem hiểu đúng.'},
+   {q:'Ghi nguồn khi dùng tài liệu của người khác thể hiện:', o:['Sự tôn trọng bản quyền', 'Bài dài hơn', 'Lười biếng', 'Không cần thiết'], a:0, why:'Đó là trách nhiệm với tác giả.'},
+   {q:'Người dùng AI có trách nhiệm với cộng đồng vì:', o:['Nội dung họ tạo ra có thể ảnh hưởng đến người khác', 'AI chịu trách nhiệm thay', 'Không ai biết', 'Chỉ người lớn mới có trách nhiệm'], a:0, why:'Mỗi người đều góp phần tạo môi trường số.'}],
+  reflect:'Viết một câu ghi chú mẫu em sẽ dùng khi có sử dụng AI trong bài làm.',
+  tip:'Tiết 1: thảo luận trung thực học thuật, xử lí tình huống. Tiết 2: cả lớp thống nhất "Quy định ghi chú sử dụng AI" cho các bài dự án, áp dụng cho bài thuyết trình tiếp theo.'},
+ {id:'8-6', name:'Lập kế hoạch dự án AI cá nhân', codes:['D1', 'D2'], icon:'🗂️',
+  yccd:'Lập được kế hoạch một dự án AI đơn giản: xác định vấn đề, dữ liệu, các thành phần của hệ thống (đầu vào – xử lí – đầu ra), cách đánh giá và cải tiến.',
+  warm:'Em đã thử dạy máy nhận dạng hình vẽ. Nếu muốn làm một ứng dụng thật cho lớp, em cần chuẩn bị những gì?',
+  cards:[
+   {t:'Cấu trúc một hệ thống AI', b:'Đầu vào (ảnh, chữ, âm thanh) → Xử lí (mô hình AI đã huấn luyện) → Đầu ra (dự đoán, gợi ý) → Con người (kiểm tra, quyết định, phản hồi). Phản hồi của người dùng giúp cải tiến hệ thống.'},
+   {t:'Kế hoạch theo từng bước', b:'Bước 1: xác định vấn đề và người dùng. Bước 2: thu thập dữ liệu. Bước 3: huấn luyện mô hình bằng công cụ trực quan. Bước 4: kiểm tra với dữ liệu mới. Bước 5: thu phản hồi và cải tiến.'},
+   {t:'Tiêu chí thành công', b:'Đặt trước mục tiêu đo được, ví dụ "đoán đúng ít nhất 8/10 ảnh rác thường gặp", "người dùng hiểu được cách dùng trong 1 phút". Có tiêu chí thì mới biết dự án đã tốt chưa.'}],
+  act:{type:'plan', fields:[
+   {k:'problem', l:'Tên dự án và vấn đề', ph:'Ví dụ: "Thùng rác thông minh" giúp phân loại rác đúng'},
+   {k:'input', l:'Đầu vào của hệ thống', ph:'Ví dụ: Ảnh chụp vật cần bỏ'},
+   {k:'process', l:'AI xử lí thế nào (mô hình, công cụ)', ph:'Ví dụ: Mô hình nhận dạng ảnh 4 nhóm, huấn luyện bằng công cụ kéo thả'},
+   {k:'output', l:'Đầu ra và cách hiển thị', ph:'Ví dụ: Đèn sáng ở thùng đúng, kèm câu nhắc'},
+   {k:'data', l:'Kế hoạch dữ liệu', ph:'Ví dụ: Mỗi nhóm 30 ảnh, chụp nhiều góc, xin phép khi chụp ở trường'},
+   {k:'measure', l:'Tiêu chí thành công đo được', ph:'Ví dụ: Đúng ít nhất 8/10 ảnh kiểm tra'},
+   {k:'improve', l:'Cách thu phản hồi và cải tiến', ph:'Ví dụ: Ghi lại ảnh bị đoán sai, bổ sung dữ liệu mỗi tuần'}]},
+  quiz:[
+   {q:'Thứ tự đúng các thành phần hệ thống AI là:', o:['Đầu ra → Đầu vào → Xử lí', 'Đầu vào → Xử lí → Đầu ra → Phản hồi của con người', 'Xử lí → Đầu ra', 'Chỉ cần đầu ra'], a:1, why:'Dữ liệu vào được mô hình xử lí, cho kết quả, con người phản hồi.'},
+   {q:'Tiêu chí thành công tốt là:', o:['"Dự án thật hay"', '"Đúng ít nhất 8/10 ảnh kiểm tra"', '"Càng nhiều càng tốt"', '"Không cần tiêu chí"'], a:1, why:'Tiêu chí phải đo được.'},
+   {q:'Phản hồi của người dùng giúp:', o:['Cải tiến hệ thống', 'Làm hỏng hệ thống', 'Không có tác dụng', 'Tăng giá sản phẩm'], a:0, why:'Đây là vòng cải tiến liên tục.'},
+   {q:'Vì sao cần dữ liệu kiểm tra riêng?', o:['Để đánh giá khách quan với dữ liệu mô hình chưa thấy', 'Để có nhiều tệp hơn', 'Vì bắt buộc phải có', 'Không cần'], a:0, why:'Đánh giá bằng dữ liệu đã học sẽ không khách quan.'}],
+  reflect:'Bước nào trong kế hoạch em thấy khó nhất? Em cần ai giúp?',
+  tip:'Tiết 1: phân tích cấu trúc hệ thống AI qua một ví dụ, học sinh lập kế hoạch. Tiết 2: trao đổi kế hoạch giữa các nhóm để phản biện theo tiêu chí, chỉnh sửa. Có thể dùng làm nền cho dự án KHKT của học sinh.'}
+]},
+9:{title:'AI, xã hội và tương lai', lessons:[
+ {id:'9-1', name:'Dùng AI quá mức và nguy cơ bị thao túng', codes:['A1', 'B1'], icon:'🌀',
+  yccd:'Nhận diện được nguy cơ của việc lạm dụng AI, nguy cơ bị theo dõi hoặc thao túng bởi hệ thống AI (gợi ý nội dung, quảng cáo); đề xuất cách giữ quyền tự chủ.',
+  warm:'Em có bao giờ định xem 1 video rồi cuối cùng xem cả tiếng đồng hồ không? Điều gì đã giữ chân em?',
+  cards:[
+   {t:'Hệ thống gợi ý học từ hành vi', b:'Mỗi lần em xem lâu, bấm thích, chia sẻ, hệ thống gợi ý ghi nhận và đưa thêm nội dung tương tự. Mục tiêu của nhiều nền tảng là giữ em ở lại càng lâu càng tốt.'},
+   {t:'Bong bóng thông tin', b:'Khi chỉ được gợi ý những gì mình đã thích, em dần chỉ thấy một góc nhìn, ít gặp ý kiến khác. Kẻ xấu cũng có thể lợi dụng để lan truyền tin sai lệch hoặc quảng cáo không phù hợp.'},
+   {t:'Giữ quyền tự chủ', b:'Đặt giới hạn thời gian, chủ động tìm nội dung đa dạng, tắt tự động phát, xóa lịch sử khi cần, tự hỏi: "Mình đang xem vì mình muốn hay vì máy gợi ý?".'}],
+  act:{type:'feed'},
+  quiz:[
+   {q:'Hệ thống gợi ý quyết định nội dung dựa vào:', o:['Hành vi xem, thích, chia sẻ của em', 'Ý kiến thầy cô', 'Thời tiết', 'Ngẫu nhiên hoàn toàn'], a:0, why:'Nó học từ dữ liệu hành vi.'},
+   {q:'"Bong bóng thông tin" là:', o:['Chỉ thấy những nội dung giống điều mình đã thích', 'Một trò chơi', 'Lỗi mạng', 'Tin nhắn rác'], a:0, why:'Góc nhìn bị thu hẹp dần.'},
+   {q:'Cách giữ quyền tự chủ khi dùng nền tảng có AI gợi ý:', o:['Xem mọi thứ được gợi ý', 'Đặt giới hạn thời gian và chủ động tìm nội dung đa dạng', 'Không bao giờ dùng mạng', 'Chia sẻ thật nhiều'], a:1, why:'Chủ động lựa chọn thay vì để máy dẫn dắt.'},
+   {q:'Bị thao túng bởi AI có thể là:', o:['Bị dẫn dắt tin theo thông tin sai lệch qua nội dung lặp đi lặp lại', 'Học được kiến thức mới', 'Tự đặt mục tiêu học tập', 'Kiểm chứng thông tin'], a:0, why:'Nội dung lặp lại có chủ đích có thể thay đổi suy nghĩ người xem.'}],
+  reflect:'Em sẽ thay đổi thói quen nào để không bị hệ thống gợi ý dẫn dắt?',
+  tip:'Tiết 1: mô phỏng bảng tin, quan sát bong bóng thông tin. Tiết 2: học sinh ghi nhật kí sử dụng thiết bị 1 tuần (làm ở nhà), lớp thảo luận và lập kế hoạch cân bằng.'},
+ {id:'9-2', name:'Người dùng, người tạo AI và trách nhiệm pháp lí', codes:['A3', 'B3'], icon:'⚖️',
+  yccd:'Phân biệt được vai trò người dùng và người tạo ra AI; nêu được trách nhiệm giải trình và trách nhiệm pháp lí khi sử dụng, phát triển AI.',
+  warm:'Nếu một chiếc xe tự lái gây tai nạn, theo em ai phải chịu trách nhiệm: chiếc xe, người ngồi trong xe hay công ty làm ra xe?',
+  cards:[
+   {t:'Nhiều bên tham gia', b:'Người tạo ra AI (thiết kế, huấn luyện), đơn vị triển khai (đưa AI vào dịch vụ), người dùng (sử dụng kết quả). Mỗi bên có trách nhiệm riêng. AI không phải là chủ thể chịu trách nhiệm pháp lí.'},
+   {t:'Trách nhiệm giải trình', b:'Người tạo và người triển khai AI phải giải thích được hệ thống hoạt động thế nào, dùng dữ liệu gì, vì sao đưa ra kết quả đó, và sửa sai khi có lỗi. Người dùng phải chịu trách nhiệm về việc mình dùng AI vào mục đích gì.'},
+   {t:'Pháp luật về AI', b:'Nhiều quốc gia, trong đó có Việt Nam, đang xây dựng và hoàn thiện quy định pháp luật về AI, dữ liệu cá nhân và an ninh mạng. Dùng AI để lừa đảo, xúc phạm, làm giả giấy tờ là vi phạm pháp luật.'}],
+  act:{type:'sort', title:'Trách nhiệm thuộc về ai?', prompt:'Chọn bên chịu trách nhiệm chính trong mỗi tình huống.', bins:[{id:'dev', n:'Người tạo / triển khai AI', icon:'🏢'}, {id:'user', n:'Người dùng AI', icon:'🧑'}],
+   items:[
+    {t:'Ứng dụng AI làm lộ dữ liệu của hàng nghìn người dùng do bảo mật kém', b:'dev', why:'Đơn vị phát triển phải bảo vệ dữ liệu.'},
+    {t:'Một người dùng AI tạo video giả để bôi nhọ người khác', b:'user', why:'Người dùng chịu trách nhiệm về mục đích sử dụng.'},
+    {t:'Hệ thống chấm hồ sơ bằng AI liên tục đánh giá thấp một nhóm người vì dữ liệu lệch', b:'dev', why:'Người tạo và triển khai phải kiểm tra thiên lệch.'},
+    {t:'Học sinh dùng AI làm bài thi hộ', b:'user', why:'Người dùng vi phạm quy chế.'},
+    {t:'Chatbot của cửa hàng tư vấn sai giá, công ty không có cách khiếu nại', b:'dev', why:'Đơn vị triển khai phải giải trình và sửa sai.'},
+    {t:'Một người chia sẻ tin giả do AI tạo mà không kiểm chứng', b:'user', why:'Người chia sẻ có trách nhiệm kiểm chứng.'}]},
+  quiz:[
+   {q:'AI có phải chịu trách nhiệm pháp lí thay con người không?', o:['Có', 'Không, trách nhiệm thuộc về con người và tổ chức liên quan', 'Tùy AI', 'Chỉ khi AI muốn'], a:1, why:'AI là công cụ.'},
+   {q:'Trách nhiệm giải trình của người tạo AI bao gồm:', o:['Giải thích cách hệ thống hoạt động và sửa sai khi có lỗi', 'Giữ bí mật mọi thứ', 'Đổ lỗi cho người dùng', 'Không cần làm gì'], a:0, why:'Minh bạch và sửa sai là trách nhiệm.'},
+   {q:'Người dùng chịu trách nhiệm về:', o:['Mục đích và cách mình sử dụng AI', 'Thuật toán của AI', 'Máy chủ của công ty', 'Không có gì'], a:0, why:'Dùng AI vào việc xấu là lỗi của người dùng.'},
+   {q:'Dùng AI làm giả giấy tờ là:', o:['Vi phạm pháp luật', 'Sáng tạo', 'Được phép', 'Không ai biết nên không sao'], a:0, why:'Làm giả giấy tờ là hành vi bị pháp luật nghiêm cấm.'}],
+  reflect:'Nếu sau này em tạo ra một ứng dụng AI, em sẽ cam kết những trách nhiệm gì với người dùng?',
+  tip:'Tiết 1: thảo luận tình huống xe tự lái, phân loại trách nhiệm. Tiết 2: phiên "tòa án giả định" về một tình huống AI gây hại, các nhóm đóng vai người tạo, người dùng, người bị hại.'},
+ {id:'9-3', name:'Thiên vị trong AI và tác động xã hội', codes:['B1', 'A2'], icon:'🏅',
+  yccd:'Phân tích được nguyên nhân và hậu quả của thiên vị, định kiến trong hệ thống AI; đề xuất được giải pháp giúp AI phục vụ sự tiến bộ của mọi người.',
+  warm:'Nếu một máy chọn học sinh vào đội tuyển chỉ dựa trên dữ liệu các đội tuyển nhiều năm trước, điều gì có thể xảy ra?',
+  cards:[
+   {t:'AI học cả định kiến trong dữ liệu', b:'Dữ liệu quá khứ phản ánh cả những bất công trong quá khứ. Nếu trước đây một nhóm ít được tạo cơ hội, AI học từ dữ liệu đó sẽ tiếp tục đánh giá thấp nhóm này, khiến bất công lặp lại.'},
+   {t:'Tác động xã hội', b:'Thiên vị trong AI có thể ảnh hưởng đến cơ hội học tập, việc làm, vay vốn, dịch vụ y tế. Vì AI xử lí rất nhiều hồ sơ, một lỗi nhỏ cũng có thể ảnh hưởng đến hàng nghìn người.'},
+   {t:'AI vì sự tiến bộ của mọi người', b:'Giải pháp: dữ liệu đa dạng, kiểm tra theo nhóm, để con người xem xét quyết định quan trọng, công khai tiêu chí, lắng nghe phản hồi của người bị ảnh hưởng.'}],
+  act:{type:'bias', title:'Máy gợi ý học sinh vào câu lạc bộ', groups:[{n:'Học sinh trường A', icon:'🏫'}, {n:'Học sinh trường B', icon:'🏡'}], classes:['Chưa phù hợp', 'Phù hợp'], xl:'Điểm bài thử thách', yl:'Mức độ tham gia hoạt động', target:85, gap:10, noise:true},
+  quiz:[
+   {q:'Vì sao AI có thể lặp lại bất công trong quá khứ?', o:['Vì AI học từ dữ liệu quá khứ có chứa định kiến', 'Vì AI muốn bất công', 'Vì máy tính cũ', 'Vì mạng chậm'], a:0, why:'Dữ liệu phản ánh xã hội đã tạo ra nó.'},
+   {q:'Nhãn sai trong dữ liệu (ví dụ đánh giá nhầm) làm mô hình:', o:['Tốt hơn', 'Học sai và kém chính xác hơn', 'Không đổi', 'Nhanh hơn'], a:1, why:'Chất lượng nhãn ảnh hưởng trực tiếp.'},
+   {q:'Giải pháp giảm thiên vị là:', o:['Dữ liệu đa dạng, kiểm tra theo nhóm, con người xem xét quyết định quan trọng', 'Giấu tiêu chí', 'Chỉ dùng dữ liệu một nhóm', 'Tăng tốc độ xử lí'], a:0, why:'Kết hợp nhiều biện pháp.'},
+   {q:'Thiên vị của AI có tác động lớn vì:', o:['AI xử lí rất nhiều trường hợp cùng lúc', 'AI ít được dùng', 'AI luôn đúng', 'AI không liên quan đến con người'], a:0, why:'Quy mô lớn làm hậu quả nhân lên.'}],
+  reflect:'Nếu em bị một hệ thống AI đánh giá sai, em mong muốn có quyền gì?',
+  tip:'Tiết 1: thí nghiệm mô phỏng câu lạc bộ, chú ý tác động của nhãn sai và dữ liệu lệch. Tiết 2: thảo luận tác động xã hội, viết đoạn văn nghị luận ngắn "AI cần công bằng với mọi người".'},
+ {id:'9-4', name:'Cải thiện dữ liệu để nâng chất lượng AI', codes:['C4', 'C5'], icon:'📈',
+  yccd:'Vận dụng AI để giải quyết vấn đề và tạo sản phẩm đơn giản; cải thiện dữ liệu (số lượng, độ đa dạng, nhãn đúng) để nâng cao chất lượng sản phẩm AI và đánh giá bằng tỉ lệ đúng.',
+  warm:'Một mô hình đoán đúng 6/10. Em có ba cách: thêm dữ liệu, sửa nhãn sai, hoặc đổi máy mạnh hơn. Cách nào hiệu quả nhất?',
+  cards:[
+   {t:'Chất lượng dữ liệu quyết định', b:'Các kĩ sư AI dành rất nhiều thời gian cho dữ liệu: gom thêm ví dụ, loại bỏ ví dụ trùng lặp, sửa nhãn sai, cân bằng các nhóm.'},
+   {t:'Đánh giá bằng con số', b:'Tỉ lệ đúng = số dự đoán đúng / tổng số lần thử. Nên ghi lại tỉ lệ đúng sau mỗi lần cải tiến để biết thay đổi nào thật sự có ích.'},
+   {t:'Bảng nhầm lẫn', b:'Ghi lại máy hay nhầm nhóm nào sang nhóm nào. Nếu máy hay nhầm "số 1" thành "số 7", em biết cần thêm ví dụ của hai nhóm đó.'}],
+  act:{type:'draw', classes:[{n:'Số 1', icon:'1️⃣'}, {n:'Số 7', icon:'7️⃣'}, {n:'Số 0', icon:'0️⃣'}], minPer:5, eval:true},
+  quiz:[
+   {q:'Tỉ lệ đúng được tính bằng:', o:['Số lần đúng / tổng số lần thử', 'Số nhóm × 10', 'Số ví dụ huấn luyện', 'Thời gian chạy'], a:0, why:'Đây là cách đánh giá cơ bản.'},
+   {q:'Bảng nhầm lẫn cho biết:', o:['Máy hay nhầm nhóm nào sang nhóm nào', 'Máy chạy bao lâu', 'Ai vẽ đẹp nhất', 'Pin còn bao nhiêu'], a:0, why:'Giúp biết cần bổ sung dữ liệu ở đâu.'},
+   {q:'Cách cải tiến hiệu quả nhất khi máy nhầm số 1 và số 7 là:', o:['Thêm ví dụ đa dạng, đúng nhãn cho hai nhóm này', 'Xóa nhóm số 0', 'Đổi màu nền', 'Vẽ nhanh hơn'], a:0, why:'Tập trung vào chỗ máy hay nhầm.'},
+   {q:'Vì sao nên ghi lại tỉ lệ đúng sau mỗi lần cải tiến?', o:['Để biết thay đổi nào có ích', 'Cho đẹp', 'Không cần', 'Để máy nhớ'], a:0, why:'Có số liệu mới đánh giá được cải tiến.'}],
+  reflect:'Ghi lại tỉ lệ đúng trước và sau cải tiến cùng một thay đổi có ích nhất mà em đã làm.',
+  tip:'Tiết 1: huấn luyện mô hình nhận dạng chữ số, dùng bảng nhầm lẫn. Tiết 2: nhóm thi cải tiến, báo cáo tỉ lệ đúng theo từng vòng bằng biểu đồ (liên môn Toán: thống kê).'},
+ {id:'9-5', name:'Đánh giá và cải tiến sản phẩm AI', codes:['D2', 'A1'], icon:'🛠️',
+  yccd:'Đánh giá được sản phẩm AI theo các tiêu chí: hiệu quả, an toàn, công bằng, minh bạch, có con người kiểm soát; đề xuất cải tiến dựa trên phản hồi.',
+  warm:'Khi đánh giá một ứng dụng AI, ngoài câu hỏi "có đúng không", em còn cần hỏi thêm những câu hỏi nào?',
+  cards:[
+   {t:'Năm câu hỏi đánh giá', b:'Có hiệu quả không (đúng, nhanh, dễ dùng)? Có an toàn không (dữ liệu cá nhân, nội dung)? Có công bằng không (mọi nhóm người dùng)? Có minh bạch không (người dùng biết đang dùng AI, biết giới hạn)? Có con người kiểm soát không (khi AI sai thì sao)?'},
+   {t:'Con người hướng dẫn AI', b:'Người dùng và người phát triển cùng phát hiện lỗi, góp ý, gắn nhãn lại dữ liệu. Nhiều hệ thống AI được cải thiện nhờ phản hồi của con người.'},
+   {t:'Vòng cải tiến', b:'Đánh giá → tìm điểm yếu → đề xuất thay đổi → thử nghiệm → đánh giá lại. Ghi chép rõ ràng mỗi vòng giúp em có minh chứng cho dự án.'}],
+  act:{type:'plan', rubric:true, fields:[
+   {k:'product', l:'Sản phẩm AI em đánh giá', ph:'Ví dụ: Mô hình nhận dạng chữ số em làm ở bài trước, hoặc phòng Lớp học AI này'},
+   {k:'good', l:'Điểm mạnh', ph:'Ví dụ: Đoán đúng số 0 rất tốt'},
+   {k:'weak', l:'Điểm yếu phát hiện được', ph:'Ví dụ: Hay nhầm số 1 và số 7 khi viết nghiêng'},
+   {k:'change', l:'Đề xuất cải tiến', ph:'Ví dụ: Thêm 10 ví dụ số 1, số 7 viết nghiêng'},
+   {k:'test', l:'Cách kiểm tra lại sau cải tiến', ph:'Ví dụ: Thử 10 hình mới, so sánh tỉ lệ đúng'}]},
+  quiz:[
+   {q:'Tiêu chí "minh bạch" nghĩa là:', o:['Người dùng biết đang dùng AI và biết giới hạn của nó', 'Màn hình sáng', 'Ứng dụng miễn phí', 'Chạy nhanh'], a:0, why:'Minh bạch giúp người dùng tin tưởng đúng mức.'},
+   {q:'Vì sao cần tiêu chí "có con người kiểm soát"?', o:['Để có người phát hiện và xử lí khi AI sai', 'Để tốn thêm người', 'Không cần thiết', 'Để AI chậm lại'], a:0, why:'Con người là lớp bảo vệ cuối cùng.'},
+   {q:'Vòng cải tiến đúng là:', o:['Đánh giá → tìm điểm yếu → thay đổi → thử nghiệm → đánh giá lại', 'Làm một lần là xong', 'Chỉ thay đổi, không đánh giá', 'Đánh giá rồi bỏ'], a:0, why:'Cải tiến là quá trình lặp.'},
+   {q:'Phản hồi của người dùng giúp:', o:['Phát hiện lỗi mà người làm chưa thấy', 'Làm sản phẩm tệ hơn', 'Không có ích', 'Tăng quảng cáo'], a:0, why:'Người dùng thật gặp nhiều tình huống đa dạng.'}],
+  reflect:'Tiêu chí nào sản phẩm em đánh giá còn yếu nhất? Em ưu tiên cải tiến gì trước?',
+  tip:'Tiết 1: giới thiệu 5 tiêu chí, đánh giá một sản phẩm mẫu. Tiết 2: nhóm đánh giá chéo sản phẩm của nhóm khác bằng phiếu tiêu chí, đề xuất cải tiến.'},
+ {id:'9-6', name:'Định hướng học tập và nghề nghiệp thời AI', codes:['A3', 'A2'], icon:'🎓',
+  yccd:'Nêu được sự thay đổi của nghề nghiệp trong kỉ nguyên AI, những năng lực cần có; dùng AI để thể hiện bản thân một cách có trách nhiệm và định hướng học tập phù hợp.',
+  warm:'Em muốn làm nghề gì trong tương lai? Theo em, AI sẽ thay đổi nghề đó như thế nào?',
+  cards:[
+   {t:'Nghề nghiệp đang thay đổi', b:'Một số công việc lặp lại sẽ được tự động hóa, nhiều nghề mới xuất hiện như kĩ sư dữ liệu, chuyên viên đạo đức AI, kĩ thuật viên robot. Phần lớn các nghề sẽ có thêm AI làm trợ thủ.'},
+   {t:'Năng lực của người học thời AI', b:'Tư duy phản biện, sáng tạo, giao tiếp và hợp tác, hiểu biết công nghệ, học tập suốt đời, và đạo đức. Đây là những năng lực AI khó thay thế và giúp em làm chủ công nghệ.'},
+   {t:'Định hướng cho bản thân', b:'Hãy khám phá môn học em yêu thích, thử các dự án STEM, tìm hiểu nghề nghiệp qua người thật, và dùng AI để học thêm chứ không để học thay.'}],
+  act:{type:'sort', title:'Kĩ năng nào AI khó thay thế?', prompt:'Xếp từng việc vào nhóm phù hợp.', bins:[{id:'auto', n:'Dễ được AI hỗ trợ, tự động hóa', icon:'⚙️'}, {id:'human', n:'Cần thế mạnh của con người', icon:'💡'}],
+   items:[
+    {t:'Nhập lại số liệu từ giấy vào máy tính', b:'auto', why:'Công việc lặp lại.'},
+    {t:'Thuyết phục cộng đồng cùng bảo vệ môi trường', b:'human', why:'Cần giao tiếp, cảm xúc và sự tin tưởng.'},
+    {t:'Sắp xếp lịch họp theo thời gian trống', b:'auto', why:'Máy tính làm nhanh.'},
+    {t:'Chăm sóc, động viên người bệnh', b:'human', why:'Cần sự thấu cảm.'},
+    {t:'Dịch thô một văn bản thông thường', b:'auto', why:'AI dịch nhanh, con người vẫn cần hiệu đính.'},
+    {t:'Đặt ra câu hỏi nghiên cứu mới cho dự án khoa học', b:'human', why:'Cần sự tò mò và sáng tạo.'},
+    {t:'Quyết định một vấn đề đạo đức trong y khoa', b:'human', why:'Cần giá trị đạo đức và trách nhiệm.'},
+    {t:'Phân loại thư rác', b:'auto', why:'Mô hình AI làm tốt việc này.'}]},
+  quiz:[
+   {q:'Năng lực nào AI khó thay thế nhất?', o:['Tính toán nhanh', 'Thấu cảm và sáng tạo', 'Lưu trữ dữ liệu', 'Sắp xếp danh sách'], a:1, why:'Đó là thế mạnh của con người.'},
+   {q:'Nghề nào là nghề mới xuất hiện cùng AI?', o:['Kĩ sư dữ liệu', 'Thợ đánh máy chữ', 'Người trực tổng đài thủ công', 'Người bán vé giấy'], a:0, why:'Nhu cầu xử lí dữ liệu tạo ra nghề mới.'},
+   {q:'Học tập suốt đời quan trọng vì:', o:['Công nghệ và nghề nghiệp thay đổi liên tục', 'Để có nhiều bằng', 'Bắt buộc', 'Không quan trọng'], a:0, why:'Cần cập nhật kiến thức, kĩ năng.'},
+   {q:'Dùng AI để thể hiện bản thân có trách nhiệm là:', o:['Tạo hồ sơ năng lực trung thực, ghi rõ phần có dùng AI', 'Nhờ AI bịa thành tích', 'Đăng ảnh giả', 'Sao chép bài của bạn'], a:0, why:'Trung thực là nền tảng.'}],
+  reflect:'Viết 3 dòng: nghề em quan tâm, một kĩ năng em cần rèn, và cách AI có thể giúp em rèn kĩ năng đó.',
+  tip:'Tiết 1: tìm hiểu sự thay đổi nghề nghiệp, phân loại kĩ năng. Tiết 2: mời phụ huynh hoặc cựu học sinh chia sẻ về nghề có dùng AI, học sinh viết kế hoạch học tập cá nhân.'}
+]}
+};
+const AI_ALL = Object.values(AI_GRADES).flatMap(g => g.lessons);
+const AI_BY = Object.fromEntries(AI_ALL.map(l => [l.id, l]));
+
+/* ---------- tiến độ Lớp học AI (lưu trên máy + đồng bộ vào hồ sơ trang bị để giáo viên xem) ---------- */
+const aiKey = sid => 'oli.ai.' + (sid || 'khach');
+function aiProg(sid){ let loc = {}; try { loc = JSON.parse(store(aiKey(sid)) || '{}') || {}; } catch(e){} S.aiMem = S.aiMem || {}; Object.entries(S.aiMem[aiKey(sid)] || {}).forEach(([k, v]) => { if (!loc[k] || (v.at || 0) > (loc[k].at || 0)) loc[k] = v; });
+  const rem = sid ? (gearOf(sid).ai || {}) : {}; const out = {...loc};
+  Object.entries(rem).forEach(([k, v]) => { const l = out[k] || {}; out[k] = {...((l.at || 0) >= (v.at || 0) ? {...v, ...l} : {...l, ...v}), a:l.a || v.a, q:Math.max(l.q || 0, v.q || 0)}; });
+  return out; }
+const aiDone = p => !!(p && p.a && (p.q || 0) >= 3);
+let _aiSaveT = null;
+function aiSave(sid, lid, patch){ const all = aiProg(sid), cur = all[lid] || {}; const nx = {...cur, ...patch, at:Date.now()};
+  if (patch.q !== undefined) nx.q = Math.max(cur.q || 0, patch.q); if (cur.a) nx.a = 1;
+  all[lid] = nx; store(aiKey(sid), JSON.stringify(all)); S.aiMem = S.aiMem || {}; S.aiMem[aiKey(sid)] = all;
+  if (sid){ const g = gearOf(sid); g.ai = all; if (S.gear && S.gear[sid]) S.gear[sid].ai = all; clearTimeout(_aiSaveT); _aiSaveT = setTimeout(() => saveGear(sid, g), 600); }
+  return nx; }
+const aiGradeOf = () => { const m = me(); const g = m && +m.grade; return AI_GRADES[S.aiG] ? S.aiG : AI_GRADES[g] ? g : 6; };
+const aiChip = c => { const st = AI_STRAND[c[0]]; return `<span class="ai-chip" style="--sc:${st.c}" title="${h(st.n)}: ${h(AI_TOPIC[c] || '')}"><b>${c}</b>${h(AI_TOPIC[c] || '')}</span>`; };
+const aiRand = seed => () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0)/4294967296; };
+
+/* ---------- trang chính Lớp học AI ---------- */
+function vAi(app){
+  const m = me(), sid = m ? m.id : null, G = aiGradeOf(), prog = aiProg(sid), L = AI_GRADES[G].lessons;
+  const nDone = L.filter(l => aiDone(prog[l.id])).length;
+  app.innerHTML = `<div class="wrap ai-wrap"><section class="section">
+    <header class="ai-hero">
+      <div class="ai-hero-t"><span class="eyebrow">Giáo dục trí tuệ nhân tạo · Khối 6–9</span>
+        <h1>Lớp học <span>AI</span></h1>
+        <p>Hiểu AI, dùng AI an toàn, có trách nhiệm và tự tay dạy máy học. Nội dung bám theo <b>Khung nội dung giáo dục trí tuệ nhân tạo cho học sinh phổ thông</b> (Quyết định 2422/QĐ-BGDĐT ngày 18/8/2026 của Bộ Giáo dục và Đào tạo): mỗi khối 12 tiết, 4 mạch nội dung.</p>
+      </div>
+      <div class="ai-hero-art" aria-hidden="true">${aiArt()}</div>
+    </header>
+    <div class="ai-strands">${Object.entries(AI_STRAND).map(([k, s]) => `<div class="ai-st" style="--sc:${s.c}"><b>${k}</b><span>${h(s.n)}</span></div>`).join('')}</div>
+    <div class="ai-grades" role="tablist" aria-label="Chọn khối lớp">${Object.entries(AI_GRADES).map(([g, x]) => { const d = x.lessons.filter(l => aiDone(prog[l.id])).length;
+      return `<button role="tab" data-aig="${g}" aria-selected="${+g === +G}"><b>Lớp ${g}</b><small>${h(x.title)}</small><i>${d}/6</i></button>`; }).join('')}</div>
+    <div class="ai-prog"><div class="ai-bar"><span style="width:${nDone/6*100}%"></span></div><span>${m ? `Em đã hoàn thành <b>${nDone}/6</b> chuyên đề lớp ${G} (${nDone*2}/12 tiết)` : 'Đăng nhập để lưu tiến độ học tập. Em vẫn có thể học thử ngay.'}</span></div>
+    <div class="ai-grid">${L.map((l, i) => { const p = prog[l.id] || {}, d = aiDone(p);
+      return `<button class="ai-card${d ? ' done' : ''}" data-go="ailesson" data-arg="${l.id}">
+        <span class="ai-ic">${l.icon}</span><span class="ai-n">Chuyên đề ${i + 1} · 2 tiết</span><b>${h(l.name)}</b>
+        <span class="ai-codes">${l.codes.map(c => `<i style="--sc:${AI_STRAND[c[0]].c}">${c}</i>`).join('')}</span>
+        <span class="ai-st2">${d ? '<em class="ok">⭐ Đã hoàn thành</em>' : p.a || p.q ? `<em>Đang học · ${p.a ? 'đã thực hành' : 'chưa thực hành'} · câu hỏi ${p.q || 0}/4</em>` : '<em>Chưa bắt đầu</em>'}</span></button>`; }).join('')}</div>
+    <details class="ai-map"><summary>Bản đồ năng lực lớp ${G}: chuyên đề nào thuộc mạch nào</summary>
+      <div class="tbl-wrap"><table><thead><tr><th>Chuyên đề</th>${Object.entries(AI_STRAND).map(([k, s]) => `<th title="${h(s.n)}" style="color:${s.c}">${k}</th>`).join('')}</tr></thead>
+      <tbody>${L.map((l, i) => `<tr><td>${i + 1}. ${h(l.name)}</td>${Object.keys(AI_STRAND).map(k => { const cs = l.codes.filter(c => c[0] === k); return `<td>${cs.length ? `<span class="ai-dot" style="--sc:${AI_STRAND[k].c}">${cs.join(', ')}</span>` : ''}</td>`; }).join('')}</tr>`).join('')}</tbody></table></div>
+      <p class="muted" style="font-size:.84rem">Đánh giá theo hướng dẫn của Khung: không kiểm tra, không có cột điểm riêng; giáo viên nhận xét qua quá trình học tập và sản phẩm của học sinh. Mức yêu cầu của từng chuyên đề được ghi trong mục "Yêu cầu cần đạt" ở mỗi bài.</p></details>
+  </section></div>`;
+  $$('[data-aig]', app).forEach(b => b.onclick = () => { S.aiG = +b.dataset.aig; render(); });
+}
+function aiArt(){ return `<svg viewBox="0 0 220 160" width="220" height="160"><defs><linearGradient id="aig" x1="0" x2="1"><stop offset="0" stop-color="#22d3ee"/><stop offset="1" stop-color="#a78bfa"/></linearGradient></defs>
+  ${[[30,40],[30,80],[30,120],[110,30],[110,65],[110,100],[110,135],[190,60],[190,100]].map(([x,y],i,a)=>'').join('')}
+  ${[[30,40],[30,80],[30,120]].flatMap(([x,y])=>[[110,30],[110,65],[110,100],[110,135]].map(([u,v])=>`<line x1="${x}" y1="${y}" x2="${u}" y2="${v}" stroke="url(#aig)" stroke-opacity=".45" stroke-width="1.4"/>`)).join('')}
+  ${[[110,30],[110,65],[110,100],[110,135]].flatMap(([x,y])=>[[190,60],[190,100]].map(([u,v])=>`<line x1="${x}" y1="${y}" x2="${u}" y2="${v}" stroke="url(#aig)" stroke-opacity=".45" stroke-width="1.4"/>`)).join('')}
+  ${[[30,40],[30,80],[30,120]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="9" fill="#0b1640" stroke="#22d3ee" stroke-width="2.5"/>`).join('')}
+  ${[[110,30],[110,65],[110,100],[110,135]].map(([x,y],i)=>`<circle class="ai-pulse" style="animation-delay:${i*.3}s" cx="${x}" cy="${y}" r="9" fill="#0b1640" stroke="#f59e0b" stroke-width="2.5"/>`).join('')}
+  ${[[190,60],[190,100]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="10" fill="#0b1640" stroke="#a78bfa" stroke-width="2.5"/>`).join('')}</svg>`; }
+
+/* ---------- trang một chuyên đề ---------- */
+const AI_STEPS = [['warm', 'Khởi động', '🌱'], ['learn', 'Tìm hiểu', '📖'], ['act', 'Thực hành', '🧪'], ['quiz', 'Củng cố', '✅'], ['reflect', 'Suy ngẫm', '💭']];
+function vAiLesson(app){
+  const l = AI_BY[S.arg]; if (!l) return go('ai');
+  const m = me(), sid = m ? m.id : null, G = +l.id.split('-')[0], idx = AI_GRADES[G].lessons.indexOf(l);
+  let step = S.aiStep && S.aiStep.id === l.id ? S.aiStep.k : 'warm';
+  app.innerHTML = `<div class="wrap ai-wrap"><section class="section ai-les">
+    <div class="ai-les-head"><button class="hub-mini" data-go="ai" id="aiBack">← Lớp học AI · Lớp ${G}</button>
+      <div class="ai-les-t"><span class="ai-ic big">${l.icon}</span><div><span class="eyebrow">Lớp ${G} · Chuyên đề ${idx + 1}/6 · 2 tiết</span><h1>${h(l.name)}</h1><div class="ai-chips">${l.codes.map(aiChip).join('')}</div></div></div></div>
+    <nav class="ai-steps" aria-label="Các bước">${AI_STEPS.map(([k, n, ic], i) => `<button data-step="${k}"><span class="d">${ic}</span><span>${i + 1}. ${n}</span></button>`).join('')}</nav>
+    <div class="ai-body"><div class="ai-main" id="aiMain"></div>
+      <aside class="ai-side"><div class="ai-yc"><b>🎯 Yêu cầu cần đạt</b><p>${h(l.yccd)}</p></div>
+        <details class="ai-tip"><summary>Gợi ý tổ chức 2 tiết (cho giáo viên)</summary><p>${h(l.tip)}</p></details>
+        <div class="ai-done" id="aiDone"></div></aside></div></section></div>`;
+  app.dataset.lock = '1';
+  const P = () => aiProg(sid)[l.id] || {};
+  const doneBox = () => { const p = P(), d = aiDone(p); $('#aiDone', app).innerHTML = `<b>Tiến độ chuyên đề</b><ul>
+      <li class="${p.a ? 'ok' : ''}">${p.a ? '✓' : '○'} Hoàn thành hoạt động thực hành</li><li class="${(p.q || 0) >= 3 ? 'ok' : ''}">${(p.q || 0) >= 3 ? '✓' : '○'} Câu hỏi củng cố đúng từ 3/4 (cao nhất: ${p.q || 0}/4)</li><li class="${p.r ? 'ok' : ''}">${p.r ? '✓' : '○'} Ghi suy ngẫm</li></ul>
+      ${d ? '<p class="ai-star">⭐ Em đã hoàn thành chuyên đề này!</p>' : ''}${!m ? '<p class="muted" style="font-size:.8rem">Em chưa đăng nhập nên tiến độ chỉ lưu trên máy này.</p>' : ''}`;
+    $$('[data-step]', app).forEach(b => { const k = b.dataset.step; b.classList.toggle('ok', (k === 'act' && p.a) || (k === 'quiz' && (p.q || 0) >= 3) || (k === 'reflect' && !!p.r)); }); };
+  const nav = k => { const i = AI_STEPS.findIndex(s => s[0] === k); return `<div class="ai-nav">${i > 0 ? `<button class="btn ghost" data-to="${AI_STEPS[i - 1][0]}">← ${AI_STEPS[i - 1][1]}</button>` : '<span></span>'}${i < AI_STEPS.length - 1 ? `<button class="btn" data-to="${AI_STEPS[i + 1][0]}">${AI_STEPS[i + 1][1]} →</button>` : idx < 5 ? `<button class="btn" data-go="ailesson" data-arg="${AI_GRADES[G].lessons[idx + 1].id}">Chuyên đề tiếp theo →</button>` : `<button class="btn" data-go="ai">Về Lớp học AI</button>`}</div>`; };
+  const speak = (txt, btn) => { if (btn.classList.contains('on')){ TTS.stop(); btn.classList.remove('on'); return; } $$('.ai-say.on', app).forEach(x => x.classList.remove('on')); btn.classList.add('on'); TTS.play(splitSents(txt), {onDone:() => btn.classList.remove('on')}); };
+  const show = k => { step = k; S.aiStep = {id:l.id, k}; TTS.stop(); const M = $('#aiMain', app);
+    $$('[data-step]', app).forEach(b => b.setAttribute('aria-current', String(b.dataset.step === k)));
+    if (k === 'warm') M.innerHTML = `<div class="ai-panel ai-warm"><span class="ai-big">${l.icon}</span><h2>Khởi động</h2><p class="ai-q">${h(l.warm)}</p><p class="muted">Em suy nghĩ, trao đổi với bạn bên cạnh 1–2 phút rồi bấm sang bước Tìm hiểu.</p><button class="btn ghost small ai-say" data-txt="${h(l.warm)}">🔊 Nghe câu hỏi</button></div>${nav(k)}`;
+    else if (k === 'learn') M.innerHTML = `<div class="ai-cards">${l.cards.map((c, i) => `<article class="ai-panel ai-learn"><div class="ai-lh"><span class="ai-num">${i + 1}</span><h2>${h(c.t)}</h2><button class="btn ghost small ai-say" data-txt="${h(c.t + '. ' + c.b)}" aria-label="Nghe đọc">🔊</button></div><p>${h(c.b)}</p></article>`).join('')}</div>${nav(k)}`;
+    else if (k === 'act'){ M.innerHTML = `<div class="ai-panel ai-actp"><div id="aiAct"></div></div>${nav(k)}`;
+      AIW[l.act.type]($('#aiAct', M), l.act, l, info => { if (!P().a){ aiSave(sid, l.id, {a:1, ai:info || null}); toast('✓ Em đã hoàn thành phần thực hành'); } doneBox(); }); }
+    else if (k === 'quiz'){ const qz = l.quiz;
+      M.innerHTML = `<div class="ai-panel"><h2>Câu hỏi củng cố</h2><div class="ai-quiz">${qz.map((q, i) => `<div class="ai-qq" data-qi="${i}">${mcHTML('aq' + i, `Câu ${i + 1}. ${h(q.q)}`, q.o.map(h))}<p class="ai-why" hidden></p></div>`).join('')}</div>
+        <div class="ai-qbar"><button class="btn" id="aqGo">Nộp bài</button><span id="aqRes" role="status"></span></div></div>${nav(k)}`;
+      $('#aqGo', M).onclick = () => { const ans = qz.map((q, i) => mcVal(M, 'aq' + i)); if (ans.some(a => a < 0)){ $('#aqRes', M).textContent = 'Em trả lời đủ 4 câu nhé.'; return; }
+        let n = 0; qz.forEach((q, i) => { const ok = ans[i] === q.a; if (ok) n++; const box = $(`[data-qi="${i}"]`, M); box.classList.toggle('ok', ok); box.classList.toggle('bad', !ok);
+          $$('label.opt', box).forEach((lb, j) => { lb.classList.toggle('right', j === q.a); lb.classList.toggle('wrong', j === ans[i] && !ok); });
+          const w = $('.ai-why', box); w.hidden = false; w.innerHTML = (ok ? '✓ Đúng. ' : `✗ Đáp án đúng: <b>${h(q.o[q.a])}</b>. `) + h(q.why); });
+        aiSave(sid, l.id, {q:n}); $('#aqRes', M).innerHTML = `Em đúng <b>${n}/4</b> câu. ${n >= 3 ? '👏 Đạt yêu cầu!' : 'Em đọc lại phần Tìm hiểu rồi làm lại nhé.'} <button class="btn ghost small" id="aqRe">Làm lại</button>`;
+        $('#aqRe', M).onclick = () => show('quiz'); doneBox(); }; }
+    else if (k === 'reflect'){ const p = P();
+      M.innerHTML = `<div class="ai-panel"><h2>Suy ngẫm</h2><p class="ai-q">${h(l.reflect)}</p><textarea id="aiRef" class="inp" rows="5" maxlength="1200" placeholder="Em viết suy nghĩ của mình ở đây…">${h(p.r || '')}</textarea>
+        <div class="ai-qbar"><button class="btn" id="aiRefS">Lưu suy ngẫm</button><span id="aiRefM" role="status"></span></div>
+        <p class="muted" style="font-size:.84rem">Thầy cô sẽ đọc suy ngẫm và nhận xét, phần này không chấm điểm.</p></div>${nav(k)}`;
+      $('#aiRefS', M).onclick = () => { const v = $('#aiRef', M).value.trim(); if (v.length < 10){ $('#aiRefM', M).textContent = 'Em viết thêm một chút nữa (ít nhất 10 kí tự).'; return; } aiSave(sid, l.id, {r:v}); $('#aiRefM', M).textContent = '✓ Đã lưu.'; doneBox(); }; }
+    $$('[data-to]', M).forEach(b => b.onclick = () => { show(b.dataset.to); app.scrollIntoView({block:'start'}); window.scrollTo({top:0}); });
+    $$('.ai-say', M).forEach(b => b.onclick = () => speak(b.dataset.txt, b));
+  };
+  $$('[data-step]', app).forEach(b => b.onclick = () => show(b.dataset.step));
+  $('#aiBack', app).addEventListener('click', () => TTS.stop());
+  doneBox(); show(step);
+}
+
+/* ===================== các hoạt động thực hành ===================== */
+const AIW = {};
+const aiHead = (t, p) => `<div class="aw-h"><h2>${h(t)}</h2>${p ? `<p>${p}</p>` : ''}</div>`;
+
+/* 1. Phân loại thẻ */
+AIW.sort = (el, c, l, done) => {
+  const st = {}; let first = 0, fired = false;
+  const draw = () => { const n = Object.values(st).filter(x => x.ok).length;
+    el.innerHTML = aiHead(c.title, h(c.prompt)) + `<div class="aw-sort">${c.items.map((it, i) => { const s = st[i];
+      return `<div class="aw-it${s ? (s.ok ? ' ok' : ' bad') : ''}"><p>${h(it.t)}</p>${s && s.ok ? `<div class="aw-res">✓ ${h(c.bins.find(b => b.id === it.b).n)}<small>${h(it.why)}</small></div>`
+        : `<div class="aw-bins">${c.bins.map(b => `<button class="btn ghost small" data-i="${i}" data-b="${b.id}">${b.icon} ${h(b.n)}</button>`).join('')}</div>${s ? `<div class="aw-res bad">✗ Chưa đúng, em thử lại.</div>` : ''}`}</div>`; }).join('')}</div>
+      <div class="aw-score">Đã xếp đúng <b>${n}/${c.items.length}</b>${n === c.items.length ? ` · Đúng ngay lần đầu: <b>${first}/${c.items.length}</b>` : ''}</div>`;
+    $$('[data-i]', el).forEach(b => b.onclick = () => { const i = +b.dataset.i, ok = c.items[i].b === b.dataset.b; if (!st[i] && ok) first++; st[i] = {ok}; draw(); });
+    if (n === c.items.length && !fired){ fired = true; done({first, n}); } };
+  draw(); };
+
+/* 2. Lập trình quy tắc phân loại rác */
+const AI_PROPS = {mag:'hút nam châm', shiny:'sáng bóng ánh kim', clear:'trong suốt', tear:'xé được bằng tay', rot:'tự phân hủy (thối rữa)'};
+const AI_TRASH = [{n:'Lon sắt đựng đồ hộp', i:'🥫', p:{mag:1, shiny:1}, b:'kl'}, {n:'Lon nhôm nước ngọt', i:'🥤', p:{shiny:1}, b:'kl'}, {n:'Chai nhựa trong', i:'🍶', p:{clear:1}, b:'nhua'},
+  {n:'Hộp nhựa màu', i:'🧴', p:{}, b:'nhua'}, {n:'Túi nilon', i:'🛍️', p:{clear:1}, b:'nhua'}, {n:'Giấy báo cũ', i:'📰', p:{tear:1}, b:'giay'}, {n:'Thùng carton', i:'📦', p:{tear:1}, b:'giay'},
+  {n:'Vỏ chuối', i:'🍌', p:{tear:1, rot:1}, b:'hc'}, {n:'Lá cây khô', i:'🍂', p:{tear:1, rot:1}, b:'hc'}];
+const AI_TRASH_NEW = [{n:'Vỏ trứng', i:'🥚', p:{}, b:'hc', why:'Vỏ trứng là rác hữu cơ nhưng không xé được, không trong suốt nên quy tắc của em có thể xếp nhầm.'},
+  {n:'Ly giấy có tráng lớp nhựa', i:'🥤', p:{tear:1}, b:'khac', why:'Ly này làm từ giấy và nhựa dính chặt, cần thu gom riêng. Quy tắc "xé được là giấy" không đủ.'}];
+AIW.rules = (el, c, l, done) => {
+  let rules = [{p:'mag', v:1, b:'kl'}], other = 'nhua', runs = 0, fired = false, best = 0;
+  const B = Object.fromEntries(AI_BINS_TRASH.map(b => [b.id, b]));
+  const pick = (it) => { for (let i = 0; i < rules.length; i++){ const r = rules[i]; if (!!it.p[r.p] === !!r.v) return {b:r.b, r:i + 1}; } return {b:other, r:0}; };
+  const draw = (res) => {
+    el.innerHTML = aiHead('Lập trình máy phân loại rác', 'Em đặt các quy tắc <b>Nếu… thì…</b>. Máy sẽ xét quy tắc từ trên xuống, gặp quy tắc nào đúng trước thì làm theo quy tắc đó.') + `
+    <div class="aw-two"><div><h3 class="aw-sub">Đặc điểm của 9 vật cần phân loại</h3><div class="aw-trash">${AI_TRASH.map(t => `<div><span>${t.i}</span><b>${h(t.n)}</b><small>${Object.keys(AI_PROPS).filter(k => t.p[k]).map(k => AI_PROPS[k]).join(', ') || 'không có đặc điểm nào ở trên'}</small></div>`).join('')}</div></div>
+      <div><h3 class="aw-sub">Chương trình của em</h3><ol class="aw-rules">${rules.map((r, i) => `<li><span>Nếu vật</span>
+        <select data-k="v" data-i="${i}" class="pe-in"><option value="1" ${r.v ? 'selected' : ''}>có</option><option value="0" ${r.v ? '' : 'selected'}>không</option></select>
+        <select data-k="p" data-i="${i}" class="pe-in">${Object.entries(AI_PROPS).map(([k, n]) => `<option value="${k}" ${r.p === k ? 'selected' : ''}>${n}</option>`).join('')}</select>
+        <span>thì bỏ vào</span><select data-k="b" data-i="${i}" class="pe-in">${AI_BINS_TRASH.map(b => `<option value="${b.id}" ${r.b === b.id ? 'selected' : ''}>${b.icon} ${b.n}</option>`).join('')}</select>
+        <span class="aw-ra"><button class="x" data-up="${i}" aria-label="Đưa lên">↑</button><button class="x" data-dn="${i}" aria-label="Đưa xuống">↓</button><button class="x" data-rm="${i}" aria-label="Xóa">×</button></span></li>`).join('')}
+        <li class="aw-else"><span>Còn lại thì bỏ vào</span><select id="rOther" class="pe-in">${AI_BINS_TRASH.map(b => `<option value="${b.id}" ${other === b.id ? 'selected' : ''}>${b.icon} ${b.n}</option>`).join('')}</select></li></ol>
+        <div class="aw-row"><button class="btn ghost small" id="rAdd" ${rules.length >= 6 ? 'disabled' : ''}>＋ Thêm quy tắc</button><button class="btn" id="rRun">▶ Chạy máy phân loại</button></div></div></div>
+    <div id="rOut">${res || ''}</div>`;
+    $$('select[data-i]', el).forEach(s => s.onchange = () => { const r = rules[+s.dataset.i]; r[s.dataset.k] = s.dataset.k === 'v' ? +s.value : s.value; });
+    $('#rOther', el).onchange = e => other = e.target.value;
+    $$('[data-up]', el).forEach(b => b.onclick = () => { const i = +b.dataset.up; if (i > 0){ [rules[i - 1], rules[i]] = [rules[i], rules[i - 1]]; draw(); } });
+    $$('[data-dn]', el).forEach(b => b.onclick = () => { const i = +b.dataset.dn; if (i < rules.length - 1){ [rules[i + 1], rules[i]] = [rules[i], rules[i + 1]]; draw(); } });
+    $$('[data-rm]', el).forEach(b => b.onclick = () => { rules.splice(+b.dataset.rm, 1); draw(); });
+    $('#rAdd', el).onclick = () => { rules.push({p:'rot', v:1, b:'hc'}); draw(); };
+    $('#rRun', el).onclick = run; };
+  const run = () => { runs++; const rows = AI_TRASH.map(t => ({t, ...pick(t)})), n = rows.filter(x => x.b === x.t.b).length; best = Math.max(best, n);
+    const hint = n === 9 ? '' : rows.find(x => x.b !== x.t.b && x.t.b === 'hc') ? 'Gợi ý: rác hữu cơ cũng xé được giống giấy. Quy tắc về <b>tự phân hủy</b> nên đứng trước quy tắc <b>xé được</b>.' : rows.find(x => x.t.n.includes('nhôm') && x.b !== 'kl') ? 'Gợi ý: lon nhôm không hút nam châm. Em thử dùng đặc điểm <b>sáng bóng ánh kim</b>.' : 'Gợi ý: xem vật nào bị xếp sai rồi thêm hoặc đổi thứ tự quy tắc.';
+    let out = `<div class="aw-run"><h3 class="aw-sub">Kết quả lần chạy ${runs}: đúng <b>${n}/9</b></h3><div class="aw-tbl">${rows.map(x => `<div class="${x.b === x.t.b ? 'ok' : 'bad'}"><span>${x.t.i} ${h(x.t.n)}</span><span>${x.r ? 'Quy tắc ' + x.r : 'Còn lại'} → ${B[x.b].icon} ${B[x.b].n}</span><b>${x.b === x.t.b ? '✓' : '✗ đúng là ' + B[x.t.b].n}</b></div>`).join('')}</div>${hint ? `<p class="aw-hint">${hint}</p>` : ''}</div>`;
+    if (n === 9){ out += `<div class="aw-run aw-new"><h3 class="aw-sub">🎉 Hoàn hảo với 9 vật! Thử với 2 vật lạ mà em chưa viết quy tắc:</h3>${AI_TRASH_NEW.map(t => { const r = pick(t); const bn = B[r.b] ? B[r.b].n : r.b;
+      return `<div class="aw-strange"><span>${t.i}</span><div><b>${h(t.n)}</b> → máy xếp vào <b>${h(bn)}</b>. <span>${h(t.why)}</span></div></div>`; }).join('')}<p class="aw-hint">Quy tắc viết tay chỉ đúng với những gì người viết đã nghĩ tới. Vì thế người ta tạo ra AI học từ thật nhiều ví dụ.</p></div>`; }
+    draw(out); if (!fired && (n === 9 || (runs >= 4 && best >= 7))){ fired = true; done({best, runs}); } };
+  draw(); };
+
+/* 3. Dạy máy nhận dạng hình vẽ (k láng giềng gần nhất) */
+AIW.draw = (el, c, l, done) => {
+  const K = c.classes.length, data = c.classes.map(() => []); let trained = null, mode = 'collect', tests = [], fired = false, last = null;
+  const conf = Array.from({length:K}, () => Array(K).fill(0));
+  el.innerHTML = aiHead('Dạy máy nhận ra hình vẽ', `Bước 1: vẽ vào khung rồi bấm nhóm tương ứng để thêm ví dụ (mỗi nhóm ít nhất <b>${c.minPer}</b> hình). Bước 2: huấn luyện. Bước 3: vẽ hình mới cho máy đoán.`) + `
+    <div class="aw-draw"><div class="aw-pad"><canvas width="240" height="240" id="dCv" aria-label="Khung vẽ"></canvas><div class="aw-row"><button class="btn ghost small" id="dClr">🧽 Xóa khung</button><span class="muted" style="font-size:.8rem">Vẽ to, rõ nét, kín khung</span></div></div>
+      <div class="aw-dside"><div class="aw-modes"><button data-m="collect">1. Thu thập dữ liệu</button><button data-m="test">3. Thử máy đoán</button></div><div id="dPane"></div></div></div>
+    <div id="dData" class="aw-data"></div>`;
+  const cv = $('#dCv', el), g = cv.getContext('2d'); const clear = () => { g.fillStyle = '#fff'; g.fillRect(0, 0, 240, 240); }; clear();
+  let drawing = false, lp = null, ink = false;
+  const pos = e => { const r = cv.getBoundingClientRect(); return [(e.clientX - r.left)*240/r.width, (e.clientY - r.top)*240/r.height]; };
+  cv.onpointerdown = e => { e.preventDefault(); cv.setPointerCapture(e.pointerId); drawing = true; lp = pos(e); g.fillStyle = '#111'; g.beginPath(); g.arc(lp[0], lp[1], 6, 0, 7); g.fill(); ink = true; };
+  cv.onpointermove = e => { if (!drawing) return; const p = pos(e); g.strokeStyle = '#111'; g.lineWidth = 13; g.lineCap = 'round'; g.lineJoin = 'round'; g.beginPath(); g.moveTo(...lp); g.lineTo(...p); g.stroke(); lp = p; };
+  cv.onpointerup = cv.onpointercancel = () => { drawing = false; if (mode === 'test' && ink && trained) predict(); };
+  $('#dClr', el).onclick = () => { clear(); ink = false; if (mode === 'test') pane(); };
+  const feat = () => { const d = g.getImageData(0, 0, 240, 240).data; let x0 = 240, y0 = 240, x1 = -1, y1 = -1;
+    for (let y = 0; y < 240; y += 2) for (let x = 0; x < 240; x += 2) if (d[(y*240 + x)*4] < 128){ if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y; }
+    if (x1 < 0) return null; const s = Math.max(x1 - x0, y1 - y0) + 16, cx = (x0 + x1)/2, cy = (y0 + y1)/2;
+    const t = makeCanvas(20, 20), tg = t.getContext('2d'); tg.fillStyle = '#fff'; tg.fillRect(0, 0, 20, 20); tg.drawImage(cv, cx - s/2, cy - s/2, s, s, 0, 0, 20, 20);
+    const td = tg.getImageData(0, 0, 20, 20).data, v = new Float32Array(402); for (let i = 0; i < 400; i++) v[i] = 1 - td[i*4]/255;
+    v[400] = (x1 - x0)/(Math.max(x1 - x0, y1 - y0) + 1)*1.5; v[401] = (y1 - y0)/(Math.max(x1 - x0, y1 - y0) + 1)*1.5; return {v, img:t.toDataURL()}; };
+  const knn = v => { const all = []; data.forEach((arr, k) => arr.forEach(s => { let d = 0; for (let i = 0; i < v.length; i++){ const q = v[i] - s.v[i]; d += q*q; } all.push({k, d:Math.sqrt(d), s}); }));
+    all.sort((a, b) => a.d - b.d); const nb = all.slice(0, Math.min(3, all.length)), w = Array(K).fill(0); nb.forEach(n => w[n.k] += 1/(n.d + 0.5)); const tot = w.reduce((a, b) => a + b, 0) || 1;
+    const p = w.map(x => x/tot); const best = p.indexOf(Math.max(...p)); return {p, best, nb}; };
+  const dataView = () => { $('#dData', el).innerHTML = `<h3 class="aw-sub">Dữ liệu huấn luyện ${trained ? '<span class="aw-tag ok">đã huấn luyện</span>' : '<span class="aw-tag">chưa huấn luyện</span>'}</h3>${c.classes.map((cl, k) => `<div class="aw-cls"><b>${cl.icon} ${h(cl.n)} <i>${data[k].length}</i></b><div>${data[k].map((s, j) => `<img src="${s.img}" alt="" data-del="${k}:${j}" title="Bấm để xóa ví dụ này">`).join('') || '<span class="muted">Chưa có ví dụ</span>'}</div></div>`).join('')}`;
+    $$('[data-del]', el).forEach(im => im.onclick = () => { const [k, j] = im.dataset.del.split(':').map(Number); data[k].splice(j, 1); trained = null; dataView(); pane(); }); };
+  const ready = () => data.every(a => a.length >= c.minPer);
+  const pane = () => { $$('[data-m]', el).forEach(b => { b.setAttribute('aria-pressed', String(b.dataset.m === mode)); if (b.dataset.m === 'test') b.disabled = !trained; });
+    const P = $('#dPane', el);
+    if (mode === 'collect'){ P.innerHTML = `<p class="aw-sub">Hình vừa vẽ là:</p><div class="aw-addc">${c.classes.map((cl, k) => `<button class="btn ghost" data-add="${k}">${cl.icon} ${h(cl.n)} <small>(${data[k].length})</small></button>`).join('')}</div>
+        <button class="btn" id="dTrain" ${ready() ? '' : 'disabled'}>⚙️ 2. Huấn luyện mô hình</button>${ready() ? '' : `<p class="muted" style="font-size:.82rem">Cần ít nhất ${c.minPer} ví dụ cho mỗi nhóm.</p>`}`;
+      $$('[data-add]', P).forEach(b => b.onclick = () => { const f = feat(); if (!f){ say2('Em vẽ hình vào khung trước nhé.'); return; } data[+b.dataset.add].push(f); trained = null; clear(); ink = false; dataView(); pane(); });
+      const tb = $('#dTrain', P); if (tb) tb.onclick = () => { tb.disabled = true; tb.textContent = '⚙️ Đang huấn luyện…'; setTimeout(() => { trained = {n:data.reduce((a, b) => a + b.length, 0)}; mode = 'test'; clear(); ink = false; dataView(); pane(); }, 700); }; }
+    else { const acc = tests.length ? Math.round(tests.filter(t => t.ok).length/tests.length*100) : null;
+      P.innerHTML = `<p class="aw-sub">Vẽ một hình mới vào khung, nhấc bút là máy đoán.</p><div id="dPred" class="aw-pred">${last ? '' : '<span class="muted">Máy đang chờ hình vẽ…</span>'}</div>
+        <div class="aw-acc">Đã thử <b>${tests.length}</b> lần${acc !== null ? ` · Tỉ lệ đúng <b>${acc}%</b>` : ''}</div>
+        ${c.eval && tests.length ? `<div class="aw-conf"><b>Bảng nhầm lẫn</b> (hàng: hình đúng, cột: máy đoán)<table><tr><th></th>${c.classes.map(cl => `<th>${cl.icon}</th>`).join('')}</tr>${conf.map((row, i) => `<tr><th>${c.classes[i].icon}</th>${row.map((v, j) => `<td class="${i === j ? 'd' : v ? 'e' : ''}">${v}</td>`).join('')}</tr>`).join('')}</table></div>` : ''}
+        <button class="btn ghost small" id="dBack">← Thêm dữ liệu rồi huấn luyện lại</button>`;
+      $('#dBack', P).onclick = () => { mode = 'collect'; last = null; clear(); ink = false; pane(); };
+      if (last) showPred(); } };
+  const say2 = t => { const P = $('#dPane', el); let s = $('.aw-say', P); if (!s){ s = document.createElement('p'); s.className = 'aw-say'; P.prepend(s); } s.textContent = t; };
+  const predict = () => { const f = feat(); if (!f) return; const r = knn(f.v); last = {f, r, marked:false}; showPred(); };
+  const showPred = () => { const {r, f} = last, D = $('#dPred', el); if (!D) return;
+    D.innerHTML = `<div class="aw-guess">Máy đoán: <b>${c.classes[r.best].icon} ${h(c.classes[r.best].n)}</b></div>${c.classes.map((cl, k) => `<div class="aw-pb"><span>${cl.icon} ${h(cl.n)}</span><i><em style="width:${Math.round(r.p[k]*100)}%"></em></i><b>${Math.round(r.p[k]*100)}%</b></div>`).join('')}
+      <div class="aw-nb"><small>Các ví dụ giống nhất mà máy đã học:</small>${r.nb.map(n => `<img src="${n.s.img}" alt="">`).join('')}</div>
+      ${last.marked ? `<p class="muted">Đã ghi nhận. Em xóa khung và vẽ hình tiếp theo.</p>` : `<div class="aw-mark"><span>Máy đoán đúng không?</span><button class="btn small" data-ok="1">✓ Đúng</button>${c.classes.map((cl, k) => k === r.best ? '' : `<button class="btn ghost small" data-ok="0" data-true="${k}">✗ Sai, đó là ${cl.icon}</button>`).join('')}</div>`}`;
+    $$('[data-ok]', D).forEach(b => b.onclick = () => { const ok = b.dataset.ok === '1', tk = ok ? r.best : +b.dataset.true; tests.push({ok}); conf[tk][r.best]++; last.marked = true; last.tk = tk;
+      if (!ok){ data[tk].push(f); trained = {n:trained.n + 1}; dataView(); }
+      pane(); const need = c.eval ? 8 : 4; if (!fired && tests.length >= need){ fired = true; done({tests:tests.length, acc:Math.round(tests.filter(t => t.ok).length/tests.length*100), n:trained.n}); }
+      if (!ok) say2('Máy đã thêm hình này vào dữ liệu với nhãn đúng để học thêm.'); }); };
+  $$('[data-m]', el).forEach(b => b.onclick = () => { if (b.dataset.m === 'test' && !trained) return; mode = b.dataset.m; last = null; clear(); ink = false; pane(); });
+  dataView(); pane(); };
+
+/* 4. Kiểm chứng câu trả lời của chatbot */
+const AI_FACTS = [
+  {t:'Nước nguyên chất sôi ở khoảng 100 °C khi ở áp suất khí quyển bình thường.', a:'dung', why:'Đúng, đây là kiến thức trong sách Khoa học tự nhiên.'},
+  {t:'Việt Nam hiện có 63 tỉnh, thành phố trực thuộc trung ương.', a:'cu', why:'Thông tin đã cũ: từ ngày 1/7/2025, sau khi sắp xếp đơn vị hành chính, cả nước còn 34 tỉnh, thành phố. AI học từ dữ liệu cũ nên có thể chưa cập nhật.'},
+  {t:'Cá voi là loài cá lớn nhất đại dương.', a:'sai', why:'Sai: cá voi là động vật có vú, thở bằng phổi và nuôi con bằng sữa, không phải là cá.'},
+  {t:'Ánh sáng truyền trong không khí nhanh hơn âm thanh rất nhiều.', a:'dung', why:'Đúng, vì thế khi có giông ta thấy chớp trước rồi mới nghe tiếng sấm.'},
+  {t:'Theo sách Khoa học tự nhiên 7, trang 245, Mặt Trăng tự phát ra ánh sáng.', a:'sai', why:'Sai và có dấu hiệu bịa nguồn: Mặt Trăng không tự phát sáng mà phản chiếu ánh sáng Mặt Trời. Trích dẫn trang sách cũng cần kiểm tra xem có thật không.'},
+  {t:'Đỉnh Phan Xi Păng là ngọn núi cao nhất Việt Nam.', a:'dung', why:'Đúng, Phan Xi Păng cao khoảng 3 143 m.'}];
+AIW.fact = (el, c, l, done) => {
+  const st = {}; let src = -1, fired = false; const LB = {dung:'✓ Đúng', sai:'✗ Sai', cu:'⏳ Đã cũ, cần cập nhật'};
+  const draw = () => { const n = AI_FACTS.filter((f, i) => st[i] === f.a).length;
+    el.innerHTML = aiHead('Kiểm chứng câu trả lời của chatbot', 'Một bạn hỏi chatbot: <i>"Cho mình vài thông tin thú vị về khoa học và Việt Nam"</i>. Em hãy đánh giá từng câu trả lời.') + `
+    <div class="aw-chat"><div class="aw-bot">🤖 <b>Chatbot</b><span>Câu trả lời dưới đây do một chatbot giả định tạo ra để luyện tập.</span></div>
+      ${AI_FACTS.map((f, i) => { const s = st[i], ok = s === f.a; return `<div class="aw-fact${s ? (ok ? ' ok' : ' bad') : ''}"><p>${i + 1}. ${h(f.t)}</p>
+        ${ok ? `<div class="aw-res">${LB[f.a]}<small>${h(f.why)}</small></div>` : `<div class="aw-bins">${Object.entries(LB).map(([k, v]) => `<button class="btn ghost small" data-f="${i}" data-v="${k}">${v}</button>`).join('')}</div>${s ? '<div class="aw-res bad">Chưa chính xác, em xem lại.</div>' : ''}`}</div>`; }).join('')}</div>
+    ${n === AI_FACTS.length ? `<div class="aw-run">${mcHTML('fsrc', 'Để kiểm chứng câu số 2, nguồn nào đáng tin cậy nhất?', ['Hỏi lại chatbot một lần nữa', 'Bình luận trên mạng xã hội', 'Cổng thông tin điện tử của Chính phủ hoặc báo chí chính thống', 'Đoán theo trí nhớ'])}<button class="btn small" id="fGo">Chọn</button><p id="fMsg" class="aw-hint"></p></div>` : `<div class="aw-score">Đã đánh giá đúng <b>${n}/${AI_FACTS.length}</b> câu</div>`}`;
+    $$('[data-f]', el).forEach(b => b.onclick = () => { st[+b.dataset.f] = b.dataset.v; draw(); });
+    const fg = $('#fGo', el); if (fg) fg.onclick = () => { src = mcVal(el, 'fsrc'); const ok = src === 2; $('#fMsg', el).innerHTML = ok ? '✓ Chính xác! Thông tin hành chính cần kiểm tra ở nguồn chính thức. <b>Kết luận:</b> chatbot đúng 3/6 câu, nghe rất tự tin nhưng có câu sai, có câu đã cũ. Luôn kiểm chứng!' : 'Chưa đúng. Chatbot có thể lặp lại lỗi, mạng xã hội thiếu tin cậy. Em chọn lại nhé.';
+      if (ok && !fired){ fired = true; done({facts:AI_FACTS.length}); } }; };
+  draw(); };
+
+/* 5. Dữ liệu lệch và sự công bằng (k láng giềng gần nhất trên dữ liệu mô phỏng) */
+const AI_BIAS_C = {2:[[[0.25, 0.3], [0.75, 0.7]], [[0.1, 0.25], [0.28, 0.64]]], 3:[[[0.25, 0.3], [0.75, 0.7]], [[0.3, 0.78], [0.78, 0.25]], [[0.1, 0.52], [0.52, 0.1]]]};
+AIW.bias = (el, c, l, done) => {
+  const G = c.groups.length, CEN = AI_BIAS_C[G], R = aiRand(7), gauss = () => { let u = 0; for (let i = 0; i < 6; i++) u += R(); return (u - 3)/1.2; };
+  const mk = (g, k) => ({x:Math.min(1, Math.max(0, CEN[g][k][0] + gauss()*0.075)), y:Math.min(1, Math.max(0, CEN[g][k][1] + gauss()*0.075)), g, k});
+  const POOL = Array.from({length:G}, (_, g) => Array.from({length:60}, (_, i) => mk(g, i % 2)));
+  const TEST = Array.from({length:G}, (_, g) => Array.from({length:60}, (_, i) => mk(g, i % 2)));
+  const FLIP = Array.from({length:G*60}, () => R());
+  const n = c.groups.map((_, i) => i === 0 ? 60 : 4); let noise = c.noise ? 20 : 0, fired = false;
+  el.innerHTML = aiHead(c.title, `Dữ liệu mô phỏng: mỗi chấm là một ví dụ có 2 đặc điểm. Máy học bằng cách tìm <b>5 ví dụ gần nhất</b>. Hãy điều chỉnh dữ liệu huấn luyện để máy đúng ít nhất <b>${c.target}%</b> với mọi nhóm${c.gap ? ` và chênh lệch giữa các nhóm không quá <b>${c.gap}</b> điểm phần trăm` : ''}.`) + `
+    <div class="aw-two"><div><canvas id="bCv" width="420" height="340" class="aw-plot" aria-label="Biểu đồ dữ liệu"></canvas><div class="aw-leg"><span><i class="c0"></i>${h(c.classes[0])}</span><span><i class="c1"></i>${h(c.classes[1])}</span>${c.groups.map((gr, g) => `<span>${['●', '▲', '■'][g]} ${h(gr.n)}</span>`).join('')}<span>✕ máy đoán sai</span></div></div>
+      <div><h3 class="aw-sub">Dữ liệu huấn luyện</h3>${c.groups.map((gr, g) => `<label class="aw-sl">${gr.icon} ${h(gr.n)}: <b id="bn${g}">${n[g]}</b> ví dụ<input type="range" min="0" max="60" step="2" value="${n[g]}" data-g="${g}"></label>`).join('')}
+        ${c.noise ? `<label class="aw-sl">🏷️ Nhãn bị gắn sai: <b id="bnz">${noise}%</b><input type="range" min="0" max="40" step="5" value="${noise}" id="bNz"></label>` : ''}
+        <h3 class="aw-sub">Tỉ lệ đúng trên dữ liệu kiểm tra</h3><div id="bAcc"></div></div></div>`;
+  const cv = $('#bCv', el), cg = cv.getContext('2d');
+  const train = () => { const T = []; c.groups.forEach((_, g) => POOL[g].slice(0, n[g]).forEach((p, i) => { const fl = FLIP[g*60 + i]*100 < noise; T.push({...p, k:fl ? 1 - p.k : p.k}); })); return T; };
+  const pred = (T, p) => { if (!T.length) return 0; const d = T.map(t => [(t.x - p.x)**2 + (t.y - p.y)**2, t.k]).sort((a, b) => a[0] - b[0]).slice(0, 5); const v = d.reduce((s, x) => s + x[1], 0); return v*2 > d.length ? 1 : 0; };
+  const upd = () => { const T = train(); const acc = TEST.map(arr => Math.round(arr.filter(p => pred(T, p) === p.k).length/arr.length*100)); const gap = Math.max(...acc) - Math.min(...acc), all = Math.round(acc.reduce((a, b) => a + b, 0)/G);
+    const W = 420, H = 340, P = 34; cg.fillStyle = '#0b1230'; cg.fillRect(0, 0, W, H); cg.strokeStyle = 'rgba(255,255,255,.12)'; for (let i = 0; i <= 10; i++){ cg.beginPath(); cg.moveTo(P + i*(W - P - 10)/10, 10); cg.lineTo(P + i*(W - P - 10)/10, H - P); cg.stroke(); cg.beginPath(); cg.moveTo(P, 10 + i*(H - P - 10)/10); cg.lineTo(W - 10, 10 + i*(H - P - 10)/10); cg.stroke(); }
+    const X = x => P + x*(W - P - 10), Y = y => H - P - y*(H - P - 10);
+    if (T.length){ for (let i = 0; i < 42; i++) for (let j = 0; j < 31; j++){ const p = {x:(i + .5)/42, y:(j + .5)/31}; cg.fillStyle = pred(T, p) ? 'rgba(245,158,11,.10)' : 'rgba(34,211,238,.09)'; cg.fillRect(X(i/42), Y((j + 1)/31), (W - P - 10)/42 + 1, (H - P - 10)/31 + 1); } }
+    const sh = (g, x, y, r) => { cg.beginPath(); if (g === 0) cg.arc(x, y, r, 0, 7); else if (g === 1){ cg.moveTo(x, y - r - 1); cg.lineTo(x + r + 1, y + r); cg.lineTo(x - r - 1, y + r); cg.closePath(); } else cg.rect(x - r, y - r, r*2, r*2); };
+    T.forEach(t => { cg.fillStyle = t.k ? '#f59e0b' : '#22d3ee'; sh(t.g, X(t.x), Y(t.y), 4.5); cg.fill(); });
+    TEST.forEach(arr => arr.forEach(p => { if (pred(T, p) !== p.k){ cg.strokeStyle = '#f87171'; cg.lineWidth = 1.6; const x = X(p.x), y = Y(p.y); cg.beginPath(); cg.moveTo(x - 3.5, y - 3.5); cg.lineTo(x + 3.5, y + 3.5); cg.moveTo(x + 3.5, y - 3.5); cg.lineTo(x - 3.5, y + 3.5); cg.stroke(); } }));
+    cg.fillStyle = '#a3b4dd'; cg.font = '12px system-ui'; cg.fillText(c.xl + ' →', P + 4, H - 10); cg.save(); cg.translate(12, H - P - 4); cg.rotate(-Math.PI/2); cg.fillText(c.yl + ' →', 0, 0); cg.restore();
+    const ok = acc.every(a => a >= c.target) && (!c.gap || gap <= c.gap);
+    $('#bAcc', el).innerHTML = c.groups.map((gr, g) => `<div class="aw-pb${acc[g] < c.target ? ' low' : ''}"><span>${gr.icon} ${h(gr.n)}</span><i><em style="width:${acc[g]}%"></em></i><b>${acc[g]}%</b></div>`).join('')
+      + `<div class="aw-acc">Tỉ lệ đúng chung: <b>${all}%</b>${G > 1 ? ` · Chênh lệch giữa các nhóm: <b class="${c.gap && gap > c.gap ? 'bad' : ''}">${gap}</b> điểm` : ''}</div>`
+      + `<p class="aw-hint">${ok ? '🎉 Máy đã làm tốt và công bằng hơn với mọi nhóm. Em thấy cần bao nhiêu dữ liệu cho mỗi nhóm?' : !T.length ? 'Chưa có dữ liệu huấn luyện, máy không học được gì.' : noise > 5 && acc.some(a => a < c.target) && n.every(x => x >= 20) ? 'Dữ liệu đã đủ nhiều nhưng nhãn sai làm máy học nhầm. Thử giảm tỉ lệ nhãn sai.' : 'Nhóm có thanh màu đỏ đang bị máy đoán sai nhiều. Hãy xem nhóm đó có đủ ví dụ chưa.'}</p>`;
+    if (ok && !fired){ fired = true; done({n:[...n], noise, acc}); } };
+  $$('[data-g]', el).forEach(s => s.oninput = () => { n[+s.dataset.g] = +s.value; $('#bn' + s.dataset.g, el).textContent = s.value; upd(); });
+  const nz = $('#bNz', el); if (nz) nz.oninput = () => { noise = +nz.value; $('#bnz', el).textContent = noise + '%'; upd(); };
+  upd(); };
+
+/* 6. Chatbot tí hon: dự đoán từ tiếp theo */
+const AI_CORPUS = ['hôm nay em đi học sớm .', 'em đi học bằng xe đạp .', 'mẹ em đi chợ mua rau .', 'mẹ em đi chợ mua cá .', 'mẹ em nấu cơm rất ngon .', 'em thích học môn khoa học tự nhiên .', 'em thích đọc sách ở thư viện .',
+  'thư viện trường em có nhiều sách hay .', 'trường em có nhiều cây xanh .', 'chúng em trồng cây xanh ở sân trường .', 'chúng em nhặt rác ở cổng trường .', 'rác nhựa cần được phân loại đúng cách .', 'phân loại rác giúp bảo vệ môi trường .',
+  'bảo vệ môi trường là trách nhiệm của mọi người .', 'em đi học về và làm bài tập .', 'bài tập toán hôm nay rất khó .', 'cô giáo giảng bài rất dễ hiểu .', 'cô giáo khen em làm bài tốt .', 'bạn em thích chơi bóng đá .', 'chúng em chơi bóng đá sau giờ học .',
+  'trời hôm nay rất đẹp .', 'trời mưa nên em mang áo mưa .', 'em dùng máy tính để học lập trình .', 'trí tuệ nhân tạo học từ dữ liệu .', 'trí tuệ nhân tạo có thể trả lời sai .', 'em cần kiểm tra lại thông tin .', 'em thích học lập trình robot .',
+  'robot có thể giúp con người làm việc nặng .', 'con người làm chủ trí tuệ nhân tạo .', 'em yêu trường em .'];
+const aiTok = s => String(s).toLowerCase().replace(/[,;:!?…"“”()]/g, ' ').replace(/\./g, ' . ').split(/\s+/).filter(Boolean);
+AIW.nextword = (el, c, l, done) => {
+  let corp = AI_CORPUS.slice(), bi = {}, tri = {}, gens = 0, taught = 0, fired = false, txt = 'mẹ em', temp = 0.7;
+  const build = () => { bi = {}; tri = {}; corp.forEach(s => { const w = ['<s>', ...aiTok(s)]; for (let i = 1; i < w.length; i++){ const a = w[i - 1], b = w[i]; (bi[a] = bi[a] || {})[b] = (bi[a][b] || 0) + 1; if (i > 1){ const k = w[i - 2] + ' ' + a; (tri[k] = tri[k] || {})[b] = (tri[k][b] || 0) + 1; } } }); };
+  const dist = words => { const w = ['<s>', ...words], a = w[w.length - 1], k = w.length > 1 ? w[w.length - 2] + ' ' + a : ''; const t = tri[k], b = bi[a]; const src = t || b; if (!src) return {list:[], how:'none'};
+    const tot = Object.values(src).reduce((x, y) => x + y, 0); return {list:Object.entries(src).map(([w, n]) => ({w, p:n/tot, n})).sort((x, y) => y.p - x.p), how:t ? 'tri' : 'bi', key:t ? k : a}; };
+  const sample = list => { const ws = list.map(x => Math.pow(x.p, 1/Math.max(0.15, temp))), s = ws.reduce((a, b) => a + b, 0); let r = Math.random()*s; for (let i = 0; i < list.length; i++){ r -= ws[i]; if (r <= 0) return list[i].w; } return list[0].w; };
+  const chk = () => { if (!fired && gens >= 3 && taught >= 1){ fired = true; done({gens, taught}); } };
+  const draw = () => { const words = aiTok(txt), ended = words[words.length - 1] === '.', d = ended ? {list:[]} : dist(words);
+    el.innerHTML = aiHead('Chatbot tí hon đoán từ tiếp theo', `Chatbot này chỉ học từ <b>${corp.length}</b> câu tiếng Việt. Nó đếm xem sau mỗi cụm từ thì từ nào hay xuất hiện. Hãy gõ phần đầu câu, xem máy đoán, rồi bấm <b>Tự viết tiếp</b>.`) + `
+    <div class="aw-two"><div><label class="aw-sub" for="nwIn">Câu đang viết</label><input id="nwIn" class="inp" value="${h(txt)}" autocomplete="off">
+      <div class="aw-row"><button class="btn" id="nwGen">✨ Tự viết tiếp</button><button class="btn ghost small" id="nwClr">Xóa</button></div>
+      <label class="aw-sl">🎲 Độ sáng tạo: <b id="nwT">${temp.toFixed(1)}</b><input type="range" min="0.2" max="1.6" step="0.1" value="${temp}" id="nwTemp"></label>
+      <p class="muted" style="font-size:.8rem">Độ sáng tạo thấp: máy hay chọn từ phổ biến nhất. Cao: máy chọn cả từ ít gặp, câu đa dạng hơn nhưng dễ lạc đề.</p></div>
+      <div><h3 class="aw-sub">Máy đoán từ tiếp theo ${d.list.length ? `<small>(dựa trên "${h(d.key)}")</small>` : ''}</h3><div class="aw-nw">${d.list.length ? d.list.slice(0, 6).map(x => `<button class="aw-pb as-btn" data-w="${h(x.w)}"><span>${x.w === '.' ? '(kết thúc câu)' : h(x.w)}</span><i><em style="width:${Math.round(x.p*100)}%"></em></i><b>${Math.round(x.p*100)}%</b></button>`).join('') : (ended ? '<p class="aw-hint">Câu đã kết thúc. Bấm <b>Tự viết tiếp</b> để máy viết một câu mới, hoặc xóa và gõ phần đầu câu khác.</p>' : '<p class="aw-hint">Máy chưa từng thấy từ này trong dữ liệu nên không biết đoán gì. Dữ liệu quyết định khả năng của chatbot!</p>')}</div></div></div>
+    <div class="aw-run"><h3 class="aw-sub">📚 Dạy thêm cho chatbot</h3><div class="aw-row"><input id="nwAdd" class="inp" placeholder="Ví dụ: em thích học trí tuệ nhân tạo ." style="flex:1;min-width:200px"><button class="btn ghost" id="nwAddB">Thêm câu</button></div>
+      <p class="muted" style="font-size:.82rem">Đã thêm ${taught} câu. Sau khi thêm, em gõ lại phần đầu câu để thấy xác suất thay đổi.</p></div>
+    <div class="aw-score">Đã tự viết ${gens}/3 lần · Đã dạy thêm ${taught}/1 câu</div>`;
+    const inp = $('#nwIn', el); inp.oninput = () => { txt = inp.value; const pos = inp.selectionStart; draw(); const n2 = $('#nwIn', el); n2.focus(); n2.setSelectionRange(pos, pos); };
+    $$('[data-w]', el).forEach(b => b.onclick = () => { txt = (txt.trim() + ' ' + b.dataset.w).trim(); draw(); });
+    $('#nwClr', el).onclick = () => { txt = ''; draw(); };
+    $('#nwTemp', el).oninput = e => { temp = +e.target.value; $('#nwT', el).textContent = temp.toFixed(1); };
+    $('#nwGen', el).onclick = () => { let w = aiTok(txt); if (w[w.length - 1] === '.') w = []; for (let i = 0; i < 12; i++){ const dd = dist(w); if (!dd.list.length) break; const nx = sample(dd.list); w.push(nx); if (nx === '.') break; } txt = w.join(' ').replace(/ \./g, '.'); gens++; draw(); chk(); };
+    $('#nwAddB', el).onclick = () => { const v = $('#nwAdd', el).value.trim(); if (aiTok(v).length < 3) return; corp.push(v.endsWith('.') ? v : v + ' .'); taught++; build(); draw(); chk(); toast('Chatbot đã học thêm 1 câu'); }; };
+  build(); draw(); };
+
+/* 7. Nhận diện cảm xúc trong câu */
+const AI_EMO_TEST = [['Hôm nay em rất vui', 1], ['Bài kiểm tra khó quá, em mệt lắm', -1], ['Em không thích món này', -1], ['Phim này chẳng hay chút nào', -1], ['Cả lớp được cô khen, ai cũng hạnh phúc', 1], ['Em chán vì trời mưa mãi', -1], ['Bạn ấy không buồn nữa rồi', 1], ['Hay ghê, lại mất điện đúng giờ xem bóng đá', -1]];
+AIW.emotion = (el, c, l, done) => {
+  const lex = {vui:2, thích:2, tuyệt:2, hay:1, tốt:2, giỏi:2, đẹp:1, ngon:1, yêu:2, phúc:2, khen:1, buồn:-2, chán:-2, ghét:-2, tệ:-2, mệt:-1, sợ:-2, khó:-1, xấu:-1, khóc:-2};
+  let neg = false, mine = 'Em không vui vì bị điểm kém', fired = false, toggled = false;
+  const NEG = ['không', 'chẳng', 'chưa'];
+  const score = s => { const w = aiTok(s); let sc = 0, flip = 0; const parts = []; w.forEach(t => { if (neg && NEG.includes(t)){ flip = 2; parts.push({t, k:'neg'}); return; } let v = lex[t] || 0; if (v && flip > 0) v = -v; if (flip > 0) flip--; sc += v; parts.push({t, v}); }); return {sc, parts}; };
+  const lab = sc => sc > 0 ? ['😊', 'Tích cực'] : sc < 0 ? ['😟', 'Tiêu cực'] : ['😐', 'Trung tính'];
+  const hl = r => r.parts.map(p => p.k === 'neg' ? `<mark class="n">${h(p.t)}</mark>` : p.v ? `<mark class="${p.v > 0 ? 'p' : 'm'}">${h(p.t)}<sup>${p.v > 0 ? '+' : ''}${p.v}</sup></mark>` : h(p.t)).join(' ');
+  const draw = () => { const res = AI_EMO_TEST.map(([s, y]) => { const r = score(s); return {s, y, r, ok:Math.sign(r.sc) === y}; }), n = res.filter(x => x.ok).length, my = score(mine);
+    el.innerHTML = aiHead('AI đoán cảm xúc trong câu', 'Mỗi từ có một <b>điểm cảm xúc</b>. Máy cộng điểm các từ: tổng dương là tích cực, âm là tiêu cực. Hãy cải thiện mô hình để đoán đúng nhiều câu kiểm tra nhất.') + `
+    <div class="aw-two"><div><h3 class="aw-sub">Thử câu của em</h3><input id="emIn" class="inp" value="${h(mine)}"><div class="aw-emo"><span class="big">${lab(my.r ? my.sc : my.sc)[0]}</span><div><b>${lab(my.sc)[1]}</b> (điểm ${my.sc})<p>${hl(my)}</p></div></div>
+      <h3 class="aw-sub">Điều chỉnh mô hình</h3><label class="aw-tog"><input type="checkbox" id="emNeg" ${neg ? 'checked' : ''}><span>Xử lí từ phủ định (<i>không, chẳng, chưa</i> đảo ngược điểm của từ ngay sau)</span></label>
+      <div class="aw-lex">${Object.entries(lex).map(([w, v]) => `<span class="${v > 0 ? 'p' : v < 0 ? 'm' : ''}">${h(w)} <button data-lw="${h(w)}" data-d="-1" aria-label="Giảm">−</button><b>${v}</b><button data-lw="${h(w)}" data-d="1" aria-label="Tăng">+</button></span>`).join('')}</div>
+      <div class="aw-row"><input id="emW" class="inp" placeholder="thêm từ" style="width:120px"><select id="emV" class="pe-in">${[3, 2, 1, -1, -2, -3].map(v => `<option value="${v}">${v > 0 ? '+' : ''}${v}</option>`).join('')}</select><button class="btn ghost small" id="emAdd">Thêm từ</button></div></div>
+      <div><h3 class="aw-sub">Bộ câu kiểm tra: đúng <b>${n}/8</b></h3><div class="aw-emt">${res.map(x => `<div class="${x.ok ? 'ok' : 'bad'}"><p>${hl(x.r)}</p><span>Máy: ${lab(x.r.sc)[0]} ${lab(x.r.sc)[1]} · Đúng là: ${x.y > 0 ? '😊 Tích cực' : '😟 Tiêu cực'} ${x.ok ? '✓' : '✗'}</span></div>`).join('')}</div>
+      ${n >= 7 ? `<p class="aw-hint">Giỏi lắm! Câu nói mỉa "Hay ghê, lại mất điện…" rất khó với cách cộng điểm từng từ: máy không hiểu ngữ cảnh như con người. Nếu em sửa bằng cách cho từ "mất" điểm âm, máy có thể sai ở câu khác như "không mất gì".</p>` : '<p class="aw-hint">Gợi ý: xem các câu có từ <i>không</i>, <i>chẳng</i>. Mô hình đang hiểu đúng ý chúng chưa?</p>'}</div></div>`;
+    const inp = $('#emIn', el); inp.oninput = () => { mine = inp.value; const p = inp.selectionStart; draw(); const i2 = $('#emIn', el); i2.focus(); i2.setSelectionRange(p, p); };
+    $('#emNeg', el).onchange = e => { neg = e.target.checked; toggled = true; draw(); };
+    $$('[data-lw]', el).forEach(b => b.onclick = () => { const w = b.dataset.lw; lex[w] = Math.max(-3, Math.min(3, lex[w] + +b.dataset.d)); draw(); });
+    $('#emAdd', el).onclick = () => { const w = $('#emW', el).value.trim().toLowerCase(); if (!w || /\s/.test(w)) return; lex[w] = +$('#emV', el).value; draw(); };
+    if (!fired && n >= 6 && neg){ fired = true; done({acc:n}); } };
+  draw(); };
+
+/* 8. Phiếu dự án (lập kế hoạch, đánh giá) */
+const AI_RUBRIC = [['eff', 'Hiệu quả'], ['safe', 'An toàn'], ['fair', 'Công bằng'], ['open', 'Minh bạch'], ['human', 'Con người kiểm soát']];
+AIW.plan = (el, c, l, done) => {
+  const sid = me() ? me().id : null, saved = (aiProg(sid)[l.id] || {}).plan || {}; const v = {...saved}; let fired = false;
+  const ok = () => c.fields.every(f => (v[f.k] || '').trim().length >= 8) && (!c.rubric || AI_RUBRIC.every(([k]) => v['r_' + k]));
+  el.innerHTML = aiHead(c.rubric ? 'Phiếu đánh giá và cải tiến sản phẩm AI' : 'Phiếu ý tưởng dự án AI', 'Em (hoặc nhóm) điền từng mục. Phiếu được lưu lại để thầy cô xem và nhận xét.') + `
+    <div class="aw-plan">${c.fields.map(f => `<label class="field"><b>${h(f.l)}</b><textarea class="inp" rows="2" data-pk="${f.k}" placeholder="${h(f.ph)}" maxlength="500">${h(v[f.k] || '')}</textarea></label>`).join('')}
+      ${c.rubric ? `<div class="aw-rub"><b>Chấm theo 5 tiêu chí (1: chưa tốt · 2: tạm được · 3: tốt)</b>${AI_RUBRIC.map(([k, n]) => `<div><span>${n}</span>${[1, 2, 3].map(x => `<button class="${+v['r_' + k] === x ? 'on' : ''}" data-rk="${k}" data-rv="${x}">${x}</button>`).join('')}</div>`).join('')}</div>` : ''}</div>
+    <div class="aw-row"><button class="btn" id="plMake">📄 Tạo phiếu</button><span id="plMsg" class="muted"></span></div><div id="plCard"></div>`;
+  const save = () => aiSave(sid, l.id, {plan:{...v}});
+  $$('[data-pk]', el).forEach(t => t.oninput = () => { v[t.dataset.pk] = t.value; clearTimeout(t._t); t._t = setTimeout(save, 500); });
+  $$('[data-rk]', el).forEach(b => b.onclick = () => { v['r_' + b.dataset.rk] = +b.dataset.rv; $$(`[data-rk="${b.dataset.rk}"]`, el).forEach(x => x.classList.toggle('on', x === b)); save(); });
+  $('#plMake', el).onclick = () => { if (!ok()){ $('#plMsg', el).textContent = 'Em điền đủ các mục (mỗi mục ít nhất 8 kí tự)' + (c.rubric ? ' và chấm đủ 5 tiêu chí' : '') + '.'; return; } save();
+    const txt = `${l.name}\n` + c.fields.map(f => `- ${f.l}: ${v[f.k].trim()}`).join('\n') + (c.rubric ? '\n- Tự đánh giá: ' + AI_RUBRIC.map(([k, n]) => `${n} ${v['r_' + k]}/3`).join(', ') : '');
+    $('#plCard', el).innerHTML = `<div class="aw-card"><span class="eyebrow">${c.rubric ? 'Phiếu đánh giá sản phẩm AI' : 'Phiếu dự án AI'} · ${me() ? h(me().name) + ' · Lớp ' + h(me().cls) : 'Khách'}</span>${c.fields.map(f => `<div><b>${h(f.l)}</b><p>${h(v[f.k].trim())}</p></div>`).join('')}
+      ${c.rubric ? `<div class="aw-rubv">${AI_RUBRIC.map(([k, n]) => `<span>${n}: <b>${'★'.repeat(v['r_' + k])}${'☆'.repeat(3 - v['r_' + k])}</b></span>`).join('')}</div>` : ''}<button class="btn ghost small" id="plCopy">📋 Sao chép nội dung</button></div>`;
+    $('#plCopy', el).onclick = () => copyText(txt); $('#plMsg', el).textContent = '✓ Đã lưu phiếu.';
+    if (!fired){ fired = true; done({fields:c.fields.length}); } }; };
+
+/* 9. Xử lí tình huống */
+AIW.dilemma = (el, c, l, done) => {
+  const st = c.cases.map(() => null); let first = 0, fired = false;
+  const draw = () => { const n = st.filter(x => x && x.g === 2).length;
+    el.innerHTML = aiHead('Em sẽ làm gì?', 'Đọc từng tình huống và chọn cách ứng xử. Nếu chưa phải lựa chọn tốt nhất, em có thể chọn lại.') + `<div class="aw-dil">${c.cases.map((cs, i) => { const s = st[i];
+      return `<div class="aw-case${s ? (s.g === 2 ? ' ok' : s.g === 1 ? ' mid' : ' bad') : ''}"><p class="aw-sc"><b>Tình huống ${i + 1}.</b> ${h(cs.s)}</p><div class="aw-opts">${cs.o.map((o, j) => `<button class="aw-opt${s && s.j === j ? ' sel g' + o.g : ''}" data-c="${i}" data-o="${j}" ${s && s.g === 2 ? 'disabled' : ''}>${h(o.t)}</button>`).join('')}</div>${s ? `<p class="aw-fb">${s.g === 2 ? '✅' : s.g === 1 ? '🟡' : '⚠️'} ${h(cs.o[s.j].fb)}</p>` : ''}</div>`; }).join('')}</div>
+      <div class="aw-score">Đã chọn cách ứng xử tốt nhất ở <b>${n}/${c.cases.length}</b> tình huống</div>`;
+    $$('[data-c]', el).forEach(b => b.onclick = () => { const i = +b.dataset.c, j = +b.dataset.o, g = c.cases[i].o[j].g; if (!st[i] && g === 2) first++; st[i] = {j, g}; draw(); });
+    if (n === c.cases.length && !fired){ fired = true; done({first}); } };
+  draw(); };
+
+/* 10. Mô phỏng bảng tin có AI gợi ý */
+const AI_FEED_T = [{k:'game', n:'Trò chơi', i:'🎮', p:['Mẹo qua màn khó nhất', 'Top 10 trò chơi tuần này', 'Xem cao thủ thi đấu', 'Trò chơi mới ra mắt']}, {k:'tt', n:'Thể thao', i:'⚽', p:['Bàn thắng đẹp nhất vòng đấu', 'Bài tập thể lực tại nhà', 'Lịch thi đấu cuối tuần', 'Câu chuyện vận động viên trẻ']},
+  {k:'kh', n:'Khoa học', i:'🔭', p:['Vì sao Mặt Trăng có pha?', 'Thí nghiệm núi lửa tại nhà', 'Robot giúp nông dân', 'Bí mật của loài ong']}, {k:'nhac', n:'Âm nhạc', i:'🎵', p:['Học đàn guitar bài đầu tiên', 'Bài hát mới của tuần', 'Nhạc cụ dân tộc Việt Nam', 'Hát đúng cao độ']},
+  {k:'nau', n:'Nấu ăn', i:'🍳', p:['Món trứng chiên 5 phút', 'Cách làm sinh tố bơ', 'Ẩm thực miền Tây', 'Bữa sáng đủ chất']}, {k:'dl', n:'Du lịch', i:'🏞️', p:['Khám phá chợ nổi Cái Răng', 'Hang động đẹp nhất Việt Nam', 'Biển miền Trung mùa hè', 'Cắm trại an toàn']}];
+AIW.feed = (el, c, l, done) => {
+  let w = Object.fromEntries(AI_FEED_T.map(t => [t.k, 1])), feed = [], mins = 0, phase = 1, fired = false, ctr = 0, limit = false; const R = aiRand(11);
+  const div = () => { const s = Object.values(w).reduce((a, b) => a + b*b, 0), ps = Object.values(w).map(x => x*x/s); const H = -ps.reduce((a, p) => a + (p > 0 ? p*Math.log(p) : 0), 0); return Math.round(H/Math.log(ps.length)*100); };
+  const refill = () => { const s = Object.values(w).reduce((a, b) => a + b*b, 0); feed = Array.from({length:4}, () => { let r = R()*s; const t = AI_FEED_T.find(t => (r -= w[t.k]**2) <= 0) || AI_FEED_T[0]; return {t, title:t.p[(ctr++) % 4]}; }); };
+  const draw = (msg = '') => { const d = div(); if (phase === 1 && d < 40) { phase = 2; msg = '🫧 Bảng tin của em giờ gần như chỉ còn một chủ đề: đó là <b>bong bóng thông tin</b>. Hãy dùng các nút "Tự chủ" để mở rộng lại bảng tin (độ đa dạng trên 70%).'; }
+    if (phase === 2 && d >= 70){ phase = 3; msg = '🎉 Em đã lấy lại quyền tự chủ! Hệ thống gợi ý học từ hành vi của em, nên em có thể chủ động thay đổi nó.'; if (!fired){ fired = true; done({mins}); } }
+    el.innerHTML = aiHead('Bảng tin do AI gợi ý', phase === 1 ? 'Nhiệm vụ 1: hãy đóng vai một bạn rất mê <b>trò chơi</b>: xem hết mọi video Trò chơi, lướt qua các video khác. Quan sát độ đa dạng của bảng tin.' : 'Nhiệm vụ 2: dùng các nút <b>Tự chủ</b> để bảng tin đa dạng trở lại.') + `
+    <div class="aw-two"><div class="aw-feed">${feed.map((f, i) => `<div class="aw-post"><span class="ic">${f.t.i}</span><div><b>${h(f.title)}</b><small>${h(f.t.n)}</small></div><button class="btn small" data-v="${i}">👀 Xem hết</button><button class="btn ghost small" data-s="${i}">⏭ Lướt</button></div>`).join('')}</div>
+      <div><div class="aw-meter"><span>Độ đa dạng bảng tin</span><i><em style="width:${d}%;background:${d < 40 ? '#f87171' : d < 70 ? '#f59e0b' : '#22c55e'}"></em></i><b>${d}%</b></div>
+        <div class="aw-acc">⏱ Thời gian xem: <b>${mins}</b> phút ${limit && mins >= 60 ? '<span class="bad">· Đã đến giới hạn em đặt, nên nghỉ!</span>' : ''}</div>
+        <div class="aw-wts">${AI_FEED_T.map(t => `<div class="aw-pb"><span>${t.i} ${t.n}</span><i><em style="width:${Math.round(w[t.k]**2/Object.values(w).reduce((a, b) => a + b*b, 0)*100)}%"></em></i></div>`).join('')}</div>
+        <h3 class="aw-sub">Tự chủ</h3><div class="aw-row aw-wrap"><select id="fdT" class="pe-in">${AI_FEED_T.map(t => `<option value="${t.k}">${t.i} ${t.n}</option>`).join('')}</select><button class="btn ghost small" id="fdFind">🔍 Chủ động tìm chủ đề này</button>
+          <button class="btn ghost small" id="fdClr">🧹 Xóa lịch sử xem</button><button class="btn ghost small" id="fdLim">⏰ ${limit ? 'Đã đặt' : 'Đặt'} giới hạn 60 phút</button></div></div></div>
+    ${msg ? `<p class="aw-hint">${msg}</p>` : ''}`;
+    $$('[data-v]', el).forEach(b => b.onclick = () => { const f = feed[+b.dataset.v]; w[f.t.k] += 1.6; mins += 8; refill(); draw(); });
+    $$('[data-s]', el).forEach(b => b.onclick = () => { const f = feed[+b.dataset.s]; w[f.t.k] = Math.max(0.15, w[f.t.k]*0.8); mins += 1; refill(); draw(); });
+    $('#fdFind', el).onclick = () => { const k = $('#fdT', el).value, mx = Math.max(...Object.values(w)); w[k] = Math.max(w[k], mx*0.75); refill(); draw('Em đã chủ động tìm chủ đề mới.'); };
+    $('#fdClr', el).onclick = () => { Object.keys(w).forEach(k => w[k] = 1); refill(); draw('Đã xóa lịch sử, hệ thống gợi ý bắt đầu lại từ đầu.'); };
+    $('#fdLim', el).onclick = () => { limit = true; draw('Đặt giới hạn thời gian giúp em không bị cuốn theo bảng tin.'); }; };
+  refill(); draw(); };
 
 /* ===================== NGOÀI CỔNG TRƯỜNG: nhặt và phân loại rác (điểm rèn luyện) ===================== */
 const BINS = [
@@ -6385,9 +7359,13 @@ function tOverview(el, classes){
   const tasks = Object.entries(S.tasks).filter(([,t])=>String(t.grade)===String(grade));
   const cm = curMonth();
   el.innerHTML = `<div class="stack">${classSel(classes)}
-    <div class="panel"><div class="tbl-wrap"><table class="matrix"><thead><tr><th>Học sinh</th>${tasks.map(([,t])=>`<th title="${h(t.title)}">${h(SUBJ[t.subject]?.name.replace('KHTN · ','')||t.subject)}${t.kind==='lab'?' · TN':t.kind==='lesson'?' · BG':''}</th>`).join('')}<th>Điểm ${h(cm.slice(5))}/${h(cm.slice(0,4))}</th><th title="Điểm rèn luyện (nhặt, phân loại rác)">Rèn luyện</th></tr></thead>
-    <tbody>${studs.map(([id,s])=>{ let pts=0; const cells = tasks.map(([tid])=>{ const sb=S.subs[`${id}__${tid}`]; if (sb && sb.month===cm) pts+=sb.points||0; return `<td>${sb?`<span class="pen">${vn(sb.score)}</span>`:taskHits(S.tasks[tid], s, id)?'<span class="muted">—</span>':'<span class="muted" title="Không giao cho em này">·</span>'}</td>`; }).join(''); return `<tr><td><b>${h(s.name)}</b></td>${cells}<td class="num"><b>${pts}</b></td><td class="num">${(S.gear && S.gear[id] && S.gear[id].rl && S.gear[id].rl.pts) || 0}</td></tr>`; }).join('')}</tbody></table></div></div>
-    <p class="muted" style="font-size:.85rem">Điểm đỏ là điểm cao nhất của mỗi học sinh cho từng nhiệm vụ (thang 10). "TN" là thí nghiệm ảo. "—" là chưa nộp, "·" là nhiệm vụ không giao cho em đó.</p></div>`;
+    <div class="panel"><div class="tbl-wrap"><table class="matrix"><thead><tr><th>Học sinh</th>${tasks.map(([,t])=>`<th title="${h(t.title)}">${h(SUBJ[t.subject]?.name.replace('KHTN · ','')||t.subject)}${t.kind==='lab'?' · TN':t.kind==='lesson'?' · BG':''}</th>`).join('')}<th>Điểm ${h(cm.slice(5))}/${h(cm.slice(0,4))}</th><th title="Điểm rèn luyện (nhặt, phân loại rác)">Rèn luyện</th><th title="Số chuyên đề Lớp học AI đã hoàn thành (6 chuyên đề, 12 tiết/năm)">Lớp AI</th></tr></thead>
+    <tbody>${studs.map(([id,s])=>{ let pts=0; const cells = tasks.map(([tid])=>{ const sb=S.subs[`${id}__${tid}`]; if (sb && sb.month===cm) pts+=sb.points||0; return `<td>${sb?`<span class="pen">${vn(sb.score)}</span>`:taskHits(S.tasks[tid], s, id)?'<span class="muted">—</span>':'<span class="muted" title="Không giao cho em này">·</span>'}</td>`; }).join(''); return `<tr><td><b>${h(s.name)}</b></td>${cells}<td class="num"><b>${pts}</b></td><td class="num">${(S.gear && S.gear[id] && S.gear[id].rl && S.gear[id].rl.pts) || 0}</td><td>${(() => { const ai = (S.gear && S.gear[id] && S.gear[id].ai) || {}, L = (AI_GRADES[+s.grade] || AI_GRADES[6]).lessons; const n = L.filter(l => aiDone(ai[l.id])).length, r = L.filter(l => ai[l.id] && ai[l.id].r).length; return `<button class="ai-cellb" data-aiv="${id}" title="${r} bài có suy ngẫm · bấm để xem">${n}/6</button>`; })()}</td></tr>`; }).join('')}</tbody></table></div></div>
+    <p class="muted" style="font-size:.85rem">Điểm đỏ là điểm cao nhất của mỗi học sinh cho từng nhiệm vụ (thang 10). "TN" là thí nghiệm ảo. "—" là chưa nộp, "·" là nhiệm vụ không giao cho em đó. Cột "Lớp AI": bấm để xem tiến độ và suy ngẫm Lớp học AI của từng em.</p><div id="aiDet"></div></div>`;
+  $$('[data-aiv]', el).forEach(b => b.onclick = () => { const id = b.dataset.aiv, st = S.students[id], ai = (S.gear && S.gear[id] && S.gear[id].ai) || {}, L = (AI_GRADES[+st.grade] || AI_GRADES[6]).lessons;
+    $('#aiDet', el).innerHTML = `<div class="panel ai-det"><h3>Lớp học AI · ${h(st.name)} (lớp ${h(st.cls)})</h3><div class="tbl-wrap"><table><thead><tr><th>Chuyên đề</th><th>Thực hành</th><th>Câu hỏi</th><th>Suy ngẫm / phiếu dự án</th></tr></thead><tbody>${L.map(l => { const p = ai[l.id] || {};
+      return `<tr><td>${l.icon} ${h(l.name)}<br><small class="muted">${l.codes.join(', ')}</small></td><td>${p.a ? '✓' : '—'}</td><td>${p.q ? p.q + '/4' : '—'}</td><td>${p.r ? h(p.r) : '<span class="muted">Chưa viết</span>'}${p.plan ? `<details><summary>Phiếu dự án</summary>${Object.entries(p.plan).filter(([k]) => !k.startsWith('r_')).map(([k, v]) => `<p><b>${h(((l.act.fields || []).find(f => f.k === k) || {}).l || k)}:</b> ${h(v)}</p>`).join('')}</details>` : ''}</td></tr>`; }).join('')}</tbody></table></div>
+      <p class="muted" style="font-size:.84rem">Theo Khung giáo dục AI, kết quả được ghi nhận bằng nhận xét, không chấm điểm riêng.</p></div>`; $('#aiDet', el).scrollIntoView({behavior:'smooth', block:'nearest'}); });
   bindClassSel();
 }
 
