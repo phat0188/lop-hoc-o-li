@@ -1188,7 +1188,7 @@ body[data-view="stemlab"] footer{display:none}
 .ai-map{border:1px solid var(--line);border-radius:14px;padding:10px 14px;background:var(--surface-2)}.ai-map summary{cursor:pointer;font-weight:700}
 .ai-map table{width:100%;border-collapse:collapse;margin-top:8px;font-size:.86rem}.ai-map th,.ai-map td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left}
 .ai-dot{font-size:.74rem;font-weight:800;padding:2px 7px;border-radius:6px;background:color-mix(in srgb,var(--sc) 22%,transparent);color:var(--sc)}
-.ai-les-head{display:grid;gap:10px}.ai-les-t > div{flex:1}.ai-vbtn{align-self:flex-start}.ai-tts{margin:0;padding:10px 14px;border-radius:12px;background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.5);display:flex;flex-wrap:wrap;gap:8px;align-items:center}.ai-les-head .hub-mini{justify-self:start}
+.ai-les-head{display:grid;gap:10px}.ai-les-t > div{flex:1}.ai-vbtn{align-self:flex-start}.ai-vbox{display:grid;gap:6px;justify-items:end;align-self:flex-start}.ai-sp{font-size:.8rem;color:var(--muted);display:flex;gap:6px;align-items:center}.ai-tts{margin:0;padding:10px 14px;border-radius:12px;background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.5);display:flex;flex-wrap:wrap;gap:8px;align-items:center}.ai-les-head .hub-mini{justify-self:start}
 .ai-les-t{display:flex;gap:14px;align-items:center}.ai-les-t h1{font-size:clamp(1.4rem,3.4vw,2rem);margin:2px 0 6px}
 .ai-chips{display:flex;gap:6px;flex-wrap:wrap}
 .ai-chip{display:inline-flex;align-items:center;gap:6px;font-size:.78rem;padding:3px 9px 3px 3px;border-radius:99px;background:color-mix(in srgb,var(--sc) 14%,transparent);border:1px solid color-mix(in srgb,var(--sc) 45%,transparent)}
@@ -4593,7 +4593,7 @@ function vAiLesson(app){
   let step = S.aiStep && S.aiStep.id === l.id ? S.aiStep.k : 'warm';
   app.innerHTML = `<div class="wrap ai-wrap"><section class="section ai-les">
     <div class="ai-les-head"><button class="hub-mini" data-go="ai" id="aiBack">← Lớp học AI · Lớp ${G}</button>
-      <div class="ai-les-t"><span class="ai-ic big">${l.icon}</span><div><span class="eyebrow">Lớp ${G} · ${l.ext ? 'Chuyên đề mở rộng: Học cùng AI đúng cách' : `Chuyên đề ${idx + 1}/6`} · 2 tiết</span><h1>${h(l.name)}</h1><div class="ai-chips">${l.codes.map(aiChip).join('')}</div></div><button class="btn ghost small ai-vbtn" id="aiVoice" title="Cài đặt giọng đọc">🔊 Giọng đọc</button></div></div>
+      <div class="ai-les-t"><span class="ai-ic big">${l.icon}</span><div><span class="eyebrow">Lớp ${G} · ${l.ext ? 'Chuyên đề mở rộng: Học cùng AI đúng cách' : `Chuyên đề ${idx + 1}/6`} · 2 tiết</span><h1>${h(l.name)}</h1><div class="ai-chips">${l.codes.map(aiChip).join('')}</div></div><div class="ai-vbox"><button class="btn ghost small ai-vbtn" id="aiVoice" title="Cài đặt giọng đọc">🔊 Giọng đọc</button><label class="ai-sp">Tốc độ <select id="aiSp" class="pe-in">${[[0.7, 'Chậm'], [0.85, 'Vừa'], [1, 'Bình thường']].map(([v, n]) => `<option value="${v}" ${Math.abs(TTS.speed - v) < 0.08 ? 'selected' : ''}>${n}</option>`).join('')}</select></label></div></div></div>
     <p class="ai-tts" id="aiTts" role="status" hidden></p>
     <nav class="ai-steps" aria-label="Các bước">${AI_STEPS.map(([k, n, ic], i) => `<button data-step="${k}"><span class="d">${ic}</span><span>${i + 1}. ${n}</span></button>`).join('')}</nav>
     <div class="ai-body"><div class="ai-main" id="aiMain"></div>
@@ -4644,6 +4644,7 @@ function vAiLesson(app){
   $$('[data-step]', app).forEach(b => b.onclick = () => show(b.dataset.step));
   $('#aiBack', app).addEventListener('click', () => TTS.stop());
   $('#aiVoice', app).onclick = () => { TTS.stop(); openVoiceSettings(() => note(null)); };
+  $('#aiSp', app).onchange = e => { TTS.setSpeed(e.target.value); if (lastSay && lastSay.btn.classList.contains('on')){ lastSay.btn.classList.remove('on'); speak(lastSay.txt, lastSay.btn); } };
   doneBox(); show(step);
 }
 
@@ -6687,7 +6688,7 @@ const lpLoad = (sid, tid) => { try { return JSON.parse(store(lpKey(sid, tid)) ||
 const TTS = {
   ok: typeof window !== 'undefined' && 'speechSynthesis' in window && typeof SpeechSynthesisUtterance !== 'undefined', token:0, voices:[], ready:null, broken:false,
   off: false, pick: '', tm:null, neural:false, cur:null,
-  init(){ try { this.off = store('oli.tts.off') === '1'; this.pick = store('oli.voice') || ''; this.neural = store('oli.tts.nv') === '1'; } catch(e){} this.load(); },
+  init(){ try { const sp = parseFloat(store('oli.tts.rate')); this.speed = sp >= 0.5 && sp <= 1.5 ? sp : 0.85; } catch(e){ this.speed = 0.85; } try { this.off = store('oli.tts.off') === '1'; this.pick = store('oli.voice') || ''; this.neural = store('oli.tts.nv') === '1'; } catch(e){} this.load(); },
   load(){ if (!this.ok) return Promise.resolve([]); if (this.ready) return this.ready;
     this.ready = new Promise(res => { const get = () => { try { const v = speechSynthesis.getVoices(); if (v && v.length){ this.voices = v; return true; } } catch(e){} return false; };
       if (get()) return res(this.voices); const hd = () => { if (get()){ try { speechSynthesis.removeEventListener('voiceschanged', hd); } catch(e){} res(this.voices); } };
@@ -6703,14 +6704,16 @@ const TTS = {
   // 'voice' = đọc thành tiếng; 'novi' = máy không có giọng tiếng Việt; 'off' = em tắt; 'broken' = máy không phát được; 'none' = trình duyệt không hỗ trợ
   state(){ if (this.off) return 'off'; if (this.neural) return 'neural'; if (!this.ok) return 'none'; if (this.broken) return 'broken'; this.refresh(); if (!this.hasVi()) return 'novi'; return 'voice'; },
   stop(){ this.token++; clearTimeout(this.tm); try { if (this.cur){ this.cur.pause(); this.cur = null; } } catch(e){} try { if (this.ok) speechSynthesis.cancel(); } catch(e){} },
+  setSpeed(v){ this.speed = Math.min(1.5, Math.max(0.5, +v || 0.85)); try { store('oli.tts.rate', String(this.speed)); } catch(e){} },
   play(sents, opt = {}){
+    if (!opt._sp){ opt = {...opt, _sp:true, rate:(opt.rate || 1)*(this.speed || 0.85)}; }
     if (this.neural && !this.off){ this.stop(); const tk = this.token; let i = opt.from || 0; const {rate = 1, onSent, onDone, onMode} = opt; onMode && onMode('neural');
       const cache = new Map(), get = k => { if (!cache.has(k)) cache.set(k, NV.raw(sents[k])); return cache.get(k); };
       const bad = () => { if (tk !== this.token) return; this.neural = false; this.nvFail = true; this.play(sents, {...opt, from:i}); this.neural = true; };
       const one = async () => { if (tk !== this.token) return; if (i >= sents.length){ onDone && onDone(true); return; } onSent && onSent(i);
         let blob; try { blob = await get(i); } catch(e){ console.warn('nv', e); return bad(); } if (tk !== this.token) return;
         if (i + 1 < sents.length) get(i + 1).catch(() => {});
-        const a = new Audio(URL.createObjectURL(blob)); this.cur = a; try { a.playbackRate = rate; } catch(e){}
+        const a = new Audio(URL.createObjectURL(blob)); this.cur = a; try { a.preservesPitch = true; a.playbackRate = rate; } catch(e){}
         a.onended = () => { if (tk !== this.token) return; i++; one(); }; a.onerror = () => bad();
         a.play().catch(() => bad()); };
       one(); return; }
@@ -6722,11 +6725,11 @@ const TTS = {
         const len = sents[i].replace(/^\[en\]\s*/i, '').length; this.tm = setTimeout(() => { i++; next(); }, clamp(len*70/rate, 1600, 9000)); };
       next(); return; }
     let anyStart = false, retried = false;
-    const fail = () => { if (tk !== this.token) return; this.broken = true; this.play(sents, {from:i, rate, onSent, onDone, onMode}); };
+    const fail = () => { if (tk !== this.token) return; this.broken = true; this.play(sents, {_sp:true, from:i, rate, onSent, onDone, onMode}); };
     const one = () => { if (tk !== this.token) return; if (i >= sents.length){ onDone && onDone(true); return; }
       const s = sents[i], en = /^\[en\]/i.test(s), text = s.replace(/^\[en\]\s*/i, ''), lang = en ? 'en-US' : 'vi-VN';
       const u = new SpeechSynthesisUtterance(text); u.lang = lang; const v = this.voice(lang);
-      if (!v && !en){ this.broken = false; this.voices = []; return this.play(sents, {from:i, rate, onSent, onDone, onMode:m => onMode && onMode('novi')}); } try { if (v) u.voice = v; } catch(e){} u.rate = rate; u.volume = 1;
+      if (!v && !en){ this.broken = false; this.voices = []; return this.play(sents, {_sp:true, from:i, rate, onSent, onDone, onMode:m => onMode && onMode('novi')}); } try { if (v) u.voice = v; } catch(e){} u.rate = rate; u.volume = 1;
       let started = false, wd = null;
       u.onstart = () => { started = true; anyStart = true; };
       u.onend = () => { if (tk !== this.token) return; clearTimeout(wd); i++; one(); };
@@ -6765,10 +6768,12 @@ function openVoiceSettings(onChange){
       ${vs.length > 1 ? `<label class="field">Chọn giọng<select id="vsSel">${vs.map(v => `<option value="${h(v.voiceURI)}" ${cur && cur.voiceURI === v.voiceURI ? 'selected' : ''}>${h(v.name)}</option>`).join('')}</select></label>` : ''}
       <div class="nv-box"><b>🎧 Giọng đọc tự nhiên tải về</b><span class="muted" style="font-size:.84rem">Dùng được trên mọi trình duyệt, kể cả khi máy không có giọng tiếng Việt. Tải một lần khoảng 60 MB (nên dùng Wi-Fi), máy tính đọc mượt hơn điện thoại.</span>
         ${TTS.neural ? '<label class="chk"><input type="checkbox" id="vsNv" checked> Đang dùng giọng tải về (bỏ chọn để dùng giọng của máy)</label>' : '<button type="button" class="btn small" id="vsNvGo" style="justify-self:start">⬇ Tải và dùng giọng đọc tự nhiên</button>'}<span class="muted" id="vsNvSt" style="font-size:.84rem"></span></div>
+      <label class="field">Tốc độ đọc: <b id="vsSpV">${TTS.speed <= 0.75 ? 'Chậm' : TTS.speed <= 0.9 ? 'Vừa' : TTS.speed <= 1.05 ? 'Bình thường' : 'Nhanh'} (${Math.round(TTS.speed*100)}%)</b><input type="range" id="vsSp" min="0.6" max="1.2" step="0.05" value="${TTS.speed}"></label>
       <div class="row" style="gap:8px;flex-wrap:wrap"><button class="btn small" id="vsTest" style="flex:0 0 auto" ${(TTS.ok || TTS.neural) && !TTS.off ? '' : 'disabled'}>▶ Nghe thử</button><label class="vs-off"><input type="checkbox" id="vsOff" ${TTS.off ? 'checked' : ''}> Tắt giọng đọc, chỉ hiện chữ</label></div>
       <p id="vsRes" class="muted" role="status" style="margin:0;font-size:.88rem"></p>
       <div class="vs-help"><b>Cách bật giọng đọc tiếng Việt</b><p>${VOICE_HELP[platformOf()]}</p><p class="muted" style="font-size:.82rem">Nếu đang mở trang trong ứng dụng Claude trên điện thoại mà không nghe được, em thử mở bằng trình duyệt Chrome hoặc Safari. Bài giảng có <b>giọng cô ghi âm sẵn</b> thì máy nào cũng nghe được.</p></div></div>`;
     $('#vsX', ov).onclick = close;
+    $('#vsSp', ov).oninput = e => { TTS.setSpeed(e.target.value); const v = TTS.speed; $('#vsSpV', ov).textContent = `${v <= 0.75 ? 'Chậm' : v <= 0.9 ? 'Vừa' : v <= 1.05 ? 'Bình thường' : 'Nhanh'} (${Math.round(v*100)}%)`; };
     const sel = $('#vsSel', ov); if (sel) sel.onchange = () => { TTS.pick = sel.value; try { store('oli.voice', sel.value); } catch(e){} TTS.broken = false; };
     $('#vsOff', ov).onchange = e => { TTS.off = e.target.checked; try { store('oli.tts.off', TTS.off ? '1' : ''); } catch(e){} if (!TTS.off) TTS.broken = false; draw(); };
     const nvGo = $('#vsNvGo', ov); if (nvGo) nvGo.onclick = async () => { nvGo.disabled = true; const st = $('#vsNvSt', ov);
