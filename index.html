@@ -1282,6 +1282,22 @@ mark{background:transparent;color:inherit;border-radius:4px;padding:0 2px}mark.p
 .aw-wts{margin-top:8px}.aw-wrap{flex-wrap:wrap}
 @media (max-width:980px){.ai-body{grid-template-columns:1fr}.ai-side{position:static}.ai-strands{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:760px){.ai-hero{padding:16px}.ai-hero-art{display:none}.aw-two,.aw-draw{grid-template-columns:1fr}.aw-pad canvas{width:min(240px,100%);height:auto;aspect-ratio:1}.aw-cls{grid-template-columns:1fr}.aw-post{grid-template-columns:auto 1fr;}.aw-post .btn{grid-column:span 1}.aw-tbl div{grid-template-columns:1fr}.ai-steps button{flex:0 0 auto}}
+.ai-ext{display:grid;gap:12px;padding:16px;border-radius:18px;border:1.5px solid rgba(74,222,128,.4);background:linear-gradient(135deg,rgba(74,222,128,.08),rgba(34,211,238,.06))}
+.ai-ext-h h2{margin:2px 0 4px;font-size:1.35rem}.ai-ext-h p{margin:0;color:#c9d6f5;max-width:80ch}
+.ai-card.ext{border-color:rgba(74,222,128,.5)}.ai-bookc{border-style:dashed}
+.ai-formula{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.ai-formula div{padding:12px;border-radius:14px;border:1.5px solid var(--sc);background:color-mix(in srgb,var(--sc) 10%,#0b1230);display:grid;gap:4px}.ai-formula b{color:var(--sc)}.ai-formula span{font-size:.88rem}
+.ai-light{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.ai-light div{padding:12px;border-radius:14px;display:grid;gap:4px;font-size:.88rem;line-height:1.45}
+.ai-light .g{background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.5)}.ai-light .y{background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.5)}.ai-light .r{background:rgba(248,113,113,.12);border:1px solid rgba(248,113,113,.5)}
+.ai-book{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:12px}.ai-bk{padding:14px;border-radius:14px;background:var(--surface);border:1px solid var(--line);display:grid;gap:8px;align-content:start}.ai-bk h3{margin:0}
+.ai-tpl{display:grid;gap:6px;padding:10px;border-radius:10px;background:var(--surface-2)}.ai-tpl p{margin:0;line-height:1.5;font-size:.9rem}.ai-tpl .btn{justify-self:start}
+.aw-task{padding:12px 14px;border-radius:12px;background:#162557;border:1px solid #2a3f86;margin-top:10px}.aw-task p{margin:4px 0 0;font-weight:700;font-size:1.02rem}
+.aw-cmp{display:grid;grid-template-columns:1fr 1fr;gap:10px}.aw-cmp > div{padding:12px;border-radius:12px;display:grid;gap:6px;align-content:start}.aw-cmp .bad{border:1.5px solid rgba(248,113,113,.5);background:rgba(248,113,113,.06)}.aw-cmp .good{border:1.5px solid rgba(34,197,94,.5);background:rgba(34,197,94,.06)}
+.aw-cmp q{display:block;font-style:italic;padding:8px 10px;border-radius:8px;background:var(--surface-2);quotes:none}.aw-cmp small{color:#c9d6f5}
+.aw-bubble{padding:8px 10px;border-radius:12px 12px 12px 2px;background:#1e2b5e;font-size:.9rem;line-height:1.5}
+.aw-chk{margin-top:10px;padding:12px;border-radius:12px;border:1px solid var(--line);background:var(--surface-2)}.aw-stars{font-size:1.2rem;color:#facc15}.aw-stars b{color:var(--ink);font-size:.95rem;margin-left:6px}
+.aw-chk ul{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:4px}.aw-chk li{color:#fca5a5}.aw-chk li.ok{color:#4ade80}.aw-chk li small{display:block;color:#c9d6f5;margin-left:18px}
+#prIn{width:100%}
+@media (max-width:760px){.ai-formula,.ai-light,.aw-cmp{grid-template-columns:1fr}}
 </style>
 
 <header class="top"><div class="wrap">
@@ -1604,7 +1620,7 @@ function renderNav(){
   if (m) items.push(['student','Nhiệm vụ của em']);
   if (S.canEdit) items.push(['teacher','Giáo viên']);
   items.push(SB_ON && S.authUid ? ['login','Tài khoản'] : m ? ['logout','Đăng xuất'] : ['login','Đăng nhập']);
-  $('#nav').innerHTML = items.map(([k,l]) => `<button data-go="${k}" ${v===k||(k==='school'&&(v==='hallin'||v==='hall'||v==='chess'||v==='cleanup'))||(k==='labs'&&(v==='room'||v==='lab'||v==='stem'||v==='stemlab'))||(k==='ai'&&v==='ailesson')||(k==='student'&&v==='task'&&S.tasks[S.arg]?.kind!=='lesson')||(k==='class'&&(v==='preview'||v==='live'||(v==='task'&&S.tasks[S.arg]?.kind==='lesson')))?'aria-current="page"':''}>${l}</button>`).join('');
+  $('#nav').innerHTML = items.map(([k,l]) => `<button data-go="${k}" ${v===k||(k==='school'&&(v==='hallin'||v==='hall'||v==='chess'||v==='cleanup'))||(k==='labs'&&(v==='room'||v==='lab'||v==='stem'||v==='stemlab'))||(k==='ai'&&(v==='ailesson'||v==='aibook'))||(k==='student'&&v==='task'&&S.tasks[S.arg]?.kind!=='lesson')||(k==='class'&&(v==='preview'||v==='live'||(v==='task'&&S.tasks[S.arg]?.kind==='lesson')))?'aria-current="page"':''}>${l}</button>`).join('');
 }
 
 function render(){
@@ -1623,7 +1639,7 @@ function render(){
   app.dataset.view = S.view + ':' + S.arg; app.dataset.lock = '';
   if (S.loaded && !['task','lab','live','preview'].includes(S.view)) setTimeout(() => { try { checkNudge(); } catch(e){ console.warn(e); } }, 400);
   updImm(); try { socStart(); } catch(e){}
-  const V = {home:vHome, ai:vAi, ailesson:vAiLesson, cleanup:vCleanup, stem:vStem, stemlab:vStemLab, chess:vChess, live:vLive, school:vSchool, hallin:vSchool, hall:vHall, labs:vLabs, room:vRoom, lab:vLab, login:SB_ON ? vLoginSB : vLogin, student:vStudent, task:vTask, teacher:vTeacher, 'class':vClass, preview:vPreview}[S.view] || vHome;
+  const V = {home:vHome, ai:vAi, ailesson:vAiLesson, aibook:vAiBook, cleanup:vCleanup, stem:vStem, stemlab:vStemLab, chess:vChess, live:vLive, school:vSchool, hallin:vSchool, hall:vHall, labs:vLabs, room:vRoom, lab:vLab, login:SB_ON ? vLoginSB : vLogin, student:vStudent, task:vTask, teacher:vTeacher, 'class':vClass, preview:vPreview}[S.view] || vHome;
   V(app);
 }
 
@@ -4551,6 +4567,9 @@ function vAi(app){
         <span class="ai-ic">${l.icon}</span><span class="ai-n">Chuyên đề ${i + 1} · 2 tiết</span><b>${h(l.name)}</b>
         <span class="ai-codes">${l.codes.map(c => `<i style="--sc:${AI_STRAND[c[0]].c}">${c}</i>`).join('')}</span>
         <span class="ai-st2">${d ? '<em class="ok">⭐ Đã hoàn thành</em>' : p.a || p.q ? `<em>Đang học · ${p.a ? 'đã thực hành' : 'chưa thực hành'} · câu hỏi ${p.q || 0}/4</em>` : '<em>Chưa bắt đầu</em>'}</span></button>`; }).join('')}</div>
+    <section class="ai-ext"><div class="ai-ext-h"><span class="eyebrow">Nội dung mở rộng · Kĩ năng dùng AI để học</span><h2>🧭 Học cùng AI đúng cách</h2><p>Học cách ra lệnh (viết câu lệnh) cho ChatGPT, Gemini và các chatbot khác để được giải thích, gợi ý từng bước, tự kiểm tra, thay vì đưa nguyên đề bài để chép đáp án.</p></div>
+      <div class="ai-grid">${(AI_EXT[G] || []).map(l => { const p = prog[l.id] || {}, d = aiDone(p); return `<button class="ai-card ext${d ? ' done' : ''}" data-go="ailesson" data-arg="${l.id}"><span class="ai-ic">${l.icon}</span><span class="ai-n">Chuyên đề mở rộng · lớp ${G} · 2 tiết</span><b>${h(l.name)}</b><span class="ai-codes">${l.codes.map(c => `<i style="--sc:${AI_STRAND[c[0]].c}">${c}</i>`).join('')}</span><span class="ai-st2">${d ? '<em class="ok">⭐ Đã hoàn thành</em>' : p.a || p.q ? '<em>Đang học</em>' : '<em>Chưa bắt đầu</em>'}</span></button>`; }).join('')}
+        <button class="ai-card ai-bookc" data-go="aibook"><span class="ai-ic">📒</span><span class="ai-n">Dùng cho mọi khối</span><b>Sổ tay câu lệnh học tập</b><span class="muted" style="font-size:.86rem">Mẫu câu lệnh sao chép nhanh: hiểu bài, làm bài tập, ôn tập, viết văn, tiếng Anh, kiểm chứng, lập kế hoạch.</span></button></div></section>
     <details class="ai-map"><summary>Bản đồ năng lực lớp ${G}: chuyên đề nào thuộc mạch nào</summary>
       <div class="tbl-wrap"><table><thead><tr><th>Chuyên đề</th>${Object.entries(AI_STRAND).map(([k, s]) => `<th title="${h(s.n)}" style="color:${s.c}">${k}</th>`).join('')}</tr></thead>
       <tbody>${L.map((l, i) => `<tr><td>${i + 1}. ${h(l.name)}</td>${Object.keys(AI_STRAND).map(k => { const cs = l.codes.filter(c => c[0] === k); return `<td>${cs.length ? `<span class="ai-dot" style="--sc:${AI_STRAND[k].c}">${cs.join(', ')}</span>` : ''}</td>`; }).join('')}</tr>`).join('')}</tbody></table></div>
@@ -4574,7 +4593,7 @@ function vAiLesson(app){
   let step = S.aiStep && S.aiStep.id === l.id ? S.aiStep.k : 'warm';
   app.innerHTML = `<div class="wrap ai-wrap"><section class="section ai-les">
     <div class="ai-les-head"><button class="hub-mini" data-go="ai" id="aiBack">← Lớp học AI · Lớp ${G}</button>
-      <div class="ai-les-t"><span class="ai-ic big">${l.icon}</span><div><span class="eyebrow">Lớp ${G} · Chuyên đề ${idx + 1}/6 · 2 tiết</span><h1>${h(l.name)}</h1><div class="ai-chips">${l.codes.map(aiChip).join('')}</div></div></div></div>
+      <div class="ai-les-t"><span class="ai-ic big">${l.icon}</span><div><span class="eyebrow">Lớp ${G} · ${l.ext ? 'Chuyên đề mở rộng: Học cùng AI đúng cách' : `Chuyên đề ${idx + 1}/6`} · 2 tiết</span><h1>${h(l.name)}</h1><div class="ai-chips">${l.codes.map(aiChip).join('')}</div></div></div></div>
     <nav class="ai-steps" aria-label="Các bước">${AI_STEPS.map(([k, n, ic], i) => `<button data-step="${k}"><span class="d">${ic}</span><span>${i + 1}. ${n}</span></button>`).join('')}</nav>
     <div class="ai-body"><div class="ai-main" id="aiMain"></div>
       <aside class="ai-side"><div class="ai-yc"><b>🎯 Yêu cầu cần đạt</b><p>${h(l.yccd)}</p></div>
@@ -4586,7 +4605,7 @@ function vAiLesson(app){
       <li class="${p.a ? 'ok' : ''}">${p.a ? '✓' : '○'} Hoàn thành hoạt động thực hành</li><li class="${(p.q || 0) >= 3 ? 'ok' : ''}">${(p.q || 0) >= 3 ? '✓' : '○'} Câu hỏi củng cố đúng từ 3/4 (cao nhất: ${p.q || 0}/4)</li><li class="${p.r ? 'ok' : ''}">${p.r ? '✓' : '○'} Ghi suy ngẫm</li></ul>
       ${d ? '<p class="ai-star">⭐ Em đã hoàn thành chuyên đề này!</p>' : ''}${!m ? '<p class="muted" style="font-size:.8rem">Em chưa đăng nhập nên tiến độ chỉ lưu trên máy này.</p>' : ''}`;
     $$('[data-step]', app).forEach(b => { const k = b.dataset.step; b.classList.toggle('ok', (k === 'act' && p.a) || (k === 'quiz' && (p.q || 0) >= 3) || (k === 'reflect' && !!p.r)); }); };
-  const nav = k => { const i = AI_STEPS.findIndex(s => s[0] === k); return `<div class="ai-nav">${i > 0 ? `<button class="btn ghost" data-to="${AI_STEPS[i - 1][0]}">← ${AI_STEPS[i - 1][1]}</button>` : '<span></span>'}${i < AI_STEPS.length - 1 ? `<button class="btn" data-to="${AI_STEPS[i + 1][0]}">${AI_STEPS[i + 1][1]} →</button>` : idx < 5 ? `<button class="btn" data-go="ailesson" data-arg="${AI_GRADES[G].lessons[idx + 1].id}">Chuyên đề tiếp theo →</button>` : `<button class="btn" data-go="ai">Về Lớp học AI</button>`}</div>`; };
+  const nav = k => { const i = AI_STEPS.findIndex(s => s[0] === k); return `<div class="ai-nav">${i > 0 ? `<button class="btn ghost" data-to="${AI_STEPS[i - 1][0]}">← ${AI_STEPS[i - 1][1]}</button>` : '<span></span>'}${i < AI_STEPS.length - 1 ? `<button class="btn" data-to="${AI_STEPS[i + 1][0]}">${AI_STEPS[i + 1][1]} →</button>` : idx >= 0 && idx < 5 ? `<button class="btn" data-go="ailesson" data-arg="${AI_GRADES[G].lessons[idx + 1].id}">Chuyên đề tiếp theo →</button>` : `<button class="btn" data-go="ai">Về Lớp học AI</button>`}</div>`; };
   const speak = (txt, btn) => { if (btn.classList.contains('on')){ TTS.stop(); btn.classList.remove('on'); return; } $$('.ai-say.on', app).forEach(x => x.classList.remove('on')); btn.classList.add('on'); TTS.play(splitSents(txt), {onDone:() => btn.classList.remove('on')}); };
   const show = k => { step = k; S.aiStep = {id:l.id, k}; TTS.stop(); const M = $('#aiMain', app);
     $$('[data-step]', app).forEach(b => b.setAttribute('aria-current', String(b.dataset.step === k)));
@@ -4887,6 +4906,219 @@ AIW.feed = (el, c, l, done) => {
     $('#fdClr', el).onclick = () => { Object.keys(w).forEach(k => w[k] = 1); refill(); draw('Đã xóa lịch sử, hệ thống gợi ý bắt đầu lại từ đầu.'); };
     $('#fdLim', el).onclick = () => { limit = true; draw('Đặt giới hạn thời gian giúp em không bị cuốn theo bảng tin.'); }; };
   refill(); draw(); };
+
+/* ---------- Chuyên đề mở rộng: Học cùng AI đúng cách (kĩ năng viết câu lệnh) ---------- */
+const AI_CRIT = {
+  vai:{n:'Giao vai trò cho AI', tip:'Mở đầu bằng: "Hãy đóng vai thầy/cô dạy … lớp …".', re:/(đóng vai|hãy là|bạn là|vai trò|như (một )?(thầy|cô|gia sư|giáo viên|người bạn|người bán|huấn luyện))/},
+  boi:{n:'Nói rõ bối cảnh: em học lớp mấy, bài gì', tip:'Thêm: "Em học lớp …, đang học bài …".', re:/(lớp\s*\d|em đang học|bài học|chương|môn\s+\S+|học sinh)/},
+  thu:{n:'Cho biết em đã thử gì, chỗ nào chưa hiểu', tip:'Thêm: "Em đã làm đến bước … nhưng chưa hiểu …".', re:/(em đã|em làm|em thử|em chưa hiểu|em không hiểu|chưa chắc|em nghĩ là|em biết|em bị vướng|em ra kết quả|bài làm của em|em giải)/},
+  goiy:{n:'Xin gợi ý, KHÔNG xin đáp án ngay', tip:'Thêm: "Đừng cho em đáp án ngay, hãy gợi ý".', re:/((đừng|không|chưa)\s*(vội\s*)?(cho|đưa|nói|giải)\s*(em\s*)?(ngay\s*)?(đáp án|kết quả|lời giải|luôn|hết|hộ))|gợi ý|đừng giải/},
+  buoc:{n:'Yêu cầu giải thích từng bước, hỏi lại em', tip:'Thêm: "Giải thích từng bước và hỏi lại em".', re:/(từng bước|từng phần|hỏi lại|hỏi em|đặt câu hỏi|câu hỏi gợi mở|giải thích|ví dụ (đời thường|gần gũi|dễ hiểu))/},
+  ktra:{n:'Nhờ kiểm tra lại: bài tương tự để tự làm', tip:'Thêm: "Sau đó cho em một bài tương tự để em tự làm".', re:/(bài tương tự|bài khác|cho em (thêm )?(\d+ )?(bài|câu)|để em tự (làm|luyện|kiểm tra)|kiểm tra (lại )?(xem )?em|tự kiểm tra|câu hỏi kiểm tra)/},
+  bailam:{n:'Dán bài làm của chính em', tip:'Thêm: "Đây là bài làm của em: …".', re:/(bài làm của em|em làm như sau|em giải như sau|em giải|em ra kết quả|kết quả của em|em viết|đoạn văn của em|em đã làm)/},
+  khongho:{n:'Không nhờ làm hộ, chỉ nhờ chỉ ra lỗi', tip:'Thêm: "Chỉ ra chỗ sai, đừng sửa hộ, để em tự sửa".', re:/((đừng|không)\s*(sửa|làm|viết|giải)\s*(lại\s*)?(hộ|giúp|thay)|chỉ ra|để em tự (sửa|viết|làm))/},
+  ontap:{n:'Nhờ AI ra câu hỏi ôn tập cho em', tip:'Thêm: "Tạo … câu hỏi ôn tập, chưa cho đáp án".', re:/(câu hỏi|trắc nghiệm|ôn tập|đố em|kiểm tra em)/},
+  chuaDA:{n:'Chưa cho đáp án, chấm khi em trả lời xong', tip:'Thêm: "Chưa cho đáp án, chấm khi em trả lời xong".', re:/((chưa|đừng|không)\s*(cho|đưa|ghi)\s*(em\s*)?(đáp án|kết quả))|chấm (điểm )?(khi|sau khi|giúp)|sau khi em trả lời/},
+  nguon:{n:'Đề nghị nêu nguồn để em tự kiểm chứng', tip:'Thêm: "Gợi ý nguồn tin cậy để em tự kiểm chứng".', re:/(nguồn|sách giáo khoa|kiểm chứng|tài liệu|trang web chính thức|tin cậy)/},
+  trinhdo:{n:'Nói rõ trình độ hoặc mức độ dễ hiểu', tip:'Thêm: "trình độ A2" hoặc "giải thích dễ hiểu cho học sinh lớp …".', re:/(a1|a2|b1|trình độ|dễ hiểu|đơn giản|lớp\s*\d|ngắn gọn)/i},
+  luot:{n:'Mỗi lượt chỉ nói ngắn để em luyện', tip:'Thêm: "Mỗi lần chỉ nói 1–2 câu rồi chờ em trả lời".', re:/(mỗi (lần|lượt)|từng câu|1\s*[-–]\s*2 câu|một câu|chờ em)/},
+  sualoi:{n:'Nhờ chỉ lỗi và giải thích lỗi', tip:'Thêm: "Sau mỗi lượt, chỉ ra lỗi của em và giải thích".', re:/(sửa lỗi|chỉ ra lỗi|lỗi (sai|ngữ pháp|chính tả)|nhận xét|góp ý)/},
+  tieuchi:{n:'Đưa tiêu chí nhận xét cụ thể', tip:'Thêm: "Nhận xét theo các tiêu chí: luận điểm, dẫn chứng, liên kết".', re:/(tiêu chí|luận điểm|dẫn chứng|bố cục|liên kết|theo (các|những) (ý|mặt))/},
+  giang:{n:'Em tự giảng lại, nhờ AI tìm chỗ hiểu sai', tip:'Thêm: "Em sẽ giải thích theo cách hiểu của em, hãy chỉ ra chỗ em hiểu sai".', re:/(em sẽ giải thích|theo cách hiểu của em|em hiểu là|em giảng|chỗ em hiểu (sai|chưa đúng)|thiếu sót)/},
+  cuthe:{n:'Cho thông tin cụ thể (thời gian, mục tiêu)', tip:'Thêm số liệu: "còn 8 tuần, mỗi ngày học 1 tiếng, môn yếu là …".', re:/(\d+\s*(tuần|ngày|giờ|tiếng|phút|buổi))/},
+  dinhdang:{n:'Nêu hình thức trình bày mong muốn', tip:'Thêm: "Trình bày thành bảng theo tuần".', re:/(bảng|theo tuần|danh sách|từng ngày|gạch đầu dòng|theo thứ tự)/},
+  haiphia:{n:'Yêu cầu nhiều góc nhìn khác nhau', tip:'Thêm: "Đưa ra 2 quan điểm trái ngược".', re:/(quan điểm|ủng hộ|phản đối|trái ngược|hai phía|lợi và hại|mặt lợi|mặt hại|nhiều góc)/},
+  phanbien:{n:'Yêu cầu chỉ ra điểm yếu, hạn chế', tip:'Thêm: "Chỉ ra điểm yếu của mỗi quan điểm".', re:/(điểm yếu|hạn chế|phản biện|chưa thuyết phục|lỗ hổng)/},
+  tulam:{n:'Khẳng định em sẽ tự làm phần chính', tip:'Thêm: "Em sẽ tự viết kết luận".', re:/(em sẽ tự|để em tự|em tự (viết|làm|giải|kết luận))/},
+  chianho:{n:'Chia bài khó thành các bước nhỏ', tip:'Thêm: "Chia bài thành các bước nhỏ, mỗi bước một câu hỏi".', re:/(chia (bài|nhỏ|thành)|các bước nhỏ|bước 1|từng bước nhỏ)/},
+  choem:{n:'Chờ em trả lời xong mới sang bước tiếp', tip:'Thêm: "Em trả lời xong mới chuyển sang bước tiếp theo".', re:/(em trả lời xong|chờ em|sau khi em|đợi em)/}
+};
+const AI_PRIV = /(\b0\d{9}\b|@\w+\.\w+|mật khẩu|số nhà|địa chỉ nhà|căn cước|cccd)/i;
+const AI_COPY = /(giải (hộ|giúp|bài|giùm)|^\s*tính |làm (hộ|giúp|giùm)|viết hộ|viết giúp|trả lời (hộ|giúp)|cho (em|mình|tôi) đáp án)/;
+const AI_EXT = {
+6:[{id:'6-m', ext:true, name:'Học cùng AI: hỏi để hiểu, không chép đáp án', codes:['C2', 'B2', 'A1'], icon:'🧑‍🏫',
+  yccd:'Biết cách viết câu lệnh (prompt) cho chatbot như ChatGPT, Gemini để được gợi ý, giải thích từng bước thay vì xin đáp án; tự kiểm tra lại hiểu biết của mình.',
+  warm:'Bạn A dán nguyên đề toán lên chatbot và chép đáp án. Bạn B nhờ chatbot gợi ý rồi tự giải. Theo em, đến giờ kiểm tra, bạn nào làm bài tốt hơn? Vì sao?',
+  cards:[
+   {t:'Chatbot là "gia sư", không phải "máy giải bài"', b:'ChatGPT, Gemini và các chatbot khác có thể giải thích bài rất kiên nhẫn, lúc nào cũng sẵn sàng. Nhưng nếu chỉ xin đáp án, em không học được gì, và chatbot đôi khi còn giải sai. Hãy dùng chatbot như một người thầy: hỏi để hiểu, rồi tự làm.'},
+   {t:'Công thức câu lệnh 4 phần: VAI – BỐI CẢNH – CÁCH GIÚP – KIỂM TRA', b:'Vai: "Hãy đóng vai cô giáo dạy Toán lớp 6." Bối cảnh: "Em đang học bài…, em đã làm đến…, em chưa hiểu…". Cách giúp: "Đừng cho đáp án ngay, hãy gợi ý từng bước và hỏi lại em." Kiểm tra: "Sau đó cho em một bài tương tự để tự làm."'},
+   {t:'Ví dụ câu lệnh tốt', b:'Hãy đóng vai cô giáo dạy Toán lớp 6. Em đang học bài tìm x và gặp bài 3x + 15 = 51. Em biết phải chuyển 15 sang vế bên kia nhưng chưa chắc làm thế nào. Đừng cho em đáp án ngay, hãy gợi ý từng bước và hỏi lại em. Khi em làm xong, cho em một bài tương tự để tự luyện.'},
+   {t:'Quy tắc an toàn khi dùng chatbot', b:'Mỗi ứng dụng có quy định độ tuổi riêng, em chỉ dùng khi bố mẹ, thầy cô cho phép và hướng dẫn. Không nhập họ tên đầy đủ, địa chỉ, số điện thoại, mật khẩu. Không dùng chatbot trong giờ kiểm tra. Luôn tự xem lại: chatbot cũng có thể sai.'}],
+  act:{type:'prompt', grade:6, sc:[
+   {subj:'Toán', task:'Tìm x, biết: 3x + 15 = 51', need:['vai', 'boi', 'thu', 'goiy', 'ktra'],
+    bad:'giải bài 3x + 15 = 51', badR:'3x = 51 − 15 = 36. x = 36 : 3 = 12. Vậy x = 12.',
+    good:'Hãy đóng vai cô giáo dạy Toán lớp 6. Em đang học bài tìm x và gặp bài 3x + 15 = 51. Em biết phải chuyển 15 sang vế bên kia nhưng chưa chắc làm thế nào. Đừng cho em đáp án ngay, hãy gợi ý từng bước và hỏi lại em. Khi em làm xong, cho em một bài tương tự để tự luyện.',
+    goodR:'Cô rất vui vì em đã tự thử trước! Mình cùng nghĩ nhé: 3x + 15 = 51 có thể đọc là "một số cộng thêm 15 thì được 51". Vậy số đó, tức là 3x, bằng bao nhiêu? Em thử tính rồi trả lời cô. Sau đó mình sẽ tìm x từ 3x nhé 🙂'},
+   {subj:'Khoa học tự nhiên', task:'Câu hỏi về nhà: Vì sao lá cây thường có màu xanh?', need:['vai', 'boi', 'goiy', 'buoc', 'ktra'],
+    bad:'vì sao lá cây có màu xanh', badR:'Lá cây có màu xanh vì chứa chất diệp lục.',
+    good:'Hãy đóng vai thầy dạy Khoa học tự nhiên lớp 6. Em cần trả lời câu hỏi "Vì sao lá cây thường có màu xanh?". Em đoán là do trong lá có chất gì đó nhưng chưa rõ. Đừng cho em câu trả lời ngay, hãy gợi ý bằng ví dụ đời thường và giải thích từng bước. Cuối cùng hỏi em 2 câu để kiểm tra xem em hiểu chưa.',
+    goodR:'Câu hỏi hay đấy! Em thử nhớ lại: khi chiếu đèn pin qua một tấm kính màu xanh, ánh sáng đi ra có màu gì? Trong lá cây có những "hạt nhỏ" chứa một chất đặc biệt. Chất này hấp thụ nhiều ánh sáng đỏ và xanh lam để cây làm thức ăn, còn ánh sáng xanh lục thì bị hắt lại vào mắt ta. Em thử đoán tên chất đó, nó bắt đầu bằng chữ "diệp…" nhé!'},
+   {subj:'Ngữ văn', task:'Viết đoạn văn (5–7 câu) tả cây phượng ở sân trường', need:['vai', 'boi', 'goiy', 'sualoi'],
+    bad:'viết hộ em đoạn văn tả cây phượng', badR:'Giữa sân trường em có một cây phượng vĩ rất to. Thân cây sần sùi… (cả đoạn văn hoàn chỉnh do chatbot viết)',
+    good:'Hãy đóng vai cô giáo dạy Ngữ văn lớp 6. Em cần viết đoạn văn 5–7 câu tả cây phượng ở sân trường. Đừng viết hộ em, hãy gợi ý cho em các câu hỏi để quan sát (thân, lá, hoa, cảm xúc). Em sẽ tự viết, sau đó em gửi đoạn văn để cô góp ý và kiểm tra lỗi chính tả.',
+    goodR:'Cô gợi ý em quan sát theo thứ tự từ xa đến gần nhé: 1) Đứng ở cổng trường, em thấy tán phượng giống cái gì? 2) Thân cây sờ vào cảm thấy thế nào? 3) Hoa phượng màu gì, nở vào mùa nào? 4) Cây phượng gắn với kỉ niệm nào của em? Em trả lời từng câu bằng một câu văn, thế là có đoạn văn rồi. Viết xong gửi cô xem nhé!'}]},
+  quiz:[
+   {q:'Câu lệnh nào giúp em HỌC tốt nhất?', o:['Giải bài này.', 'Cho đáp án bài 5.', 'Hãy đóng vai cô giáo Toán lớp 6, gợi ý từng bước, đừng cho đáp án ngay.', 'Làm hộ em hết bài tập.'], a:2, why:'Câu lệnh có vai trò, cách giúp và không xin đáp án.'},
+   {q:'Phần "bối cảnh" trong câu lệnh là:', o:['Màu sắc của chatbot', 'Em học lớp mấy, bài gì, đã làm đến đâu, chưa hiểu chỗ nào', 'Mật khẩu tài khoản', 'Tên đầy đủ và địa chỉ nhà em'], a:1, why:'Bối cảnh giúp chatbot giải thích vừa sức em.'},
+   {q:'Vì sao nên xin chatbot "một bài tương tự"?', o:['Để có thêm đáp án chép', 'Để tự kiểm tra xem mình đã thật sự hiểu chưa', 'Để chatbot chạy lâu hơn', 'Không có lí do'], a:1, why:'Tự làm bài tương tự là cách kiểm tra hiểu bài.'},
+   {q:'Thông tin nào KHÔNG nên đưa vào câu lệnh?', o:['Em học lớp 6', 'Đề bài em chưa hiểu', 'Số điện thoại và địa chỉ nhà', 'Em đã làm đến bước 2'], a:2, why:'Không chia sẻ thông tin cá nhân với chatbot.'}],
+  reflect:'Viết lại một câu lệnh em sẽ dùng thật cho bài tập về nhà tuần này (môn em thấy khó nhất).',
+  tip:'Nội dung mở rộng theo Khung (cơ sở giáo dục tự chọn). Tiết 1: so sánh câu lệnh xin đáp án và câu lệnh xin gợi ý, giới thiệu công thức 4 phần. Tiết 2: học sinh viết câu lệnh cho bài tập thật, chấm chéo bằng bảng kiểm. Nếu dùng chatbot thật, giáo viên trình chiếu bằng tài khoản của giáo viên.'}],
+7:[{id:'7-m', ext:true, name:'Nhờ AI kiểm tra bài và ra câu hỏi ôn tập', codes:['C2', 'A1', 'B2'], icon:'📝',
+  yccd:'Biết viết câu lệnh để chatbot kiểm tra bài làm (chỉ ra lỗi, không làm hộ), tạo câu hỏi ôn tập và gợi ý nguồn để tự kiểm chứng.',
+  warm:'Nếu chatbot sửa hộ toàn bộ bài làm của em, lần sau em có còn mắc lỗi đó không?',
+  cards:[
+   {t:'Nhờ kiểm tra, không nhờ làm hộ', b:'Hãy tự làm bài trước, sau đó dán bài làm của em và yêu cầu: "Chỉ ra bước nào sai và vì sao, đừng sửa hộ, để em tự sửa." Như vậy em hiểu lỗi của mình và nhớ lâu.'},
+   {t:'Biến chatbot thành người ra đề', b:'"Tạo 5 câu trắc nghiệm ôn tập bài … lớp 7, chưa cho đáp án. Khi em trả lời xong mới chấm và giải thích câu sai." Tự trả lời câu hỏi là cách ôn tập hiệu quả hơn đọc lại nhiều lần.'},
+   {t:'Luôn kiểm chứng', b:'Chatbot có thể sai hoặc bịa nguồn. Hãy yêu cầu "gợi ý nguồn tin cậy để em tự kiểm chứng", rồi đối chiếu với sách giáo khoa và thầy cô.'}],
+  act:{type:'prompt', grade:7, sc:[
+   {subj:'Toán', task:'Bài làm của em: (−5) + 8 · 2 = 3 · 2 = 6 (bài này em làm sai thứ tự phép tính)', need:['boi', 'bailam', 'khongho', 'buoc'],
+    bad:'tính (−5) + 8 · 2', badR:'(−5) + 8 · 2 = (−5) + 16 = 11.',
+    good:'Em học lớp 7. Đây là bài làm của em: (−5) + 8 · 2 = 3 · 2 = 6. Hãy kiểm tra giúp em, chỉ ra bước nào sai và giải thích vì sao, nhưng đừng sửa hộ, để em tự sửa lại.',
+    goodR:'Em đã làm phép cộng (−5) + 8 trước rồi mới nhân. Em thử nhớ lại quy tắc: trong biểu thức có cả cộng và nhân, không có ngoặc, ta làm phép tính nào trước? Em sửa lại rồi gửi cô xem nhé.'},
+   {subj:'Lịch sử và Địa lí', task:'Ôn tập trước bài kiểm tra về châu Á', need:['vai', 'boi', 'ontap', 'chuaDA'],
+    bad:'tóm tắt bài châu Á', badR:'(Một đoạn tóm tắt dài, em đọc lướt rồi quên…)',
+    good:'Hãy đóng vai thầy dạy Địa lí lớp 7. Em đang ôn tập bài châu Á. Hãy tạo 5 câu hỏi trắc nghiệm ôn tập từ dễ đến khó, chưa cho đáp án. Khi em trả lời xong thì chấm và giải thích câu em làm sai.',
+    goodR:'Được, mình bắt đầu nhé! Câu 1: Châu Á tiếp giáp với mấy đại dương? A. 2  B. 3  C. 4  D. 5. Em trả lời xong thầy mới đưa câu 2 và chấm cả bài nhé.'},
+   {subj:'Khoa học tự nhiên', task:'Em đọc trên mạng: "Uống nước đá làm tim ngừng đập". Em muốn biết có đúng không.', need:['boi', 'buoc', 'nguon'],
+    bad:'uống nước đá có làm tim ngừng đập không', badR:'(Một câu trả lời ngắn, em không biết có tin được không.)',
+    good:'Em là học sinh lớp 7. Em đọc trên mạng câu "uống nước đá làm tim ngừng đập". Hãy giải thích dễ hiểu thông tin này đúng hay sai và vì sao, đồng thời gợi ý nguồn tin cậy (sách giáo khoa, trang web chính thức của cơ quan y tế) để em tự kiểm chứng.',
+    goodR:'Đây là một câu nói chưa có cơ sở với người khỏe mạnh bình thường. Tuy nhiên chatbot không thay được bác sĩ. Em nên kiểm chứng ở trang thông tin của Bộ Y tế hoặc hỏi thầy cô dạy Khoa học tự nhiên, và cảnh giác với tin giật gân không ghi nguồn.'}]},
+  quiz:[
+   {q:'Sau khi tự làm bài, câu lệnh tốt là:', o:['Làm lại hộ em cho đúng.', 'Chỉ ra bước sai và vì sao, đừng sửa hộ, để em tự sửa.', 'Cho em đáp án.', 'Viết bài mới hay hơn.'], a:1, why:'Em tự sửa thì mới hiểu lỗi.'},
+   {q:'Vì sao nên yêu cầu "chưa cho đáp án" khi nhờ ra câu hỏi ôn tập?', o:['Để em tự suy nghĩ trả lời trước', 'Để chatbot nhanh hơn', 'Vì chatbot không biết đáp án', 'Không cần thiết'], a:0, why:'Tự nhớ lại là cách ôn tập hiệu quả.'},
+   {q:'Khi chatbot đưa ra một thông tin quan trọng, em nên:', o:['Tin ngay', 'Kiểm chứng ở sách giáo khoa hoặc nguồn chính thức', 'Chia sẻ lên mạng', 'Bỏ qua'], a:1, why:'Chatbot có thể sai.'},
+   {q:'Câu lệnh nào thiếu "bài làm của em"?', o:['Đây là bài làm của em: … Hãy chỉ ra lỗi.', 'Em giải như sau: … Em sai ở đâu?', 'Tính 25 · 4 + 10.', 'Kết quả của em là 6, em làm như sau: …'], a:2, why:'Câu lệnh chỉ đưa đề, không có bài làm để kiểm tra.'}],
+  reflect:'Em hãy viết câu lệnh nhờ chatbot ra 5 câu hỏi ôn tập cho môn em sắp kiểm tra.',
+  tip:'Nội dung mở rộng. Tiết 1: thực hành câu lệnh kiểm tra bài làm, nhấn mạnh tự làm trước. Tiết 2: nhóm tạo bộ câu hỏi ôn tập bằng câu lệnh, kiểm chứng đáp án với sách giáo khoa.'}],
+8:[{id:'8-m', ext:true, name:'Luyện ngoại ngữ, viết văn và "giảng lại cho AI"', codes:['C2', 'C3', 'B3'], icon:'🗣️',
+  yccd:'Viết được câu lệnh để luyện hội thoại tiếng Anh, nhận góp ý bài viết theo tiêu chí và tự giảng lại kiến thức để chatbot tìm chỗ hiểu sai.',
+  warm:'Cách học nào giúp em nhớ lâu hơn: đọc lời giải của người khác, hay tự giảng lại cho người khác nghe?',
+  cards:[
+   {t:'Đóng vai để luyện nói', b:'"Hãy đóng vai người bán hàng, nói chuyện với em bằng tiếng Anh trình độ A2. Mỗi lần chỉ nói 1–2 câu rồi chờ em trả lời. Sau mỗi lượt, chỉ ra lỗi của em và giải thích bằng tiếng Việt." Em được luyện như nói chuyện thật.'},
+   {t:'Góp ý theo tiêu chí, không viết lại', b:'Đưa đoạn văn của em và tiêu chí rõ ràng: luận điểm, dẫn chứng, liên kết. Yêu cầu chỉ ra 2–3 điểm cần sửa, không viết lại hộ. Văn của em vẫn là của em.'},
+   {t:'Kĩ thuật "giảng lại cho AI"', b:'Em giải thích một kiến thức theo cách hiểu của mình, rồi nhờ chatbot tìm chỗ em hiểu sai hoặc còn thiếu và đặt câu hỏi để em suy nghĩ thêm. Đây là cách học sâu rất hiệu quả.'}],
+  act:{type:'prompt', grade:8, sc:[
+   {subj:'Tiếng Anh', task:'Luyện hội thoại mua đồ ở cửa hàng bằng tiếng Anh', need:['vai', 'trinhdo', 'luot', 'sualoi'],
+    bad:'dịch đoạn hội thoại mua hàng sang tiếng Anh', badR:'(Một đoạn hội thoại hoàn chỉnh, em chỉ đọc chứ không luyện nói.)',
+    good:'Hãy đóng vai người bán hàng ở cửa hàng quần áo và nói chuyện với em bằng tiếng Anh trình độ A2. Mỗi lần chỉ nói 1–2 câu rồi chờ em trả lời. Sau mỗi lượt, chỉ ra lỗi ngữ pháp của em và giải thích ngắn bằng tiếng Việt.',
+    goodR:'Hello! Welcome to our shop. What are you looking for today? 🙂 (Em trả lời bằng tiếng Anh nhé, sau đó mình sẽ nhận xét.)'},
+   {subj:'Ngữ văn', task:'Đoạn văn nghị luận: "Học sinh có nên dùng điện thoại ở trường?"', need:['bailam', 'tieuchi', 'khongho'],
+    bad:'viết đoạn văn nghị luận về điện thoại ở trường', badR:'(Một đoạn văn do chatbot viết, không phải của em.)',
+    good:'Đây là đoạn văn nghị luận em viết về việc học sinh dùng điện thoại ở trường: … Hãy nhận xét theo 3 tiêu chí: luận điểm, dẫn chứng, liên kết câu. Chỉ ra 2 điểm em cần sửa, đừng viết lại hộ, để em tự sửa.',
+    goodR:'Luận điểm của em rõ ràng. Tuy nhiên: 1) Dẫn chứng thứ hai còn chung chung, em thử thêm một ví dụ cụ thể ở trường em. 2) Câu 3 và câu 4 chưa có từ nối, em thử dùng "Bên cạnh đó" hoặc "Tuy nhiên". Em sửa rồi gửi lại nhé!'},
+   {subj:'Khoa học tự nhiên', task:'Ôn tập: định luật Ohm (mối quan hệ giữa cường độ dòng điện, hiệu điện thế và điện trở)', need:['boi', 'giang', 'buoc'],
+    bad:'giải thích định luật Ohm', badR:'(Một đoạn lí thuyết dài giống sách giáo khoa.)',
+    good:'Em học lớp 8. Em sẽ giải thích định luật Ohm theo cách hiểu của em: "điện trở càng lớn thì dòng điện càng mạnh". Hãy chỉ ra chỗ em hiểu sai hoặc còn thiếu, và đặt câu hỏi gợi mở để em tự sửa lại.',
+    goodR:'Cảm ơn em đã giảng lại! Có một chỗ cần xem lại: em thử nghĩ, nếu ống nước càng hẹp (cản trở càng nhiều) thì nước chảy qua mạnh hơn hay yếu hơn? Từ đó em sửa lại câu "điện trở càng lớn thì…" nhé.'}]},
+  quiz:[
+   {q:'Để luyện nói tiếng Anh với chatbot, yêu cầu nào quan trọng?', o:['Mỗi lần chỉ nói 1–2 câu rồi chờ em', 'Viết thật dài', 'Dịch hết sang tiếng Việt', 'Không cần sửa lỗi'], a:0, why:'Lượt ngắn giúp em được nói nhiều.'},
+   {q:'Khi nhờ góp ý bài văn, nên:', o:['Nhờ viết lại hộ', 'Đưa tiêu chí cụ thể và yêu cầu chỉ ra điểm cần sửa', 'Chỉ hỏi "hay không"', 'Không gửi bài'], a:1, why:'Tiêu chí giúp góp ý cụ thể, em vẫn tự sửa.'},
+   {q:'Kĩ thuật "giảng lại cho AI" giúp em:', o:['Phát hiện chỗ mình hiểu sai và hiểu sâu hơn', 'Không phải học', 'Có đáp án nhanh', 'Viết dài hơn'], a:0, why:'Tự giải thích là cách học sâu.'},
+   {q:'Bài văn có dùng góp ý của chatbot, em nên:', o:['Ghi chú đã nhận góp ý từ công cụ AI', 'Giấu đi', 'Nói chatbot viết hết', 'Không cần trung thực'], a:0, why:'Minh bạch khi dùng AI.'}],
+  reflect:'Em đã thử kĩ thuật nào trong bài? Viết câu lệnh "giảng lại cho AI" cho một kiến thức em vừa học.',
+  tip:'Nội dung mở rộng, liên môn Tiếng Anh và Ngữ văn. Tiết 1: đóng vai luyện hội thoại (giáo viên trình chiếu chatbot thật hoặc học sinh đóng vai chatbot theo cặp). Tiết 2: góp ý bài văn theo tiêu chí và kĩ thuật giảng lại.'}],
+9:[{id:'9-m', ext:true, name:'Ôn thi, lập kế hoạch và phản biện cùng AI', codes:['C2', 'D1', 'A1'], icon:'🎯',
+  yccd:'Viết được câu lệnh nhiều bước: lập kế hoạch ôn tập cá nhân, chia nhỏ bài khó, yêu cầu nhiều góc nhìn và phản biện câu trả lời của AI; giữ vai trò chủ động.',
+  warm:'Còn vài tháng nữa là thi vào lớp 10. Em sẽ nhờ AI giúp những việc gì, và việc gì nhất định phải tự làm?',
+  cards:[
+   {t:'Câu lệnh càng cụ thể, kết quả càng sát', b:'"Em còn 8 tuần, mỗi ngày học được 1 tiếng, môn yếu là Hình học. Hãy lập kế hoạch ôn tập theo tuần dạng bảng, có ngày nghỉ và bài tự kiểm tra cuối tuần." Số liệu cụ thể giúp kế hoạch phù hợp với em.'},
+   {t:'Chia nhỏ bài khó', b:'"Đừng giải. Hãy chia bài thành các bước nhỏ, mỗi bước là một câu hỏi gợi mở. Em trả lời xong mới chuyển sang bước tiếp." Em vẫn là người giải bài.'},
+   {t:'Phản biện cùng AI', b:'Yêu cầu chatbot đưa ra nhiều quan điểm và chỉ ra điểm yếu của mỗi quan điểm, sau đó em tự viết kết luận. Đừng quên kiểm chứng và ghi chú phần có dùng AI.'}],
+  act:{type:'prompt', grade:9, sc:[
+   {subj:'Kế hoạch học tập', task:'Lập kế hoạch ôn thi vào lớp 10 môn Toán (em yếu phần Hình học)', need:['vai', 'cuthe', 'dinhdang', 'ktra'],
+    bad:'lập kế hoạch ôn thi', badR:'(Một kế hoạch chung chung, không hợp với thời gian và điểm yếu của em.)',
+    good:'Hãy đóng vai thầy chủ nhiệm lớp 9. Em còn 8 tuần trước kì thi vào lớp 10, mỗi ngày học Toán được 1 tiếng, em yếu phần Hình học. Hãy lập kế hoạch ôn tập theo tuần dưới dạng bảng, có 1 ngày nghỉ mỗi tuần và một bài tự kiểm tra cuối mỗi tuần.',
+    goodR:'Tuần 1–2: ôn hệ thức lượng trong tam giác vuông (thứ 2–6, mỗi ngày 1 tiếng), chủ nhật nghỉ, thứ 7 làm 1 đề tự kiểm tra 45 phút… (bảng kế hoạch 8 tuần)'},
+   {subj:'Ngữ văn / Giáo dục công dân', task:'Chuẩn bị bài nghị luận: "Có nên cho học sinh dùng AI để làm bài tập?"', need:['haiphia', 'phanbien', 'tulam'],
+    bad:'viết bài nghị luận về học sinh dùng AI', badR:'(Một bài văn hoàn chỉnh do AI viết.)',
+    good:'Em đang chuẩn bị bài nghị luận "Có nên cho học sinh dùng AI để làm bài tập?". Hãy đưa ra 2 quan điểm trái ngược, mỗi quan điểm 2 lí lẽ, và chỉ ra điểm yếu của mỗi quan điểm. Em sẽ tự viết kết luận và bài văn.',
+    goodR:'Quan điểm 1 (nên): AI giúp giải thích bài nhanh; giúp học sinh tự học ngoài giờ. Điểm yếu: dễ dẫn đến ỷ lại, chép đáp án. Quan điểm 2 (không nên): học sinh mất kĩ năng tự giải; thông tin AI có thể sai. Điểm yếu: bỏ qua lợi ích khi dùng AI đúng cách… Phần kết luận là của em nhé!'},
+   {subj:'Toán', task:'Bài hình khó: chứng minh bốn điểm cùng thuộc một đường tròn', need:['goiy', 'chianho', 'choem'],
+    bad:'giải bài chứng minh 4 điểm cùng thuộc đường tròn', badR:'(Một lời giải đầy đủ, em chép nhưng không hiểu.)',
+    good:'Đừng giải bài này. Hãy chia bài chứng minh bốn điểm cùng thuộc một đường tròn thành các bước nhỏ, mỗi bước là một câu hỏi gợi mở. Em trả lời xong mới chuyển sang bước tiếp theo.',
+    goodR:'Bước 1: Em hãy nhớ lại, có những cách nào để chứng minh bốn điểm cùng thuộc một đường tròn? Gợi ý: nghĩ đến các góc vuông, hoặc các điểm cách đều một điểm. Em trả lời xong mình sang bước 2 nhé.'}]},
+  quiz:[
+   {q:'Câu lệnh nào cho kế hoạch ôn tập sát với em nhất?', o:['Lập kế hoạch ôn thi.', 'Em còn 8 tuần, mỗi ngày 1 tiếng, yếu Hình học, lập kế hoạch theo tuần dạng bảng.', 'Ôn thi thế nào?', 'Cho em đề thi.'], a:1, why:'Thông tin cụ thể và hình thức rõ ràng.'},
+   {q:'Yêu cầu "chia bài thành các bước nhỏ, em trả lời xong mới sang bước tiếp" giúp:', o:['Em tự giải được bài khó', 'Chatbot giải nhanh hơn', 'Em chép đáp án', 'Không có tác dụng'], a:0, why:'Em vẫn là người suy nghĩ chính.'},
+   {q:'Khi nhờ AI hỗ trợ bài nghị luận, phần nào em phải tự làm?', o:['Không phần nào', 'Kết luận và bài viết của em', 'Chỉ tên bài', 'Chỉ dấu câu'], a:1, why:'Bài viết thể hiện suy nghĩ của em.'},
+   {q:'Phản biện câu trả lời của AI nghĩa là:', o:['Tin hoàn toàn', 'Tìm điểm yếu, kiểm chứng, so sánh nhiều góc nhìn', 'Không đọc', 'Chép lại'], a:1, why:'Người học chủ động đánh giá thông tin.'}],
+  reflect:'Viết câu lệnh lập kế hoạch ôn tập thật của em cho môn em muốn cải thiện nhất.',
+  tip:'Nội dung mở rộng, gắn với định hướng ôn thi vào lớp 10. Tiết 1: lập kế hoạch cá nhân bằng câu lệnh cụ thể. Tiết 2: chia nhỏ bài khó và phản biện, học sinh trình bày kế hoạch, giáo viên góp ý tính khả thi.'}]
+};
+Object.values(AI_EXT).flat().forEach(l => { AI_ALL.push(l); AI_BY[l.id] = l; });
+/* Sổ tay câu lệnh học tập */
+const AI_BOOK = [
+  {g:'Hiểu bài', i:'💡', t:[
+    'Hãy đóng vai thầy/cô dạy [môn] lớp [lớp]. Giải thích cho em [kiến thức] bằng ví dụ đời thường, dễ hiểu. Sau đó hỏi em 2 câu để kiểm tra em đã hiểu chưa.',
+    'Em chưa hiểu đoạn này trong sách: "[dán đoạn văn]". Hãy giải thích từng ý ngắn gọn cho học sinh lớp [lớp] và hỏi lại em.']},
+  {g:'Làm bài tập', i:'✏️', t:[
+    'Em đang làm bài: [đề bài]. Em đã làm đến [bước em làm được] nhưng chưa hiểu [chỗ vướng]. Đừng cho đáp án ngay, hãy gợi ý bước tiếp theo.',
+    'Đây là bài làm của em: [bài làm]. Hãy chỉ ra bước nào sai và vì sao, đừng sửa hộ, để em tự sửa.',
+    'Đừng giải bài này. Hãy chia bài [đề bài] thành các bước nhỏ, mỗi bước một câu hỏi gợi mở. Em trả lời xong mới sang bước tiếp.']},
+  {g:'Ôn tập', i:'🔁', t:[
+    'Tạo [5] câu hỏi trắc nghiệm ôn tập bài [tên bài] lớp [lớp], từ dễ đến khó, chưa cho đáp án. Khi em trả lời xong thì chấm và giải thích câu sai.',
+    'Em sẽ giải thích [kiến thức] theo cách hiểu của em: "[phần em giải thích]". Hãy chỉ ra chỗ em hiểu sai hoặc còn thiếu.']},
+  {g:'Viết văn', i:'📝', t:[
+    'Em cần viết [kiểu bài] về [đề tài]. Đừng viết hộ, hãy gợi ý các câu hỏi để em tìm ý và lập dàn ý.',
+    'Đây là đoạn văn em viết: [đoạn văn]. Nhận xét theo tiêu chí: [nội dung, bố cục, diễn đạt]. Chỉ ra 2 điểm cần sửa, đừng viết lại hộ.']},
+  {g:'Tiếng Anh', i:'🗣️', t:[
+    'Hãy đóng vai [người bán hàng / bạn nước ngoài] nói chuyện với em bằng tiếng Anh trình độ [A1/A2]. Mỗi lần chỉ nói 1–2 câu rồi chờ em. Sau mỗi lượt chỉ ra lỗi của em bằng tiếng Việt.',
+    'Giải thích cách dùng [điểm ngữ pháp] bằng tiếng Việt, cho 3 ví dụ ngắn, rồi cho em 3 câu để tự đặt câu.']},
+  {g:'Kiểm chứng', i:'🔎', t:[
+    'Thông tin này đúng hay sai: "[thông tin]"? Giải thích vì sao và gợi ý nguồn tin cậy để em tự kiểm chứng.']},
+  {g:'Kế hoạch', i:'📅', t:[
+    'Em còn [số tuần] tuần trước [kì kiểm tra], mỗi ngày học được [thời gian], em yếu phần [nội dung]. Lập kế hoạch ôn tập theo tuần dạng bảng, có ngày nghỉ và bài tự kiểm tra.']}];
+function vAiBook(app){
+  app.innerHTML = `<div class="wrap ai-wrap"><section class="section">
+    <div class="sec-head"><div><span class="eyebrow">Lớp học AI · Kĩ năng dùng AI để học</span><h1 style="font-size:1.9rem">Sổ tay câu lệnh học tập</h1><p class="muted" style="margin:0;max-width:72ch">Mẫu câu lệnh để dùng ChatGPT, Gemini hay các chatbot khác như một gia sư: hỏi để hiểu, tự làm, tự kiểm tra. Em thay phần trong [ngoặc vuông] bằng nội dung của mình.</p></div><button class="hub-mini" data-go="ai">← Lớp học AI</button></div>
+    <div class="ai-formula">${[['VAI TRÒ', 'Hãy đóng vai thầy/cô dạy … lớp …', '#f59e0b'], ['BỐI CẢNH', 'Em học bài…, em đã làm…, em chưa hiểu…', '#22d3ee'], ['CÁCH GIÚP', 'Đừng cho đáp án ngay, gợi ý từng bước, hỏi lại em', '#a78bfa'], ['KIỂM TRA', 'Cho em bài tương tự / câu hỏi để tự làm', '#4ade80']].map(([a, b, c], i) => `<div style="--sc:${c}"><b>${i + 1}. ${a}</b><span>${b}</span></div>`).join('')}</div>
+    <div class="ai-light"><div class="g"><b>🟢 NÊN</b><span>Hỏi giải thích, xin gợi ý, nhờ ra câu hỏi ôn tập, nhờ kiểm tra bài em đã tự làm, luyện nói ngoại ngữ.</span></div>
+      <div class="y"><b>🟡 CẨN THẬN</b><span>Nhờ góp ý bài viết (tự sửa, ghi chú có dùng AI), thông tin số liệu, lịch sử, sức khỏe (phải kiểm chứng).</span></div>
+      <div class="r"><b>🔴 KHÔNG</b><span>Chép đáp án để nộp, dùng trong giờ kiểm tra, nhập thông tin cá nhân, nhờ AI làm điều gây hại cho người khác.</span></div></div>
+    <div class="ai-book">${AI_BOOK.map(gr => `<div class="ai-bk"><h3>${gr.i} ${h(gr.g)}</h3>${gr.t.map(t => `<div class="ai-tpl"><p>${h(t).replace(/\[([^\]]+)\]/g, '<mark class="n">[$1]</mark>')}</p><button class="btn ghost small" data-cp="${h(t)}">📋 Sao chép</button></div>`).join('')}</div>`).join('')}</div>
+    <div class="ai-yc"><b>⚠️ Lưu ý khi dùng chatbot thật</b><p>Mỗi ứng dụng (ChatGPT, Gemini…) có quy định riêng về độ tuổi người dùng. Học sinh chỉ sử dụng khi được bố mẹ, thầy cô cho phép và hướng dẫn; ở lớp, thầy cô có thể trình chiếu bằng tài khoản của giáo viên. Không nhập thông tin cá nhân. Câu trả lời của chatbot có thể sai, em luôn tự kiểm tra lại.</p>
+      <div class="aw-row"><a class="btn ghost small" href="https://chatgpt.com" target="_blank" rel="noopener">Mở ChatGPT ↗</a><a class="btn ghost small" href="https://gemini.google.com" target="_blank" rel="noopener">Mở Gemini ↗</a></div></div>
+  </section></div>`;
+  $$('[data-cp]', app).forEach(b => b.onclick = () => copyText(b.dataset.cp));
+}
+
+/* Xưởng câu lệnh: so sánh và tự viết câu lệnh, máy chấm theo bảng kiểm */
+AIW.prompt = (el, c, l, done) => {
+  const st = c.sc.map(() => ({txt:'', best:0, tries:0, show:false})); let cur = 0, fired = false, ai = null;
+  getSampler().then(s => { ai = s; if (s) draw(); }).catch(() => {});
+  const check = (txt, sc) => { const t = txt.toLowerCase(); const res = sc.need.map(k => ({k, ok:AI_CRIT[k].re.test(t)})); const n = res.filter(r => r.ok).length;
+    const warn = []; if (AI_PRIV.test(txt)) warn.push('🔒 Câu lệnh có vẻ chứa thông tin cá nhân (số điện thoại, email, mật khẩu, địa chỉ…). Hãy xóa đi!');
+    if (AI_COPY.test(t) && !res.find(r => r.k === 'goiy' && r.ok) && !res.find(r => r.k === 'khongho' && r.ok)) warn.push('🚫 Câu lệnh đang nhờ AI làm hộ. Em hãy xin gợi ý thay vì xin đáp án.');
+    if (t.trim().split(/\s+/).length < 10) warn.push('✍️ Câu lệnh quá ngắn, chatbot sẽ không hiểu em cần gì.');
+    return {res, n, warn}; };
+  const okSc = i => st[i].best >= Math.max(3, c.sc[i].need.length - 1);
+  const draw = () => { const sc = c.sc[cur], s = st[cur], r = s.tries ? check(s.txt, sc) : null;
+    el.innerHTML = aiHead('Xưởng câu lệnh: hỏi AI để học', 'Mỗi tình huống: <b>1)</b> so sánh hai câu lệnh, <b>2)</b> tự viết câu lệnh của em, máy kiểm tra theo bảng kiểm. Đạt khi câu lệnh có đủ hầu hết các phần.') + `
+    <div class="aw-modes">${c.sc.map((x, i) => `<button data-sc="${i}" aria-pressed="${i === cur}">${okSc(i) ? '✅' : '⭕'} ${i + 1}. ${h(x.subj)}</button>`).join('')}</div>
+    <div class="aw-task"><span class="eyebrow">Tình huống ${cur + 1} · ${h(sc.subj)}</span><p>${h(sc.task)}</p></div>
+    <h3 class="aw-sub">1. So sánh hai cách hỏi chatbot <small>(câu trả lời minh họa do Lớp học Ô Li viết sẵn)</small></h3>
+    <div class="aw-cmp"><div class="bad"><b>❌ Câu lệnh xin đáp án</b><q>${h(sc.bad)}</q><div class="aw-bubble">🤖 ${h(sc.badR)}</div><small>Em có đáp án nhưng không biết cách làm, gặp bài khác lại bí.</small></div>
+      <div class="good"><b>✅ Câu lệnh để học</b>${s.show ? `<q>${h(sc.good)}</q><div class="aw-bubble">🤖 ${h(sc.goodR)}</div><small>Chatbot gợi ý, hỏi lại, em vẫn là người suy nghĩ.</small>` : `<p class="muted">Câu lệnh mẫu sẽ hiện sau khi em tự viết thử ít nhất một lần.</p>`}</div></div>
+    <h3 class="aw-sub">2. Em tự viết câu lệnh cho tình huống này</h3>
+    <textarea id="prIn" class="inp" rows="4" maxlength="800" placeholder="Hãy đóng vai…">${h(s.txt)}</textarea>
+    <div class="aw-row"><button class="btn" id="prGo">🔍 Kiểm tra câu lệnh</button><button class="btn ghost small" id="prTpl">Chèn khung 4 phần</button>${s.tries ? `<button class="btn ghost small" id="prCopy">📋 Sao chép để dùng thật</button>` : ''}${ai && s.tries ? `<button class="btn ghost small" id="prAi">🤖 Gửi thử cho Trợ giảng Ô Li</button>` : ''}</div>
+    ${r ? `<div class="aw-chk"><div class="aw-stars">${'★'.repeat(r.n)}${'☆'.repeat(sc.need.length - r.n)} <b>${r.n}/${sc.need.length}</b> phần</div><ul>${r.res.map(x => `<li class="${x.ok ? 'ok' : ''}">${x.ok ? '✓' : '○'} ${h(AI_CRIT[x.k].n)}${x.ok ? '' : `<small>${h(AI_CRIT[x.k].tip)}</small>`}</li>`).join('')}</ul>${r.warn.map(w => `<p class="aw-hint">${w}</p>`).join('')}
+      ${okSc(cur) ? `<p class="aw-hint">🎉 Câu lệnh tốt! ${cur < c.sc.length - 1 ? 'Em sang tình huống tiếp theo nhé.' : ''}</p>` : ''}</div>` : ''}
+    <div id="prOut"></div>
+    <div class="aw-score">Đạt yêu cầu <b>${c.sc.filter((_, i) => okSc(i)).length}/${c.sc.length}</b> tình huống (cần 2 để hoàn thành) · <a href="#" data-go="aibook">Mở Sổ tay câu lệnh</a></div>`;
+    $$('[data-sc]', el).forEach(b => b.onclick = () => { st[cur].txt = $('#prIn', el).value; cur = +b.dataset.sc; draw(); });
+    $('#prTpl', el).onclick = () => { const t = $('#prIn', el); t.value = (t.value ? t.value.trim() + '\n' : '') + `Hãy đóng vai thầy/cô dạy ${sc.subj} lớp ${c.grade}. Em đang học … Em đã … nhưng chưa hiểu … Đừng cho em đáp án ngay, hãy gợi ý từng bước và hỏi lại em. Sau đó cho em một bài tương tự để tự làm.`; t.focus(); };
+    $('#prGo', el).onclick = () => { s.txt = $('#prIn', el).value; s.tries++; s.show = true; const rr = check(s.txt, sc); if (!rr.warn.some(w => w.startsWith('🔒'))) s.best = Math.max(s.best, rr.n); draw();
+      const nOk = c.sc.filter((_, i) => okSc(i)).length; if (!fired && nOk >= 2){ fired = true; done({ok:nOk, prompts:st.map(x => x.txt.slice(0, 300))}); } };
+    const cp = $('#prCopy', el); if (cp) cp.onclick = () => copyText($('#prIn', el).value);
+    const pa = $('#prAi', el); if (pa) pa.onclick = async () => { const txt = $('#prIn', el).value.trim(); if (!txt) return; if (AI_PRIV.test(txt)){ toast('Hãy xóa thông tin cá nhân trước khi gửi.'); return; } const out = $('#prOut', el);
+      out.innerHTML = '<div class="ask-ai"><b>Trợ giảng Ô Li</b><p>Ô Li đang suy nghĩ…</p></div>'; pa.disabled = true;
+      const prompt = `Bạn là một chatbot học tập an toàn cho học sinh THCS ở Việt Nam (lớp ${c.grade}). Hãy làm đúng theo câu lệnh của học sinh dưới đây, trả lời bằng tiếng Việt, tối đa 150 từ, thân thiện và phù hợp lứa tuổi. Không yêu cầu thông tin cá nhân.\n\nCâu lệnh của học sinh:\n"""${txt.slice(0, 800)}"""`;
+      try { const rs = await ai(prompt, {modelTier:'quick', cache:false, onText:u => { const p = $('.ask-ai p', out); if (p) p.textContent = u.text; }}); const p = $('.ask-ai p', out); if (p) p.textContent = rs.text; }
+      catch(e){ const p = $('.ask-ai p', out); if (p) p.textContent = 'Trợ giảng Ô Li chưa trả lời được lúc này. Em có thể sao chép câu lệnh để dùng cùng thầy cô.'; }
+      pa.disabled = false; }; };
+  draw(); };
 
 /* ===================== NGOÀI CỔNG TRƯỜNG: nhặt và phân loại rác (điểm rèn luyện) ===================== */
 const BINS = [
@@ -7362,9 +7594,9 @@ function tOverview(el, classes){
     <div class="panel"><div class="tbl-wrap"><table class="matrix"><thead><tr><th>Học sinh</th>${tasks.map(([,t])=>`<th title="${h(t.title)}">${h(SUBJ[t.subject]?.name.replace('KHTN · ','')||t.subject)}${t.kind==='lab'?' · TN':t.kind==='lesson'?' · BG':''}</th>`).join('')}<th>Điểm ${h(cm.slice(5))}/${h(cm.slice(0,4))}</th><th title="Điểm rèn luyện (nhặt, phân loại rác)">Rèn luyện</th><th title="Số chuyên đề Lớp học AI đã hoàn thành (6 chuyên đề, 12 tiết/năm)">Lớp AI</th></tr></thead>
     <tbody>${studs.map(([id,s])=>{ let pts=0; const cells = tasks.map(([tid])=>{ const sb=S.subs[`${id}__${tid}`]; if (sb && sb.month===cm) pts+=sb.points||0; return `<td>${sb?`<span class="pen">${vn(sb.score)}</span>`:taskHits(S.tasks[tid], s, id)?'<span class="muted">—</span>':'<span class="muted" title="Không giao cho em này">·</span>'}</td>`; }).join(''); return `<tr><td><b>${h(s.name)}</b></td>${cells}<td class="num"><b>${pts}</b></td><td class="num">${(S.gear && S.gear[id] && S.gear[id].rl && S.gear[id].rl.pts) || 0}</td><td>${(() => { const ai = (S.gear && S.gear[id] && S.gear[id].ai) || {}, L = (AI_GRADES[+s.grade] || AI_GRADES[6]).lessons; const n = L.filter(l => aiDone(ai[l.id])).length, r = L.filter(l => ai[l.id] && ai[l.id].r).length; return `<button class="ai-cellb" data-aiv="${id}" title="${r} bài có suy ngẫm · bấm để xem">${n}/6</button>`; })()}</td></tr>`; }).join('')}</tbody></table></div></div>
     <p class="muted" style="font-size:.85rem">Điểm đỏ là điểm cao nhất của mỗi học sinh cho từng nhiệm vụ (thang 10). "TN" là thí nghiệm ảo. "—" là chưa nộp, "·" là nhiệm vụ không giao cho em đó. Cột "Lớp AI": bấm để xem tiến độ và suy ngẫm Lớp học AI của từng em.</p><div id="aiDet"></div></div>`;
-  $$('[data-aiv]', el).forEach(b => b.onclick = () => { const id = b.dataset.aiv, st = S.students[id], ai = (S.gear && S.gear[id] && S.gear[id].ai) || {}, L = (AI_GRADES[+st.grade] || AI_GRADES[6]).lessons;
+  $$('[data-aiv]', el).forEach(b => b.onclick = () => { const id = b.dataset.aiv, st = S.students[id], ai = (S.gear && S.gear[id] && S.gear[id].ai) || {}, L = [...(AI_GRADES[+st.grade] || AI_GRADES[6]).lessons, ...(AI_EXT[+st.grade] || [])];
     $('#aiDet', el).innerHTML = `<div class="panel ai-det"><h3>Lớp học AI · ${h(st.name)} (lớp ${h(st.cls)})</h3><div class="tbl-wrap"><table><thead><tr><th>Chuyên đề</th><th>Thực hành</th><th>Câu hỏi</th><th>Suy ngẫm / phiếu dự án</th></tr></thead><tbody>${L.map(l => { const p = ai[l.id] || {};
-      return `<tr><td>${l.icon} ${h(l.name)}<br><small class="muted">${l.codes.join(', ')}</small></td><td>${p.a ? '✓' : '—'}</td><td>${p.q ? p.q + '/4' : '—'}</td><td>${p.r ? h(p.r) : '<span class="muted">Chưa viết</span>'}${p.plan ? `<details><summary>Phiếu dự án</summary>${Object.entries(p.plan).filter(([k]) => !k.startsWith('r_')).map(([k, v]) => `<p><b>${h(((l.act.fields || []).find(f => f.k === k) || {}).l || k)}:</b> ${h(v)}</p>`).join('')}</details>` : ''}</td></tr>`; }).join('')}</tbody></table></div>
+      return `<tr><td>${l.icon} ${h(l.name)}<br><small class="muted">${l.ext ? 'Mở rộng · ' : ''}${l.codes.join(', ')}</small></td><td>${p.a ? '✓' : '—'}</td><td>${p.q ? p.q + '/4' : '—'}</td><td>${p.r ? h(p.r) : '<span class="muted">Chưa viết</span>'}${p.ai && p.ai.prompts ? `<details><summary>Câu lệnh em viết</summary>${p.ai.prompts.filter(Boolean).map(x => `<p>“${h(x)}”</p>`).join('')}</details>` : ''}${p.plan ? `<details><summary>Phiếu dự án</summary>${Object.entries(p.plan).filter(([k]) => !k.startsWith('r_')).map(([k, v]) => `<p><b>${h(((l.act.fields || []).find(f => f.k === k) || {}).l || k)}:</b> ${h(v)}</p>`).join('')}</details>` : ''}</td></tr>`; }).join('')}</tbody></table></div>
       <p class="muted" style="font-size:.84rem">Theo Khung giáo dục AI, kết quả được ghi nhận bằng nhận xét, không chấm điểm riêng.</p></div>`; $('#aiDet', el).scrollIntoView({behavior:'smooth', block:'nearest'}); });
   bindClassSel();
 }
