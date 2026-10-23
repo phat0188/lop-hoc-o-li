@@ -89,7 +89,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 .acc-gh{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;padding:8px 12px;background:var(--surface-2);font-size:.92rem}
 .acc-it{display:flex;align-items:center;gap:10px;padding:7px 12px;border-top:1px solid var(--line);flex-wrap:wrap;font-size:.92rem}
 .acc-it.is-on{background:color-mix(in srgb,var(--good-soft) 55%,transparent)}
-.acc-nm{flex:1 1 150px;font-weight:600}.acc-it .pill{margin-left:auto}.acc-st{flex:1 1 170px;font-size:.84rem}
+.acc-nm{flex:1 1 150px;font-weight:600}.acc-it .pill{margin-left:auto}@media (min-width:700px){.acc-it{display:grid;grid-template-columns:12px minmax(150px,1.3fr) 70px 130px minmax(160px,1.7fr) auto}.acc-it .pill{justify-self:end}}.acc-pw{flex:0 0 auto;font-size:.88rem}.acc-pw code{cursor:copy;background:var(--surface-2);padding:2px 7px;border-radius:6px;border:1px solid var(--line)}.acc-st{flex:1 1 170px;font-size:.84rem}
 .seg{display:flex;gap:4px;flex-wrap:wrap}
 .pill.done{background:var(--good-soft);color:var(--good)}
 .pill.todo{background:var(--warn-soft);color:var(--warn)}
@@ -1603,10 +1603,11 @@ const MAP_NAME = m => ({school:'sân trường', hallin:'hội trường'})[m] |
 const gvOnline = sid => GVW.on.has(sid) || (me() && SOC.peers.has(sid));
 function accLast(sid){ let t = 0; Object.values(S.subs || {}).forEach(x => { if (x && x.sid === sid){ const a = Math.max(x.at || 0, x.lastTry?.at || 0); if (a > t) t = a; } }); return t; }
 function agoTxt(t){ if (!t) return 'chưa có hoạt động'; const d = (Date.now() - t)/60000; if (d < 1) return 'vừa xong'; if (d < 60) return Math.round(d) + ' phút trước'; if (d < 1440) return Math.round(d/60) + ' giờ trước'; if (d < 2880) return 'hôm qua'; return new Date(t).toLocaleDateString('vi-VN'); }
-function accAllPanel(el, bySid){
+function accAllPanel(el, bySid, creds){
+  creds = creds || {};
   const box = $('#accAll', el); if (!box) return;
   const all = Object.entries(S.students).sort((a, b) => (a[1].cls || '').localeCompare(b[1].cls || '', 'vi', {numeric:true}) || a[1].name.localeCompare(b[1].name, 'vi'));
-  const st = S.accAll || (S.accAll = {open:false, q:'', f:'all', cls:''});
+  const st = S.accAll || (S.accAll = {open:false, q:'', f:'all', cls:'', pw:true});
   const cnt = () => all.filter(([id]) => gvOnline(id)).length;
   const head = () => { const n = cnt(); $('#accSum', box).innerHTML = `<span class="acc-ic">👥</span><b>Tất cả tài khoản</b> <span class="muted">(${all.length})</span><span class="acc-onl"><i class="odot${n ? ' on' : ''}"></i>${n} đang online</span><span class="acc-car" aria-hidden="true">▾</span>`; };
   const body = () => {
@@ -1619,13 +1620,15 @@ function accAllPanel(el, bySid){
     $('#accBody', box).innerHTML = `<div class="row acc-tools" style="gap:8px;flex-wrap:wrap;align-items:end">
         <label class="field" style="flex:1 1 180px">Tìm<input id="accQ" type="search" placeholder="Tên hoặc mã học sinh" value="${h(st.q)}"></label>
         <label class="field" style="flex:0 1 130px">Lớp<select id="accC"><option value="">Tất cả lớp</option>${cls.map(c => `<option ${c === st.cls ? 'selected' : ''}>${h(c)}</option>`).join('')}</select></label>
-        <div class="seg" role="group" aria-label="Lọc">${[['all','Tất cả'],['on','🟢 Online'],['off','Offline'],['none','Chưa cấp']].map(([k, t]) => `<button class="btn small ${st.f === k ? '' : 'ghost'}" data-af="${k}" aria-pressed="${st.f === k}">${t}</button>`).join('')}</div></div>
+        <div class="seg" role="group" aria-label="Lọc">${[['all','Tất cả'],['on','🟢 Online'],['off','Offline'],['none','Chưa cấp']].map(([k, t]) => `<button class="btn small ${st.f === k ? '' : 'ghost'}" data-af="${k}" aria-pressed="${st.f === k}">${t}</button>`).join('')}<button class="btn small ghost" id="accPw" aria-pressed="${st.pw !== false}">${st.pw !== false ? '🙈 Ẩn mật khẩu' : '👁 Hiện mật khẩu'}</button></div></div>
       ${order.length ? order.map(c => { const g = groups[c], on = g.filter(([id]) => gvOnline(id)).length; return `<div class="acc-grp"><div class="acc-gh"><b>Lớp ${h(c)}</b><span class="muted">${g.length} học sinh · <span style="color:var(--good)">${on} online</span></span></div>
-        ${g.map(([id, s]) => { const o = gvOnline(id), pr = GVW.on.get(id) || SOC.peers.get(id) || {}; return `<div class="acc-it${o ? ' is-on' : ''}"><i class="odot${o ? ' on' : ''}" title="${o ? 'Đang online' : 'Offline'}"></i><span class="acc-nm">${h(s.name)}</span><code>${h(s.code)}</code><span class="acc-st muted">${o ? `<b style="color:var(--good)">Đang online</b>${pr.map ? ' · đang ở ' + h(MAP_NAME(pr.map)) : ''}` : 'Hoạt động: ' + agoTxt(accLast(id))}</span>${bySid[id] ? '<span class="pill done">Đã có TK</span>' : '<span class="pill todo">Chưa cấp</span>'}</div>`; }).join('')}</div>`; }).join('') : '<p class="muted" style="margin:6px 0">Không có tài khoản phù hợp.</p>'}
-      <p class="muted" style="font-size:.8rem;margin:4px 0 0">Chấm xanh = học sinh đang mở ứng dụng (cập nhật trực tiếp). ${GVW.room ? '' : 'Đang kết nối theo dõi…'}</p>`;
+        ${g.map(([id, s]) => { const o = gvOnline(id), pr = GVW.on.get(id) || SOC.peers.get(id) || {}; return `<div class="acc-it${o ? ' is-on' : ''}"><i class="odot${o ? ' on' : ''}" title="${o ? 'Đang online' : 'Offline'}"></i><span class="acc-nm">${h(s.name)}</span><code>${h(s.code)}</code><span class="acc-pw" title="Mật khẩu ban đầu">🔑 ${creds[id]?.pw ? (st.pw !== false ? `<code data-cpw="${h(creds[id].pw)}">${h(creds[id].pw)}</code>` : '<code>••••••</code>') : '<span class="muted">—</span>'}</span><span class="acc-st muted">${o ? `<b style="color:var(--good)">Đang online</b>${pr.map ? ' · đang ở ' + h(MAP_NAME(pr.map)) : ''}` : 'Hoạt động: ' + agoTxt(accLast(id))}</span>${bySid[id] ? '<span class="pill done">Đã có TK</span>' : '<span class="pill todo">Chưa cấp</span>'}</div>`; }).join('')}</div>`; }).join('') : '<p class="muted" style="margin:6px 0">Không có tài khoản phù hợp.</p>'}
+      <p class="muted" style="font-size:.8rem;margin:4px 0 0">Chấm xanh = học sinh đang mở ứng dụng (cập nhật trực tiếp). 🔑 là mật khẩu ban đầu do thầy cô cấp (bấm để chép); nếu em đã tự đổi mật khẩu thì mật khẩu mới không hiện ở đây. ${GVW.room ? '' : 'Đang kết nối theo dõi…'}</p>`;
     const qi = $('#accQ', box); qi.oninput = () => { st.q = qi.value; const pos = qi.selectionStart; body(); const q2 = $('#accQ', box); q2.focus(); try { q2.setSelectionRange(pos, pos); } catch(e){} };
     $('#accC', box).onchange = e => { st.cls = e.target.value; body(); };
     $$('[data-af]', box).forEach(b => b.onclick = () => { st.f = b.dataset.af; body(); });
+    $('#accPw', box).onclick = () => { st.pw = st.pw === false; body(); };
+    $$('[data-cpw]', box).forEach(c => c.onclick = () => { try { navigator.clipboard.writeText(c.dataset.cpw).then(() => toast('Đã chép mật khẩu'), () => {}); } catch(e){} });
   };
   const dt = $('details', box); dt.open = st.open;
   dt.ontoggle = () => { st.open = dt.open; if (dt.open) body(); };
@@ -1653,7 +1656,7 @@ function tAccounts(el, classes){
         </tbody></table></div><p id="accSt" class="muted" role="status" style="margin:0"></p>
         <p class="muted" style="font-size:.82rem;margin:0">Nếu em quên mật khẩu: hiện tại thầy cô xóa tài khoản trong Supabase (Authentication › Users) rồi bấm Cấp tài khoản lại. Chức năng đặt lại mật khẩu ngay trong app sẽ có ở bản sau.</p></div>
       <div class="panel stack"><h2>Giáo viên</h2>${teachers.map(x => `<div>${h(x.email)}${x.id === S.authUid ? ' <span class="muted">(thầy cô)</span>' : ''}</div>`).join('')}</div></div>`;
-    bindClassSel(); accAllPanel(el, bySid);
+    bindClassSel(); accAllPanel(el, bySid, creds);
     $$('[data-ok]', el).forEach(b => b.onclick = async () => { const {error} = await sb.from('profiles').update({role:'teacher'}).eq('id', b.dataset.ok); toast(error ? 'Chưa duyệt được' : 'Đã duyệt'); tAccounts(el, classes); });
     $$('[data-no]', el).forEach(b => b.onclick = async () => { const {error} = await sb.from('profiles').update({role:'blocked'}).eq('id', b.dataset.no); toast(error ? 'Chưa cập nhật được' : 'Đã từ chối'); tAccounts(el, classes); });
     const issue = async ids => { const stt = $('#accSt', el); let ok = 0, bad = []; for (const id of ids){ stt.textContent = `Đang cấp tài khoản ${ok + bad.length + 1}/${ids.length}…`; const r = await issueAccount(id); if (r.pw) ok++; else bad.push(`${S.students[id]?.name}: ${r.err}`); await new Promise(r => setTimeout(r, 400)); }
