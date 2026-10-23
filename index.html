@@ -1060,13 +1060,13 @@ body.sc-lock .imm-fab{display:none!important}
 .cb{min-height:clamp(260px,calc(100svh - 400px),900px)}
 .chs-board{width:min(100%,820px,calc(100svh - 270px))}
 /* sân trường, hội trường, cờ vua, lớp học: bỏ chân trang, khung lấp đầy màn hình */
-body[data-view="school"] .foot,body[data-view="hallin"] .foot,body[data-view="cleanup"] .foot,body[data-view="chess"] .foot,body[data-view="lab"] .foot,body[data-view="stemlab"] .foot,body[data-view="task"] .foot,body[data-view="live"] .foot,body[data-view="preview"] .foot{display:none}
+body[data-view="school"] .foot,body[data-view="hallin"] .foot,body[data-view="cleanup"] .foot,body[data-view="race"] .foot,body[data-view="chess"] .foot,body[data-view="lab"] .foot,body[data-view="stemlab"] .foot,body[data-view="task"] .foot,body[data-view="live"] .foot,body[data-view="preview"] .foot{display:none}
 @media (min-height:561px){
-  body[data-view="school"] .hub,body[data-view="hallin"] .hub,body[data-view="cleanup"] .hub{padding-block:8px 8px}
+  body[data-view="school"] .hub,body[data-view="hallin"] .hub,body[data-view="cleanup"] .hub,body[data-view="race"] .hub{padding-block:8px 8px}
   body[data-view="school"] .hub-wrap,body[data-view="hallin"] .hub-wrap{gap:8px!important;padding-left:max(8px,env(safe-area-inset-left,0px));padding-right:max(8px,env(safe-area-inset-right,0px))}
 }
 @media (min-width:761px) and (min-height:561px){
-  body[data-view="school"] .sc-stage:not(.sc-max),body[data-view="hallin"] .sc-stage:not(.sc-max),body[data-view="cleanup"] .sc-stage:not(.sc-max){height:calc(100svh - var(--top-h,62px) - 66px);min-height:420px;border-radius:12px}
+  body[data-view="school"] .sc-stage:not(.sc-max),body[data-view="hallin"] .sc-stage:not(.sc-max),body[data-view="cleanup"] .sc-stage:not(.sc-max),body[data-view="race"] .sc-stage:not(.sc-max){height:calc(100svh - var(--top-h,62px) - 66px);min-height:420px;border-radius:12px}
 }
 /* ===== STEM Studio ===== */
 .std-host{width:100%}
@@ -1318,6 +1318,19 @@ mark{background:transparent;color:inherit;border-radius:4px;padding:0 2px}mark.p
 .pill.lib{background:rgba(250,204,21,.15);color:#fde68a;border:1px solid rgba(250,204,21,.45)}
 .pts-rules{margin-top:10px;padding:10px 12px;border-radius:12px;background:var(--surface-2);border:1px solid rgba(250,204,21,.35)}.pts-rules summary{cursor:pointer;font-weight:800;color:#fde68a}
 .pts-rules ul{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:5px}.pts-rules li{display:grid;grid-template-columns:24px 1fr auto;gap:8px;align-items:center;font-size:.86rem}.pts-rules em{font-style:normal;color:#facc15;font-weight:700;text-align:right}.pts-rules p{margin:8px 0 0;font-size:.8rem}
+.rc-stage{background:#7cc7ff;position:relative}.rc-stage canvas{display:block;width:100%;height:100%;touch-action:manipulation}
+.rc-hud{position:absolute;left:10px;right:10px;top:10px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;pointer-events:none;z-index:3}.rc-hud>*{pointer-events:auto}.rc-hud .hub-mini{margin-left:auto}
+.rc-chip{background:rgba(10,20,52,.82);color:#fff;border-radius:12px;padding:6px 12px;font-size:.9rem;font-weight:700;border:1px solid rgba(70,226,255,.4)}
+.rc-q{position:absolute;left:50%;top:58px;transform:translateX(-50%);width:min(700px,calc(100% - 20px));z-index:4}
+.rc-card{background:rgba(10,20,52,.94);border:2px solid #facc15;border-radius:18px;padding:14px 16px;box-shadow:0 12px 40px rgba(0,0,0,.4);color:#fff}
+.rc-qh{display:grid;gap:6px;font-size:.82rem;color:#fde68a;font-weight:700}.rc-qh i{height:8px;border-radius:99px;background:rgba(255,255,255,.15);overflow:hidden}.rc-qh em{display:block;height:100%;width:100%;background:linear-gradient(90deg,#f87171,#facc15,#4ade80)}
+.rc-qq{font-size:clamp(1.05rem,2.6vw,1.35rem);font-weight:800;margin:10px 0}.rc-opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.rc-opts button{display:flex;gap:10px;align-items:center;text-align:left;min-height:50px;padding:8px 12px;border-radius:12px;border:2px solid #3b4f8f;background:#16255a;color:#fff;font:600 1rem var(--f-ui);cursor:pointer}
+.rc-opts button b{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;background:#facc15;color:#0a0f24;flex:0 0 auto}.rc-opts button:hover:not(:disabled){border-color:#facc15}
+.rc-opts button.ok{border-color:#22c55e;background:#14532d}.rc-opts button.bad{border-color:#ef4444;background:#7f1d1d}
+.rc-lobby{z-index:5}.rc-lob,.rc-res{max-width:560px;display:grid;gap:10px;text-align:center}.rc-set{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;align-items:center}.rc-board{text-align:left;padding:10px 12px;border-radius:12px;background:rgba(255,255,255,.06)}.rc-board ol{margin:6px 0 0;padding-left:20px;display:grid;gap:3px;font-size:.9rem}.rc-go{min-height:52px;font-size:1.1rem;justify-self:center;padding-inline:34px}
+@media (max-width:600px){.rc-opts{grid-template-columns:1fr}.rc-opts button{min-height:42px}.rc-q{top:100px}}
+.rc-chip:empty{display:none}
 </style>
 
 <header class="top"><div class="wrap">
@@ -1652,19 +1665,19 @@ function render(){
   app.classList.add('labhub');
   if (SB_ON && S.authUid && !S.loaded && ['student','task','class','teacher','live','preview','school'].includes(S.view)){ app.dataset.view = ''; app.dataset.lock = ''; app.innerHTML = '<div class="wrap"><section class="section"><p class="notice">Đang tải dữ liệu lớp học…</p></section></div>'; return; }
   // keep running labs alive: don't re-render a lab view on data updates
-  if (app.dataset.view === S.view + ':' + S.arg && (S.view === 'lab' || S.view === 'stemlab' || S.view === 'ailesson' || S.view === 'cleanup' || S.view === 'task' || S.view === 'preview' || S.view === 'school' || S.view === 'hallin' || S.view === 'live' || S.view === 'chess') && app.dataset.lock === '1') return;
+  if (app.dataset.view === S.view + ':' + S.arg && (S.view === 'lab' || S.view === 'stemlab' || S.view === 'ailesson' || S.view === 'race' || S.view === 'cleanup' || S.view === 'task' || S.view === 'preview' || S.view === 'school' || S.view === 'hallin' || S.view === 'live' || S.view === 'chess') && app.dataset.lock === '1') return;
   const ae = document.activeElement;
   if (app.dataset.view === S.view + ':' + S.arg && ae && app.contains(ae) && /^(INPUT|TEXTAREA|SELECT)$/.test(ae.tagName) && ae.type !== 'radio' && ae.type !== 'checkbox'){
     if (!S._deferR){ S._deferR = true; ae.addEventListener('blur', () => setTimeout(() => { S._deferR = false; render(); }, 150), {once:true}); } return; }
   app.dataset.view = S.view + ':' + S.arg; app.dataset.lock = '';
   if (S.loaded && !['task','lab','live','preview'].includes(S.view)) setTimeout(() => { try { checkNudge(); } catch(e){ console.warn(e); } }, 400);
   updImm(); try { socStart(); } catch(e){}
-  const V = {home:vHome, ai:vAi, ailesson:vAiLesson, aibook:vAiBook, cleanup:vCleanup, stem:vStem, stemlab:vStemLab, chess:vChess, live:vLive, school:vSchool, hallin:vSchool, hall:vHall, labs:vLabs, room:vRoom, lab:vLab, login:SB_ON ? vLoginSB : vLogin, student:vStudent, task:vTask, teacher:vTeacher, 'class':vClass, preview:vPreview}[S.view] || vHome;
+  const V = {home:vHome, race:vRace, ai:vAi, ailesson:vAiLesson, aibook:vAiBook, cleanup:vCleanup, stem:vStem, stemlab:vStemLab, chess:vChess, live:vLive, school:vSchool, hallin:vSchool, hall:vHall, labs:vLabs, room:vRoom, lab:vLab, login:SB_ON ? vLoginSB : vLogin, student:vStudent, task:vTask, teacher:vTeacher, 'class':vClass, preview:vPreview}[S.view] || vHome;
   V(app);
 }
 
 /* ===================== điện thoại: xoay ngang & toàn màn hình ===================== */
-const IMM_VIEWS = ['school', 'hallin', 'cleanup', 'task', 'lab', 'stemlab', 'live', 'preview'];
+const IMM_VIEWS = ['school', 'hallin', 'cleanup', 'race', 'task', 'lab', 'stemlab', 'live', 'preview'];
 function updImm(){
   const b = document.body, imm = IMM_VIEWS.includes(S.view); b.classList.toggle('imm', imm); b.classList.remove('show-top'); b.dataset.view = S.view;
   let fab = $('#immFab'); if (!fab){ fab = document.createElement('button'); fab.id = 'immFab'; fab.className = 'imm-fab'; fab.type = 'button'; fab.innerHTML = '☰ Menu'; fab.setAttribute('aria-label', 'Hiện thanh menu'); fab.onclick = () => document.body.classList.toggle('show-top'); document.body.appendChild(fab); }
@@ -1983,6 +1996,7 @@ function vHome(app){
         <button class="hm hm-orange" data-go="${m ? 'student' : 'login'}"><span class="hm-ic">${HUB_ICON.task}</span><span>Nhiệm vụ của em</span>${pend ? `<i class="hm-new">${pend}</i>` : ''}<span class="hm-ch">${HUB_ICON.chev}</span></button>
         <button class="hm hm-purple" data-go="labs"><span class="hm-ic">${HUB_ICON.cube}</span><span>Phòng thí nghiệm 3D</span><span class="hm-ch">${HUB_ICON.chev}</span></button>
         <button class="hm hm-cyan" data-go="ai"><span class="hm-ic">${HUB_ICON.bulb}</span><span>Lớp học AI</span><i class="hm-new">Mới</i><span class="hm-ch">${HUB_ICON.chev}</span></button>
+        <button class="hm hm-orange" data-go="race"><span class="hm-ic">${HUB_ICON.cup}</span><span>Đường đua tiếng Anh</span><i class="hm-new">Mới</i><span class="hm-ch">${HUB_ICON.chev}</span></button>
         <button class="hm hm-green" id="toRank"><span class="hm-ic">${HUB_ICON.cup}</span><span>Bảng xếp hạng</span><span class="hm-ch">${HUB_ICON.chev}</span></button>
         ${last}
       </nav>
@@ -3305,8 +3319,8 @@ function gearOf(sid){
   return g;
 }
 async function saveGear(sid, g){
-  const prevRl = g.rl || (S.gear && S.gear[sid] && S.gear[sid].rl) || null, prevAi = g.ai || (S.gear && S.gear[sid] && S.gear[sid].ai) || null;
-  const doc = {items:[...new Set(g.items || [])], look:g.look || null, at:Date.now(), ...(prevRl ? {rl:prevRl} : {}), ...(prevAi ? {ai:prevAi} : {})};
+  const prevRl = g.rl || (S.gear && S.gear[sid] && S.gear[sid].rl) || null, prevAi = g.ai || (S.gear && S.gear[sid] && S.gear[sid].ai) || null, prevRace = g.race || (S.gear && S.gear[sid] && S.gear[sid].race) || null;
+  const doc = {items:[...new Set(g.items || [])], look:g.look || null, at:Date.now(), ...(prevRl ? {rl:prevRl} : {}), ...(prevAi ? {ai:prevAi} : {}), ...(prevRace ? {race:prevRace} : {})};
   store(gearKey(sid), JSON.stringify(doc));
   if (sid){ S.gear = S.gear || {}; S.gear[sid] = doc; }
   if (sid && S.db){ try { await S.db.doc('gear/' + sid).set(doc); } catch(e){ toast('Chưa lưu được lên hệ thống, phần thưởng được giữ tạm trên máy này.'); } }
@@ -7274,6 +7288,142 @@ LIBADD('s9dbscl', 9, 'sudia', 'Vùng Đồng bằng sông Cửu Long', [
 /* trộn vị trí đáp án đúng để không luôn là A */
 LIB.forEach(l => l.segs.forEach(s => { if (s.type !== 'q') return; const n = s.o.length, k = hash(l.id + s.q) % n; if (!k) return; const ok = s.o[s.a]; const rest = s.o.filter((_, i) => i !== s.a); rest.splice(k, 0, ok); s.o = rest; s.a = k; }));
 const LIB_BY = Object.fromEntries(LIB.map(l => [l.id, l]));
+/* ===================== ĐƯỜNG ĐUA TIẾNG ANH: vượt chướng ngại vật bằng câu hỏi trả lời nhanh ===================== */
+const RACE_LV = {de:{n:'Dễ', t:12, bot:[4.5, 7.5], miss:.25}, vua:{n:'Vừa', t:8, bot:[3, 5.2], miss:.18}, kho:{n:'Khó', t:5, bot:[2, 3.6], miss:.12}};
+const RACE_OBS = [['hurdle', 'Rào chắn'], ['tyres', 'Lốp xe'], ['mud', 'Vũng bùn'], ['wall', 'Bức tường'], ['water', 'Hố nước'], ['cones', 'Cọc giao thông'], ['logs', 'Khúc gỗ'], ['net', 'Lưới chui'], ['bars', 'Xà ngang'], ['boxes', 'Thùng gỗ']];
+const rcFirst = n => String(n || 'Bạn').split(' ').slice(-1)[0];
+const RACE_N = 10, RACE_GAP = 340, RACE_X0 = 260, RACE_END = RACE_X0 + RACE_N*RACE_GAP + 120;
+function raceQs(grade){
+  const L = LIB.filter(l => l.subject === 'anh' && +l.grade === +grade), T = Object.values(S.tasks || {}).filter(t => t.kind === 'lesson' && t.subject === 'anh' && +t.grade === +grade);
+  const qs = [], pairs = [];
+  [...L, ...T].forEach(l => (l.segs || []).forEach(s => { if (s.type === 'q' && s.o && s.o.length >= 2 && s.q.length < 90) qs.push({q:s.q, o:s.o.slice(), a:s.a});
+    if (s.type === 'slide') (s.b || []).forEach(b => String(b).split(' · ').forEach(part => { const m = part.match(/^([A-Za-z][A-Za-z' -]{1,24}?)\s+–\s+([^–()]{2,32})$/); if (m) pairs.push([m[1].trim(), m[2].trim()]); })); }));
+  const uniq = [...new Map(pairs.map(p => [p[0].toLowerCase(), p])).values()];
+  uniq.forEach(([en, vi], i) => { const others = uniq.filter(p => p[0] !== en); if (others.length < 3) return; const pick = n => { const o = []; let k = hash(en + n); while (o.length < 3){ const c = others[k % others.length]; if (!o.includes(c)) o.push(c); k = k*31 + 7; } return o; };
+    if (i % 2) qs.push({q:`"${en}" nghĩa là gì?`, o:[vi, ...pick('v').map(p => p[1])], a:0}); else qs.push({q:`Từ tiếng Anh của "${vi}" là:`, o:[en, ...pick('e').map(p => p[0])], a:0}); });
+  return qs;
+}
+const raceBest = (sid, month = curMonth()) => { const g = (S.gear && S.gear[sid]) || gearOf(sid) || {}; return g.race && g.race.best ? g.race.best[month] : null; };
+function raceBoard(grade){ const cm = curMonth(); return Object.entries(S.students).filter(([, s]) => +s.grade === +grade).map(([id, s]) => ({id, s, t:raceBest(id, cm)})).filter(x => x.t).sort((a, b) => a.t - b.t).slice(0, 10); }
+async function raceSaveBest(sid, time){ const g = gearOf(sid), cm = curMonth(), r = {...(g.race || {}), best:{...((g.race || {}).best || {})}, wins:((g.race || {}).wins || 0) + 1};
+  const better = !r.best[cm] || time < r.best[cm]; if (better) r.best[cm] = Math.round(time*10)/10; g.race = r; if (S.gear && S.gear[sid]) S.gear[sid].race = r; await saveGear(sid, g); return better; }
+function vRace(app){
+  const m = me(), sid = m ? m.id : null, look = loadLook(sid);
+  const R = S.race = S.race || {lv:'vua', g:m ? +m.grade : 6};
+  if (m) R.g = +m.grade;
+  app.dataset.lock = '1';
+  app.innerHTML = `<section class="hub school"><div class="wrap hub-wrap" style="gap:8px">
+    <div class="sc-bar"><span style="font-size:1.6rem">🏃</span><h1 class="hub-title" style="font-size:clamp(1.1rem,2.6vw,1.6rem)">ĐƯỜNG ĐUA TIẾNG ANH – <span>VƯỢT CHƯỚNG NGẠI VẬT</span></h1>
+      <span class="muted sc-help" style="font-size:.82rem">Mỗi chướng ngại vật là một câu hỏi tiếng Anh · trả lời đúng để nhảy qua · bấm phím 1–4 hoặc chạm vào đáp án</span></div>
+    <div class="sc-stage rc-stage" id="rcStage"><canvas id="rcCv"></canvas>
+      <div class="rc-hud"><span class="rc-chip" id="rcInfo"></span><span class="rc-chip" id="rcTime">⏱ 0,0 s</span><span class="rc-chip" id="rcHeart"></span><button class="hub-mini" id="rcExit">← Thoát</button></div>
+      <div class="rc-q" id="rcQ" hidden></div>
+      <div class="cu-end rc-lobby" id="rcLobby"></div></div>
+  </div></section>`;
+  const stage = $('#rcStage', app), cv = $('#rcCv', app), g = cv.getContext('2d');
+  let dpr = 1, W = 900, H = 500; const fit = () => { const r = stage.getBoundingClientRect(); dpr = Math.min(2, window.devicePixelRatio || 1); W = r.width; H = r.height; cv.width = W*dpr; cv.height = H*dpr; cv.style.width = W + 'px'; cv.style.height = H + 'px'; };
+  fit(); const ro = new ResizeObserver(fit); ro.observe(stage);
+  $('#rcExit', app).onclick = () => go(m ? 'student' : 'home');
+  // trạng thái ván đua
+  let G = null, raf = 0, last = 0;
+  const lanes = [-1, 0, 1];
+  const newGame = () => { const pool = raceQs(R.g); const order = pool.map((q, i) => [hash(Date.now() + ':' + i) % 1000, q]).sort((a, b) => a[0] - b[0]).map(x => x[1]);
+    const LV = RACE_LV[R.lv]; const rnd = aiRand(Date.now() % 100000);
+    const bots = [0, 1].map(i => ({name:['Bot Ô Li', 'Bot Mai'][i], look:{...defaultLook('racebot' + i), hairC:['#2b1b10', '#7a3b12'][i]}, lane:i ? 1 : -1, x:0, obs:0, wait:0, jump:0, fall:0, done:null,
+      plan:Array.from({length:RACE_N}, () => ({t:LV.bot[0] + rnd()*(LV.bot[1] - LV.bot[0]), miss:rnd() < LV.miss}))}));
+    const best = raceBoard(R.g)[0];
+    return {pool:order, qi:0, t:0, x:0, obs:0, state:'run', hearts:3, right:0, wrong:0, jump:0, fall:0, boost:0, q:null, qT:0, bots, ghost:best ? {name:best.s.name, time:best.t, x:0} : null, done:null, lv:LV, place:0}; };
+  const speed = 175;
+  const heartsTxt = () => '❤️'.repeat(G.hearts) + '🤍'.repeat(3 - G.hearts);
+  const askQ = () => { const q = G.pool[G.qi++ % G.pool.length]; const idx = q.o.map((_, i) => i).sort((a, b) => hash(q.q + a + G.qi) % 97 - hash(q.q + b + G.qi) % 97); G.q = {q:q.q, o:idx.map(i => q.o[i]), a:idx.indexOf(q.a)}; G.qT = G.lv.t; G.state = 'q';
+    const Q = $('#rcQ', app); Q.hidden = false; Q.innerHTML = `<div class="rc-card"><div class="rc-qh"><span>Chướng ngại vật ${G.obs + 1}/${RACE_N} · ${h(RACE_OBS[G.obs][1])}</span><i><em id="rcBar"></em></i></div><p class="rc-qq">${h(G.q.q)}</p>
+      <div class="rc-opts">${G.q.o.map((o, i) => `<button type="button" data-ro="${i}"><b>${i + 1}</b>${h(o)}</button>`).join('')}</div></div>`;
+    $$('[data-ro]', Q).forEach(b => b.onclick = () => answer(+b.dataset.ro)); };
+  const answer = i => { if (!G || G.state !== 'q') return; const ok = i === G.q.a; const Q = $('#rcQ', app);
+    $$('[data-ro]', Q).forEach(b => { const k = +b.dataset.ro; b.disabled = true; if (k === G.q.a) b.classList.add('ok'); else if (k === i) b.classList.add('bad'); });
+    if (ok){ G.right++; SFX.ok(); G.state = 'jump'; G.jump = 0.7; G.boost = 1.6; setTimeout(() => { if (G && G.state !== 'q') Q.hidden = true; }, 450); }
+    else { G.wrong++; G.hearts--; SFX.bad(); G.state = 'fall'; G.fall = 1.1; hudUp(); setTimeout(() => { if (!G) return; if (G.hearts <= 0) return end(false); Q.hidden = true; }, 900); } };
+  const hudUp = () => { $('#rcInfo', app).textContent = `Khối ${R.g} · ${RACE_LV[R.lv].n} · vượt ${G.obs}/${RACE_N}`; $('#rcTime', app).textContent = `⏱ ${vn(G.t, 1)} s`; $('#rcHeart', app).textContent = heartsTxt(); };
+  const obsX = k => RACE_X0 + k*RACE_GAP;
+  const step = dt => { if (!G || G.done) return; G.t += dt;
+    // người chơi
+    if (G.state === 'run'){ const v = speed*(G.boost > 0 ? 1.45 : 1); G.x += v*dt; G.boost = Math.max(0, G.boost - dt); if (G.obs < RACE_N && G.x >= obsX(G.obs) - 46){ G.x = obsX(G.obs) - 46; askQ(); } }
+    else if (G.state === 'q'){ G.qT -= dt; const bar = $('#rcBar', app); if (bar) bar.style.width = Math.max(0, G.qT/G.lv.t*100) + '%'; if (G.qT <= 0){ answer(-1); } }
+    else if (G.state === 'jump'){ G.jump -= dt; G.x += speed*1.2*dt; if (G.jump <= 0){ G.obs++; G.state = 'run'; hudUp(); } }
+    else if (G.state === 'fall'){ G.fall -= dt; if (G.fall <= 0 && G.hearts > 0) askQ(); }
+    if (G.obs >= RACE_N && G.x >= RACE_END){ end(true); return; }
+    // đối thủ máy
+    G.bots.forEach(b => { if (b.done) return; if (b.wait > 0){ b.wait -= dt; if (b.wait <= 0){ b.jump = 0.6; } return; } if (b.jump > 0){ b.jump -= dt; b.x += speed*1.2*dt; if (b.jump <= 0) b.obs++; return; }
+      b.x += speed*0.98*dt; if (b.obs < RACE_N && b.x >= obsX(b.obs) - 46){ b.x = obsX(b.obs) - 46; const p = b.plan[b.obs]; b.wait = p.t + (p.miss ? 2.2 : 0); b.fall = p.miss ? 1 : 0; }
+      if (b.obs >= RACE_N && b.x >= RACE_END){ b.x = RACE_END; b.done = G.t; } if (b.fall > 0) b.fall -= dt; });
+    if (G.ghost) G.ghost.x = Math.min(RACE_END, G.t/G.ghost.time*RACE_END);
+    hudUp(); };
+  const draw = T => { g.setTransform(dpr, 0, 0, dpr, 0, 0); const camX = Math.max(-80, (G ? G.x : 0) - W*0.3);
+    const sky = g.createLinearGradient(0, 0, 0, H); sky.addColorStop(0, '#7cc7ff'); sky.addColorStop(1, '#d7f0ff'); g.fillStyle = sky; g.fillRect(0, 0, W, H);
+    const horizon = H*0.42; // khán đài
+    g.save(); g.translate(-camX*0.3 % 160, 0); for (let i = -1; i < W/160 + 2; i++){ g.fillStyle = '#3b4a7a'; g.fillRect(i*160, horizon - 70, 156, 70); for (let r = 0; r < 3; r++) for (let c = 0; c < 9; c++){ g.fillStyle = ['#ffcf4a', '#ff6b6b', '#4ade80', '#60a5fa', '#f472b6'][(i*7 + r*3 + c) % 5]; g.beginPath(); g.arc(i*160 + 10 + c*17, horizon - 58 + r*20 + Math.sin(T*3 + c + r)*1.5, 5, 0, 7); g.fill(); } } g.restore();
+    g.fillStyle = '#5bbf5b'; g.fillRect(0, horizon, W, H - horizon);
+    const trackTop = horizon + 14, laneH = Math.max(40, Math.min(110, (H - trackTop - 44)/3, W/4.2)), trackH = laneH*3;
+    g.fillStyle = '#d9583b'; g.fillRect(0, trackTop, W, trackH); g.strokeStyle = 'rgba(255,255,255,.85)'; g.lineWidth = 2; for (let i = 0; i <= 3; i++){ g.beginPath(); g.moveTo(0, trackTop + i*laneH); g.lineTo(W, trackTop + i*laneH); g.stroke(); }
+    const laneY = l => trackTop + laneH*(l + 1) + laneH*0.78;
+    // vạch đích + mốc
+    const X = x => x - camX;
+    g.fillStyle = '#fff'; for (let k = 0; k < 8; k++){ const fx = X(RACE_END); for (let r = 0; r < trackH/10; r++){ g.fillStyle = (r + k) % 2 ? '#111' : '#fff'; g.fillRect(fx + k*5, trackTop + r*10, 5, 10); } }
+    g.fillStyle = '#fff'; g.font = '700 14px system-ui'; g.fillText('ĐÍCH', X(RACE_END) - 6, trackTop - 6);
+    // chướng ngại vật ở cả 3 làn
+    for (let k = 0; k < RACE_N; k++){ const ox = X(obsX(k)); if (ox < -80 || ox > W + 80) continue; lanes.forEach(l => drawObs(g, RACE_OBS[k][0], ox, laneY(l), laneH, G && l === 0 && k < G.obs)); }
+    // người chạy
+    const runner = (x, l, lk, t, st, jumpT, fallT, name, alpha = 1) => { const y = laneY(l); let dy = 0, tilt = 0; if (jumpT > 0) dy = -Math.sin((1 - jumpT/0.7)*Math.PI)*laneH*0.9; if (fallT > 0) tilt = 0.9;
+      g.save(); g.globalAlpha = alpha; g.translate(X(x), y + dy); if (tilt){ g.rotate(tilt*Math.sin(Math.min(1, fallT)*Math.PI)); } const kk = Math.max(1.1, laneH/56); drawKid(g, 0, 0, lk, 'right', t, st === 'run' || jumpT > 0, kk); g.restore();
+      g.globalAlpha = alpha; g.font = '700 11px system-ui'; const w = g.measureText(name).width + 10, ly = y - 46*kk + dy; const isMe = l === 0 && alpha === 1; g.fillStyle = isMe ? '#facc15' : 'rgba(10,20,52,.78)'; g.fillRect(X(x) + 14*kk, ly, w, 15); g.fillStyle = isMe ? '#0a0f24' : '#fff'; g.fillText(name, X(x) + 14*kk + 5, ly + 11); g.globalAlpha = 1; };
+    if (G){ if (G.ghost && G.ghost.x) runner(G.ghost.x, 0, {...look, shirt:'#ffffff'}, T, 'run', 0, 0, '👻 Kỉ lục: ' + rcFirst(G.ghost.name), 0.35);
+      G.bots.forEach(b => runner(b.x, b.lane, b.look, T + b.lane, b.wait > 0 ? 'stop' : 'run', b.jump, b.fall, b.name));
+      runner(G.x, 0, look, T, G.state === 'run' ? 'run' : 'stop', G.state === 'jump' ? G.jump : 0, G.state === 'fall' ? G.fall : 0, m ? rcFirst(m.name) : 'Em'); }
+    // thanh tiến độ
+    if (G){ const pw = Math.min(360, W - 40), px = (W - pw)/2, py = H - 22; g.fillStyle = 'rgba(10,20,52,.7)'; g.fillRect(px - 6, py - 10, pw + 12, 20); g.fillStyle = 'rgba(255,255,255,.25)'; g.fillRect(px, py - 2, pw, 4);
+      const dot = (x, c) => { g.fillStyle = c; g.beginPath(); g.arc(px + Math.min(1, x/RACE_END)*pw, py, 6, 0, 7); g.fill(); }; G.bots.forEach(b => dot(b.x, '#94a3b8')); if (G.ghost) dot(G.ghost.x, 'rgba(255,255,255,.6)'); dot(G.x, '#facc15'); } };
+  const loop = ts => { if (!document.body.contains(cv)){ ro.disconnect(); return; } const dt = Math.min(0.05, (ts - (last || ts))/1000); last = ts; step(dt); draw(ts/1000); raf = requestAnimationFrame(loop); };
+  const end = async win => { if (!G || G.done) return; G.done = win ? 'win' : 'lose'; $('#rcQ', app).hidden = true;
+    const all = [{n:m ? rcFirst(m.name) + ' (em)' : 'Em', t:win ? G.t : null, me:1}, ...G.bots.map(b => ({n:b.name, t:b.done})), ...(G.ghost ? [{n:'Kỉ lục ' + rcFirst(G.ghost.name), t:G.ghost.time}] : [])];
+    const pos = win ? 1 + all.filter(x => !x.me && x.t !== null && x.t < G.t).length : null;
+    let saved = '', newRec = false;
+    if (sid){ const score = win ? Math.min(10, 6 + G.hearts + (pos === 1 ? 1 : 0)) : G.obs/RACE_N*4; const r = await awardPts('race_' + dayKey(), 10, score, win ? `Về đích Đường đua tiếng Anh (${vn(G.t, 1)} s)` : `Vượt ${G.obs}/${RACE_N} chướng ngại vật`, true);
+      if (win) newRec = await raceSaveBest(sid, G.t);
+      const prev = S.subs[`${sid}__race_${dayKey()}`]; saved = r ? `⭐ Điểm thưởng hôm nay: <b>${r.points}</b>/10 (giữ lần tốt nhất trong ngày).` : prev ? `Hôm nay em đã có ${prev.points}/10 điểm thưởng từ đường đua, chạy tốt hơn để tăng thêm.` : ''; }
+    const L = $('#rcLobby', app); L.hidden = false;
+    L.innerHTML = `<div class="cu-card rc-res"><h2>${win ? (pos === 1 ? '🥇 Về nhất!' : `🏁 Về đích hạng ${pos}`) : '😵 Hết lượt rồi!'}</h2>
+      <p>${win ? `Em vượt qua cả ${RACE_N} chướng ngại vật trong <b>${vn(G.t, 1)} giây</b>${newRec ? ' · 🎉 <b>Kỉ lục mới của em trong tháng!</b>' : ''}.` : `Em vượt qua <b>${G.obs}/${RACE_N}</b> chướng ngại vật. Cố lên, thử lại nhé!`}</p>
+      <p>✅ Đúng ${G.right} · ❌ Sai ${G.wrong} · ${heartsTxt()}</p>${sid ? `<p>${saved}</p>` : '<p class="muted">Đăng nhập để được cộng điểm thưởng và ghi kỉ lục.</p>'}
+      <div class="row" style="gap:8px;justify-content:center"><button class="btn" id="rcAgain" style="flex:0 0 auto">🏃 Chạy lại</button><button class="btn ghost" id="rcMenu" style="flex:0 0 auto">Đổi mức độ</button></div></div>`;
+    $('#rcAgain', app).onclick = () => start(); $('#rcMenu', app).onclick = () => lobby(); if (win) SFX.bell(); };
+  const start = () => { const pool = raceQs(R.g); if (pool.length < 6){ toast('Chưa đủ câu hỏi tiếng Anh cho khối này.'); return; } G = newGame(); $('#rcLobby', app).hidden = true; $('#rcQ', app).hidden = true; hudUp(); last = 0; };
+  const lobby = () => { G = null; const L = $('#rcLobby', app); L.hidden = false; const bd = raceBoard(R.g), n = raceQs(R.g).length;
+    L.innerHTML = `<div class="cu-card rc-lob"><h2>🏃 Đường đua tiếng Anh</h2><p>Chạy đua cùng 2 bạn máy${bd.length ? ' và <b>bóng kỉ lục</b> của khối' : ''}. Gặp chướng ngại vật, em trả lời nhanh một câu hỏi tiếng Anh: <b>đúng</b> thì nhảy qua và tăng tốc, <b>sai</b> thì vấp ngã và mất 1 ❤️. Vượt hết ${RACE_N} chướng ngại vật để về đích và nhận điểm kinh nghiệm.</p>
+      <div class="rc-set">${m ? `<span class="pill lab">Khối ${R.g}</span>` : `<label>Khối <select id="rcG" class="pe-in">${[6, 7, 8, 9].map(x => `<option ${x === R.g ? 'selected' : ''}>${x}</option>`).join('')}</select></label>`}
+        <div class="seg" role="group" aria-label="Mức độ">${Object.entries(RACE_LV).map(([k, v]) => `<button type="button" data-rl="${k}" aria-pressed="${R.lv === k}">${v.n} · ${v.t}s/câu</button>`).join('')}</div></div>
+      <p class="muted" style="font-size:.82rem;margin:0">${n} câu hỏi lấy từ các bài Tiếng Anh khối ${R.g}. Phần thưởng: tối đa 10 điểm thưởng mỗi ngày (về đích, còn nhiều ❤️, về nhất).</p>
+      ${bd.length ? `<div class="rc-board"><b>🏆 Kỉ lục ${monthLabel(curMonth())} · khối ${R.g}</b><ol>${bd.slice(0, 5).map(x => `<li>${h(x.s.name)} <span class="muted">${h(x.s.cls)}</span> <b>${vn(x.t, 1)} s</b></li>`).join('')}</ol></div>` : ''}
+      <button class="btn rc-go" id="rcGo">Bắt đầu chạy</button></div>`;
+    const sg = $('#rcG', L); if (sg) sg.onchange = () => { R.g = +sg.value; lobby(); };
+    $$('[data-rl]', L).forEach(b => b.onclick = () => { R.lv = b.dataset.rl; lobby(); });
+    $('#rcGo', L).onclick = start; };
+  const kd = e => { if (!document.body.contains(cv)){ removeEventListener('keydown', kd); return; } if (G && G.state === 'q' && /^[1-4]$/.test(e.key)){ answer(+e.key - 1); e.preventDefault(); } };
+  addEventListener('keydown', kd); if (window.__OLI_TEST) window.__rcG = () => G;
+  lobby(); raf = requestAnimationFrame(loop);
+}
+function drawObs(g, k, x, y, lh, passed){ const s = lh/60; g.save(); g.translate(x, y); g.scale(s, s); g.globalAlpha = passed ? 0.45 : 1;
+  const R = (a, b, c, d, col) => { g.fillStyle = col; g.fillRect(a, b, c, d); };
+  if (k === 'hurdle'){ R(-18, -34, 4, 34, '#eee'); R(14, -34, 4, 34, '#eee'); for (let i = 0; i < 4; i++) R(-18 + i*9, -36, 9, 8, i % 2 ? '#fff' : '#e11d48'); }
+  else if (k === 'tyres'){ [[-12, -8], [12, -8], [0, -26]].forEach(([a, b]) => { g.fillStyle = '#1f2937'; g.beginPath(); g.ellipse(a, b, 13, 10, 0, 0, 7); g.fill(); g.fillStyle = '#6b7280'; g.beginPath(); g.ellipse(a, b, 5, 4, 0, 0, 7); g.fill(); }); }
+  else if (k === 'mud'){ g.fillStyle = '#6b4423'; g.beginPath(); g.ellipse(0, -2, 30, 8, 0, 0, 7); g.fill(); g.fillStyle = '#8b5a2b'; g.beginPath(); g.ellipse(-8, -4, 8, 3, 0, 0, 7); g.fill(); }
+  else if (k === 'wall'){ for (let r = 0; r < 4; r++) for (let c = 0; c < 2; c++) R(-14 + c*14 - (r % 2)*7, -40 + r*10, 13, 9, '#b45309'); }
+  else if (k === 'water'){ g.fillStyle = '#2563eb'; g.beginPath(); g.ellipse(0, -2, 32, 9, 0, 0, 7); g.fill(); g.strokeStyle = '#93c5fd'; g.lineWidth = 2; g.beginPath(); g.moveTo(-16, -3); g.quadraticCurveTo(-8, -7, 0, -3); g.quadraticCurveTo(8, 1, 16, -3); g.stroke(); }
+  else if (k === 'cones'){ [-14, 0, 14].forEach(a => { g.fillStyle = '#f97316'; g.beginPath(); g.moveTo(a - 7, 0); g.lineTo(a + 7, 0); g.lineTo(a, -24); g.closePath(); g.fill(); R(a - 4, -12, 8, 3, '#fff'); }); }
+  else if (k === 'logs'){ [0, 1].forEach(i => { R(-24, -12 - i*11, 48, 11, '#92400e'); g.fillStyle = '#d6a15a'; g.beginPath(); g.ellipse(24, -6.5 - i*11, 4, 5.5, 0, 0, 7); g.fill(); }); }
+  else if (k === 'net'){ R(-20, -40, 3, 40, '#555'); R(17, -40, 3, 40, '#555'); g.strokeStyle = '#e5e7eb'; g.lineWidth = 1; for (let i = 0; i < 6; i++){ g.beginPath(); g.moveTo(-17, -40 + i*5); g.lineTo(17, -40 + i*5); g.stroke(); } for (let i = 0; i < 7; i++){ g.beginPath(); g.moveTo(-17 + i*5.6, -40); g.lineTo(-17 + i*5.6, -12); g.stroke(); } }
+  else if (k === 'bars'){ R(-20, -44, 4, 44, '#facc15'); R(16, -44, 4, 44, '#facc15'); R(-20, -46, 40, 5, '#2563eb'); }
+  else { [[-12, -14], [12, -14], [0, -34]].forEach(([a, b]) => { R(a - 11, b - 10, 22, 20, '#b7791f'); g.strokeStyle = '#7c4a12'; g.lineWidth = 2; g.strokeRect(a - 11, b - 10, 22, 20); g.beginPath(); g.moveTo(a - 11, b - 10); g.lineTo(a + 11, b + 10); g.stroke(); }); }
+  g.restore(); }
 function vClass(app){
   const m = me(); const teacher = !m && S.canEdit;
   if (!m && !teacher) return go('login');
@@ -8423,8 +8573,8 @@ function xtPanel(box){
   draw();
 }
 /* ---------- Thống kê & báo cáo (phục vụ hồ sơ KHKT: số liệu thử nghiệm, Nhật ký nghiên cứu PL V) ---------- */
-const RP_KIND = {lesson:'Bài giảng tương tác', quiz:'Trắc nghiệm', lab:'Thí nghiệm ảo 3D', ai:'Lớp học AI', stem:'Phòng STEM', ev:'Hội trường (sự kiện)', clean:'Phân loại rác', chess:'Cờ vua', ask:'Hỏi thầy cô', other:'Khác'};
-const rpKind = sb => { const t = S.tasks[sb.tid]; if (t) return RP_KIND[t.kind] ? t.kind : 'other'; const id = String(sb.tid || ''); return id.startsWith('lib_') ? 'lesson' : id.startsWith('lab_') ? 'lab' : id.startsWith('clean_') ? 'clean' : id.startsWith('chess_') ? 'chess' : id.startsWith('ask_') ? 'ask' : id.startsWith('ai_') ? 'ai' : id.startsWith('stem_') ? 'stem' : id.startsWith('ev_') ? 'ev' : 'other'; };
+const RP_KIND = {lesson:'Bài giảng tương tác', quiz:'Trắc nghiệm', lab:'Thí nghiệm ảo 3D', ai:'Lớp học AI', stem:'Phòng STEM', ev:'Hội trường (sự kiện)', clean:'Phân loại rác', chess:'Cờ vua', ask:'Hỏi thầy cô', race:'Đường đua tiếng Anh', other:'Khác'};
+const rpKind = sb => { const t = S.tasks[sb.tid]; if (t) return RP_KIND[t.kind] ? t.kind : 'other'; const id = String(sb.tid || ''); return id.startsWith('lib_') ? 'lesson' : id.startsWith('lab_') ? 'lab' : id.startsWith('clean_') ? 'clean' : id.startsWith('chess_') ? 'chess' : id.startsWith('ask_') ? 'ask' : id.startsWith('race_') ? 'race' : id.startsWith('ai_') ? 'ai' : id.startsWith('stem_') ? 'stem' : id.startsWith('ev_') ? 'ev' : 'other'; };
 const RP_PART = [['tc', 'Tích cực (từ 10 lượt)', n => n >= 10], ['tx', 'Thường xuyên (5–9 lượt)', n => n >= 5 && n < 10], ['tt', 'Thỉnh thoảng (1–4 lượt)', n => n >= 1 && n < 5], ['no', 'Chưa tham gia', n => n === 0]];
 const RP_RANK = [['g', 'Giỏi (TB từ 8,0)', a => a >= 8], ['k', 'Khá (6,5 – dưới 8,0)', a => a >= 6.5 && a < 8], ['tb', 'Trung bình (5,0 – dưới 6,5)', a => a >= 5 && a < 6.5], ['y', 'Yếu (dưới 5,0)', a => a < 5]];
 function rpData(from, to){
@@ -8514,9 +8664,9 @@ async function rpExcel(D){
 /* BẢNG ĐIỂM THƯỞNG: mọi hoạt động học tập đều cộng điểm vào bảng vàng (giữ lần cao nhất của mỗi hoạt động) */
 const PTS_RULES = [['📚', 'Nhiệm vụ thầy cô giao (bài giảng, trắc nghiệm, thí nghiệm)', 'theo điểm thầy cô đặt, thường 10–20'], ['📖', 'Bài giảng thư viện (tự học)', '12–16 / bài'], ['🧪', 'Thí nghiệm 3D tự luyện', 'tối đa 5 / thí nghiệm'],
   ['🤖', 'Chuyên đề Lớp học AI hoàn thành', 'tối đa 10 / chuyên đề'], ['🔧', 'Thử thách Phòng STEM', '10 / thử thách'], ['🔔', 'Hội trường: Rung chuông vàng, chuyên đề', 'tối đa 10 / sự kiện'],
-  ['♻️', 'Nhặt và phân loại rác cổng trường', 'tối đa 3 / ngày (kèm điểm rèn luyện)'], ['♟️', 'Thắng cờ ở Câu lạc bộ cờ vua', 'tối đa 5 / ngày'], ['✋', 'Giơ tay hỏi thầy cô khi học', '2 / ngày']];
+  ['♻️', 'Nhặt và phân loại rác cổng trường', 'tối đa 3 / ngày (kèm điểm rèn luyện)'], ['♟️', 'Thắng cờ ở Câu lạc bộ cờ vua', 'tối đa 5 / ngày'], ['✋', 'Giơ tay hỏi thầy cô khi học', '2 / ngày'], ['🏃', 'Đường đua tiếng Anh (vượt chướng ngại vật)', 'tối đa 10 / ngày']];
 async function awardPts(id, max, score, note, quiet){ const m = me(); if (!m || !S.db) return null; score = Math.max(0, Math.min(10, score)); const prev = S.subs[`${m.id}__${id}`]; if (prev && prev.score >= score) return null;
-  let r = null; try { r = await saveSubmission({id, points:max, subject:'sk'}, {score, detail:{act:id}, notes:[note]}); } catch(e){ return null; }
+  let r = null; try { r = await saveSubmission({id, points:max, subject:id.startsWith('race_') ? 'anh' : 'sk'}, {score, detail:{act:id}, notes:[note]}); } catch(e){ return null; }
   const gain = r ? (r.points || 0) - ((prev && prev.points) || 0) : 0; if (gain > 0 && !quiet) toast(`⭐ +${gain} điểm thưởng vào bảng vàng`); return r; }
 const ptsRulesHTML = () => `<details class="pts-rules"><summary>⭐ Cách nhận điểm thưởng để tăng hạng</summary><ul>${PTS_RULES.map(([i, a, b]) => `<li><span>${i}</span><b>${h(a)}</b><em>${h(b)}</em></li>`).join('')}</ul><p class="muted">Mỗi hoạt động giữ điểm của lần làm tốt nhất, nên làm lại để cải thiện điểm. Bảng vàng tính theo từng tháng, mỗi 100 điểm thưởng lên 1 cấp.</p></details>`;
 const awardActivity = (id, score, note) => awardPts(id, 10, score, note, true);
