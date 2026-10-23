@@ -1068,6 +1068,96 @@ body[data-view="school"] .foot,body[data-view="hallin"] .foot,body[data-view="cl
 @media (min-width:761px) and (min-height:561px){
   body[data-view="school"] .sc-stage:not(.sc-max),body[data-view="hallin"] .sc-stage:not(.sc-max),body[data-view="cleanup"] .sc-stage:not(.sc-max){height:calc(100svh - var(--top-h,62px) - 66px);min-height:420px;border-radius:12px}
 }
+/* ===== STEM Studio ===== */
+.std-host{width:100%}
+.std{--surface:#ffffff;--surface-2:#eef2f7;--ink:#1b2333;--muted:#5d6b82;--line:#d5dce6;--tim:#2563eb;--on-tim:#fff;--neon:#0ea5e9;--lcd:#0f2a1c;--lcd-ink:#a7f3c0;
+  color:var(--ink);background:#e9edf3;display:grid;grid-template-rows:auto 1fr;height:calc(100svh - var(--top-h,62px));min-height:560px;font-size:.92rem;position:relative}
+.std .btn{background:#2563eb;border:1.5px solid #2563eb;color:#fff;box-shadow:none;border-radius:9px}
+.std .btn.ghost{background:#fff;border:1.5px solid #c9d3e0;color:#1e3a8a}
+.std .btn:disabled{opacity:.45;cursor:not-allowed}
+.std-top{display:flex;align-items:center;gap:10px;padding:8px 12px;background:#fff;border-bottom:1px solid var(--line);box-shadow:0 1px 0 rgba(15,23,42,.04);flex-wrap:wrap}
+.std-ib{width:36px;height:36px;border-radius:9px;border:1px solid var(--line);background:#f4f6fa;color:#1e293b;font:800 1.05rem/1 var(--f-ui);cursor:pointer;flex:0 0 auto}
+.std-ib:hover{background:#e6ebf3}
+.std-name{display:flex;align-items:center;gap:8px;font-weight:800;font-size:1rem;margin-right:6px;white-space:nowrap}.std-name span{font-size:1.3rem}
+.std-tabs{display:flex;background:#eef2f7;border-radius:10px;padding:3px;gap:2px}
+.std-tabs button{border:0;background:transparent;padding:7px 14px;border-radius:8px;font:700 .88rem var(--f-ui);color:#475569;cursor:pointer;white-space:nowrap}
+.std-tabs button[aria-selected="true"]{background:#fff;color:#1d4ed8;box-shadow:0 1px 3px rgba(15,23,42,.15)}
+.std-run{display:flex;gap:6px;margin-left:auto}
+.std-check.btn{background:#16a34a;border-color:#16a34a}
+.std-body{display:grid;grid-template-columns:240px minmax(0,1fr) 300px;min-height:0}
+.std-left,.std-right{background:#fff;overflow:auto;padding:12px;display:flex;flex-direction:column;gap:10px;min-height:0}
+.std-left{border-right:1px solid var(--line)}.std-right{border-left:1px solid var(--line)}
+.std-h{font-size:.72rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#64748b}
+.std-ms{display:grid;gap:4px}
+.std-ms button{display:grid;grid-template-columns:24px 1fr auto;align-items:center;gap:8px;text-align:left;border:1px solid transparent;background:#f6f8fb;border-radius:9px;padding:7px 8px;font:600 .86rem var(--f-ui);color:#1e293b;cursor:pointer}
+.std-ms button:hover{background:#eef3fb}
+.std-ms button[aria-pressed="true"]{background:#e8f0ff;border-color:#93b4f5;color:#1d4ed8}
+.std-ms .n{width:24px;height:24px;border-radius:50%;background:#dbe4f0;display:grid;place-items:center;font-size:.75rem;font-weight:800}
+.std-ms button[aria-pressed="true"] .n{background:#2563eb;color:#fff}
+.std-ms i{font-style:normal;color:#cbd5e1;font-size:1rem}.std-ms i.ok{color:#f59e0b}
+.std-goal{font-size:.85rem;line-height:1.5;background:#fffbea;border:1px solid #fde68a;border-radius:10px;padding:9px 10px;color:#3f3a1d}
+.std-tree{list-style:none;margin:0;padding:0;display:grid;gap:2px;font-size:.84rem}
+.std-tree li{display:flex;align-items:center;gap:7px;padding:5px 6px;border-radius:7px;color:#475569}
+.std-tree li .d{width:18px;height:18px;border-radius:5px;border:1.5px solid #cbd5e1;display:grid;place-items:center;font-size:.7rem;font-weight:900;flex:0 0 auto;color:#94a3b8}
+.std-tree li.ok{color:#14532d}.std-tree li.ok .d{background:#22c55e;border-color:#22c55e;color:#fff}
+.std-tree li.warn{color:#9a3412}.std-tree li.warn .d{background:#fb923c;border-color:#fb923c;color:#fff}
+.std-tree li .n{flex:1}.std-tree em{font-style:normal;font:700 .7rem var(--f-mono);background:#eef2f7;color:#475569;padding:1px 6px;border-radius:5px}
+.std-view{position:relative;min-height:0;overflow:hidden;background:#dde4ec}
+.std-view #v3{position:absolute;inset:0}
+.std-view .v3d{height:100%;border-radius:0;background:transparent}
+.std-view .v3d-ui{top:10px;right:10px}.std-view .v3d-ui .btn{background:rgba(255,255,255,.92);color:#1e3a8a;border-color:#c9d3e0}
+.std-view .v3d-tip{background:rgba(255,255,255,.85);color:#475569}
+.std-view .notice{margin:20px;color:#334155}
+.std-hud{position:absolute;top:10px;left:10px;pointer-events:none;max-width:calc(100% - 340px)}
+.std-hud .lcd{box-shadow:0 4px 14px rgba(15,23,42,.25);border:1px solid #1f4d33}
+.std-say{position:absolute;left:50%;bottom:40px;transform:translateX(-50%);max-width:min(620px,calc(100% - 24px));background:rgba(15,23,42,.86);color:#fff;padding:8px 14px;border-radius:12px;font-size:.88rem;text-align:center;pointer-events:none;box-shadow:0 6px 20px rgba(15,23,42,.3)}
+.std-say:empty{display:none}
+.std-res{position:absolute;left:50%;top:14px;transform:translateX(-50%);width:min(560px,calc(100% - 24px));z-index:3}
+.std-res:empty{display:none}
+.std-win{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;background:#fff;border:2px solid #f59e0b;border-radius:14px;padding:12px 14px;box-shadow:0 10px 30px rgba(15,23,42,.25)}
+.std-win b{color:#b45309;font-size:1.02rem}.std-win span{flex:1 1 220px;font-size:.88rem}
+.std-win .hub-mini{background:#f1f5f9;color:#1e293b;border:1px solid var(--line)}
+.std-lib{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.std-card{display:grid;gap:4px;justify-items:center;text-align:center;padding:8px 6px 9px;border:1.5px solid var(--line);border-radius:12px;background:#fff;cursor:pointer;font:inherit;color:#1e293b;transition:border-color .15s,box-shadow .15s,transform .15s}
+.std-card:hover{border-color:#60a5fa;box-shadow:0 4px 14px rgba(37,99,235,.15);transform:translateY(-1px)}
+.std-card.on{border-color:#2563eb;box-shadow:0 0 0 3px rgba(37,99,235,.25)}
+.std-card.off{opacity:.45}
+.std-card .im{width:100%;aspect-ratio:4/3;border-radius:8px;background:linear-gradient(180deg,#f4f7fb,#e3e9f1);display:grid;place-items:center;overflow:hidden}
+.std-card .im img{width:100%;height:100%;object-fit:contain}.std-card .em{font-size:2rem}
+.std-card b{font-size:.8rem;line-height:1.25}.std-card small{font-size:.7rem;color:#64748b;line-height:1.3}
+.std-tip{font-size:.8rem;color:#64748b;margin:0;line-height:1.5}
+.std .pe-prog{background:#f4f6fa;border-color:#cbd5e1}
+.std .stem-code pre{max-height:200px}
+.std-sim{display:grid;gap:8px}
+.std-log{font:.76rem/1.5 var(--f-mono);background:#0f172a;color:#cbd5e1;border-radius:10px;padding:8px 10px;max-height:240px;min-height:90px;overflow:auto;display:grid;align-content:start;gap:2px}
+.std-log:empty::before{content:'Chưa có hoạt động nào.';color:#64748b}
+.std-log span{color:#64748b;margin-right:4px}.std-log .ok{color:#86efac}.std-log .bad{color:#fca5a5}
+.std-err{margin:0;color:#b91c1c;font-weight:700;font-size:.86rem}.std-err:empty{display:none}
+.car-pad{display:grid;grid-template-columns:repeat(3,56px);gap:6px;justify-content:center}.car-pad .btn{min-height:50px;font-size:1.2rem;padding:0}
+.ard-pins{display:flex;flex-wrap:wrap;gap:6px}.ard-pins span{display:grid;font:700 .72rem var(--f-mono);background:#f1f5f9;border:1px solid var(--line);border-radius:8px;padding:4px 8px;color:#475569}
+.ard-pins span b{font-size:.85rem;color:#64748b}.ard-pins span.on{background:#dcfce7;border-color:#86efac}.ard-pins span.on b{color:#15803d}
+.std .arm-sl{display:grid;gap:8px}.std .arm-sl .ctrl{flex:none}
+.std .lab-intro-card{background:#fff;color:#1b2333;border-color:#93c5fd}
+body[data-view="stemlab"] footer{display:none}
+@media (max-width:1100px){.std-body{grid-template-columns:200px minmax(0,1fr) 270px}.std-name b{display:none}}
+@media (max-width:820px){
+  .std{height:auto;min-height:0;grid-template-rows:auto auto}
+  .std-top{position:sticky;top:0;z-index:5}
+  .std-run{margin-left:0}
+  .std-body{grid-template-columns:1fr;grid-template-areas:"view" "right" "left"}
+  .std-view{grid-area:view;height:min(62svh,520px)}.std-right{grid-area:right;border:0;border-top:1px solid var(--line)}.std-left{grid-area:left;border:0;border-top:1px solid var(--line)}
+  .std-left,.std-right{overflow:visible}
+  .std-lib{grid-template-columns:repeat(auto-fill,minmax(120px,1fr))}
+  .std-hud{max-width:calc(100% - 20px);top:auto;bottom:10px}
+  .std-say{bottom:auto;top:50px}
+  .std-view .v3d-ui{flex-wrap:nowrap;max-width:calc(100% - 20px);overflow-x:auto;justify-content:flex-start;left:10px;right:10px}
+  .std-view .v3d-ui .btn{flex:0 0 auto}
+  .std-view .v3d-tip{display:none}
+  .std-top{gap:6px;padding:6px 8px}.std-name{display:none}
+  .std-tabs{flex:1 1 auto;order:2}.std-tabs button{padding:6px 8px;font-size:.8rem;flex:1}
+  .std-run{order:3}.std-check{order:4}#stHelp{order:1}.std-top > [data-go]{order:0}
+  .std-hud{bottom:10px}.std-hud .lcd{font-size:.85rem}
+}
 </style>
 
 <header class="top"><div class="wrap">
@@ -3323,38 +3413,96 @@ const BLK_CTRL = {
   end:{op:'end', cat:'end', label:'⏹ Hết khối lặp/điều kiện', chip:'⏹ Hết khối', close:true},
   wait:{op:'wait', cat:'time', label:'⏱ Chờ {ms} mili giây', chip:'⏱ Chờ … ms', params:[{k:'ms', def:500, min:10, max:10000, step:50}]}
 };
-function stemShell(el, key, ms, {how, extraCtl = '', tips}){
-  const A = STEM[key];
-  labShell(el, {how, pnl:'🧩 Lập trình',
-    svg:`<div id="v3"><p class="notice">Đang tải phòng STEM 3D…</p></div>`,
-    meters:`<div class="lcd stem-lcd" id="stLcd"><small>Trạng thái</small><span>Sẵn sàng</span></div>`,
-    controls:`${extraCtl}`,
-    panel:`<div class="goal" id="stGoal"></div>
-      <div class="seg stem-ms-sel" role="group" aria-label="Chọn thử thách">${A.ms.map((m, i) => `<button type="button" data-ms="${m.id}">${i + 1}. ${h(m.name)}</button>`).join('')}</div>
-      <div class="pe" id="stPE"></div>
-      <div class="row" style="gap:6px;flex-wrap:wrap"><button type="button" class="btn small" id="stRun" style="flex:0 0 auto">▶ Chạy</button><button type="button" class="btn ghost small" id="stStop" style="flex:0 0 auto" disabled>■ Dừng</button><button type="button" class="btn ghost small" id="stReset" style="flex:0 0 auto">↺ Đặt lại</button><button type="button" class="btn small" id="stCheck" style="flex:0 0 auto">✔ Kiểm tra thử thách</button></div>
-      <details class="stem-code"><summary>Xem mã Arduino (C++) tương ứng</summary><pre id="stCode"></pre></details>
-      <p id="lerr" class="pen" role="alert" style="font-size:1rem;margin:0"></p>
-      <div class="muted stem-tip" style="font-size:.82rem">${tips || ''}</div>`});
-  return {lcd:(t, k = 'Trạng thái') => { const x = $('#stLcd', el); if (x) x.innerHTML = `<small>${h(k)}</small><span>${t}</span>`; }};
+/* ---------- STEM Studio: khung giao diện chung (lắp ráp · lập trình · mô phỏng) ---------- */
+function stemStudio(el, key, cfg){
+  const A = STEM[key], done = stemDone()[key] || {};
+  el.innerHTML = `<div class="std">
+    <header class="std-top">
+      <button type="button" class="std-ib" data-go="stem" aria-label="Về phòng STEM" title="Về phòng STEM">←</button>
+      <div class="std-name"><span>${A.icon}</span><b>${h(A.name)}</b></div>
+      <nav class="std-tabs" role="tablist" aria-label="Chế độ">${[['build', '🔧 Lắp ráp'], ['code', '🧩 Lập trình'], ['sim', '▶ Mô phỏng']].map(([k, t]) => `<button type="button" role="tab" data-tab="${k}">${t}</button>`).join('')}</nav>
+      <div class="std-run"><button type="button" class="btn small" id="stRun">▶ Chạy</button><button type="button" class="btn ghost small" id="stStop" disabled>■ Dừng</button><button type="button" class="btn ghost small" id="stReset" title="Đặt lại">↺ Đặt lại</button></div>
+      <button type="button" class="btn small std-check" id="stCheck">✔ Kiểm tra thử thách</button>
+      <button type="button" class="std-ib" id="stHelp" aria-label="Hướng dẫn" title="Hướng dẫn">?</button>
+    </header>
+    <div class="std-body">
+      <aside class="std-left">
+        <div class="std-h">Thử thách</div>
+        <div class="std-ms">${A.ms.map((m, i) => `<button type="button" data-ms="${m.id}"><span class="n">${i + 1}</span><span class="t">${h(m.name)}</span><i class="${done[m.id] ? 'ok' : ''}">${done[m.id] ? '★' : '☆'}</i></button>`).join('')}</div>
+        <div class="std-goal" id="stGoal"></div>
+        <div class="std-h">Thành phần dự án</div><ul class="std-tree" id="stTree"></ul>
+      </aside>
+      <main class="std-view"><div id="v3"><p class="notice">Đang tải mô hình 3D…</p></div>
+        <div class="std-hud"><div class="lcd stem-lcd" id="stLcd"><small>Trạng thái</small><span>Sẵn sàng</span></div></div>
+        <p class="lab-say std-say" role="status"></p>
+        <div id="labResult" class="std-res"></div>
+      </main>
+      <aside class="std-right">
+        <section class="std-pane" data-pane="build"><div class="std-h">${h(cfg.libTitle || 'Thư viện linh kiện')}</div><div class="std-lib" id="stLib"></div><p class="std-tip">${cfg.buildTip || ''}</p></section>
+        <section class="std-pane" data-pane="code" hidden><div class="std-h">Khối lệnh</div><div class="pe" id="stPE"></div><details class="stem-code"><summary>Xem mã Arduino (C++) tương ứng</summary><pre id="stCode"></pre></details><p class="std-tip">${cfg.codeTip || ''}</p></section>
+        <section class="std-pane" data-pane="sim" hidden><div class="std-h">Điều khiển</div><div class="std-sim">${cfg.simCtl || ''}</div><div class="std-h">Nhật ký</div><div class="std-log" id="stLog"></div></section>
+        <p id="lerr" class="pen std-err" role="alert"></p>
+      </aside>
+    </div>
+    <div class="lab-intro" role="dialog" aria-modal="true" aria-label="Hướng dẫn"><div class="lab-intro-card"><span class="eyebrow">Hướng dẫn</span><h2>${A.icon} ${h(A.name)}</h2><ol class="how-big">${cfg.how.map(x => `<li>${x}</li>`).join('')}</ol><button type="button" class="btn lab-go">Bắt đầu</button></div></div>
+  </div>`;
+  const intro = $('.lab-intro', el), seenK = 'oli.stemseen.' + key;
+  const open = () => intro.classList.add('on'), close = () => intro.classList.remove('on');
+  $('.lab-go', intro).onclick = () => { close(); store(seenK, '1'); }; intro.onclick = e => { if (e.target === intro) close(); };
+  $('#stHelp', el).onclick = open; if (!store(seenK)) open();
+  const tab = k => { $$('[data-tab]', el).forEach(b => b.setAttribute('aria-selected', String(b.dataset.tab === k))); $$('[data-pane]', el).forEach(p => p.hidden = p.dataset.pane !== k); el.dataset.tab = k; cfg.onTab && cfg.onTab(k); };
+  $$('[data-tab]', el).forEach(b => b.onclick = () => tab(b.dataset.tab));
+  const logEl = $('#stLog', el); let logN = 0;
+  const ui = {
+    tab, lcd:(t, k = 'Trạng thái') => { const x = $('#stLcd', el); if (x) x.innerHTML = `<small>${h(k)}</small><span>${t}</span>`; },
+    log:(t, cls = '') => { if (!logEl) return; const d = document.createElement('div'); d.className = cls; d.innerHTML = `<span>${new Date().toLocaleTimeString('vi-VN', {hour:'2-digit', minute:'2-digit', second:'2-digit'})}</span> ${t}`; logEl.prepend(d); if (++logN > 60) logEl.lastChild.remove(); },
+    tree:items => { $('#stTree', el).innerHTML = items.map(it => `<li class="${it.ok ? 'ok' : ''}${it.warn ? ' warn' : ''}"><span class="d">${it.ok ? '✓' : it.warn ? '!' : '○'}</span><span class="n">${h(it.n)}</span>${it.tag ? `<em>${h(it.tag)}</em>` : ''}</li>`).join(''); },
+    lib:(items, onPick, sel) => { $('#stLib', el).innerHTML = items.map(it => `<button type="button" class="std-card${it.id === sel ? ' on' : ''}${it.off ? ' off' : ''}" data-part="${h(it.id)}" title="${h(it.info || it.n)}"><span class="im">${it.img ? `<img src="${it.img}" alt="">` : `<span class="em">${it.icon || '🔩'}</span>`}</span><b>${h(it.n)}</b>${it.sub ? `<small>${h(it.sub)}</small>` : ''}</button>`).join('');
+      $$('[data-part]', el).forEach(b => b.onclick = () => onPick(b.dataset.part)); },
+    star:id => { const b = $(`[data-ms="${id}"] i`, el); if (b){ b.textContent = '★'; b.className = 'ok'; } }
+  };
+  tab(cfg.tab || 'build');
+  return ui;
 }
 const stemWin = (el, key, mid, msg) => { const first = stemMark(key, mid); const m = STEM[key].ms.find(x => x.id === mid);
-  $('#labResult', el).innerHTML = `<div class="goal stem-win"><b>⭐ Hoàn thành thử thách “${h(m.name)}”!</b> ${msg || ''} ${first ? 'Em vừa nhận thêm 1 sao STEM.' : ''} Thử sức với thử thách tiếp theo nhé.</div>`;
-  toast('⭐ Hoàn thành: ' + m.name); try { const lb = $('.lab', el); lb && lb.classList.remove('pnl-open'); } catch(e){}
-  setTimeout(() => { const r = $('#labResult', el); r && r.scrollIntoView({behavior:'smooth', block:'nearest'}); }, 120); };
-
-/* ---------- 1. MẠCH ARDUINO ---------- */
-const ARD_PARTS = {led_r:{n:'LED đỏ', kind:'led', col:'#ff3b30'}, led_y:{n:'LED vàng', kind:'led', col:'#ffcc00'}, led_g:{n:'LED xanh', kind:'led', col:'#34c759'},
-  r220:{n:'Điện trở 220 Ω', kind:'res', band:['#e53935', '#e53935', '#8d5524']}, r10k:{n:'Điện trở 10 kΩ', kind:'res', band:['#8d5524', '#111111', '#ff9800']}, btn:{n:'Nút bấm', kind:'btn'}};
-const ARD_MS = {
-  blink:{goal:'Ráp mạch: chân <b>13</b> → điện trở <b>220 Ω</b> → <b>LED đỏ</b> → <b>GND</b>. Rồi lập trình cho đèn <b>nhấp nháy</b> (bật, chờ, tắt, chờ, lặp lại).',
-    ch:[{z:-0.02, pin:13, want:'led_r'}], start:[{op:'forever'}, {op:'end'}]},
-  traffic:{goal:'Ráp 3 đèn: <b>đỏ</b> ở chân 13, <b>vàng</b> ở chân 12, <b>xanh</b> ở chân 11 (mỗi đèn một điện trở 220 Ω). Lập trình đèn giao thông chạy theo thứ tự <b>xanh → vàng → đỏ</b> rồi lặp lại.',
-    ch:[{z:-0.05, pin:13, want:'led_r'}, {z:-0.01, pin:12, want:'led_y'}, {z:0.03, pin:11, want:'led_g'}], start:[]},
-  button:{goal:'Ráp đèn đỏ ở chân 13, và <b>nút bấm</b> nối chân <b>2</b> với <b>5V</b>, có điện trở <b>10 kΩ</b> kéo xuống GND. Lập trình: <b>nhấn nút thì đèn sáng, thả nút thì đèn tắt</b>.',
-    ch:[{z:-0.04, pin:13, want:'led_r'}], btn:{z:0.03, pin:2}, start:[]}
+  const r = $('#labResult', el); r.innerHTML = `<div class="std-win"><b>⭐ Hoàn thành “${h(m.name)}”!</b> <span>${msg || ''} ${first ? 'Em vừa nhận thêm 1 sao STEM.' : ''}</span><button type="button" class="hub-mini" data-x>Đóng</button></div>`;
+  $('[data-x]', r).onclick = () => r.innerHTML = ''; const st = $(`[data-ms="${mid}"] i`, el); if (st){ st.textContent = '★'; st.className = 'ok'; }
+  toast('⭐ Hoàn thành: ' + m.name); };
+/* ---------- vật liệu, linh kiện 3D dùng chung ---------- */
+const STEMX = {
+  holes(){ return this._h || (this._h = (() => { const c = makeCanvas(64, 64), g = c.getContext('2d'); g.fillStyle = '#fff'; g.fillRect(0, 0, 64, 64); g.globalCompositeOperation = 'destination-out'; g.beginPath(); g.arc(32, 32, 14, 0, 7); g.fill(); return c; })()); },
+  beam(S3, L, color = '#25282e', w = 0.012){ const {THREE} = S3; const tex = new THREE.CanvasTexture(this.holes()); tex.wrapS = tex.wrapT = THREE.RepeatWrapping; tex.repeat.set(Math.max(1, Math.round(L/w)), 1);
+    return new THREE.Mesh(new THREE.BoxGeometry(L, w, w), new THREE.MeshStandardMaterial({color, map:tex, alphaTest:0.5, metalness:0.55, roughness:0.4, side:THREE.DoubleSide})); },
+  plate(S3, x, z, color = '#25282e', t = 0.004, cell = 0.012){ const {THREE} = S3; const tex = new THREE.CanvasTexture(this.holes()); tex.wrapS = tex.wrapT = THREE.RepeatWrapping; tex.repeat.set(Math.round(x/cell), Math.round(z/cell));
+    return new THREE.Mesh(new THREE.BoxGeometry(x, t, z), new THREE.MeshStandardMaterial({color, map:tex, alphaTest:0.5, metalness:0.5, roughness:0.45, side:THREE.DoubleSide})); },
+  wheel(S3, r = 0.032, w = 0.022, rim = '#d32f2f'){ const {THREE, M} = S3; const g = new THREE.Group();
+    const tire = new THREE.Mesh(new THREE.TorusGeometry(r - 0.009, 0.0095, 14, 36), M('#16171a', {roughness:0.95})); tire.scale.z = w/0.019; g.add(tire);
+    for (let i = 0; i < 18; i++){ const a = i/18*Math.PI*2; const tr = new THREE.Mesh(new THREE.BoxGeometry(0.006, 0.004, w*0.95), M('#0e0f11', {roughness:1})); tr.position.set(Math.cos(a)*(r - 0.0005), Math.sin(a)*(r - 0.0005), 0); tr.rotation.z = a; g.add(tr); }
+    const rimM = M(rim, {metalness:0.35, roughness:0.35}); const disk = new THREE.Mesh(new THREE.CylinderGeometry(r - 0.012, r - 0.012, w*0.55, 28), rimM); disk.rotation.x = Math.PI/2; g.add(disk);
+    for (let i = 0; i < 5; i++){ const a = i/5*Math.PI*2; const sp = new THREE.Mesh(new THREE.BoxGeometry(r - 0.016, 0.006, w*0.7), M(rim, {metalness:0.3, roughness:0.4})); sp.position.set(Math.cos(a)*(r - 0.016)/2, Math.sin(a)*(r - 0.016)/2, 0); sp.rotation.z = a; g.add(sp); }
+    const hub = new THREE.Mesh(new THREE.CylinderGeometry(0.007, 0.007, w*0.9, 16), M('#c7ccd2', {metalness:0.85, roughness:0.25})); hub.rotation.x = Math.PI/2; g.add(hub); return g; },
+  servo(S3, label = 'SERVO'){ const {THREE, M} = S3; const g = new THREE.Group(); const t = S3.screenTex(256, 128); t.g.fillStyle = '#1b1d22'; t.g.fillRect(0, 0, 256, 128); t.g.fillStyle = '#9aa3ad'; t.g.font = '800 34px system-ui'; t.g.textAlign = 'center'; t.g.fillText(label, 128, 76);
+    const body = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.02, 0.036), [M('#1b1d22'), M('#1b1d22'), M('#1b1d22'), M('#1b1d22'), new THREE.MeshStandardMaterial({map:t.tex, roughness:0.6}), M('#1b1d22')]); g.add(body);
+    const ear = new THREE.Mesh(new THREE.BoxGeometry(0.054, 0.003, 0.036), M('#1b1d22')); ear.position.y = 0.004; g.add(ear);
+    const horn = new THREE.Mesh(new THREE.CylinderGeometry(0.006, 0.006, 0.006, 14), M('#e5e7eb')); horn.rotation.x = Math.PI/2; horn.position.set(0.01, 0, 0.021); g.add(horn); return g; },
+  pcbUno(S3){ const t = S3.screenTex(1024, 744), g = t.g; const grd = g.createLinearGradient(0, 0, 1024, 744); grd.addColorStop(0, '#0a8f97'); grd.addColorStop(1, '#057079'); g.fillStyle = grd; g.fillRect(0, 0, 1024, 744);
+    g.strokeStyle = 'rgba(160,240,240,.22)'; g.lineWidth = 3; let sd = 5; const rnd = () => (sd = (sd*16807) % 2147483647)/2147483647;
+    for (let i = 0; i < 60; i++){ const x = rnd()*1024, y = rnd()*744; g.beginPath(); g.moveTo(x, y); g.lineTo(x + (rnd() - .5)*300, y); g.lineTo(x + (rnd() - .5)*300, y + (rnd() - .5)*200); g.stroke(); }
+    g.fillStyle = 'rgba(255,255,255,.92)'; g.font = 'italic 900 120px system-ui'; g.fillText('UNO', 560, 470); g.font = '800 34px system-ui'; g.fillText('DIGITAL (PWM ~)', 520, 150); g.fillText('POWER', 360, 680); g.fillText('ANALOG IN', 700, 680); g.font = '700 30px system-ui'; g.fillText('ARDUINO', 600, 330);
+    [[60, 60], [960, 60], [60, 690], [960, 690]].forEach(([x, y]) => { g.fillStyle = '#e8e2c8'; g.beginPath(); g.arc(x, y, 22, 0, 7); g.fill(); g.fillStyle = '#0a5a60'; g.beginPath(); g.arc(x, y, 12, 0, 7); g.fill(); });
+    return t; },
+  cardboard(S3){ if (this._cb) return this._cb; const t = S3.screenTex(256, 256), g = t.g; g.fillStyle = '#c99a5b'; g.fillRect(0, 0, 256, 256); g.fillStyle = 'rgba(120,80,30,.18)'; for (let i = 0; i < 40; i++) g.fillRect(0, i*7, 256, 2); g.fillStyle = '#e2c99a'; g.fillRect(108, 0, 40, 256); g.fillStyle = '#7a4f1f'; g.font = '700 26px system-ui'; g.textAlign = 'center'; g.fillText('↑ ↑', 60, 60); return this._cb = t; },
+  shadowGround(S3, w = 6, d = 6, color = '#d5dbe3'){ const {THREE} = S3; const m = new THREE.Mesh(new THREE.PlaneGeometry(w, d), new THREE.MeshStandardMaterial({color, roughness:0.95})); m.rotation.x = -Math.PI/2; m.position.y = -0.0005; m.receiveShadow = true; m.userData.noFit = true; S3.scene.add(m); return m; }
 };
-function stemArduino(el, ctx){
+/* ---------- 1. MẠCH ARDUINO (studio) ---------- */
+const ARD_PARTS = {led_r:{n:'LED đỏ', kind:'led', col:'#ff3b30', icon:'🔴'}, led_y:{n:'LED vàng', kind:'led', col:'#ffcc00', icon:'🟡'}, led_g:{n:'LED xanh lá', kind:'led', col:'#34c759', icon:'🟢'},
+  r220:{n:'Điện trở 220 Ω', kind:'res', band:['#e53935', '#e53935', '#5d4037', '#d4af37'], icon:'〰️'}, r10k:{n:'Điện trở 10 kΩ', kind:'res', band:['#5d4037', '#111111', '#ff9800', '#d4af37'], icon:'〰️'}, btn:{n:'Nút bấm', kind:'btn', icon:'🔘'}};
+const ARD_MS = {
+  blink:{goal:'Ráp mạch: chân <b>13</b> → điện trở <b>220 Ω</b> → <b>LED đỏ</b> → <b>GND</b>. Rồi lập trình cho đèn <b>nhấp nháy</b> (bật, chờ, tắt, chờ, lặp lại).', ch:[{z:-0.02, pin:13, want:'led_r'}], start:[{op:'forever'}, {op:'end'}]},
+  traffic:{goal:'Ráp 3 đèn: <b>đỏ</b> ở chân 13, <b>vàng</b> ở chân 12, <b>xanh</b> ở chân 11 (mỗi đèn một điện trở 220 Ω). Lập trình đèn giao thông chạy <b>xanh → vàng → đỏ</b> rồi lặp lại.', ch:[{z:-0.05, pin:13, want:'led_r'}, {z:-0.01, pin:12, want:'led_y'}, {z:0.03, pin:11, want:'led_g'}], start:[]},
+  button:{goal:'Ráp đèn đỏ ở chân 13 và <b>nút bấm</b> nối chân <b>2</b> với <b>5V</b>, có điện trở <b>10 kΩ</b> kéo xuống GND. Lập trình: <b>nhấn nút thì đèn sáng, thả nút thì đèn tắt</b>.', ch:[{z:-0.04, pin:13, want:'led_r'}], btn:{z:0.035, pin:2}, start:[]}
+};
+function stemArduino(el){
   let mid = 'blink', M = ARD_MS[mid];
   const pinOpts = [13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3].map(p => [p, 'chân ' + p]);
   const blocks = [
@@ -3363,18 +3511,16 @@ function stemArduino(el, ctx){
     {op:'if', cat:'cond', label:'❓ Nếu {c}', chip:'❓ Nếu nút được nhấn', params:[{k:'c', def:'btn', opts:[['btn', 'nút ở chân 2 được nhấn']]}], open:true},
     {op:'ifnot', cat:'cond', label:'❔ Nếu {c}', chip:'❔ Nếu nút không nhấn', params:[{k:'c', def:'btn', opts:[['btn', 'nút ở chân 2 KHÔNG được nhấn']]}], open:true},
     BLK_CTRL.end];
-  const ui = stemShell(el, 'ard', null, {how:['Chọn thử thách ở bảng 🧩 Lập trình.', 'Bấm một linh kiện trên khay (LED, điện trở, nút bấm), rồi bấm vào ô sáng trên bảng mạch để cắm. Bấm vào LED đã cắm để <b>đảo chiều chân</b> (chân dài là cực +).', 'Nối dây: bấm một chân trên Arduino, rồi bấm vào điểm nối màu xanh trên bảng mạch. Bấm vào dây để gỡ.', 'Ghép các khối lệnh thành chương trình, bấm <b>▶ Chạy</b> để nạp và xem mạch chạy, rồi bấm <b>✔ Kiểm tra thử thách</b>.'],
-    tips:'Mẹo: LED cần điện trở để không bị cháy. Chân dài của LED (cực +) quay về phía chân Arduino, chân ngắn (cực −) về phía GND.',
-    extraCtl:`<button type="button" class="btn ghost" id="arBtn">🔘 Giữ để nhấn nút</button><button type="button" class="btn ghost" id="arCirc">🔍 Kiểm tra mạch</button>`});
-  let S3 = null, slots = {}, ends = {}, wires = {}, selPart = null, selPin = null, pins = {}, btnDown = false, tok = null;
+  let S3 = null, slots = {}, wires = {}, selPart = null, selPin = null, btnDown = false, tok = null, thumbs = {};
   const pinState = {};
+  const ui = stemStudio(el, 'ard', {how:['Tab <b>🔧 Lắp ráp</b>: bấm linh kiện trong thư viện bên phải, linh kiện tự cắm vào ô đang sáng trên bảng mạch. Bấm vào LED đã cắm để <b>đảo chiều chân</b> (chân dài là cực +).', 'Nối dây: bấm một <b>chân vàng</b> trên Arduino, rồi bấm vào <b>chấm xanh</b> trên bảng mạch. Bấm vào chấm đã nối để gỡ dây.', 'Tab <b>🧩 Lập trình</b>: ghép khối lệnh rồi bấm <b>▶ Chạy</b> để nạp vào Arduino.', 'Tab <b>▶ Mô phỏng</b>: nhấn nút, xem trạng thái các chân và nhật ký. Bấm <b>✔ Kiểm tra thử thách</b> khi xong.'],
+    buildTip:'Mẹo: LED cần điện trở để không bị cháy. Chân dài của LED (+) quay về phía điện trở, chân ngắn (−) về phía GND.', codeTip:'Arduino chạy lệnh từ trên xuống. Lệnh "Chờ" giúp mắt kịp nhìn thấy đèn đổi trạng thái.',
+    simCtl:`<button type="button" class="btn" id="arBtn">🔘 Giữ để nhấn nút</button><button type="button" class="btn ghost" id="arCirc">🔍 Kiểm tra mạch</button><div class="ard-pins" id="arPins"></div>`});
   const pe = progEditor($('#stPE', el), blocks, M.start, () => code());
   const stmt = t => t.op === 'set' ? `digitalWrite(${t.pin}, ${t.v});` : t.op === 'wait' ? `delay(${t.ms});` : t.op === 'cond' ? `digitalRead(2) == ${t.neg ? 'LOW' : 'HIGH'}` : '';
   const code = () => { const tree = progTree(pe.get(), blocks), fv = tree.filter(t => t.op === 'forever'), rest = tree.filter(t => t.op !== 'forever');
     const used = new Set(pe.get().filter(s => s.op === 'set').map(s => s.pin)); const inBtn = pe.get().some(s => s.op === 'if' || s.op === 'ifnot');
-    const lines = ['void setup() {', ...[...used].map(p => `  pinMode(${p}, OUTPUT);`), ...(inBtn ? ['  pinMode(2, INPUT);'] : []), ...genCode(rest, stmt), '}', '', 'void loop() {', ...(fv.length ? genCode(fv[0].body, stmt) : ['  // (chương trình không lặp)']), '}'];
-    $('#stCode', el).textContent = lines.join('\n'); };
-  // ----- kiểm tra mạch -----
+    $('#stCode', el).textContent = ['void setup() {', ...[...used].map(p => `  pinMode(${p}, OUTPUT);`), ...(inBtn ? ['  pinMode(2, INPUT);'] : []), ...genCode(rest, stmt), '}', '', 'void loop() {', ...(fv.length ? genCode(fv[0].body, stmt) : ['  // (chương trình không lặp)']), '}'].join('\n'); };
   const chain = c => ({res:slots['R' + c.pin], led:slots['L' + c.pin], w:wires['W' + c.pin]});
   const circuit = () => { const errs = [], warn = [];
     M.ch.forEach(c => { const {res, led, w} = chain(c), want = ARD_PARTS[c.want].n;
@@ -3390,135 +3536,157 @@ function stemArduino(el, ctx){
       if (!wires.WB) errs.push('Chưa nối dây từ chân 2 tới nút bấm.'); else if (wires.WB.pin !== 2) errs.push(`Dây của nút đang nối vào chân ${wires.WB.pin}, cần chân 2.`);
       if (!wires.V) errs.push('Chưa nối dây 5V tới chân còn lại của nút bấm.'); else if (wires.V.pin !== '5V') errs.push(`Dây nguồn của nút đang nối vào chân ${wires.V.pin}, cần chân 5V.`); }
     return {errs, warn}; };
-  const ledOk = c => { const {res, led, w} = chain(c); return res && ARD_PARTS[res.part]?.kind === 'res' && led && led.part && !led.flip && w && wires.G && wires.G.pin === 'GND' ? (res.part === 'r10k' ? .25 : 1) && (w.pin === c.pin ? (res.part === 'r10k' ? .25 : 1) : 0) : 0; };
+  const ledOk = c => { const {res, led, w} = chain(c); if (!(res && res.part && ARD_PARTS[res.part].kind === 'res' && led && led.part && !led.flip && w && w.pin === c.pin && wires.G && wires.G.pin === 'GND')) return 0; return res.part === 'r10k' ? .25 : 1; };
   const btnOk = () => M.btn && slots.B?.part === 'btn' && slots.RB?.part === 'r10k' && wires.WB?.pin === 2 && wires.V?.pin === '5V';
   const readBtn = () => btnOk() ? btnDown : false;
+  const tree = () => { const items = [{n:'Arduino UNO', ok:true, tag:'USB'}, {n:'Bảng mạch cắm (breadboard)', ok:true}];
+    M.ch.forEach(c => { const {res, led, w} = chain(c); items.push({n:`Điện trở cho ${ARD_PARTS[c.want].n}`, ok:res && res.part === 'r220', warn:res && res.part && res.part !== 'r220'}, {n:ARD_PARTS[c.want].n, ok:led && led.part === c.want && !led.flip, warn:led && led.part && (led.part !== c.want || led.flip), tag:'D' + c.pin}, {n:`Dây chân ${c.pin}`, ok:w && w.pin === c.pin, warn:w && w.pin !== c.pin}); });
+    if (M.btn) items.push({n:'Nút bấm', ok:slots.B?.part === 'btn', tag:'D2'}, {n:'Điện trở kéo xuống 10 kΩ', ok:slots.RB?.part === 'r10k', warn:slots.RB?.part && slots.RB.part !== 'r10k'}, {n:'Dây chân 2', ok:wires.WB?.pin === 2}, {n:'Dây 5V', ok:wires.V?.pin === '5V'});
+    items.push({n:'Dây GND', ok:wires.G?.pin === 'GND', warn:wires.G && wires.G.pin !== 'GND'}); ui.tree(items); };
+  const lib = () => ui.lib(Object.entries(ARD_PARTS).map(([k, p]) => ({id:k, n:p.n, icon:p.icon, img:thumbs[k], sub:p.kind === 'led' ? 'cực + chân dài' : p.kind === 'res' ? 'màu vạch: ' + (k === 'r220' ? 'đỏ-đỏ-nâu' : 'nâu-đen-cam') : 'giữ để đóng mạch'})), k => S3 && S3.pickPart(k), selPart);
   const render = () => { if (!S3) return; M.ch.forEach(c => { const L = slots['L' + c.pin]; if (!L || !L.obj || !L.obj.userData.glow) return; const k = pinState[c.pin] ? ledOk(c) : 0; const col = ARD_PARTS[L.part].col;
-      L.obj.userData.glow.material.emissive.set(k ? col : '#000000'); L.obj.userData.glow.material.emissiveIntensity = k ? 0.6 + k : 0; L.obj.userData.light.intensity = k * 0.9; });
-    const st = M.ch.map(c => `${c.pin}: ${pinState[c.pin] ? 'HIGH' : 'LOW'}`).join(' · ') + (M.btn ? ` · nút: ${readBtn() ? 'nhấn' : 'thả'}` : ''); ui.lcd(st, 'Các chân'); };
-  // ----- chạy chương trình -----
+      L.obj.userData.glow.material.emissive.set(k ? col : '#000000'); L.obj.userData.glow.material.emissiveIntensity = k ? 0.7 + k : 0; L.obj.userData.light.intensity = k*1.1; });
+    const st = M.ch.map(c => `${c.pin}: ${pinState[c.pin] ? 'HIGH' : 'LOW'}`).join(' · ') + (M.btn ? ` · nút: ${readBtn() ? 'nhấn' : 'thả'}` : ''); ui.lcd(st, 'Các chân Arduino');
+    const pp = $('#arPins', el); if (pp) pp.innerHTML = M.ch.map(c => `<span class="${pinState[c.pin] ? 'on' : ''}">D${c.pin}<b>${pinState[c.pin] ? 'HIGH' : 'LOW'}</b></span>`).join('') + (M.btn ? `<span class="${readBtn() ? 'on' : ''}">D2<b>${readBtn() ? 'HIGH' : 'LOW'}</b></span>` : ''); tree(); };
   const stopRun = () => { if (tok){ tok.halt(); tok = null; } $('#stRun', el).disabled = false; $('#stStop', el).disabled = true; pe.hl(-1); };
-  const runProg = async (rec) => { stopRun(); const {errs} = circuit(); if (errs.length){ lerr(el, 'Mạch chưa đúng: ' + errs[0].replace(/<[^>]+>/g, '')); say(el, '🔍 ' + errs.join(' ')); return false; }
-    if (!pe.get().length){ lerr(el, 'Chương trình đang trống.'); return false; } lerr(el);
-    const t = tok = mkTok(); $('#stRun', el).disabled = true; $('#stStop', el).disabled = false; M.ch.forEach(c => pinState[c.pin] = 0); render(); say(el, '⬆ Đã nạp chương trình vào Arduino.');
+  const runProg = async rec => { stopRun(); const {errs} = circuit(); if (errs.length){ lerr(el, 'Mạch chưa đúng: ' + errs[0].replace(/<[^>]+>/g, '')); say(el, '🔍 ' + errs.join(' ')); ui.tab('build'); return false; }
+    if (!pe.get().length){ lerr(el, 'Chương trình đang trống (tab 🧩 Lập trình).'); ui.tab('code'); return false; } lerr(el);
+    const t = tok = mkTok(); $('#stRun', el).disabled = true; $('#stStop', el).disabled = false; M.ch.forEach(c => pinState[c.pin] = 0); render(); say(el, '⬆ Đã nạp chương trình vào Arduino.'); ui.log('⬆ Nạp chương trình (Done uploading)', 'ok');
     const api = {hl:i => pe.hl(i), cond:async () => readBtn(), exec:async n => { if (n.op === 'set'){ pinState[n.pin] = n.v === 'HIGH' ? 1 : 0; render(); rec && rec(); await t.sleep(2); } else if (n.op === 'wait') await t.sleep(n.ms); }};
-    try { await progRun(progTree(pe.get(), blocks), api, t); if (tok === t){ say(el, 'Chương trình đã chạy xong.'); } } catch(e){ if (e !== STOP) console.warn(e); }
+    try { await progRun(progTree(pe.get(), blocks), api, t); if (tok === t) say(el, 'Chương trình đã chạy xong.'); } catch(e){ if (e !== STOP) console.warn(e); }
     if (tok === t) stopRun(); return true; };
-  $('#stRun', el).onclick = () => { try { $('.lab', el).classList.remove('pnl-open'); } catch(e){} runProg(); };
+  $('#stRun', el).onclick = () => runProg();
   $('#stStop', el).onclick = () => { stopRun(); say(el, 'Đã dừng.'); };
-  $('#arCirc', el).onclick = () => { const {errs, warn} = circuit(); say(el, errs.length ? '🔍 ' + errs.join(' ') : '✅ Mạch đã đúng! ' + warn.join(' ')); };
-  const press = v => { btnDown = v; render(); if (S3 && S3.btnCap) S3.btnCap.position.y = v ? 0.026 : 0.032; };
+  $('#arCirc', el).onclick = () => { const {errs, warn} = circuit(); say(el, errs.length ? '🔍 ' + errs.join(' ') : '✅ Mạch đã đúng! ' + warn.join(' ')); ui.log(errs.length ? `🔍 Mạch còn ${errs.length} lỗi` : '✅ Mạch đúng', errs.length ? 'bad' : 'ok'); };
+  const press = v => { btnDown = v; render(); };
   const bb = $('#arBtn', el); bb.onpointerdown = e => { e.preventDefault(); press(true); }; bb.onpointerup = bb.onpointerleave = bb.onpointercancel = () => press(false);
-  // ----- kiểm tra thử thách -----
   $('#stCheck', el).onclick = async () => {
     const ce = circuit().errs; if (ce.length){ lerr(el, 'Mạch chưa đúng: ' + ce[0].replace(/<[^>]+>/g, '')); say(el, '🔍 ' + ce.join(' ')); return; }
     if (!pe.get().length){ lerr(el, 'Chương trình đang trống.'); return; }
     const log = []; const t0 = performance.now(); const snap = () => log.push({t:performance.now() - t0, s:M.ch.map(c => pinState[c.pin] ? ledOk(c) > 0 : false)});
-    if (mid === 'button'){ say(el, '🤖 Máy kiểm tra đang thử nhấn và thả nút…'); const sched = [[400, true], [1400, false], [2200, true], [2900, false]]; const samples = [];
-      sched.forEach(([t, v]) => setTimeout(() => press(v), t)); [[300, 0], [1150, 1], [2000, 0], [2650, 1], [3300, 0]].forEach(([t, want]) => setTimeout(() => samples.push([want, pinState[13] && ledOk(M.ch[0]) ? 1 : 0]), t));
-      const p = runProg(); setTimeout(() => { stopRun(); press(false); const ok = samples.length === 5 && samples.every(([w, g]) => w === g);
-        if (ok) stemWin(el, 'ard', mid, 'Đèn sáng khi nhấn và tắt khi thả nút: em đã dùng được lệnh đọc nút bấm (digitalRead).'); else lerr(el, 'Chưa đạt: khi máy nhấn nút đèn phải sáng, thả nút đèn phải tắt. Gợi ý: Lặp mãi mãi { Nếu nút được nhấn → bật chân 13; Nếu nút không nhấn → tắt chân 13 }.'); }, 3500);
-      return p; }
-    const lim = mid === 'blink' ? 6000 : 16000; say(el, '🤖 Máy kiểm tra đang theo dõi đèn…');
+    if (mid === 'button'){ say(el, '🤖 Máy kiểm tra đang thử nhấn và thả nút…'); const samples = [];
+      [[500, true], [2000, false], [3200, true], [4400, false]].forEach(([t, v]) => setTimeout(() => press(v), t)); [[300, 0], [1500, 1], [2900, 0], [4000, 1], [5300, 0]].forEach(([t, want]) => setTimeout(() => samples.push([want, pinState[13] && ledOk(M.ch[0]) ? 1 : 0]), t));
+      runProg(); setTimeout(() => { stopRun(); press(false); const ok = samples.length === 5 && samples.every(([w, g]) => w === g);
+        if (ok) stemWin(el, 'ard', mid, 'Đèn sáng khi nhấn và tắt khi thả nút: em đã dùng được lệnh đọc nút bấm (digitalRead).'); else lerr(el, 'Chưa đạt: khi máy nhấn nút đèn phải sáng, thả nút đèn phải tắt. Gợi ý: Lặp mãi mãi { Nếu nút được nhấn → bật chân 13; Nếu nút không nhấn → tắt chân 13 }.'); }, 5600);
+      return; }
+    const lim = mid === 'blink' ? 10000 : 20000; say(el, '🤖 Máy kiểm tra đang theo dõi đèn…');
     const iv = setInterval(snap, 40); const okRun = runProg(snap); const fin = () => { clearInterval(iv); stopRun(); };
-    const judge = () => { const seq = []; log.forEach(x => { const k = x.s.map((b, i) => b ? 'RYG'[i] || 'R' : '').join(''); if (!seq.length || seq[seq.length - 1].k !== k) seq.push({k, t:x.t}); else seq[seq.length - 1].e = x.t; });
+    const judge = () => { const seq = []; log.forEach(x => { const k = x.s.map((b, i) => b ? 'RYG'[i] || 'R' : '').join(''); if (!seq.length || seq[seq.length - 1].k !== k) seq.push({k, t:x.t}); });
       seq.forEach((x, i) => x.d = (seq[i + 1] ? seq[i + 1].t : log[log.length - 1].t) - x.t);
       if (mid === 'blink'){ const tr = seq.length - 1; return tr >= 4 && seq.slice(1, -1).every(x => x.d >= 120) ? 'ok' : tr < 4 ? 'Đèn chưa nhấp nháy (bật – tắt nhiều lần). Gợi ý: Lặp mãi mãi { bật chân 13, chờ 500, tắt chân 13, chờ 500 }.' : 'Đèn đổi trạng thái quá nhanh, mắt không kịp thấy. Thêm lệnh Chờ khoảng 300–1000 ms.'; }
       const ks = seq.filter(x => x.d >= 250).map(x => x.k).join(','); return /G,Y,R/.test(ks) ? 'ok' : 'Chưa thấy đèn chạy đúng thứ tự xanh → vàng → đỏ (mỗi lúc chỉ sáng 1 đèn, mỗi đèn sáng ít nhất 0,3 giây).'; };
     const end = setInterval(() => { const r = log.length > 10 ? judge() : ''; if (r === 'ok' || performance.now() - t0 > lim){ clearInterval(end); fin(); const res = judge();
         if (res === 'ok') stemWin(el, 'ard', mid, mid === 'blink' ? 'Đèn LED nhấp nháy đều: em đã biết dùng lệnh digitalWrite và delay.' : 'Đèn giao thông chạy đúng thứ tự xanh → vàng → đỏ.'); else lerr(el, 'Chưa đạt: ' + res); } }, 250);
     const ok = await okRun; if (!ok){ clearInterval(iv); clearInterval(end); } };
-  // ----- chọn thử thách -----
   const setMs = id => { stopRun(); say(el, ''); mid = id; M = ARD_MS[id]; $$('[data-ms]', el).forEach(b => b.setAttribute('aria-pressed', String(b.dataset.ms === id)));
-    $('#stGoal', el).innerHTML = '<b>Thử thách:</b> ' + M.goal; $('#arBtn', el).hidden = !M.btn; pe.set(M.start); code(); lerr(el); $('#labResult', el).innerHTML = ''; Object.keys(pinState).forEach(k => delete pinState[k]); btnDown = false; if (S3) S3.build(); render(); };
+    $('#stGoal', el).innerHTML = '<b>Thử thách:</b> ' + M.goal; $('#arBtn', el).hidden = !M.btn; pe.set(M.start); code(); lerr(el); $('#labResult', el).innerHTML = ''; Object.keys(pinState).forEach(k => delete pinState[k]); btnDown = false; if (S3) S3.build(); render(); tree(); };
   $$('[data-ms]', el).forEach(b => b.onclick = () => setMs(b.dataset.ms));
   $('#stReset', el).onclick = () => setMs(mid);
-  mount3D(el, {target:[0, 0.02, 0.04], r:1.05, th:0, ph:0.82, rMin:0.3, rMax:2.2, label:'Bàn ráp mạch Arduino', views:[{t:'Nhìn từ trên', r:0.95, th:0, ph:0.25}]}, s3 => { S3 = s3;
-    const {THREE, scene, M:Mt, box, mesh, label, cyl, group, hitbox} = s3;
-    s3.table(1.5, 0.75);
+  mount3D(el, {studio:true, fill:true, noFit:true, bg:'#dde4ec', shadowSize:0.55, fov:32, target:[-0.05, 0.0, 0.03], r:1.2, th:0, ph:0.72, rMin:0.25, rMax:2.2, label:'Bàn ráp mạch Arduino', views:[{t:'Nhìn từ trên', target:[-0.05, 0, 0], r:1.3, th:0, ph:0.05}, {t:'Bảng mạch', target:[0.12, 0, 0], r:0.6, th:0, ph:0.7}, {t:'Arduino', target:[-0.36, 0, -0.04], r:0.45, th:0, ph:0.75}]}, s3 => { S3 = s3;
+    const {THREE, scene, M:Mt, box, mesh, label, group, hitbox, cyl} = s3;
+    STEMX.shadowGround(s3, 8, 8, '#cfd6df');
+    box(1.8, 0.04, 1.1, Mt('#e4e7eb', {roughness:0.7}), -0.05, -0.02, 0);
+    const mt = s3.screenTex(1024, 600); mt.g.fillStyle = '#2f6b4f'; mt.g.fillRect(0, 0, 1024, 600); mt.g.strokeStyle = 'rgba(220,255,235,.22)'; mt.g.lineWidth = 2; for (let x = 0; x < 1024; x += 32){ mt.g.beginPath(); mt.g.moveTo(x, 0); mt.g.lineTo(x, 600); mt.g.stroke(); } for (let y = 0; y < 600; y += 32){ mt.g.beginPath(); mt.g.moveTo(0, y); mt.g.lineTo(1024, y); mt.g.stroke(); }
+    const mat = box(1.25, 0.002, 0.72, [Mt('#2f6b4f'), Mt('#2f6b4f'), new THREE.MeshStandardMaterial({map:mt.tex, roughness:0.95}), Mt('#2f6b4f'), Mt('#2f6b4f'), Mt('#2f6b4f')], -0.05, 0.001, 0);
     // Arduino UNO
-    const ax = -0.4, az = -0.06;
-    box(0.22, 0.012, 0.16, Mt('#00878f', {roughness:.5}), ax, 0.012, az);
-    box(0.06, 0.03, 0.045, Mt('#c0c6cc', {metalness:.7, roughness:.3}), ax - 0.09, 0.032, az - 0.045); box(0.04, 0.03, 0.03, Mt('#222'), ax - 0.095, 0.03, az + 0.055);
-    box(0.05, 0.008, 0.016, Mt('#1f1f1f'), ax + 0.02, 0.022, az + 0.01);
-    const lb = label('ARDUINO UNO', 0.03, '#00606a'); lb.position.set(ax, 0.05, az + 0.02); scene.add(lb);
-    box(0.19, 0.012, 0.012, Mt('#1b1b1b'), ax + 0.01, 0.024, az - 0.07); box(0.11, 0.012, 0.012, Mt('#1b1b1b'), ax + 0.03, 0.024, az + 0.07);
-    const pinPos = {}; const mkPin = (id, x, z, txt) => { const p = box(0.009, 0.006, 0.009, Mt('#d4af37', {metalness:.8, roughness:.3}), x, 0.033, z); const hb = hitbox(0.016, 0.03, 0.016, x, 0.035, z);
-      const cv = makeCanvas(96, 64), cg = cv.getContext('2d'); cg.fillStyle = 'rgba(255,255,255,.95)'; cg.fillRect(0, 0, 96, 64); cg.fillStyle = '#0b1f3a'; cg.font = '800 40px system-ui, sans-serif'; cg.textAlign = 'center'; cg.textBaseline = 'middle'; cg.fillText(txt, 48, 34);
-      const l = new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(cv), depthTest:false})); l.scale.set(0.0135, 0.009, 1); l.renderOrder = 10; l.position.set(x, 0.05 + (txt.length > 2 ? 0.012 : 0), z); scene.add(l); pins[id] = p; pinPos[id] = [x, z];
-      s3.click(hb, () => { selPart = null; trayHL(); selPin = selPin === id ? null : id; Object.entries(pins).forEach(([k, m]) => m.material.emissive.set(k === selPin ? '#ffcc00' : '#000000')); say(el, selPin ? `Đã chọn chân ${id}. Bấm vào một điểm nối (chấm xanh) trên bảng mạch để nối dây.` : ''); }); };
+    const ax = -0.36, az = -0.04, ay = 0.008;
+    const pt = STEMX.pcbUno(s3); box(0.22, 0.004, 0.16, [Mt('#066b73'), Mt('#066b73'), new THREE.MeshStandardMaterial({map:pt.tex, roughness:0.55}), Mt('#066b73'), Mt('#066b73'), Mt('#066b73')], ax, ay, az);
+    [[-0.1, -0.07], [0.1, -0.07], [-0.1, 0.07], [0.1, 0.07]].forEach(([x, z]) => cyl(0.004, 0.004, 0.006, Mt('#d4af37', {metalness:0.8}), ax + x, 0.003, az + z));
+    box(0.05, 0.034, 0.045, Mt('#c7ccd2', {metalness:0.85, roughness:0.25}), ax - 0.105, ay + 0.019, az - 0.035); box(0.04, 0.03, 0.03, Mt('#16171a'), ax - 0.1, ay + 0.017, az + 0.05);
+    box(0.08, 0.007, 0.02, Mt('#16171a'), ax + 0.035, ay + 0.0055, az + 0.02); for (let i = 0; i < 14; i++){ box(0.0018, 0.003, 0.004, Mt('#c7ccd2', {metalness:0.8}), ax + 0.0 + i*0.0055 - 0.0, ay + 0.003, az + 0.008); box(0.0018, 0.003, 0.004, Mt('#c7ccd2', {metalness:0.8}), ax + i*0.0055, ay + 0.003, az + 0.032); }
+    box(0.008, 0.006, 0.008, Mt('#c62828'), ax - 0.07, ay + 0.005, az + 0.068); cyl(0.003, 0.003, 0.004, Mt('#111'), ax - 0.07, ay + 0.009, az + 0.068);
+    box(0.19, 0.012, 0.012, Mt('#16171a'), ax + 0.01, ay + 0.008, az - 0.07); box(0.11, 0.012, 0.012, Mt('#16171a'), ax + 0.03, ay + 0.008, az + 0.07);
+    const pins = {}, pinPos = {};
+    const numSprite = (txt, x, y, z) => { const cv = makeCanvas(96, 64), cg = cv.getContext('2d'); cg.fillStyle = 'rgba(255,255,255,.95)'; cg.fillRect(0, 0, 96, 64); cg.fillStyle = '#0b1f3a'; cg.font = '800 40px system-ui, sans-serif'; cg.textAlign = 'center'; cg.textBaseline = 'middle'; cg.fillText(txt, 48, 34);
+      const l = new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(cv), depthTest:false})); l.scale.set(0.012*(txt.length > 2 ? 1.4 : 1), 0.008, 1); l.renderOrder = 10; l.position.set(x, y, z); scene.add(l); return l; };
+    const mkPin = (id, x, z, txt) => { const p = box(0.008, 0.004, 0.008, Mt('#d4af37', {metalness:0.8, roughness:0.3}), x, ay + 0.016, z); const hb = hitbox(0.014, 0.03, 0.02, x, ay + 0.02, z);
+      numSprite(txt, x, ay + 0.04 + (txt.length > 2 ? 0.01 : 0), z); pins[id] = p; pinPos[id] = [x, z];
+      s3.click(hb, () => { selPart = null; lib(); selPin = selPin === id ? null : id; Object.entries(pins).forEach(([k, m]) => m.material.emissive.set(k === selPin ? '#ffcc00' : '#000000')); glowEnds(!!selPin);
+        say(el, selPin ? `🔌 Đã chọn chân ${id === 'GND2' ? 'GND' : id}. Bấm vào một chấm xanh trên bảng mạch để nối dây.` : ''); }); };
     ['GND', 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2].forEach((id, i) => mkPin(id, ax + 0.095 - i*0.0145, az - 0.07, String(id)));
     mkPin('5V', ax + 0.01, az + 0.07, '5V'); mkPin('GND2', ax + 0.03, az + 0.07, 'GND');
     // breadboard
-    const bx = 0.12, bz = 0.0;
-    const bt = s3.screenTex(1024, 384); bt.g.fillStyle = '#f4f4f0'; bt.g.fillRect(0, 0, 1024, 384); bt.g.fillStyle = '#9a9a96';
-    for (let i = 0; i < 40; i++) for (let j = 0; j < 12; j++){ if (j === 1 || j === 10) continue; bt.g.fillRect(14 + i*25, 14 + j*31, 7, 7); }
-    bt.g.fillStyle = '#d33'; bt.g.fillRect(0, 352, 1024, 4); bt.g.fillStyle = '#33d'; bt.g.fillRect(0, 300, 1024, 3); bt.g.fillStyle = '#ccc'; bt.g.fillRect(0, 183, 1024, 14);
-    box(0.5, 0.02, 0.19, Mt('#f4f4f0'), bx, 0.01, bz); const bpl = mesh(new THREE.PlaneGeometry(0.5, 0.19), new THREE.MeshStandardMaterial({map:bt.tex}), bx, 0.0205, bz); bpl.rotation.x = -Math.PI/2;
-    const gl = label('GND (−)', 0.016, '#2233aa'); gl.position.set(bx + 0.27, 0.04, bz + 0.075); scene.add(gl);
-    // khay linh kiện
-    const tray = {}; const trayX = {led_r:-0.5, led_y:-0.38, led_g:-0.26, r220:-0.12, r10k:0.02, btn:0.16};
-    box(0.8, 0.008, 0.12, Mt('#5b6b84'), -0.17, 0.004, 0.27);
+    const bx = 0.12, bz = 0.0, by = 0.012;
+    const bt = s3.screenTex(1600, 600), bg2 = bt.g; bg2.fillStyle = '#f7f7f4'; bg2.fillRect(0, 0, 1600, 600);
+    const row = (y, n) => { for (let i = 0; i < n; i++){ bg2.fillStyle = '#3a3a3a'; bg2.fillRect(40 + i*25, y, 9, 9); } };
+    for (let r = 0; r < 5; r++) row(110 + r*34, 61); for (let r = 0; r < 5; r++) row(320 + r*34, 61);
+    [[30, '#d32f2f'], [530, '#1565c0']].forEach(([y, c]) => { bg2.fillStyle = c; bg2.fillRect(30, y, 1540, 4); }); row(45, 61); row(70, 61); row(500, 61); row(545, 61);
+    bg2.fillStyle = '#cfcfc9'; bg2.fillRect(0, 288, 1600, 18); bg2.fillStyle = '#888'; bg2.font = '700 20px system-ui'; for (let i = 0; i < 61; i += 5) bg2.fillText(String(i + 1), 36 + i*25, 100);
+    box(0.5, 0.02, 0.19, [Mt('#eeeeea'), Mt('#eeeeea'), new THREE.MeshStandardMaterial({map:bt.tex, roughness:0.8}), Mt('#eeeeea'), Mt('#eeeeea'), Mt('#eeeeea')], bx, by - 0.002, bz);
+    
+    // linh kiện
     const mkLED = (part, parent) => { const g = group(0, 0, 0, parent); const col = ARD_PARTS[part].col;
-      const mat = new THREE.MeshStandardMaterial({color:col, transparent:true, opacity:.85, roughness:.2, emissive:'#000000'});
-      const bulb = mesh(new THREE.CylinderGeometry(0.009, 0.009, 0.014, 18), mat, 0, 0.03, 0, g); mesh(new THREE.SphereGeometry(0.009, 16, 10, 0, Math.PI*2, 0, Math.PI/2), mat, 0, 0.037, 0, g);
-      mesh(new THREE.CylinderGeometry(0.0012, 0.0012, 0.028, 6), Mt('#bbb', {metalness:.8}), -0.005, 0.012, 0, g); mesh(new THREE.CylinderGeometry(0.0012, 0.0012, 0.02, 6), Mt('#bbb', {metalness:.8}), 0.005, 0.016, 0, g);
-      const pl = new THREE.PointLight(col, 0, 0.25); pl.position.set(0, 0.05, 0); g.add(pl); g.userData = {glow:bulb, light:pl}; bulb.material = mat; return g; };
-    const mkRes = (part, parent) => { const g = group(0, 0, 0, parent); const r = mesh(new THREE.CylinderGeometry(0.005, 0.005, 0.024, 12), Mt('#d9c39a'), 0, 0.014, 0, g); r.rotation.z = Math.PI/2;
-      ARD_PARTS[part].band.forEach((c, i) => { const b = mesh(new THREE.CylinderGeometry(0.0055, 0.0055, 0.003, 12), Mt(c), -0.006 + i*0.005, 0.014, 0, g); b.rotation.z = Math.PI/2; });
-      const w = mesh(new THREE.CylinderGeometry(0.001, 0.001, 0.05, 6), Mt('#bbb', {metalness:.8}), 0, 0.012, 0, g); w.rotation.z = Math.PI/2; return g; };
-    const mkBtn = parent => { const g = group(0, 0, 0, parent); box(0.024, 0.01, 0.024, Mt('#2b2b2b'), 0, 0.022, 0, g); const cap = mesh(new THREE.CylinderGeometry(0.007, 0.007, 0.008, 16), Mt('#e53935'), 0, 0.032, 0, g); g.userData.cap = cap; return g; };
+      const mat = new THREE.MeshStandardMaterial({color:col, transparent:true, opacity:.9, roughness:.15, metalness:0, emissive:'#000000'});
+      const bulb = mesh(new THREE.CylinderGeometry(0.0085, 0.0095, 0.012, 22), mat, 0, 0.026, 0, g); mesh(new THREE.SphereGeometry(0.0085, 22, 12, 0, Math.PI*2, 0, Math.PI/2), mat, 0, 0.032, 0, g); mesh(new THREE.CylinderGeometry(0.0105, 0.0105, 0.002, 22), mat, 0, 0.0205, 0, g);
+      const legM = Mt('#c7ccd2', {metalness:0.9, roughness:0.25}); mesh(new THREE.CylinderGeometry(0.0009, 0.0009, 0.022, 6), legM, -0.0035, 0.009, 0, g); mesh(new THREE.CylinderGeometry(0.0009, 0.0009, 0.018, 6), legM, 0.0035, 0.011, 0, g);
+      const pl = new THREE.PointLight(col, 0, 0.3); pl.position.set(0, 0.045, 0); g.add(pl); g.userData = {glow:bulb, light:pl}; return g; };
+    const mkRes = (part, parent) => { const g = group(0, 0, 0, parent); const r = mesh(new THREE.CylinderGeometry(0.0042, 0.0042, 0.02, 14), Mt('#e4cfa4', {roughness:0.6}), 0, 0.012, 0, g); r.rotation.z = Math.PI/2;
+      [-0.006, -0.0025, 0.001, 0.006].forEach((x, i) => { const b = mesh(new THREE.CylinderGeometry(0.0045, 0.0045, 0.0018, 14), Mt(ARD_PARTS[part].band[i]), x, 0.012, 0, g); b.rotation.z = Math.PI/2; });
+      const lm = Mt('#c7ccd2', {metalness:0.9, roughness:0.25}); [-1, 1].forEach(s => { const a = mesh(new THREE.CylinderGeometry(0.0008, 0.0008, 0.012, 6), lm, s*0.016, 0.012, 0, g); a.rotation.z = Math.PI/2; mesh(new THREE.CylinderGeometry(0.0008, 0.0008, 0.012, 6), lm, s*0.022, 0.006, 0, g); }); return g; };
+    const mkBtn = parent => { const g = group(0, 0, 0, parent); box(0.012, 0.0035, 0.012, Mt('#2b2b2b'), 0, 0.002, 0, g); box(0.02, 0.007, 0.02, Mt('#1f1f1f'), 0, 0.007, 0, g); const cap = cyl(0.0062, 0.0062, 0.006, Mt('#e53935', {roughness:0.4}), 0, 0.0135, 0, g); g.userData.cap = cap; return g; };
     const mkPart = (part, parent) => ARD_PARTS[part].kind === 'led' ? mkLED(part, parent) : ARD_PARTS[part].kind === 'res' ? mkRes(part, parent) : mkBtn(parent);
-    const trayHL = () => Object.entries(tray).forEach(([k, o]) => { o.ring.material.color.set(k === selPart ? '#ffcc00' : '#8fa3c4'); });
-    Object.entries(trayX).forEach(([k, x]) => { const g = group(x, 0.008, 0.26); mkPart(k, g); const ring = mesh(new THREE.TorusGeometry(0.035, 0.003, 8, 28), new THREE.MeshBasicMaterial({color:'#8fa3c4'}), 0, 0.002, 0, g); ring.rotation.x = Math.PI/2;
-      const l = label(ARD_PARTS[k].n, 0.019); l.position.set(0, 0.075, 0.02); g.add(l); const hb = hitbox(0.08, 0.08, 0.08, 0, 0.03, 0, g); tray[k] = {g, ring};
-      s3.click(hb, () => { selPin = null; Object.values(pins).forEach(m => m.material.emissive.set('#000000')); selPart = selPart === k ? null : k; trayHL(); say(el, selPart ? `Đã chọn ${ARD_PARTS[k].n}. Bấm vào ô sáng trên bảng mạch để cắm.` : ''); }); });
-    // dựng bố cục theo thử thách
-    let built = [];
+    // ô cắm và điểm nối
+    let built = [], ends = {};
     const clearBuilt = () => { built.forEach(o => { if (o.parent) o.parent.remove(o); }); built = []; slots = {}; ends = {}; wires = {}; };
-    const tube = (pts, col) => { const c = new THREE.CatmullRomCurve3(pts.map(p => new THREE.Vector3(...p))); const m = new THREE.Mesh(new THREE.TubeGeometry(c, 24, 0.0022, 6, false), Mt(col, {roughness:.6})); scene.add(m); built.push(m); return m; };
-    const mkSlot = (id, kind, x, z, wantTxt) => { const g = group(x, 0.02, z); built.push(g);
-      const gh = mesh(new THREE.BoxGeometry(kind === 'res' ? 0.05 : 0.03, 0.002, 0.026), new THREE.MeshBasicMaterial({color:'#22d3ee', transparent:true, opacity:.35}), 0, 0.002, 0, g);
-      const l = label(wantTxt, 0.013, '#0e7490'); l.position.set(0, 0.05, -0.02); g.add(l);
-      const hb = hitbox(kind === 'res' ? 0.06 : 0.035, 0.06, 0.035, 0, 0.025, 0, g); slots[id] = {kind, g, gh, part:null, obj:null, flip:false};
+    const tube = (pts, col, plugs = false) => { const g = new THREE.Group(); scene.add(g); built.push(g); const c = new THREE.CatmullRomCurve3(pts.map(p => new THREE.Vector3(...p)));
+      g.add(new THREE.Mesh(new THREE.TubeGeometry(c, 30, 0.0021, 8, false), Mt(col, {roughness:0.55})));
+      if (plugs) [pts[0], pts[pts.length - 1]].forEach(p => { const pg = new THREE.Mesh(new THREE.BoxGeometry(0.0045, 0.012, 0.0045), Mt('#1a1a1a')); pg.position.set(p[0], p[1] + 0.006, p[2]); g.add(pg); });
+      s3.shadows(g); return g; };
+    const pulse = []; const glowEnds = on => Object.values(ends).forEach(e => e.dot.material.color.set(on ? '#22c55e' : '#16a34a'));
+    const mkSlot = (id, kind, x, z, wantTxt) => { const g = group(x, by + 0.008, z); built.push(g);
+      const gh = mesh(new THREE.BoxGeometry(kind === 'res' ? 0.05 : 0.026, 0.002, 0.024), new THREE.MeshBasicMaterial({color:'#22d3ee', transparent:true, opacity:.6, depthWrite:false}), 0, 0.001, 0, g); gh.userData.noShadow = true; pulse.push(gh);
+      const l = label(wantTxt, 0.016, '#0e7490'); l.position.set(0, 0.045, -0.018); g.add(l);
+      const hb = hitbox(kind === 'res' ? 0.06 : 0.032, 0.05, 0.032, 0, 0.02, 0, g); slots[id] = {kind, g, gh, l, part:null, obj:null, flip:false};
       s3.click(hb, () => { const s = slots[id];
-        if (selPart){ if (s.obj) g.remove(s.obj); s.part = selPart; s.obj = mkPart(selPart, g); s.flip = ARD_PARTS[selPart].kind === 'led' ? Math.random() < 0.5 : false; if (s.flip) s.obj.rotation.y = Math.PI; gh.visible = false; l.visible = false;
-          say(el, `Đã cắm ${ARD_PARTS[selPart].n}.${ARD_PARTS[selPart].kind === 'led' ? ' Chân dài (+) của LED là chân bên trái khi nhìn từ phía em; bấm vào LED để đảo chiều nếu cần.' : ''}`); selPart = null; trayHL(); render(); return; }
+        if (selPart){ place(id, selPart); return; }
         if (s.part === 'btn'){ press(true); setTimeout(() => press(false), 600); return; }
-        if (s.part && ARD_PARTS[s.part].kind === 'led'){ s.flip = !s.flip; s.obj.rotation.y = s.flip ? Math.PI : 0; say(el, s.flip ? 'LED đang cắm: chân dài (+) quay về phía GND (ngược).' : 'LED đang cắm: chân dài (+) quay về phía điện trở (đúng chiều).'); render(); return; }
+        if (s.part && ARD_PARTS[s.part].kind === 'led'){ s.flip = !s.flip; s.obj.rotation.y = s.flip ? Math.PI : 0; say(el, s.flip ? '↔ LED đang cắm ngược: chân dài (+) quay về phía GND.' : '↔ LED đang cắm đúng chiều: chân dài (+) quay về phía điện trở.'); render(); return; }
         if (s.part){ g.remove(s.obj); s.obj = null; s.part = null; gh.visible = true; l.visible = true; say(el, 'Đã tháo linh kiện.'); render(); return; }
-        say(el, 'Chọn một linh kiện trên khay trước, rồi bấm vào ô này.'); }); };
-    const mkEnd = (id, x, z, txt) => { const g = group(x, 0.024, z); built.push(g); const dot = mesh(new THREE.SphereGeometry(0.006, 12, 8), new THREE.MeshBasicMaterial({color:'#16a34a'}), 0, 0.004, 0, g);
-      const l = label(txt, 0.013, '#166534'); l.position.set(0, 0.03, 0.012); g.add(l); const hb = hitbox(0.03, 0.04, 0.03, 0, 0.01, 0, g); ends[id] = {x, z, g};
-      s3.click(hb, () => { if (wires[id]){ scene.remove(wires[id].m); delete wires[id]; say(el, 'Đã gỡ dây.'); render(); return; }
-        if (!selPin){ say(el, 'Bấm một chân trên Arduino trước, rồi bấm vào điểm nối này.'); return; }
+        say(el, 'Chọn một linh kiện trong thư viện bên phải trước.'); }); };
+    const place = (id, part) => { const s = slots[id]; if (s.obj) s.g.remove(s.obj); s.part = part; s.obj = mkPart(part, s.g); s3.shadows(s.obj); s.flip = ARD_PARTS[part].kind === 'led' ? Math.random() < 0.5 : false; if (s.flip) s.obj.rotation.y = Math.PI;
+      s.gh.visible = false; s.l.visible = false; selPart = null; lib(); ui.log(`🔧 Cắm ${ARD_PARTS[part].n}`, 'ok');
+      say(el, `Đã cắm ${ARD_PARTS[part].n}.${ARD_PARTS[part].kind === 'led' ? ' Bấm vào LED để đảo chiều nếu chân dài (+) chưa quay về phía điện trở.' : ''}`); render(); };
+    const mkEnd = (id, x, z, txt) => { const g = group(x, by + 0.009, z); built.push(g); const dot = mesh(new THREE.SphereGeometry(0.0055, 14, 10), new THREE.MeshBasicMaterial({color:'#16a34a'}), 0, 0.003, 0, g); dot.userData.noShadow = true;
+      const l = label(txt, 0.011, '#166534'); l.position.set(0, 0.03, 0.012); g.add(l); const hb = hitbox(0.024, 0.04, 0.024, 0, 0.01, 0, g); ends[id] = {x, z, g, dot};
+      s3.click(hb, () => { if (wires[id]){ scene.remove(wires[id].m); delete wires[id]; dot.visible = true; say(el, 'Đã gỡ dây.'); render(); return; }
+        if (!selPin){ say(el, 'Bấm một chân vàng trên Arduino trước, rồi bấm vào chấm xanh này.'); return; }
         const pid = selPin === 'GND2' ? 'GND' : selPin, [px, pz] = pinPos[selPin], col = pid === 'GND' ? '#1a1a1a' : pid === '5V' ? '#e67e22' : ['#d32f2f', '#f9a825', '#2e7d32', '#1565c0'][(+pid) % 4];
-        const m = tube([[px, 0.036, pz], [px, 0.09, pz], [(px + x)/2, 0.13, (pz + z)/2], [x, 0.08, z], [x, 0.026, z]], col); wires[id] = {pin:isNaN(+pid) ? pid : +pid, m};
-        selPin = null; Object.values(pins).forEach(mm => mm.material.emissive.set('#000000')); say(el, `Đã nối dây từ chân ${pid}.`); render(); }); };
-    s3.build = () => { clearBuilt();
-      M.ch.forEach(c => { const z = bz + c.z; mkEnd('W' + c.pin, bx - 0.2, z, 'Dây tín hiệu'); mkSlot('R' + c.pin, 'res', bx - 0.12, z, 'Điện trở'); mkSlot('L' + c.pin, 'led', bx - 0.04, z, ARD_PARTS[c.want].n);
-        tube([[bx - 0.025, 0.022, z], [bx, 0.03, z], [bx + 0.02, 0.03, bz + 0.07], [bx + 0.02, 0.022, bz + 0.078]], '#333'); });
+        const m = tube([[px, ay + 0.02, pz], [px, ay + 0.06, pz], [(px + x)/2, 0.12, (pz + z)/2], [x, 0.07, z], [x, by + 0.014, z]], col, true); wires[id] = {pin:isNaN(+pid) ? pid : +pid, m}; dot.visible = false;
+        selPin = null; Object.values(pins).forEach(mm => mm.material.emissive.set('#000000')); glowEnds(false); say(el, `🔌 Đã nối dây từ chân ${pid}.`); ui.log(`🔌 Nối dây chân ${pid}`, 'ok'); render(); }); };
+    s3.build = () => { clearBuilt(); pulse.length = 0;
+      M.ch.forEach(c => { const z = bz + c.z; mkEnd('W' + c.pin, bx - 0.2, z, 'Dây tín hiệu'); mkSlot('R' + c.pin, 'res', bx - 0.125, z, 'Điện trở'); mkSlot('L' + c.pin, 'led', bx - 0.05, z, ARD_PARTS[c.want].n);
+        tube([[bx - 0.0465, by + 0.008, z], [bx - 0.02, by + 0.02, z], [bx + 0.01, by + 0.02, bz + 0.07], [bx + 0.02, by + 0.008, bz + 0.078]], '#333'); });
       mkEnd('G', bx + 0.2, bz + 0.078, 'Thanh GND');
-      if (M.btn){ const z = bz + M.btn.z; mkEnd('WB', bx + 0.03, z, 'Dây chân 2'); mkSlot('B', 'btn', bx + 0.1, z, 'Nút bấm'); mkEnd('V', bx + 0.2, z - 0.035, 'Dây 5V'); mkSlot('RB', 'res', bx + 0.07, z + 0.035, 'Điện trở kéo xuống');
-        tube([[bx + 0.115, 0.022, z], [bx + 0.16, 0.03, z - 0.02], [bx + 0.2, 0.022, z - 0.035]], '#e67e22'); tube([[bx + 0.095, 0.022, z + 0.035], [bx + 0.11, 0.03, bz + 0.07], [bx + 0.12, 0.022, bz + 0.078]], '#333'); }
+      if (M.btn){ const z = bz + M.btn.z; mkEnd('WB', bx + 0.03, z, 'Dây chân 2'); mkSlot('B', 'btn', bx + 0.1, z, 'Nút bấm'); mkEnd('V', bx + 0.2, z - 0.03, 'Dây 5V'); mkSlot('RB', 'res', bx + 0.07, z + 0.034, 'Điện trở kéo xuống');
+        tube([[bx + 0.11, by + 0.008, z], [bx + 0.16, by + 0.02, z - 0.02], [bx + 0.2, by + 0.008, z - 0.03]], '#e67e22'); tube([[bx + 0.095, by + 0.008, z + 0.034], [bx + 0.11, by + 0.02, bz + 0.07], [bx + 0.12, by + 0.008, bz + 0.078]], '#333'); }
       render(); };
+    s3.pickPart = k => { selPin = null; Object.values(pins).forEach(m => m.material.emissive.set('#000000'));
+      const kind = ARD_PARTS[k].kind, order = Object.keys(slots).filter(id => slots[id].kind === kind && !slots[id].part);
+      const lp = 'L' + (M.ch.find(c => c.want === k) || {}).pin; const best = kind === 'led' ? (order.find(id => id === lp) || order[0]) : kind === 'res' ? (order.find(id => (k === 'r10k') === (id === 'RB')) || order[0]) : order[0];
+      if (!best){ selPart = selPart === k ? null : k; lib(); say(el, selPart ? `Đã chọn ${ARD_PARTS[k].n}. Bấm vào một ô trên bảng mạch để thay linh kiện ở ô đó.` : ''); return; }
+      place(best, k); };
     s3.build();
-    s3.frame(() => { const b = slots.B; if (b && b.obj && b.obj.userData.cap) b.obj.userData.cap.position.y = btnDown ? 0.026 : 0.032; });
+    s3.frame((dt, t) => { const b = slots.B; if (b && b.obj && b.obj.userData.cap) b.obj.userData.cap.position.y = btnDown ? 0.0115 : 0.0135; pulse.forEach(p => { if (p.visible) p.material.opacity = 0.3 + 0.25*Math.sin(t*4); }); });
+    s3.shadows();
+    Object.keys(ARD_PARTS).forEach(k => { const g = mkPart(k, scene); g.position.set(5, -5, 5); if (ARD_PARTS[k].kind === 'res') g.scale.setScalar(1.3); thumbs[k] = s3.snap(g); scene.remove(g); }); lib();
   });
-  setMs('blink');
+  setMs('blink'); lib();
 }
-
-/* ---------- 2. XE ROBOT ---------- */
-const CAR_PARTS = {motor:{n:'Động cơ giảm tốc', info:'Động cơ DC giảm tốc biến điện năng thành cơ năng làm quay bánh xe.'}, wheel:{n:'Bánh xe', info:'Bánh xe gắn vào trục động cơ.'},
-  battery:{n:'Hộp pin', info:'Hộp pin 2 viên 18650 cung cấp điện cho cả xe (khoảng 7,4 V).'}, uno:{n:'Arduino', info:'Arduino là "bộ não", chạy chương trình em viết.'},
-  driver:{n:'Mạch L298N', info:'Mạch điều khiển động cơ L298N giúp Arduino đổi chiều quay và tốc độ của động cơ.'}, sonar:{n:'Cảm biến siêu âm', info:'Cảm biến HC-SR04 phát sóng siêu âm và đo thời gian dội lại để biết khoảng cách tới vật cản.'}};
-const CAR_SLOTS = [['mL', 'motor', -0.03, 0.006, -0.05], ['mR', 'motor', -0.03, 0.006, 0.05], ['wL', 'wheel', -0.03, 0.03, -0.072], ['wR', 'wheel', -0.03, 0.03, 0.072], ['bat', 'battery', -0.05, 0.05, 0], ['uno', 'uno', 0.015, 0.05, 0], ['drv', 'driver', -0.055, 0.075, 0], ['son', 'sonar', 0.085, 0.05, 0]];
+/* ---------- 2. XE ROBOT (studio) ---------- */
+const CAR_PARTS = {motor:{n:'Động cơ giảm tốc', icon:'⚙️', info:'Động cơ DC giảm tốc biến điện năng thành cơ năng làm quay bánh xe.', need:2},
+  wheel:{n:'Bánh xe', icon:'🛞', info:'Bánh xe gắn vào trục động cơ, lốp cao su giúp bám mặt sân.', need:2},
+  battery:{n:'Hộp pin 2×18650', icon:'🔋', info:'Hộp pin 2 viên 18650 cung cấp điện cho cả xe (khoảng 7,4 V).', need:1},
+  uno:{n:'Bo mạch Arduino', icon:'🧠', info:'Arduino là "bộ não", chạy chương trình em viết.', need:1},
+  driver:{n:'Mạch L298N', icon:'🟥', info:'Mạch điều khiển động cơ L298N giúp Arduino đổi chiều quay và tốc độ của động cơ.', need:1},
+  sonar:{n:'Cảm biến siêu âm', icon:'📡', info:'Cảm biến HC-SR04 phát sóng siêu âm và đo thời gian dội lại để biết khoảng cách tới vật cản.', need:1}};
+const CAR_SLOTS = [['mL', 'motor', -0.045, 0.026, -0.036], ['mR', 'motor', -0.045, 0.026, 0.036], ['wL', 'wheel', -0.045, 0.032, -0.074], ['wR', 'wheel', -0.045, 0.032, 0.074],
+  ['bat', 'battery', -0.035, 0.05, 0], ['uno', 'uno', 0.04, 0.046, 0], ['drv', 'driver', -0.035, 0.078, 0], ['son', 'sonar', 0.108, 0.05, 0]];
 const CAR_MS = {
-  goal:{goal:'Lắp đủ các bộ phận của xe, rồi lập trình cho xe đi tới <b>lá cờ</b>.', start:{c:0, r:3, d:0}, flag:[4, 1], obs:[]},
-  avoid:{goal:'Có một hàng thùng chắn đường. Lập trình cho xe <b>đi vòng</b> qua vật cản để tới <b>lá cờ</b> mà không đâm vào thùng.', start:{c:0, r:2, d:0}, flag:[5, 2], obs:[[2, 1], [2, 2], [2, 3]]},
-  sensor:{goal:'Dùng <b>cảm biến siêu âm</b>: lặp mãi mãi { nếu phía trước có vật cản thì rẽ phải, nếu không thì tiến 1 ô }. Xe phải tự tìm đường tới <b>lá cờ</b>.', start:{c:0, r:0, d:0}, flag:[1, 2], obs:[[4, 0], [3, 3]], needSensor:true}
+  goal:{goal:'Lắp đủ 8 bộ phận của xe, rồi lập trình cho xe đi tới <b>lá cờ</b>.', start:{c:0, r:3, d:0}, flag:[4, 1], obs:[]},
+  avoid:{goal:'Một hàng thùng chắn đường. Lập trình cho xe <b>đi vòng</b> qua vật cản để tới <b>lá cờ</b>, không đâm vào thùng.', start:{c:0, r:2, d:0}, flag:[5, 2], obs:[[2, 1], [2, 2], [2, 3]]},
+  sensor:{goal:'Dùng <b>cảm biến siêu âm</b>: lặp mãi mãi { nếu phía trước có vật cản thì rẽ phải, nếu không thì tiến 1 ô }. Xe tự tìm đường tới <b>lá cờ</b>.', start:{c:0, r:0, d:0}, flag:[1, 2], obs:[[4, 0], [3, 3]], needSensor:true}
 };
-function stemCar(el, ctx){
+function stemCar(el){
   let mid = 'goal', M = CAR_MS[mid];
   const blocks = [
     {op:'fwd', cat:'mv', label:'⬆ Tiến {n} ô', chip:'⬆ Tiến … ô', params:[{k:'n', def:1, min:1, max:10}]},
@@ -3528,125 +3696,140 @@ function stemCar(el, ctx){
     {op:'if', cat:'cond', label:'📡 Nếu {c}', chip:'📡 Nếu có vật cản', params:[{k:'c', def:'obs', opts:[['obs', 'phía trước có vật cản']]}], open:true},
     {op:'ifnot', cat:'cond', label:'📡 Nếu {c}', chip:'📡 Nếu không có vật cản', params:[{k:'c', def:'obs', opts:[['obs', 'phía trước KHÔNG có vật cản']]}], open:true},
     BLK_CTRL.end];
-  const ui = stemShell(el, 'car', null, {how:['Lắp xe: bấm một bộ phận trên khay bên trái, rồi bấm vào ô sáng trên khung xe. Lắp động cơ trước rồi mới lắp bánh.', 'Lắp đủ 8 bộ phận thì xe tự nối dây và lăn ra sân tập.', 'Ghép khối lệnh ở bảng 🧩 Lập trình rồi bấm ▶ Chạy. Có thể lái thử bằng các nút điều khiển bên dưới.', 'Mỗi ô trên sân dài 20 cm. Xe đâm vào thùng hoặc ra khỏi sân là phải làm lại.'],
-    tips:'Mẹo: hướng của xe là hướng mũi tên vàng. Rẽ trái/phải chỉ quay xe tại chỗ, không đi tới.',
-    extraCtl:`<div class="row car-pad" style="gap:6px;flex:0 0 auto"><button type="button" class="btn ghost small" data-man="left">↰</button><button type="button" class="btn ghost small" data-man="fwd">⬆</button><button type="button" class="btn ghost small" data-man="back">⬇</button><button type="button" class="btn ghost small" data-man="right">↱</button></div>`});
-  let S3 = null, tok = null, car = {c:0, r:0, d:0}, crashed = false, won = false, built = {}, usedSensor = false;
-  const pe = progEditor($('#stPE', el), blocks, [], () => code());
-  const stmt = t => ({fwd:`tien(${t.n});`, back:`lui(${t.n});`, left:'reTrai();', right:'rePhai();', cond:`${t.neg ? '' : ''}khoangCach() ${t.neg ? '>=' : '<'} 20`})[t.op] || '';
-  const code = () => { const tree = progTree(pe.get(), blocks);
-    $('#stCode', el).textContent = ['// Hàm tien(), lui(), reTrai(), rePhai() điều khiển 2 động cơ qua mạch L298N', '// khoangCach() đọc cảm biến siêu âm HC-SR04 (đơn vị cm)', 'void setup() {', '  khoiDongXe();', ...genCode(tree, stmt), '}', '', 'void loop() {', '}'].join('\n'); };
-  const DIRS = [[1, 0], [0, 1], [-1, 0], [0, -1]]; // đông, nam, tây, bắc (c, r)
-  const blockedAt = (c, r) => c < 0 || r < 0 || c > 5 || r > 3 || M.obs.some(([a, b]) => a === c && b === r);
+  let S3 = null, tok = null, car = {c:0, r:0, d:0}, crashed = false, won = false, built = {}, usedSensor = false, thumbs = {};
   const assembled = () => CAR_SLOTS.every(([id]) => built[id]);
+  const ui = stemStudio(el, 'car', {how:['Tab <b>🔧 Lắp ráp</b>: bấm từng linh kiện trong thư viện bên phải, linh kiện sẽ tự gắn vào khung xe. Lắp động cơ trước rồi mới gắn bánh.', 'Lắp đủ 8 bộ phận thì xe tự nối dây và sẵn sàng chạy trên sân.', 'Tab <b>🧩 Lập trình</b>: ghép các khối lệnh rồi bấm <b>▶ Chạy</b>. Dòng lệnh đang chạy sẽ sáng lên.', 'Tab <b>▶ Mô phỏng</b>: lái thử bằng tay, xem nhật ký cảm biến. Mỗi ô trên sân dài 20 cm.'],
+    buildTip:'Mẹo: kéo để xoay, lăn chuột để phóng to. Bấm vào bộ phận đã lắp trên xe để xem công dụng.', codeTip:'Mẹo: hướng của xe là hướng mũi tên vàng. Rẽ trái/phải chỉ quay tại chỗ.',
+    simCtl:`<div class="car-pad"><span></span><button type="button" class="btn ghost" data-man="fwd" aria-label="Tiến">⬆</button><span></span><button type="button" class="btn ghost" data-man="left" aria-label="Rẽ trái">↰</button><button type="button" class="btn ghost" data-man="back" aria-label="Lùi">⬇</button><button type="button" class="btn ghost" data-man="right" aria-label="Rẽ phải">↱</button></div><p class="std-tip">Lái thử từng bước bằng các nút trên (hoặc phím mũi tên).</p>`,
+    onTab:k => { if (!S3) return; if (k === 'build' && !assembled()) S3.glide([tx(car.c), 0.04, tz(car.r)], 0.62, -0.55, 0.95); else S3.glide([0, 0, 0.03], 2.15, 0.0, 0.85); }});
+  const libItems = () => Object.entries(CAR_PARTS).map(([k, p]) => { const have = CAR_SLOTS.filter(([id, kk]) => kk === k && built[id]).length; return {id:k, n:p.n, icon:p.icon, img:thumbs[k], sub:have >= p.need ? '✓ Đã lắp' : `Cần ${p.need - have}`, off:have >= p.need, info:p.info}; });
+  const refresh = () => { ui.lib(libItems(), pick); ui.tree([{n:'Khung xe nhôm', ok:true, tag:'Có sẵn'}, ...CAR_SLOTS.map(([id, k]) => ({n:CAR_PARTS[k].n + ({mL:' trái', mR:' phải', wL:' trái', wR:' phải'}[id] || ''), ok:!!built[id], tag:{mL:'M1', mR:'M2', son:'D7-D8'}[id] || ''}))]); st(); };
+  const pe = progEditor($('#stPE', el), blocks, [], () => code());
+  const stmt = t => ({fwd:`tien(${t.n});`, back:`lui(${t.n});`, left:'reTrai();', right:'rePhai();', cond:`khoangCach() ${t.neg ? '>=' : '<'} 20`})[t.op] || '';
+  const code = () => { const tree = progTree(pe.get(), blocks);
+    $('#stCode', el).textContent = ['// tien(), lui(), reTrai(), rePhai(): điều khiển 2 động cơ qua mạch L298N', '// khoangCach(): đọc cảm biến siêu âm HC-SR04 (cm)', 'void setup() {', '  khoiDongXe();', ...genCode(tree, stmt), '}', '', 'void loop() {', '}'].join('\n'); };
+  const DIRS = [[1, 0], [0, 1], [-1, 0], [0, -1]];
+  const blockedAt = (c, r) => c < 0 || r < 0 || c > 5 || r > 3 || M.obs.some(([a, b]) => a === c && b === r);
   const st = () => ui.lcd(assembled() ? `Ô (${car.c + 1}, ${car.r + 1}) · hướng ${['Đông', 'Nam', 'Tây', 'Bắc'][car.d]}` : `Đã lắp ${Object.keys(built).length}/8 bộ phận`, assembled() ? 'Vị trí xe' : 'Lắp ráp');
   const stopRun = () => { if (tok){ tok.halt(); tok = null; } $('#stRun', el).disabled = false; $('#stStop', el).disabled = true; pe.hl(-1); };
   const anim = (dur, f) => new Promise((res, rej) => { const t0 = performance.now(), my = tok; const step = () => { if (my && my.stop) return rej(STOP); const k = Math.min(1, (performance.now() - t0)/dur); f(k); if (k < 1) requestAnimationFrame(step); else res(); }; requestAnimationFrame(step); });
   const move = async dir => { const [dc, dr] = DIRS[car.d]; const nc = car.c + dc*dir, nr = car.r + dr*dir;
-    if (blockedAt(nc, nr)){ crashed = true; await anim(300, k => S3 && S3.place(car.c + dc*dir*0.3*Math.sin(k*Math.PI), car.r + dr*dir*0.3*Math.sin(k*Math.PI), car.d)); say(el, nc < 0 || nr < 0 || nc > 5 || nr > 3 ? '💥 Xe chạy ra khỏi sân!' : '💥 Xe đâm vào thùng!'); throw STOP; }
-    const c0 = car.c, r0 = car.r; await anim(550, k => S3 && S3.place(c0 + dc*dir*k, r0 + dr*dir*k, car.d, k*dir)); car.c = nc; car.r = nr; st();
-    if (car.c === M.flag[0] && car.r === M.flag[1]){ won = true; say(el, '🏁 Xe đã tới lá cờ!'); throw STOP; } };
+    if (blockedAt(nc, nr)){ crashed = true; await anim(320, k => S3 && S3.place(car.c + dc*dir*0.28*Math.sin(k*Math.PI), car.r + dr*dir*0.28*Math.sin(k*Math.PI), car.d)); const m = nc < 0 || nr < 0 || nc > 5 || nr > 3 ? '💥 Xe chạm tường sân!' : '💥 Xe đâm vào thùng!'; say(el, m); ui.log(m, 'bad'); throw STOP; }
+    const c0 = car.c, r0 = car.r; await anim(560, k => S3 && S3.place(c0 + dc*dir*k, r0 + dr*dir*k, car.d, dir*k)); car.c = nc; car.r = nr; st();
+    if (car.c === M.flag[0] && car.r === M.flag[1]){ won = true; say(el, '🏁 Xe đã tới lá cờ!'); ui.log('🏁 Tới đích', 'ok'); throw STOP; } };
   const turn = async s => { const d0 = car.d; await anim(450, k => S3 && S3.place(car.c, car.r, d0 + s*k)); car.d = (car.d + s + 4) % 4; st(); };
-  const sense = () => { const [dc, dr] = DIRS[car.d]; const o = blockedAt(car.c + dc, car.r + dr); usedSensor = true; if (S3) S3.beam(o); return o; };
+  const sense = () => { const [dc, dr] = DIRS[car.d]; const o = blockedAt(car.c + dc, car.r + dr); usedSensor = true; if (S3) S3.beam(o); ui.log(`📡 Cảm biến: ${o ? 'có vật cản < 20 cm' : 'đường trống'}`); return o; };
   const exec = async n => { if (n.op === 'fwd') for (let k = 0; k < n.n; k++) await move(1); else if (n.op === 'back') for (let k = 0; k < n.n; k++) await move(-1); else if (n.op === 'left') await turn(-1); else if (n.op === 'right') await turn(1); };
   const resetCar = () => { car = {...M.start}; crashed = false; won = false; usedSensor = false; if (S3) S3.place(car.c, car.r, car.d); st(); };
-  const runProg = async () => { stopRun(); if (!assembled()){ lerr(el, 'Em lắp đủ 8 bộ phận của xe trước đã.'); return; } if (!pe.get().length){ lerr(el, 'Chương trình đang trống.'); return; } lerr(el);
-    resetCar(); const t = tok = mkTok(); $('#stRun', el).disabled = true; $('#stStop', el).disabled = false; let steps = 0;
+  const runProg = async () => { stopRun(); if (!assembled()){ lerr(el, 'Em lắp đủ 8 bộ phận của xe trước đã (tab 🔧 Lắp ráp).'); ui.tab('build'); return; } if (!pe.get().length){ lerr(el, 'Chương trình đang trống (tab 🧩 Lập trình).'); ui.tab('code'); return; } lerr(el);
+    resetCar(); const t = tok = mkTok(); $('#stRun', el).disabled = true; $('#stStop', el).disabled = false; let steps = 0; ui.log('▶ Chạy chương trình');
     const api = {hl:i => pe.hl(i), cond:async () => { await t.sleep(150); return sense(); }, exec:async n => { if (++steps > 200) throw STOP; await exec(n); }};
     try { await progRun(progTree(pe.get(), blocks), api, t); } catch(e){ if (e !== STOP) console.warn(e); }
     if (tok === t) stopRun();
     if (won){ if (M.needSensor && !usedSensor) lerr(el, 'Xe đã tới đích, nhưng thử thách này yêu cầu dùng khối 📡 cảm biến vật cản.'); else stemWin(el, 'car', mid, M.needSensor ? 'Xe đã tự tìm đường nhờ cảm biến siêu âm, giống robot hút bụi thật!' : 'Xe đã về đích an toàn.'); }
     else if (!crashed) say(el, 'Xe dừng lại nhưng chưa tới lá cờ. Em sửa chương trình rồi chạy lại nhé.'); };
-  $('#stRun', el).onclick = () => { try { $('.lab', el).classList.remove('pnl-open'); } catch(e){} runProg(); };
-  $('#stCheck', el).onclick = () => { try { $('.lab', el).classList.remove('pnl-open'); } catch(e){} runProg(); };
+  $('#stRun', el).onclick = runProg; $('#stCheck', el).onclick = runProg;
   $('#stStop', el).onclick = () => { stopRun(); say(el, 'Đã dừng xe.'); };
-  $$('[data-man]', el).forEach(b => b.onclick = async () => { if (!assembled()) return say(el, 'Lắp xong xe rồi mới lái được.'); if (tok) return; tok = mkTok(); const t = tok; crashed = false;
-    try { await exec({op:b.dataset.man, n:1}); } catch(e){} if (tok === t) tok = null; if (crashed) setTimeout(resetCar, 600); });
+  const manual = async op => { if (!assembled()) return say(el, 'Lắp xong xe rồi mới lái được.'); if (tok) return; tok = mkTok(); const t = tok; crashed = false;
+    try { await exec({op, n:1}); } catch(e){} if (tok === t) tok = null; if (crashed) setTimeout(resetCar, 600); };
+  $$('[data-man]', el).forEach(b => b.onclick = () => manual(b.dataset.man));
+  const kd = e => { if (!document.body.contains(el)) return document.removeEventListener('keydown', kd); if (/INPUT|SELECT|TEXTAREA/.test((document.activeElement || {}).tagName || '')) return;
+    const m = {ArrowUp:'fwd', ArrowDown:'back', ArrowLeft:'left', ArrowRight:'right'}[e.key]; if (m && el.dataset.tab === 'sim'){ e.preventDefault(); manual(m); } };
+  document.addEventListener('keydown', kd);
   const setMs = id => { stopRun(); say(el, ''); mid = id; M = CAR_MS[id]; $$('[data-ms]', el).forEach(b => b.setAttribute('aria-pressed', String(b.dataset.ms === id))); $('#stGoal', el).innerHTML = '<b>Thử thách:</b> ' + M.goal; pe.set([]); code(); lerr(el); $('#labResult', el).innerHTML = ''; if (S3) S3.arena(); resetCar(); };
   $$('[data-ms]', el).forEach(b => b.onclick = () => setMs(b.dataset.ms));
   $('#stReset', el).onclick = () => { stopRun(); resetCar(); };
-  const T = 0.2, X0 = -0.45, Z0 = -0.3; const tx = c => X0 + c*T, tz = r => Z0 + r*T;
-  mount3D(el, {target:[0.05, 0.02, 0.05], r:1.7, th:0.15, ph:0.95, rMin:0.3, rMax:3, label:'Sân tập xe robot', views:[{t:'Nhìn từ trên', r:1.6, th:0, ph:0.2}, {t:'Bàn lắp ráp', r:0.55, th:-0.6, ph:0.95}]}, s3 => { S3 = s3;
-    const {THREE, scene, M:Mt, box, mesh, label, group, hitbox, cyl} = s3;
-    s3.table(2.0, 1.25, 0, 0.05);
-    // sân 6 × 4 ô
-    const ft = s3.screenTex(1200, 800); ft.g.fillStyle = '#e8eef5'; ft.g.fillRect(0, 0, 1200, 800); ft.g.strokeStyle = '#9fb0c8'; ft.g.lineWidth = 4;
+  let pick = () => {};
+  const T = 0.2, X0 = -0.5, Z0 = -0.3; const tx = c => X0 + c*T, tz = r => Z0 + r*T;
+  mount3D(el, {studio:true, fill:true, noFit:true, bg:'#dde4ec', shadowSize:0.9, fov:34, target:[tx(CAR_MS.goal.start.c), 0.04, tz(CAR_MS.goal.start.r)], r:1.05, th:-0.6, ph:0.92, rMin:0.25, rMax:3, label:'Sân tập xe robot', views:[{t:'Toàn sân', target:[0, 0, 0.03], r:2.15, th:0, ph:0.85}, {t:'Nhìn từ trên', target:[0, 0, 0], r:2.1, th:0, ph:0.05}]}, s3 => { S3 = s3;
+    const {THREE, scene, M:Mt, box, mesh, label, group, cyl} = s3;
+    STEMX.shadowGround(s3, 8, 8, '#cfd6df');
+    // sân 6 × 4 ô, tường bao xanh
+    const ft = s3.screenTex(1200, 800); ft.g.fillStyle = '#bfe0f5'; ft.g.fillRect(0, 0, 1200, 800); ft.g.strokeStyle = '#5aa6d6'; ft.g.lineWidth = 6;
     for (let i = 0; i <= 6; i++){ ft.g.beginPath(); ft.g.moveTo(i*200, 0); ft.g.lineTo(i*200, 800); ft.g.stroke(); } for (let j = 0; j <= 4; j++){ ft.g.beginPath(); ft.g.moveTo(0, j*200); ft.g.lineTo(1200, j*200); ft.g.stroke(); }
-    const fl = mesh(new THREE.PlaneGeometry(1.2, 0.8), new THREE.MeshStandardMaterial({map:ft.tex}), X0 - T/2 + 0.6, 0.001, Z0 - T/2 + 0.4); fl.rotation.x = -Math.PI/2;
+    ft.g.fillStyle = 'rgba(30,90,150,.55)'; ft.g.font = '700 28px system-ui'; for (let i = 0; i < 6; i++) for (let j = 0; j < 4; j++) ft.g.fillText(`${i + 1},${j + 1}`, i*200 + 12, j*200 + 34);
+    const cx = X0 - T/2 + 0.6, cz = Z0 - T/2 + 0.4;
+    const fl = mesh(new THREE.PlaneGeometry(1.2, 0.8), new THREE.MeshStandardMaterial({map:ft.tex, roughness:0.9}), cx, 0.001, cz); fl.rotation.x = -Math.PI/2; fl.receiveShadow = true;
+    const wallM = Mt('#35c9ef', {roughness:0.5}); [[cx, cz - 0.4 - 0.0125, 1.25, 0.025], [cx, cz + 0.4 + 0.0125, 1.25, 0.025], [cx - 0.6 - 0.0125, cz, 0.025, 0.85], [cx + 0.6 + 0.0125, cz, 0.025, 0.85]].forEach(([x, z, w, d]) => box(w, 0.04, d, wallM, x, 0.02, z));
     let arenaObjs = [];
-    s3.arena = () => { arenaObjs.forEach(o => scene.remove(o)); arenaObjs = [];
-      M.obs.forEach(([c, r]) => { const b = box(0.14, 0.1, 0.14, Mt('#c58b4a', {roughness:.9}), tx(c), 0.05, tz(r)); arenaObjs.push(b); });
-      const fg = group(tx(M.flag[0]), 0, tz(M.flag[1])); cyl(0.004, 0.004, 0.2, Mt('#999'), 0, 0.1, 0, fg); const flag = mesh(new THREE.PlaneGeometry(0.07, 0.045), new THREE.MeshStandardMaterial({color:'#e53935', side:THREE.DoubleSide}), 0.035, 0.175, 0, fg); arenaObjs.push(fg);
-      const pad = mesh(new THREE.PlaneGeometry(0.17, 0.17), new THREE.MeshBasicMaterial({color:'#34c759', transparent:true, opacity:.35}), tx(M.flag[0]), 0.002, tz(M.flag[1])); pad.rotation.x = -Math.PI/2; arenaObjs.push(pad); };
-    // xe
+    s3.arena = () => { arenaObjs.forEach(o => scene.remove(o)); arenaObjs = []; const cb = STEMX.cardboard(s3);
+      M.obs.forEach(([c, r]) => { const b = box(0.14, 0.12, 0.14, new THREE.MeshStandardMaterial({map:cb.tex, roughness:0.95}), tx(c), 0.06, tz(r)); arenaObjs.push(b); });
+      const fg = group(tx(M.flag[0]), 0, tz(M.flag[1])); cyl(0.022, 0.026, 0.008, Mt('#374151'), 0, 0.004, 0, fg); cyl(0.0035, 0.0035, 0.22, Mt('#d1d5db', {metalness:0.8, roughness:0.3}), 0, 0.11, 0, fg);
+      const flag = mesh(new THREE.PlaneGeometry(0.08, 0.05, 8, 1), new THREE.MeshStandardMaterial({color:'#e53935', side:THREE.DoubleSide}), 0.04, 0.195, 0, fg); fg.userData.flag = flag; arenaObjs.push(fg);
+      const pad = mesh(new THREE.PlaneGeometry(0.18, 0.18), new THREE.MeshBasicMaterial({color:'#22c55e', transparent:true, opacity:.28}), tx(M.flag[0]), 0.002, tz(M.flag[1])); pad.rotation.x = -Math.PI/2; arenaObjs.push(pad);
+      const sp = mesh(new THREE.RingGeometry(0.075, 0.09, 4, 1, Math.PI/4), new THREE.MeshBasicMaterial({color:'#f59e0b'}), tx(M.start.c), 0.002, tz(M.start.r)); sp.rotation.x = -Math.PI/2; arenaObjs.push(sp);
+      s3.shadows(); };
+    // xe: khung nhôm đục lỗ
     const carG = group(0, 0, 0); const body = group(0, 0, 0, carG);
-    box(0.17, 0.006, 0.11, new THREE.MeshStandardMaterial({color:'#7cc4ff', transparent:true, opacity:.75, roughness:.2}), 0, 0.03, 0, body);
-    const arrow = mesh(new THREE.ConeGeometry(0.015, 0.035, 12), new THREE.MeshBasicMaterial({color:'#ffcc00'}), 0.06, 0.04, 0, body); arrow.rotation.z = -Math.PI/2;
-    cyl(0.008, 0.008, 0.012, Mt('#444'), 0.06, 0.012, 0, body);
+    const rail = (L, x, y, z, rotY = 0) => { const b = STEMX.beam(s3, L, '#2a2e35'); b.position.set(x, y, z); b.rotation.y = rotY; body.add(b); return b; };
+    rail(0.2, 0.01, 0.03, -0.054); rail(0.2, 0.01, 0.03, 0.054); rail(0.12, -0.084, 0.03, 0, Math.PI/2); rail(0.12, 0.104, 0.03, 0, Math.PI/2);
+    const pl = STEMX.plate(s3, 0.17, 0.1, '#30343b'); pl.position.set(0.01, 0.038, 0); body.add(pl);
+    const cast = mesh(new THREE.SphereGeometry(0.01, 16, 12), Mt('#c7ccd2', {metalness:0.85, roughness:0.2}), 0.085, 0.01, 0, body); cyl(0.012, 0.012, 0.012, Mt('#2a2e35'), 0.085, 0.022, 0, body);
+    const arrow = mesh(new THREE.ConeGeometry(0.012, 0.03, 12), new THREE.MeshStandardMaterial({color:'#fbbf24', emissive:'#7a5200'}), 0.07, 0.048, 0, body); arrow.rotation.z = -Math.PI/2;
     const wheels = [];
     const partMesh = (kind, parent) => { const g = group(0, 0, 0, parent);
-      if (kind === 'motor'){ box(0.05, 0.022, 0.022, Mt('#f5c518'), 0, 0, 0, g); }
-      else if (kind === 'wheel'){ const w = cyl(0.03, 0.03, 0.02, Mt('#222', {roughness:.9}), 0, 0, 0, g); w.rotation.x = Math.PI/2; const hub = cyl(0.012, 0.012, 0.022, Mt('#f5c518'), 0, 0, 0, g); hub.rotation.x = Math.PI/2; wheels.push(g); }
-      else if (kind === 'battery'){ box(0.06, 0.02, 0.04, Mt('#222'), 0, 0, 0, g); box(0.05, 0.016, 0.016, Mt('#2e7d32'), 0, 0.012, -0.01, g); box(0.05, 0.016, 0.016, Mt('#2e7d32'), 0, 0.012, 0.01, g); }
-      else if (kind === 'uno'){ box(0.06, 0.006, 0.045, Mt('#00878f'), 0, 0, 0, g); }
-      else if (kind === 'driver'){ box(0.035, 0.012, 0.035, Mt('#c62828'), 0, 0, 0, g); box(0.012, 0.02, 0.03, Mt('#222'), -0.01, 0.012, 0, g); }
-      else if (kind === 'sonar'){ box(0.008, 0.02, 0.045, Mt('#1565c0'), 0, 0, 0, g); [-0.012, 0.012].forEach(z => { const e = cyl(0.008, 0.008, 0.012, Mt('#cfd8dc', {metalness:.6}), 0.008, 0, z, g); e.rotation.z = Math.PI/2; }); }
+      if (kind === 'motor'){ const can = cyl(0.011, 0.011, 0.03, Mt('#c7ccd2', {metalness:0.85, roughness:0.25}), 0.012, 0, 0, g); can.rotation.z = Math.PI/2; box(0.026, 0.022, 0.022, Mt('#f2c037', {roughness:0.5}), -0.012, 0, 0, g); const ax = cyl(0.0025, 0.0025, 0.02, Mt('#e5e7eb', {metalness:0.9}), -0.012, 0, 0, g); ax.rotation.x = Math.PI/2; }
+      else if (kind === 'wheel'){ const w = STEMX.wheel(s3, 0.032, 0.022, '#d32f2f'); g.add(w); wheels.push(w); }
+      else if (kind === 'battery'){ box(0.074, 0.018, 0.044, Mt('#1f2125'), 0, 0, 0, g); [-0.011, 0.011].forEach(z => { const c = cyl(0.0092, 0.0092, 0.066, Mt('#2563eb', {roughness:0.35}), 0, 0.009, z, g); c.rotation.z = Math.PI/2; }); }
+      else if (kind === 'uno'){ const t = STEMX.pcbUno(s3); box(0.068, 0.0025, 0.05, [Mt('#066b73'), Mt('#066b73'), new THREE.MeshStandardMaterial({map:t.tex, roughness:0.6}), Mt('#066b73'), Mt('#066b73'), Mt('#066b73')], 0, 0, 0, g); box(0.016, 0.011, 0.012, Mt('#c7ccd2', {metalness:0.8}), -0.028, 0.006, -0.012, g); box(0.022, 0.004, 0.006, Mt('#111'), 0.005, 0.003, 0.008, g); box(0.05, 0.007, 0.003, Mt('#111'), 0.006, 0.0045, -0.022, g); }
+      else if (kind === 'driver'){ box(0.043, 0.0025, 0.043, Mt('#c62828', {roughness:0.6}), 0, 0, 0, g); const hs = group(-0.004, 0.012, 0, g); for (let i = 0; i < 6; i++) box(0.024, 0.018, 0.002, Mt('#15171b', {metalness:0.6, roughness:0.4}), 0, 0, -0.012 + i*0.0048, hs); [[0.016, -0.013], [0.016, 0.013]].forEach(([x, z]) => box(0.008, 0.008, 0.014, Mt('#1d4ed8'), x, 0.005, z, g)); }
+      else if (kind === 'sonar'){ box(0.003, 0.02, 0.045, Mt('#1e40af'), 0, 0, 0, g); [-0.012, 0.012].forEach(z => { const e = cyl(0.008, 0.008, 0.012, Mt('#cfd4da', {metalness:0.85, roughness:0.25}), 0.0075, 0, z, g); e.rotation.z = Math.PI/2; const f = cyl(0.0066, 0.0066, 0.001, Mt('#30343b', {roughness:1}), 0.0138, 0, z, g); f.rotation.z = Math.PI/2; }); box(0.004, 0.005, 0.01, Mt('#d1d5db'), 0.003, 0.007, 0, g); }
       return g; };
-    const slotObjs = {}, slotClick = {};
-    CAR_SLOTS.forEach(([id, kind, x, y, z]) => { const gh = mesh(new THREE.BoxGeometry(kind === 'wheel' ? 0.06 : kind === 'sonar' ? 0.02 : 0.05, kind === 'wheel' ? 0.06 : 0.02, kind === 'wheel' ? 0.02 : kind === 'sonar' ? 0.05 : 0.035), new THREE.MeshBasicMaterial({color:'#22d3ee', transparent:true, opacity:.4}), x, y + (kind === 'wheel' ? 0 : 0.012), z, body);
-      slotObjs[id] = gh; const hb = hitbox(0.07, 0.06, 0.05, x, y + 0.012, z, body);
-      s3.click(hb, slotClick[id] = () => { if (built[id]) return say(el, CAR_PARTS[kind].info);
-        if (!selPart) return say(el, `Ô này dành cho ${CAR_PARTS[kind].n}. Chọn bộ phận trên khay trước.`);
-        if (selPart !== kind){ const alt = CAR_SLOTS.find(([i2, k2, x2, y2, z2]) => k2 === selPart && !built[i2] && Math.hypot(x2 - x, z2 - z) < 0.07); if (alt) return slotClick[alt[0]](); return say(el, `Ô này dành cho ${CAR_PARTS[kind].n}, không phải ${CAR_PARTS[selPart].n}.`); }
-        if (kind === 'wheel' && !built[id === 'wL' ? 'mL' : 'mR']) return say(el, 'Lắp động cơ trước rồi mới gắn bánh xe vào trục động cơ.');
-        const p = partMesh(kind, body); p.position.set(x, y + (kind === 'wheel' ? 0 : 0.012), z); built[id] = p; gh.visible = false; selPart = null; trayHL();
-        say(el, '✅ ' + CAR_PARTS[kind].info); st();
-        if (assembled()){ wiresOn(); s3.look([0.05, 0.02, 0.05], 1.7, 0.15, 0.95); say(el, '🎉 Xe đã lắp xong! Arduino đã được nối dây với mạch L298N, động cơ, pin và cảm biến. Giờ hãy lập trình cho xe nhé.'); } }); });
+    const slotGh = {};
+    CAR_SLOTS.forEach(([id, kind, x, y, z]) => { const gh = mesh(new THREE.BoxGeometry(kind === 'wheel' ? 0.066 : kind === 'sonar' ? 0.02 : 0.05, kind === 'wheel' ? 0.066 : 0.02, kind === 'wheel' ? 0.024 : kind === 'sonar' ? 0.05 : 0.04), new THREE.MeshBasicMaterial({color:'#22d3ee', transparent:true, opacity:.12, depthWrite:false}), x, y, z, body); gh.userData.noShadow = true; slotGh[id] = gh; const ed = new THREE.LineSegments(new THREE.EdgesGeometry(gh.geometry), new THREE.LineBasicMaterial({color:'#0891b2', transparent:true, opacity:.8})); gh.add(ed);
+      s3.click(gh, () => { if (built[id]) say(el, '🔎 ' + CAR_PARTS[kind].info); else pick(kind); }); });
     const wireObjs = [];
-    const wiresOn = () => { const tubeW = (pts, col) => { const c = new THREE.CatmullRomCurve3(pts.map(p => new THREE.Vector3(...p))); const m = new THREE.Mesh(new THREE.TubeGeometry(c, 16, 0.0016, 5, false), Mt(col)); body.add(m); wireObjs.push(m); };
-      tubeW([[-0.055, 0.085, 0.01], [-0.02, 0.1, 0.01], [0.015, 0.06, 0.01]], '#d32f2f'); tubeW([[-0.06, 0.085, -0.012], [-0.04, 0.05, -0.05], [-0.03, 0.02, -0.05]], '#f9a825');
-      tubeW([[-0.06, 0.085, 0.012], [-0.04, 0.05, 0.05], [-0.03, 0.02, 0.05]], '#f9a825'); tubeW([[0.03, 0.06, 0], [0.06, 0.08, 0], [0.085, 0.06, 0]], '#1565c0'); tubeW([[-0.05, 0.065, 0.015], [-0.06, 0.08, 0.01]], '#222'); };
-    // khay bộ phận (bàn lắp ráp bên trái)
-    const tray = {}; let selPart = null; const trayHL = () => Object.entries(tray).forEach(([k, r]) => r.material.color.set(k === selPart ? '#ffcc00' : '#8fa3c4'));
-    box(0.2, 0.008, 0.62, Mt('#5b6b84'), -0.8, 0.004, 0.05);
-    Object.keys(CAR_PARTS).forEach((k, i) => { const g = group(-0.8, 0.03, -0.2 + i*0.1); partMesh(k, g); const ring = mesh(new THREE.TorusGeometry(0.045, 0.003, 8, 28), new THREE.MeshBasicMaterial({color:'#8fa3c4'}), 0, -0.02, 0, g); ring.rotation.x = Math.PI/2; tray[k] = ring;
-      const l = label(CAR_PARTS[k].n, 0.02); l.position.set(0, 0.06, 0); g.add(l); const hb = hitbox(0.1, 0.08, 0.09, 0, 0, 0, g);
-      s3.click(hb, () => { selPart = selPart === k ? null : k; trayHL(); say(el, selPart ? `Đã chọn ${CAR_PARTS[k].n}. ${CAR_PARTS[k].info} Bấm vào ô sáng trên khung xe để lắp.` : ''); }); });
-    // cảm biến: chùm siêu âm
-    const beam = mesh(new THREE.ConeGeometry(0.04, 0.18, 16, 1, true), new THREE.MeshBasicMaterial({color:'#22c55e', transparent:true, opacity:0, side:THREE.DoubleSide, depthWrite:false}), 0.18, 0.05, 0, body); beam.rotation.z = Math.PI/2;
+    const wiresOn = () => { const tubeW = (pts, col) => { const c = new THREE.CatmullRomCurve3(pts.map(p => new THREE.Vector3(...p))); const m = new THREE.Mesh(new THREE.TubeGeometry(c, 20, 0.0016, 6, false), Mt(col)); body.add(m); wireObjs.push(m); };
+      tubeW([[-0.03, 0.08, 0.012], [0.0, 0.095, 0.012], [0.03, 0.05, 0.01]], '#d32f2f'); tubeW([[-0.045, 0.08, -0.015], [-0.05, 0.055, -0.03], [-0.045, 0.03, -0.036]], '#f9a825');
+      tubeW([[-0.045, 0.08, 0.015], [-0.05, 0.055, 0.03], [-0.045, 0.03, 0.036]], '#f9a825'); tubeW([[0.05, 0.05, 0.012], [0.085, 0.07, 0.008], [0.106, 0.055, 0.004]], '#16a34a'); tubeW([[0.05, 0.05, -0.012], [0.085, 0.07, -0.008], [0.106, 0.055, -0.004]], '#7c3aed'); s3.shadows(body); };
+    pick = kind => { if (assembled()) return say(el, 'Xe đã lắp xong! Chuyển sang tab 🧩 Lập trình nhé.');
+      const free = CAR_SLOTS.filter(([id, k]) => k === kind && !built[id]); if (!free.length) return say(el, `${CAR_PARTS[kind].n} đã lắp đủ.`);
+      const slot = free.find(([id]) => kind !== 'wheel' || built[id === 'wL' ? 'mL' : 'mR']); if (!slot) return say(el, '⚠ Lắp động cơ trước rồi mới gắn bánh xe vào trục động cơ.');
+      const [id, , x, y, z] = slot; const p = partMesh(kind, body); s3.shadows(p); built[id] = p; slotGh[id].visible = false;
+      const y0 = y + 0.18; p.position.set(x, y0, z); const t0 = performance.now(); const fall = () => { const k = Math.min(1, (performance.now() - t0)/420); p.position.y = y0 + (y - y0)*(1 - Math.pow(1 - k, 3)); if (k < 1) requestAnimationFrame(fall); }; requestAnimationFrame(fall);
+      say(el, '✅ ' + CAR_PARTS[kind].info); ui.log(`🔧 Lắp ${CAR_PARTS[kind].n}`, 'ok'); refresh();
+      if (assembled()){ wiresOn(); say(el, '🎉 Xe đã lắp xong! Arduino đã nối dây với mạch L298N, 2 động cơ, hộp pin và cảm biến. Chuyển sang tab 🧩 Lập trình để viết chương trình.'); setTimeout(() => s3.glide([0, 0, 0.03], 2.15, 0, 0.85, 1100), 600); } };
+    // chùm siêu âm
+    const beam = mesh(new THREE.ConeGeometry(0.045, 0.2, 18, 1, true), new THREE.MeshBasicMaterial({color:'#22c55e', transparent:true, opacity:0, side:THREE.DoubleSide, depthWrite:false}), 0.21, 0.05, 0, body); beam.rotation.z = Math.PI/2; beam.userData.noShadow = true;
     let beamT = 0; s3.beam = o => { beam.material.color.set(o ? '#ef4444' : '#22c55e'); beamT = 0.6; };
-    let spin = 0;
-    s3.place = (c, r, d, roll = 0) => { carG.position.set(tx(c), 0, tz(r)); carG.rotation.y = -d*Math.PI/2; spin = roll; wheels.forEach(w => { w.rotation.z = -roll*6; }); };
-    s3.frame(dt => { if (beamT > 0){ beamT -= dt; beam.material.opacity = Math.max(0, beamT)*0.6; } });
-    s3.arena(); resetCar(); s3.look([tx(car.c), 0.03, tz(car.r)], 0.6, -0.5, 0.95);
+    s3.place = (c, r, d, roll = 0) => { carG.position.set(tx(c), 0, tz(r)); carG.rotation.y = -d*Math.PI/2; wheels.forEach(w => { w.rotation.z = -roll*6.2; }); };
+    s3.frame((dt, t) => { if (beamT > 0){ beamT -= dt; beam.material.opacity = Math.max(0, beamT)*0.55; } arenaObjs.forEach(o => { const f = o.userData && o.userData.flag; if (f){ const pa = f.geometry.attributes.position; for (let i = 0; i < pa.count; i++){ const x = pa.getX(i); pa.setZ(i, Math.sin(t*5 + x*60)*0.006*(x + 0.04)/0.08); } pa.needsUpdate = true; } }); });
+    s3.arena(); s3.shadows(); resetCar();
+    // ảnh thu nhỏ cho thư viện
+    Object.keys(CAR_PARTS).forEach(k => { const g = partMesh(k, scene); g.position.set(5, -5, 5); thumbs[k] = s3.snap(g); scene.remove(g); }); wheels.length = 0; refresh();
   });
-  setMs('goal');
+  setMs('goal'); refresh();
 }
 
-/* ---------- 3. CÁNH TAY ROBOT ---------- */
+/* ---------- 3. CÁNH TAY ROBOT (studio) ---------- */
 const ARM_MS = {
-  move:{goal:'Gắp <b>hộp đỏ</b> và đặt vào <b>khay xanh</b>. Gợi ý: hộp đỏ ở góc đế khoảng <b>135°</b>, khay xanh ở góc đế khoảng <b>45°</b>. Dùng thanh trượt để dò góc vai và khuỷu, rồi ghi các góc vào chương trình.',
+  move:{goal:'Gắp <b>hộp đỏ</b> đặt vào <b>khay xanh lá</b>. Gợi ý: hộp đỏ ở góc đế khoảng <b>135°</b>, khay ở góc đế khoảng <b>45°</b>. Dò góc vai, khuỷu bằng thanh trượt (tab ▶ Mô phỏng) rồi ghi vào chương trình.',
     boxes:[{id:'r', col:'#e53935', a:135, d:0.22}], zones:[{id:'g', col:'#22c55e', a:45, d:0.22}], win:B => B.r.zone === 'g'},
-  stack:{goal:'Xếp <b>hộp vàng chồng lên hộp đỏ</b> trong khay xanh: đặt hộp đỏ vào khay trước, rồi đặt hộp vàng lên trên.',
+  stack:{goal:'Xếp <b>hộp vàng chồng lên hộp đỏ</b> trong khay xanh lá: đặt hộp đỏ vào khay trước, rồi đặt hộp vàng lên trên.',
     boxes:[{id:'r', col:'#e53935', a:150, d:0.22}, {id:'y', col:'#facc15', a:115, d:0.22}], zones:[{id:'g', col:'#22c55e', a:45, d:0.22}], win:B => B.r.zone === 'g' && B.y.zone === 'g' && B.y.on === 'r'},
   sort:{goal:'Phân loại: <b>hộp đỏ</b> vào <b>khay đỏ</b>, <b>hộp xanh dương</b> vào <b>khay xanh dương</b>.',
     boxes:[{id:'r', col:'#e53935', a:100, d:0.2}, {id:'b', col:'#2563eb', a:80, d:0.24}], zones:[{id:'zr', col:'#ef4444', a:160, d:0.22}, {id:'zb', col:'#3b82f6', a:25, d:0.22}], win:B => B.r.zone === 'zr' && B.b.zone === 'zb'}
 };
-function stemArm(el, ctx){
+const ARM_PARTS = {s1:{n:'Servo đế', icon:'🔄', info:'Servo MG996R ở đế xoay cả cánh tay sang trái – phải từ 0° tới 180°.'}, s2:{n:'Servo vai', icon:'💪', info:'Servo vai nâng – hạ cánh tay trên. 90° là thẳng đứng.'},
+  s3:{n:'Servo khuỷu', icon:'🦾', info:'Servo khuỷu gập – duỗi cánh tay dưới. 180° là duỗi thẳng.'}, s4:{n:'Servo kẹp', icon:'✊', info:'Servo SG90 nhỏ đóng – mở hai ngón kẹp để gắp vật.'},
+  frame:{n:'Khung nhôm đục lỗ', icon:'🔩', info:'Thanh nhôm đục lỗ nhẹ mà cứng, bắt vít ở bất kì lỗ nào.'}, uno:{n:'Bo mạch Arduino', icon:'🧠', info:'Arduino gửi tín hiệu PWM tới 4 servo ở các chân 3, 5, 6, 9.'}};
+function stemArm(el){
   let mid = 'move', M = ARM_MS[mid];
   const J = {base:{n:'Đế', min:0, max:180, def:90}, sh:{n:'Vai', min:0, max:150, def:90}, el:{n:'Khuỷu', min:30, max:180, def:90}};
   const blocks = [
     {op:'base', cat:'mv', label:'🔄 Xoay đế tới {v}°', chip:'🔄 Xoay đế', params:[{k:'v', def:90, min:0, max:180}]},
     {op:'sh', cat:'mv', label:'💪 Vai tới {v}°', chip:'💪 Vai', params:[{k:'v', def:90, min:0, max:150}]},
     {op:'el', cat:'mv', label:'🦾 Khuỷu tới {v}°', chip:'🦾 Khuỷu', params:[{k:'v', def:90, min:30, max:180}]},
-    {op:'open', cat:'io', label:'✋ Mở kẹp'}, {op:'close', cat:'io', label:'✊ Đóng kẹp'},
-    {op:'home', cat:'io', label:'🏠 Về tư thế ban đầu'},
+    {op:'open', cat:'io', label:'✋ Mở kẹp'}, {op:'close', cat:'io', label:'✊ Đóng kẹp'}, {op:'home', cat:'io', label:'🏠 Về tư thế ban đầu'},
     BLK_CTRL.wait, BLK_CTRL.loop, BLK_CTRL.end];
-  const ui = stemShell(el, 'arm', null, {how:['Cánh tay có 4 động cơ servo: <b>đế</b> (xoay trái – phải), <b>vai</b>, <b>khuỷu</b> (nâng – hạ) và <b>kẹp</b>.', 'Kéo các thanh trượt bên dưới để dò góc đưa kẹp xuống sát hộp, bấm <b>Đóng kẹp</b> để gắp, đưa sang khay rồi <b>Mở kẹp</b>.', 'Ghi các góc dò được vào chương trình bằng khối lệnh, bấm <b>▶ Chạy</b> để cánh tay tự làm.', 'Ô "Vị trí kẹp" cho biết kẹp đang cách mặt bàn bao nhiêu: gắp được khi kẹp sát hộp (khoảng 2 cm).'],
-    tips:'Mẹo: vai 90° là thẳng đứng; khuỷu 180° là duỗi thẳng. Nên nâng kẹp lên cao trước khi xoay đế để không quệt vào hộp khác.',
-    extraCtl:`<div class="arm-sl">${Object.entries(J).map(([k, j]) => `<label class="ctrl">${j.n}: <output id="o_${k}">${j.def}°</output><input type="range" id="s_${k}" min="${j.min}" max="${j.max}" value="${j.def}"></label>`).join('')}</div>
-      <button type="button" class="btn ghost small" id="aOpen">✋ Mở kẹp</button><button type="button" class="btn ghost small" id="aClose">✊ Đóng kẹp</button>`});
-  const ang = {base:90, sh:90, el:90}; let grip = 0, held = null, S3 = null, tok = null, boxes = {};
+  let thumbs = {}, S3 = null;
+  const ui = stemStudio(el, 'arm', {tab:'sim', libTitle:'Cấu tạo cánh tay', how:['Cánh tay có 4 động cơ servo: <b>đế</b> (xoay trái – phải), <b>vai</b>, <b>khuỷu</b> (nâng – hạ) và <b>kẹp</b>.', 'Tab <b>▶ Mô phỏng</b>: kéo thanh trượt để đưa kẹp xuống sát hộp, bấm <b>Đóng kẹp</b> để gắp, đưa sang khay rồi <b>Mở kẹp</b>.', 'Tab <b>🧩 Lập trình</b>: ghi các góc dò được thành chương trình, bấm <b>▶ Chạy</b> để cánh tay tự làm.', 'Ô "Vị trí kẹp" cho biết kẹp cách mặt bàn bao nhiêu: gắp được khi kẹp sát hộp (khoảng 2 cm).'],
+    buildTip:'Bấm vào từng bộ phận để xem công dụng.', codeTip:'Mẹo: nâng kẹp lên cao (vai ~60°) trước khi xoay đế để không quệt vào hộp khác.',
+    simCtl:`<div class="arm-sl">${Object.entries(J).map(([k, j]) => `<label class="ctrl">${j.n}: <output id="o_${k}">${j.def}°</output><input type="range" id="s_${k}" min="${j.min}" max="${j.max}" value="${j.def}"></label>`).join('')}</div>
+      <div class="row" style="gap:6px"><button type="button" class="btn ghost small" id="aOpen" style="flex:0 0 auto">✋ Mở kẹp</button><button type="button" class="btn ghost small" id="aClose" style="flex:0 0 auto">✊ Đóng kẹp</button><button type="button" class="btn ghost small" id="aCopy" style="flex:0 0 auto" title="Thêm các góc hiện tại vào chương trình">➕ Ghi góc vào chương trình</button></div>`});
+  ui.lib(Object.entries(ARM_PARTS).map(([k, p]) => ({id:k, n:p.n, icon:p.icon, info:p.info})), k => say(el, '🔎 ' + ARM_PARTS[k].info));
+  ui.tree([{n:'Đế xoay + servo đế', ok:true, tag:'D3'}, {n:'Cánh tay trên + servo vai', ok:true, tag:'D5'}, {n:'Cánh tay dưới + servo khuỷu', ok:true, tag:'D6'}, {n:'Bộ kẹp + servo kẹp', ok:true, tag:'D9'}, {n:'Bo mạch Arduino', ok:true}]);
+  const ang = {base:90, sh:90, el:90}; let grip = 0, held = null, tok = null, boxes = {};
   const pe = progEditor($('#stPE', el), blocks, [], () => code());
   const SV = {base:'de', sh:'vai', el:'khuyu'};
   const stmt = t => t.op in SV ? [`${SV[t.op]}.write(${t.v});`, 'delay(600);'] : t.op === 'open' ? ['kep.write(90);   // mở', 'delay(400);'] : t.op === 'close' ? ['kep.write(20);   // đóng', 'delay(400);'] : t.op === 'home' ? ['de.write(90); vai.write(90); khuyu.write(90);', 'delay(800);'] : t.op === 'wait' ? `delay(${t.ms});` : '';
@@ -3657,72 +3840,78 @@ function stemArm(el, ctx){
   const lcd = () => { const p = tip(); ui.lcd(`cao ${vn(Math.max(0, p.y*100), 1)} cm · cách tâm ${vn(p.r*100, 1)} cm${held ? ' · đang giữ hộp' : ''}`, 'Vị trí kẹp'); Object.keys(J).forEach(k => { const o = $('#o_' + k, el), s = $('#s_' + k, el); if (o) o.textContent = Math.round(ang[k]) + '°'; if (s) s.value = Math.round(ang[k]); }); };
   const posOf = (a, d) => ({x:d*Math.cos(rad(a)), z:d*Math.sin(rad(a))});
   const settle = id => { const b = boxes[id], p = b.p; let y = 0.02, on = null;
-    Object.entries(boxes).forEach(([k, o]) => { if (k === id || o === held) return; if (Math.hypot(o.p.x - p.x, o.p.z - p.z) < 0.03 && o.p.y + 0.04 > y){ y = o.p.y + 0.04; on = k; p.x = o.p.x; p.z = o.p.z; } });
+    Object.entries(boxes).forEach(([k, o]) => { if (k === id || k === held) return; if (Math.hypot(o.p.x - p.x, o.p.z - p.z) < 0.03 && o.p.y + 0.04 > y){ y = o.p.y + 0.04; on = k; p.x = o.p.x; p.z = o.p.z; } });
     const zn = M.zones.find(z => { const q = posOf(z.a, z.d); return Math.hypot(q.x - p.x, q.z - p.z) < 0.045; });
     if (zn && !on){ const q = posOf(zn.a, zn.d); p.x = q.x; p.z = q.z; }
-    b.zone = zn ? zn.id : (on ? boxes[on].zone : null); b.on = on; b.target = y; };
-  const doGrip = v => { grip = v; if (v){ if (held) return; const p = tip(); const c = Object.entries(boxes).find(([k, b]) => Math.hypot(b.p.x - p.x, b.p.y - p.y, b.p.z - p.z) < 0.035 && !Object.values(boxes).some(o => o.on === k));
-      if (c){ held = c[0]; boxes[held].zone = null; boxes[held].on = null; say(el, '✊ Đã gắp được hộp!'); } else say(el, 'Kẹp đóng nhưng chưa gắp trúng hộp nào. Hạ kẹp sát vào hộp hơn (khoảng 2 cm phía trên mặt bàn).'); }
-    else if (held){ const id = held; held = null; settle(id); say(el, boxes[id].zone ? '✋ Đã thả hộp vào khay.' : '✋ Đã thả hộp.'); checkWin(); }
-    lcd(); };
+    b.zone = zn ? zn.id : (on ? boxes[on].zone : null); b.on = on; b.target = y + (zn && !on ? 0.004 : 0); };
   let running = false;
   const checkWin = () => { if (!running && M.win(boxes)) stemWin(el, 'arm', mid, 'Cánh tay robot đã làm đúng nhiệm vụ, giống robot trong nhà máy thật.'); };
+  const doGrip = v => { grip = v; if (v){ if (held) return; const p = tip(); const c = Object.entries(boxes).find(([k, b]) => Math.hypot(b.p.x - p.x, b.p.y - p.y, b.p.z - p.z) < 0.035 && !Object.values(boxes).some(o => o.on === k));
+      if (c){ held = c[0]; boxes[held].zone = null; boxes[held].on = null; say(el, '✊ Đã gắp được hộp!'); ui.log('✊ Gắp hộp', 'ok'); } else { say(el, 'Kẹp đóng nhưng chưa gắp trúng hộp nào. Hạ kẹp sát vào hộp hơn (khoảng 2 cm phía trên mặt bàn).'); ui.log('✊ Kẹp trượt', 'bad'); } }
+    else if (held){ const id = held; held = null; settle(id); say(el, boxes[id].zone ? '✋ Đã thả hộp vào khay.' : '✋ Đã thả hộp.'); ui.log('✋ Thả hộp'); checkWin(); }
+    lcd(); };
   const servo = (k, v, my) => new Promise((res, rej) => { const from = ang[k], to = clamp(v, J[k].min, J[k].max), dur = Math.max(120, Math.abs(to - from)/120*1000), t0 = performance.now();
     const step = () => { if (my && my.stop) return rej(STOP); const q = Math.min(1, (performance.now() - t0)/dur); ang[k] = from + (to - from)*q; lcd(); if (q < 1) requestAnimationFrame(step); else res(); }; requestAnimationFrame(step); });
   const stopRun = () => { if (tok){ tok.halt(); tok = null; } running = false; $('#stRun', el).disabled = false; $('#stStop', el).disabled = true; pe.hl(-1); };
   const resetAll = () => { stopRun(); Object.assign(ang, {base:90, sh:90, el:90}); grip = 0; held = null; boxes = {}; M.boxes.forEach(b => { const q = posOf(b.a, b.d); boxes[b.id] = {p:{x:q.x, y:0.02, z:q.z}, target:0.02, zone:null, on:null, col:b.col}; }); if (S3) S3.scene2(); lcd(); };
-  const runProg = async () => { stopRun(); if (!pe.get().length){ lerr(el, 'Chương trình đang trống.'); return; } lerr(el); resetAll(); const t = tok = mkTok(); running = true; $('#stRun', el).disabled = true; $('#stStop', el).disabled = false;
+  const runProg = async () => { stopRun(); if (!pe.get().length){ lerr(el, 'Chương trình đang trống (tab 🧩 Lập trình).'); ui.tab('code'); return; } lerr(el); resetAll(); const t = tok = mkTok(); running = true; $('#stRun', el).disabled = true; $('#stStop', el).disabled = false; ui.log('▶ Chạy chương trình');
     const api = {hl:i => pe.hl(i), cond:async () => false, exec:async n => { if (n.op in J) await servo(n.op, n.v, t); else if (n.op === 'open'){ doGrip(0); await t.sleep(350); } else if (n.op === 'close'){ doGrip(1); await t.sleep(350); }
       else if (n.op === 'home'){ await Promise.all(['base', 'sh', 'el'].map(k => servo(k, J[k].def, t))); } else if (n.op === 'wait') await t.sleep(n.ms); }};
     try { await progRun(progTree(pe.get(), blocks), api, t); } catch(e){ if (e !== STOP) console.warn(e); }
     const was = tok === t; if (was) stopRun(); running = false;
     if (was){ if (M.win(boxes)) stemWin(el, 'arm', mid, 'Chương trình của em đã điều khiển cánh tay hoàn thành nhiệm vụ.'); else say(el, 'Chương trình chạy xong nhưng chưa hoàn thành nhiệm vụ. Dùng thanh trượt dò lại các góc nhé.'); } };
-  $('#stRun', el).onclick = () => { try { $('.lab', el).classList.remove('pnl-open'); } catch(e){} runProg(); };
-  $('#stCheck', el).onclick = () => { if (M.win(boxes)) stemWin(el, 'arm', mid); else lerr(el, 'Chưa đạt: ' + (mid === 'stack' ? 'hộp vàng phải nằm trên hộp đỏ trong khay xanh.' : 'các hộp chưa nằm đúng khay.')); };
+  $('#stRun', el).onclick = runProg;
+  $('#stCheck', el).onclick = () => { if (M.win(boxes)) stemWin(el, 'arm', mid); else lerr(el, 'Chưa đạt: ' + (mid === 'stack' ? 'hộp vàng phải nằm trên hộp đỏ trong khay xanh lá.' : 'các hộp chưa nằm đúng khay.')); };
   $('#stStop', el).onclick = () => { stopRun(); say(el, 'Đã dừng.'); };
   Object.keys(J).forEach(k => { const s = $('#s_' + k, el); s.oninput = () => { if (tok) return; ang[k] = +s.value; lcd(); }; });
   $('#aOpen', el).onclick = () => { if (!tok) doGrip(0); }; $('#aClose', el).onclick = () => { if (!tok) doGrip(1); };
+  $('#aCopy', el).onclick = () => { const p = pe.get(); p.push({op:'base', v:Math.round(ang.base)}, {op:'sh', v:Math.round(ang.sh)}, {op:'el', v:Math.round(ang.el)}); pe.set(p); code(); say(el, `➕ Đã thêm vào chương trình: đế ${Math.round(ang.base)}°, vai ${Math.round(ang.sh)}°, khuỷu ${Math.round(ang.el)}°.`); };
   const setMs = id => { say(el, ''); mid = id; M = ARM_MS[id]; $$('[data-ms]', el).forEach(b => b.setAttribute('aria-pressed', String(b.dataset.ms === id))); $('#stGoal', el).innerHTML = '<b>Thử thách:</b> ' + M.goal; pe.set([]); code(); lerr(el); $('#labResult', el).innerHTML = ''; resetAll(); };
   $$('[data-ms]', el).forEach(b => b.onclick = () => setMs(b.dataset.ms));
   $('#stReset', el).onclick = () => resetAll();
-  mount3D(el, {target:[0, 0.08, 0.05], r:0.9, th:0, ph:1.0, rMin:0.3, rMax:2.2, label:'Cánh tay robot gắp hàng', views:[{t:'Nhìn từ trên', r:0.8, th:0, ph:0.2}, {t:'Nhìn ngang', r:0.8, th:0, ph:1.45}]}, s3 => { S3 = s3;
+  mount3D(el, {studio:true, fill:true, noFit:true, bg:'#dde4ec', shadowSize:0.6, fov:34, target:[0, 0.09, 0.06], r:0.95, th:0, ph:1.0, rMin:0.3, rMax:2.4, label:'Cánh tay robot gắp hàng', views:[{t:'Nhìn từ trên', target:[0, 0, 0.05], r:0.85, th:0, ph:0.15}, {t:'Nhìn ngang', target:[0, 0.08, 0.05], r:0.8, th:0, ph:1.45}]}, s3 => { S3 = s3;
     const {THREE, scene, M:Mt, box, mesh, label, group, cyl} = s3;
-    s3.table(1.3, 0.8, 0, 0.1);
-    // thước góc trên mặt bàn
-    const at = s3.screenTex(512, 512); at.g.clearRect(0, 0, 512, 512); at.g.strokeStyle = 'rgba(30,40,70,.5)'; at.g.fillStyle = 'rgba(30,40,70,.8)'; at.g.lineWidth = 3; at.g.font = '700 22px system-ui';
-    at.g.beginPath(); at.g.arc(256, 256, 230, 0, Math.PI); at.g.stroke(); at.g.textAlign = 'center';
-    for (let a = 0; a <= 180; a += 15){ const r = rad(a), x = 256 + Math.cos(r)*230, y = 256 + Math.sin(r)*230; at.g.beginPath(); at.g.moveTo(256 + Math.cos(r)*215, 256 + Math.sin(r)*215); at.g.lineTo(x, y); at.g.stroke(); if (a % 45 === 0) at.g.fillText(a + '°', 256 + Math.cos(r)*250 > 500 ? 490 : 256 + Math.cos(r)*250, Math.min(505, 256 + Math.sin(r)*250 + 8)); }
-    const pr = mesh(new THREE.PlaneGeometry(0.56, 0.56), new THREE.MeshBasicMaterial({map:at.tex, transparent:true, depthWrite:false}), 0, 0.001, 0); pr.rotation.x = -Math.PI/2;
+    STEMX.shadowGround(s3, 8, 8, '#cfd6df');
+    box(1.1, 0.04, 0.75, Mt('#f1f3f5', {roughness:0.7}), 0, -0.02, 0.08); [[-0.52, -0.3], [0.52, -0.3], [-0.52, 0.42], [0.52, 0.42]].forEach(([x, z]) => box(0.04, 0.7, 0.04, Mt('#9aa3ad', {metalness:0.6}), x, -0.39, z));
+    const mat = box(0.7, 0.003, 0.5, Mt('#2f6b4f', {roughness:0.95}), 0, 0.0015, 0.1); mat.userData.noFit = true;
+    const at = s3.screenTex(1024, 1024); at.g.clearRect(0, 0, 1024, 1024); at.g.strokeStyle = 'rgba(230,255,240,.75)'; at.g.fillStyle = 'rgba(230,255,240,.95)'; at.g.lineWidth = 4; at.g.font = '800 40px system-ui'; at.g.textAlign = 'center';
+    at.g.beginPath(); at.g.arc(512, 512, 460, 0, Math.PI); at.g.stroke(); at.g.beginPath(); at.g.arc(512, 512, 300, 0, Math.PI); at.g.stroke();
+    for (let a = 0; a <= 180; a += 5){ const r = rad(a), L = a % 45 === 0 ? 40 : a % 15 === 0 ? 26 : 14; at.g.beginPath(); at.g.moveTo(512 + Math.cos(r)*(460 - L), 512 + Math.sin(r)*(460 - L)); at.g.lineTo(512 + Math.cos(r)*460, 512 + Math.sin(r)*460); at.g.stroke(); if (a % 45 === 0) at.g.fillText(a + '°', 512 + Math.cos(r)*395, 512 + Math.sin(r)*395 + 14); }
+    const pr = mesh(new THREE.PlaneGeometry(0.62, 0.62), new THREE.MeshBasicMaterial({map:at.tex, transparent:true, depthWrite:false}), 0, 0.0035, 0); pr.rotation.x = -Math.PI/2; pr.userData.noShadow = true;
     // cánh tay
-    const ylw = Mt('#f59e0b'), dark = Mt('#374151');
-    cyl(0.07, 0.08, 0.02, dark, 0, 0.01, 0);
-    const baseG = group(0, 0.02, 0); cyl(0.055, 0.055, 0.02, ylw, 0, 0.01, 0, baseG); box(0.04, 0.07, 0.05, ylw, 0, 0.055, 0, baseG);
-    const shG = group(0, H0 - 0.02, 0, baseG); cyl(0.018, 0.018, 0.06, dark, 0, 0, 0, shG).rotation.x = Math.PI/2;
-    const up = box(L1, 0.025, 0.03, ylw, L1/2, 0, 0, shG);
-    const elG = group(L1, 0, 0, shG); cyl(0.015, 0.015, 0.05, dark, 0, 0, 0, elG).rotation.x = Math.PI/2;
-    box(L2 - 0.04, 0.02, 0.024, ylw, (L2 - 0.04)/2, 0, 0, elG);
-    const wr = group(L2 - 0.04, 0, 0, elG); box(0.012, 0.03, 0.04, dark, 0, 0, 0, wr);
-    const f1 = box(0.04, 0.008, 0.004, Mt('#9ca3af', {metalness:.6}), 0.022, 0, -0.012, wr), f2 = box(0.04, 0.008, 0.004, Mt('#9ca3af', {metalness:.6}), 0.022, 0, 0.012, wr);
+    const alu = '#b9c1ca', dark = Mt('#1b1d22');
+    box(0.13, 0.026, 0.13, dark, 0, 0.013, 0); cyl(0.058, 0.058, 0.004, Mt('#3a3f47', {metalness:0.6}), 0, 0.028, 0);
+    const baseG = group(0, 0.03, 0); cyl(0.052, 0.052, 0.01, Mt('#c7ccd2', {metalness:0.75, roughness:0.3}), 0, 0.005, 0, baseG);
+    [-0.024, 0.024].forEach(z => { const b = STEMX.beam(s3, 0.075, alu); b.rotation.z = Math.PI/2; b.position.set(0, 0.048, z); baseG.add(b); });
+    const shG = group(0, H0 - 0.03, 0, baseG); const sv1 = STEMX.servo(s3, 'MG996'); sv1.rotation.x = Math.PI/2; sv1.position.set(0, 0, 0.034); shG.add(sv1);
+    [-0.02, 0.02].forEach(z => { const b = STEMX.beam(s3, L1 + 0.012, alu); b.position.set(L1/2, 0, z); shG.add(b); });
+    const elG = group(L1, 0, 0, shG); const sv2 = STEMX.servo(s3, 'MG996'); sv2.rotation.x = Math.PI/2; sv2.position.set(0, 0, 0.032); elG.add(sv2);
+    [-0.016, 0.016].forEach(z => { const b = STEMX.beam(s3, L2 - 0.035, alu); b.position.set((L2 - 0.035)/2, 0, z); elG.add(b); });
+    const wr = group(L2 - 0.04, 0, 0, elG); const sv3 = STEMX.servo(s3, 'SG90'); sv3.scale.set(0.7, 0.8, 0.8); wr.add(sv3);
+    const fm = Mt('#15171b', {roughness:0.6}); const f1 = box(0.042, 0.012, 0.004, fm, 0.024, 0, -0.012, wr), f2 = box(0.042, 0.012, 0.004, fm, 0.024, 0, 0.012, wr);
+    [f1, f2].forEach(f => box(0.016, 0.01, 0.002, Mt('#6b7280', {roughness:1}), 0.012, 0, 0, f));
+    const uno = group(-0.2, 0.004, -0.1); const t = STEMX.pcbUno(s3); box(0.068, 0.0025, 0.05, [Mt('#066b73'), Mt('#066b73'), new THREE.MeshStandardMaterial({map:t.tex}), Mt('#066b73'), Mt('#066b73'), Mt('#066b73')], 0, 0.002, 0, uno); uno.rotation.y = 0.5;
     let objs = [];
     s3.scene2 = () => { objs.forEach(o => scene.remove(o)); objs = [];
-      M.zones.forEach(z => { const q = posOf(z.a, z.d); const m = mesh(new THREE.BoxGeometry(0.075, 0.004, 0.075), new THREE.MeshStandardMaterial({color:z.col, transparent:true, opacity:.55}), q.x, 0.002, q.z); objs.push(m);
-        const l = label('Khay', 0.018); l.position.set(q.x, 0.03, q.z + 0.06); scene.add(l); objs.push(l); });
-      Object.values(boxes).forEach(b => { b.m = box(0.04, 0.04, 0.04, Mt(b.col), b.p.x, b.p.y, b.p.z); objs.push(b.m); }); };
-    s3.frame(dt => { baseG.rotation.y = -rad(ang.base); shG.rotation.z = rad(ang.sh); elG.rotation.z = -rad(180 - ang.el); const g = grip ? 0.006 : 0.016; f1.position.z = -g; f2.position.z = g;
-      const p = tip();
-      Object.entries(boxes).forEach(([k, b]) => { if (k === held){ b.p.x = p.x; b.p.y = p.y; b.p.z = p.z; } else if (b.p.y > b.target){ b.p.y = Math.max(b.target, b.p.y - dt*0.6); } if (b.m) b.m.position.set(b.p.x, b.p.y, b.p.z); }); });
-    s3.scene2();
+      M.zones.forEach(z => { const q = posOf(z.a, z.d); const tg = group(q.x, 0.003, q.z); objs.push(tg); const zm = Mt(z.col, {roughness:0.6});
+        box(0.085, 0.004, 0.085, zm, 0, 0.002, 0, tg); [[0, -0.0405, 0.085, 0.004], [0, 0.0405, 0.085, 0.004], [-0.0405, 0, 0.004, 0.085], [0.0405, 0, 0.004, 0.085]].forEach(([x, zz, w, d]) => box(w, 0.016, d, Mt(z.col, {roughness:0.5}), x, 0.008, zz, tg)); });
+      Object.values(boxes).forEach(b => { b.m = box(0.04, 0.04, 0.04, Mt(b.col, {roughness:0.55}), b.p.x, b.p.y, b.p.z); const e = new THREE.LineSegments(new THREE.EdgesGeometry(b.m.geometry), new THREE.LineBasicMaterial({color:0x000000, transparent:true, opacity:.35})); b.m.add(e); objs.push(b.m); });
+      s3.shadows(); };
+    s3.frame(dt => { baseG.rotation.y = -rad(ang.base); shG.rotation.z = rad(ang.sh); elG.rotation.z = -rad(180 - ang.el); const g = grip ? 0.0085 : 0.017; f1.position.z = -g; f2.position.z = g;
+      const p = tip(); Object.entries(boxes).forEach(([k, b]) => { if (k === held){ b.p.x = p.x; b.p.y = p.y; b.p.z = p.z; } else if (b.p.y > b.target){ b.p.y = Math.max(b.target, b.p.y - dt*0.6); } if (b.m){ b.m.position.set(b.p.x, b.p.y, b.p.z); b.m.rotation.y = k === held ? -rad(ang.base) : b.m.rotation.y; } }); });
+    s3.scene2(); s3.shadows();
+    const thumb = o => { const c = o.clone(true); c.position.set(0, 0, 0); return s3.snap(c); };
+    thumbs = {s1:thumb(STEMX.servo(s3, 'MG996')), s2:thumb(STEMX.servo(s3, 'MG996')), s3:thumb(STEMX.servo(s3, 'MG996')), s4:thumb(STEMX.servo(s3, 'SG90')), frame:thumb(STEMX.beam(s3, 0.1, alu)), uno:thumb(uno)};
+    ui.lib(Object.entries(ARM_PARTS).map(([k, p]) => ({id:k, n:p.n, icon:p.icon, img:thumbs[k], info:p.info})), k => say(el, '🔎 ' + ARM_PARTS[k].info));
   });
   setMs('move');
 }
 const STEM_IMPL = {ard:stemArduino, car:stemCar, arm:stemArm};
 function vStemLab(app){
   const k = S.arg, A = STEM[k]; if (!A) return go('stem');
-  app.innerHTML = `<div class="wrap wlab"><section class="section">
-    <div class="sec-head"><div><span class="eyebrow">Phòng STEM · Lập trình và lắp ráp 3D</span><h1 style="font-size:1.9rem">${A.icon} ${h(A.name)}</h1></div><button class="hub-mini" data-go="stem">← Phòng STEM</button></div>
-    <div id="labhost"></div></section></div>`;
+  app.innerHTML = '<div class="std-host" id="labhost"></div>';
   app.dataset.lock = '1';
-  STEM_IMPL[k]($('#labhost'), {sid:S.session || 'khach', practice:true});
+  STEM_IMPL[k]($('#labhost'));
 }
 
 /* ===================== NGOÀI CỔNG TRƯỜNG: nhặt và phân loại rác (điểm rèn luyện) ===================== */
@@ -4076,9 +4265,15 @@ async function scene3D(host, o = {}){
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, HUBFX.q === 'low' ? 1 : 2));
   renderer.setClearColor(new THREE.Color(cssVar('--surface-2', host)));
   const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(38, 1.6, 0.01, 50);
-  scene.add(new THREE.HemisphereLight(0xffffff, 0x7c7a90, 0.9));
-  const sun = new THREE.DirectionalLight(0xffffff, 0.7); sun.position.set(2, 4, 3); scene.add(sun);
+  const camera = new THREE.PerspectiveCamera(o.fov || 38, 1.6, 0.01, 50);
+  let sun;
+  if (o.studio){ renderer.setClearColor(new THREE.Color(o.bg || '#dfe6ee')); renderer.shadowMap.enabled = HUBFX.q !== 'low'; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    scene.add(new THREE.HemisphereLight(0xffffff, 0x9aa7b8, 0.72));
+    sun = new THREE.DirectionalLight(0xffffff, 0.82); sun.position.set(1.1, 2.6, 1.5); sun.castShadow = true; const sz = o.shadowSize || 1.2;
+    Object.assign(sun.shadow.camera, {left:-sz, right:sz, top:sz, bottom:-sz, near:0.1, far:7}); sun.shadow.mapSize.set(HUBFX.q === 'high' ? 2048 : 1024, HUBFX.q === 'high' ? 2048 : 1024); sun.shadow.bias = -0.0004; sun.shadow.normalBias = 0.015; scene.add(sun);
+    const fill = new THREE.DirectionalLight(0xcfe0ff, 0.32); fill.position.set(-1.5, 1.2, -1); scene.add(fill); }
+  else { scene.add(new THREE.HemisphereLight(0xffffff, 0x7c7a90, 0.9));
+    sun = new THREE.DirectionalLight(0xffffff, 0.7); sun.position.set(2, 4, 3); scene.add(sun); }
   const target = new THREE.Vector3(...(o.target || [0,0,0]));
   const home = {r:o.r || 1.4, th:o.th ?? 0, ph:o.ph ?? 1.05}; const cam = {...home};
   const rMin = o.rMin || 0.45, rMax = o.rMax || 3.5;
@@ -4107,7 +4302,8 @@ async function scene3D(host, o = {}){
       const stTop = Math.max(topH, st.getBoundingClientRect().top + window.scrollY);
       hh = Math.max(300, Math.min(w*0.45, vh - 200), Math.min(vh - stTop - other - 12, w*0.8)); }
     else hh = Math.min(hh, vh - (vw > vh && vh < 600 ? 60 : 130));
-    hh = Math.round(Math.max(220, hh)); renderer.setSize(w, hh, false); canvas.style.height = hh + 'px'; camera.aspect = w/hh; camera.updateProjectionMatrix(); if (fitN > 1) fitCam(); };
+    if (o.fill) hh = Math.max(200, host.clientHeight || hh);
+    hh = Math.round(Math.max(o.fill ? 200 : 220, hh)); renderer.setSize(w, hh, false); canvas.style.height = hh + 'px'; camera.aspect = w/hh; camera.updateProjectionMatrix(); if (fitN > 1) fitCam(); };
   const ray = new THREE.Raycaster(), ndc = new THREE.Vector2();
   const drags = [], clicks = []; if (window.__OLI_TEST) window.__s3c = clicks;
   const aim = e => { const r = canvas.getBoundingClientRect(); ndc.set(((e.clientX - r.left)/r.width)*2 - 1, -((e.clientY - r.top)/r.height)*2 + 1); ray.setFromCamera(ndc, camera); };
@@ -4177,10 +4373,19 @@ async function scene3D(host, o = {}){
   return {THREE, scene, camera, renderer, canvas, M, mesh, box, hitbox, label, screenTex, wire, beam, planeY, planeZ, glass, table, cyl, group,
     drag:(obj, hd) => drags.push({obj, ...hd}), click:(obj, fn) => clicks.push({obj, fn}),
     frame:f => frames.push(f), onDispose:f => disposers.push(f),
+    shadows:(root = scene) => { root.traverse(n => { if (n.isMesh && !(n.userData && n.userData.noShadow) && !(n.material && n.material.transparent && n.material.opacity < 0.5)){ n.castShadow = true; n.receiveShadow = true; } }); },
+    glide:(t, r, th, ph, ms = 700) => { const a = {t:target.clone(), r:cam.r, th:cam.th, ph:cam.ph}, b = {t:new THREE.Vector3(...(t || [target.x, target.y, target.z])), r:r ?? cam.r, th:th ?? cam.th, ph:ph ?? cam.ph}, t0 = performance.now(); userCam = true;
+      const step = () => { const k = Math.min(1, (performance.now() - t0)/ms), e = k < .5 ? 2*k*k : 1 - Math.pow(-2*k + 2, 2)/2; target.lerpVectors(a.t, b.t, e); cam.r = a.r + (b.r - a.r)*e; cam.th = a.th + (b.th - a.th)*e; cam.ph = a.ph + (b.ph - a.ph)*e; place(); if (k < 1) requestAnimationFrame(step); else Object.assign(home, cam); }; requestAnimationFrame(step); },
+    snap:(obj, W = 160, H = 120) => { try { if (!scene3D._snapR){ scene3D._snapR = new THREE.WebGLRenderer({antialias:true, alpha:true, preserveDrawingBuffer:true}); } const R = scene3D._snapR; R.setSize(W, H, false); R.setClearColor(0x000000, 0);
+      const sc = new THREE.Scene(); sc.add(new THREE.HemisphereLight(0xffffff, 0x8899aa, 0.95)); const dl = new THREE.DirectionalLight(0xffffff, 0.7); dl.position.set(1, 2, 1.5); sc.add(dl);
+      const c = obj.clone(true); c.position.set(0, 0, 0); c.rotation.set(0, 0, 0); c.traverse(n => { if (n.isSprite) n.visible = false; if (n.material && n.material.opacity === 0) n.visible = false; }); sc.add(c);
+      const bb = new THREE.Box3().setFromObject(c), ctr = bb.getCenter(new THREE.Vector3()), sz = bb.getSize(new THREE.Vector3()).length() || 0.1;
+      const cm = new THREE.PerspectiveCamera(30, W/H, 0.001, 10); cm.position.set(ctr.x + sz*0.95, ctr.y + sz*0.8, ctr.z + sz*1.35); cm.lookAt(ctr); R.render(sc, cm); return R.domElement.toDataURL('image/png'); } catch(e){ return ''; } },
     look:(t, r, th, ph) => { if (t) target.set(...t); Object.assign(cam, {r:r ?? cam.r, th:th ?? cam.th, ph:ph ?? cam.ph}); Object.assign(home, cam); userCam = true; place(); }};
 }
 function mount3D(el, opts, build){
   const host = $('#v3', el);
+  if (opts.studio && host.clientWidth && host.clientHeight){ const asp = host.clientWidth/host.clientHeight; if (asp < 1.25){ const k = Math.min(2.6, Math.pow(1.25/asp, 1.15)); opts = {...opts, r:opts.r*k, rMax:(opts.rMax || 3)*k, views:(opts.views || []).map(v => ({...v, r:v.r && v.r*k}))}; } }
   scene3D(host, opts).then(build).catch(err => {
     console.warn(err);
     host.innerHTML = `<p class="notice">${err && err.message === 'webgl' ? 'Thiết bị hoặc trình duyệt này chưa hỗ trợ đồ họa 3D (WebGL). Em thử mở bằng Chrome hoặc Edge trên máy tính.' : 'Chưa tải được thư viện 3D. Kiểm tra kết nối mạng rồi mở lại thí nghiệm.'}</p>`;
