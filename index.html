@@ -1298,6 +1298,12 @@ mark{background:transparent;color:inherit;border-radius:4px;padding:0 2px}mark.p
 .aw-chk ul{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:4px}.aw-chk li{color:#fca5a5}.aw-chk li.ok{color:#4ade80}.aw-chk li small{display:block;color:#c9d6f5;margin-left:18px}
 #prIn{width:100%}
 @media (max-width:760px){.ai-formula,.ai-light,.aw-cmp{grid-template-columns:1fr}}
+.ol-asst{border-color:rgba(167,139,250,.55);background:radial-gradient(120% 120% at 100% 0%,rgba(167,139,250,.16),transparent 60%),var(--surface)}
+.ol-h{display:flex;gap:12px;align-items:center}.ol-av{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font-size:1.4rem;background:linear-gradient(135deg,#22d3ee,#a78bfa);flex:0 0 auto}
+.ol-ex{display:flex;flex-wrap:wrap;gap:6px}.ol-chip{border:1px dashed var(--line);background:transparent;color:var(--muted);border-radius:99px;padding:4px 10px;font:inherit;font-size:.78rem;cursor:pointer;text-align:left}.ol-chip:hover{border-color:#a78bfa;color:var(--ink)}
+#olMsg.bad{color:var(--red)}
+.ol-draft{display:grid;gap:8px;padding:12px;border-radius:14px;border:1.5px solid rgba(74,222,128,.5);background:rgba(74,222,128,.06)}
+.ol-qs summary{cursor:pointer;font-weight:700}.ol-qs ol{margin:8px 0 0;padding-left:20px;display:grid;gap:8px;font-size:.88rem;max-height:360px;overflow:auto}.ol-qs ul{list-style:none;padding:0;margin:4px 0}.ol-qs li li.ok{color:#4ade80;font-weight:700}.ol-qs small{color:#c9d6f5}
 </style>
 
 <header class="top"><div class="wrap">
@@ -7706,6 +7712,87 @@ const KIND_NAME = {lesson:'Bài giảng', quiz:'Trắc nghiệm', lab:'Thí nghi
 const taskBody = t => { const o = {title:t.title, grade:t.grade, subject:t.subject, kind:t.kind, points:t.points, intro:t.intro || ''};
   if (t.kind === 'lesson') o.segs = t.segs || []; else if (t.kind === 'lab') o.lab = t.lab; else o.questions = t.questions || []; return o; };
 
+/* ---------- Trợ lí Ô Li: ra đề và giao bài bằng AI (giáo viên duyệt trước khi giao) ---------- */
+const OL_DOW = ['Chủ nhật', 'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy'];
+const olClasses = g => [...new Set(Object.values(S.students).filter(s => !g || String(s.grade) === String(g)).map(s => s.cls))].sort();
+const olFix = (r, fb = {}) => {
+  const grade = [6, 7, 8, 9].includes(+r.grade) ? +r.grade : (+fb.grade || 6), subject = SUBJ[r.subject] ? r.subject : (fb.subject || 'toan');
+  const okCls = olClasses(grade); const cls = (Array.isArray(r.cls) ? r.cls : []).map(String).filter(c => okCls.includes(c));
+  const lost = (Array.isArray(r.cls) ? r.cls : []).filter(c => !okCls.includes(String(c)));
+  let due = /^\d{4}-\d{2}-\d{2}$/.test(r.due || '') ? r.due : ''; if (due && due < dayKey()) due = '';
+  const questions = (Array.isArray(r.questions) ? r.questions : []).map(cleanQ).filter(Boolean).map(q => ({q:q.q, o:q.o, a:q.a, e:q.e || ''})).slice(0, 30);
+  return {t:{title:String(r.title || fb.title || 'Bài trắc nghiệm').slice(0, 120), grade, subject, kind:'quiz', open:'', due, lock:false, points:10, intro:String(r.intro || '').slice(0, 200), cls:fb.sids ? [] : cls, sids:fb.sids || [], questions}, lost};
+};
+async function olDraft(req){
+  const s = await getSampler(); if (!s) throw {code:'not_granted'};
+  const now = new Date(), cls = olClasses();
+  const prompt = `Bạn là "Ô Li", trợ lí ra đề cho giáo viên THCS ở Việt Nam (chương trình GDPT 2018).
+Hôm nay là ${OL_DOW[now.getDay()]}, ngày ${dayKey(now)} (năm-tháng-ngày).
+Các lớp hiện có trong hệ thống: ${cls.join(', ') || '(chưa có)'}.
+Mã môn học: ${Object.entries(SUBJ).filter(([k]) => k !== 'sk').map(([k, v]) => `${k} = ${v.name}`).join('; ')}.
+${req.base ? `Đây là bài BỔ TRỢ cho học sinh còn yếu sau nhiệm vụ "${req.base.title}" (khối ${req.base.grade}, môn ${SUBJ[req.base.subject]?.name || req.base.subject}). Các câu nhiều em làm sai:\n${req.base.miss.map((q, i) => `${i + 1}) ${q.q} (đáp án đúng: ${q.o[q.a]}; ${q.wrong} em sai)`).join('\n')}\nHãy soạn câu hỏi MỚI (không chép lại câu cũ) giúp các em hiểu lại đúng những kiến thức này, từ dễ đến vừa, giải thích kĩ hơn.\n` : ''}Yêu cầu của giáo viên: """${String(req.text || '').slice(0, 800)}"""
+
+Trả về DUY NHẤT một đối tượng JSON dạng:
+{"title":"tên nhiệm vụ ngắn gọn","grade":6,"subject":"toan","cls":["6A"],"due":"YYYY-MM-DD hoặc chuỗi rỗng","intro":"lời dặn 1 câu cho học sinh","questions":[{"q":"nội dung câu hỏi","o":["phương án A","phương án B","phương án C","phương án D"],"a":0,"e":"giải thích ngắn vì sao đúng"}]}
+Quy tắc:
+- Số câu đúng như giáo viên yêu cầu (nếu không nói thì 10 câu, tối đa 30).
+- Mỗi câu có đúng 4 phương án, chỉ 1 đáp án đúng ("a" là số thứ tự 0–3), phương án sai phải hợp lí; vị trí đáp án đúng phân bố đều, không lặp một vị trí.
+- Kiến thức phải chính xác, đúng chương trình và vừa sức học sinh 11–15 tuổi; trộn mức nhận biết, thông hiểu, vận dụng; câu hỏi không dùng hình vẽ.
+- "cls" là danh sách lớp giáo viên nhắc tới (chỉ chọn trong các lớp hiện có); để mảng rỗng nếu giao cả khối.
+- "due": nếu giáo viên nói "thứ Sáu", "tuần sau", "3 ngày nữa"… thì tính ra ngày cụ thể sau hôm nay; nếu không nói thì để rỗng.
+- Không thêm chữ nào ngoài JSON.`;
+  const r = await s.json(prompt, {modelTier:'default'});
+  if (!r || typeof r !== 'object') throw {code:'empty'};
+  const out = olFix(r, req.base ? {grade:req.base.grade, subject:req.base.subject, title:'Bổ trợ: ' + req.base.title, sids:req.base.sids} : {});
+  if (!out.t.questions.length) throw {code:'empty'};
+  if (req.base && !out.t.due){ const d = new Date(); d.setDate(d.getDate() + 3); out.t.due = dayKey(d); }
+  if (req.base) out.t.title = out.t.title.startsWith('Bổ trợ') ? out.t.title : 'Bổ trợ: ' + out.t.title;
+  return out;
+}
+function olAssist(box){
+  const dr = S.olDraft;
+  const msg = (t, bad) => { const p = $('#olMsg', box); if (p){ p.innerHTML = t; p.classList.toggle('bad', !!bad); } };
+  box.innerHTML = `<div class="ol-h"><span class="ol-av">✨</span><div><h2 style="margin:0">Trợ lí Ô Li ra đề và giao bài</h2><p class="muted" style="margin:0;font-size:.84rem">Cô nói bằng lời bình thường, Ô Li soạn đề trắc nghiệm có đáp án, giải thích và đề xuất lớp, hạn nộp. Cô xem lại rồi mới giao.</p></div></div>
+    <div id="olBody"><p class="muted" style="margin:0">Đang kiểm tra trợ lí AI…</p></div>`;
+  getSampler().then(s => {
+    const B = $('#olBody', box); if (!B) return;
+    if (!s){ B.innerHTML = `<p class="notice" style="margin:0">Trợ lí Ô Li chưa được bật trên trang này. Ở bản web, thầy cô cần bật tính năng AI một lần theo file <b>HUONG-DAN-AI.md</b> (khóa AI cất trên máy chủ Supabase). Trong lúc chờ, cô dùng nút <b>“Nhờ AI miễn phí soạn đề”</b> trong khung Giao nhiệm vụ mới.</p>`; return; }
+    const exs = ['Ra 10 câu trắc nghiệm ôn tập phân số bằng nhau cho lớp 6A, hạn thứ Sáu', 'Soạn 8 câu về quang hợp cho khối 7, có 2 câu vận dụng thực tế', 'Đề 12 câu thì hiện tại hoàn thành tiếng Anh lớp 8, hạn 3 ngày nữa'];
+    B.innerHTML = `<textarea class="inp" id="olReq" rows="3" maxlength="800" placeholder="Ví dụ: ${h(exs[0])}">${h(S.olReq || '')}</textarea>
+      <div class="ol-ex">${exs.map(x => `<button type="button" class="ol-chip" data-olx="${h(x)}">${h(x)}</button>`).join('')}</div>
+      <div class="row" style="gap:8px;align-items:center"><button type="button" class="btn small" id="olGo" style="flex:0 0 auto">✨ Ô Li soạn đề</button><span id="olMsg" class="muted" role="status" style="font-size:.86rem"></span></div>
+      <div id="olDr"></div>`;
+    $$('[data-olx]', B).forEach(b => b.onclick = () => { $('#olReq', B).value = b.dataset.olx; S.olReq = b.dataset.olx; });
+    $('#olReq', B).oninput = e => S.olReq = e.target.value;
+    $('#olGo', B).onclick = async () => { const text = $('#olReq', B).value.trim(); if (text.length < 8){ msg('Cô nhập yêu cầu cụ thể hơn một chút nhé (chủ đề, số câu, lớp).', true); return; }
+      const b = $('#olGo', B); b.disabled = true; msg('Ô Li đang soạn đề, khoảng 20–40 giây…');
+      try { S.olDraft = await olDraft({text}); drawDraft(); msg(''); }
+      catch(e){ msg(e && e.code === 'rate_limited' ? 'Ô Li đang bận, cô thử lại sau ít phút.' : e && e.code === 'not_granted' ? 'Trợ lí chưa được bật.' : 'Ô Li chưa soạn được đề lần này, cô thử lại hoặc nói rõ hơn yêu cầu.', true); }
+      b.disabled = false; };
+    drawDraft();
+  });
+  const drawDraft = () => { const D = $('#olDr', box), d = S.olDraft; if (!D) return; if (!d){ D.innerHTML = ''; return; } const t = d.t;
+    D.innerHTML = `<div class="ol-draft"><div class="row" style="justify-content:space-between;align-items:flex-start;gap:8px"><div><span class="eyebrow">Bản nháp của Ô Li${t.sids.length ? ' · bài bổ trợ' : ''}</span><h3 style="margin:2px 0">${h(t.title)}</h3>
+        <p class="muted" style="margin:0;font-size:.85rem">Khối ${t.grade} · ${h(SUBJ[t.subject]?.name || t.subject)} · ${t.questions.length} câu · giao cho <b>${h(targetLabel(t))}</b>${t.due ? ' · hạn ' + ddmm(t.due) : ' · chưa đặt hạn'}</p></div><button type="button" class="hub-mini" id="olX" style="flex:0 0 auto">✕ Bỏ</button></div>
+      ${d.lost && d.lost.length ? `<p class="notice" style="margin:0">Không tìm thấy lớp ${h(d.lost.join(', '))} trong hệ thống nên ${t.cls.length ? 'Ô Li chỉ giao cho ' + h(t.cls.join(', ')) : 'Ô Li để giao cả khối'}. Cô bấm “Sửa trước khi giao” nếu muốn chọn lại.</p>` : ''}
+      ${t.intro ? `<p style="margin:0;font-size:.9rem">📝 ${h(t.intro)}</p>` : ''}
+      <details class="ol-qs"><summary>Xem ${t.questions.length} câu hỏi và đáp án</summary><ol>${t.questions.map(q => `<li><b>${h(q.q)}</b><ul>${q.o.map((o, j) => `<li class="${j === q.a ? 'ok' : ''}">${'ABCD'[j]}. ${h(o)}${j === q.a ? ' ✓' : ''}</li>`).join('')}</ul>${q.e ? `<small>💡 ${h(q.e)}</small>` : ''}</li>`).join('')}</ol></details>
+      <p class="muted" style="margin:0;font-size:.8rem">AI có thể sai: cô đọc lại câu hỏi và đáp án trước khi giao.</p>
+      <div class="row" style="gap:8px;flex-wrap:wrap"><button type="button" class="btn small" id="olSend" style="flex:0 0 auto">✅ Đã kiểm tra, giao ngay</button><button type="button" class="btn ghost small" id="olEdit" style="flex:0 0 auto">✏️ Sửa trước khi giao</button><label class="chk" style="flex:0 0 auto"><input type="checkbox" id="olBank"> Cất vào kho đề</label></div></div>`;
+    $('#olX', D).onclick = () => { S.olDraft = null; drawDraft(); };
+    $('#olEdit', D).onclick = () => { S.tEdit = {id:null, t:{...t}, from:'Đề do Trợ lí Ô Li soạn. Cô kiểm tra từng câu, chọn lớp, đặt hạn rồi bấm Giao nhiệm vụ.'}; S.olDraft = null; render(); $('#tf')?.scrollIntoView({behavior:'smooth', block:'start'}); };
+    $('#olSend', D).onclick = async () => { const b = $('#olSend', D); b.disabled = true; const id = uid('t'); const doc = {...t, createdAt:Date.now(), by:'ol'};
+      try { await S.db.doc('tasks/' + id).set(doc); if ($('#olBank', D).checked){ try { await S.db.doc('bank/' + uid('b')).set({...taskBody(doc), savedAt:Date.now()}); } catch(e){} }
+        toast(`Đã giao: ${targetLabel(doc)}`); S.olDraft = null; S.olReq = ''; S.tDetail = id; render(); }
+      catch(e){ b.disabled = false; msg('Chưa giao được nhiệm vụ, cô thử lại.', true); } }; };
+}
+async function olRemedial(tid){
+  const t = S.tasks[tid]; if (!t || t.kind !== 'quiz') return;
+  const weak = taskStuds(t).filter(([sid]) => { const sb = S.subs[`${sid}__${tid}`]; return sb && sb.score < 5; }).map(([sid]) => sid);
+  const wrong = (t.questions || []).map((q, i) => ({...q, wrong:Object.values(S.subs).filter(sb => sb.tid === tid && sb.detail && Array.isArray(sb.detail.answers) && sb.detail.answers[i] !== undefined && sb.detail.answers[i] !== q.a).length}));
+  const miss = wrong.filter(q => q.wrong > 0).sort((a, b) => b.wrong - a.wrong).slice(0, 4);
+  return {weak, base:{title:t.title, grade:t.grade, subject:t.subject, sids:weak, miss:miss.length ? miss : wrong.slice(0, 3)}};
+}
 function tTasks(el){
   bankSub();
   const gf = S.tGrade || 'all';
@@ -7725,13 +7812,14 @@ function tTasks(el){
       <p class="muted" style="margin:0;font-size:.85rem">👥 ${h(targetLabel(t))} · đã nộp ${yes.length}/${st.length}${t.due ? ' · hạn ' + ddmm(t.due) : ''}</p>
       <div class="det-cols"><div><b>Chưa nộp (${no.length})</b>${no.length ? `<ul class="det-l">${no.map(([, s]) => `<li>${h(s.name)} <span class="muted">${h(s.cls)}</span></li>`).join('')}</ul>` : '<p class="muted">Cả lớp đã nộp. Tuyệt vời!</p>'}</div>
         <div><b>Đã nộp (${yes.length})</b>${yes.length ? `<ul class="det-l">${yes.map(([sid, s]) => { const sb = S.subs[`${sid}__${id}`]; return `<li>${h(s.name)} <span class="muted">${h(s.cls)}</span> <span class="pen">${vn(sb.score)}</span></li>`; }).join('')}</ul>` : '<p class="muted">Chưa có em nào nộp.</p>'}</div></div>
+      ${t.kind === 'quiz' && yes.some(([sid]) => S.subs[`${sid}__${id}`].score < 5) ? `<div class="row" style="gap:8px;align-items:center"><button type="button" class="btn ghost small" id="olRem" hidden style="flex:0 0 auto">✨ Ô Li soạn bài bổ trợ cho ${yes.filter(([sid]) => S.subs[`${sid}__${id}`].score < 5).length} em dưới 5 điểm</button></div>` : ''}
       ${no.length && !taskLocked(t) ? `<div class="row" style="gap:8px;align-items:center"><button type="button" class="btn small" id="nudgeB" style="flex:0 0 auto">🔔 Nhắc ${no.length} em chưa nộp</button><span class="muted" style="font-size:.8rem">${nudged ? 'Lần nhắc gần nhất: ' + h(nudged) + '. ' : ''}Các em sẽ thấy lời nhắc khi mở app.</span></div>` : ''}</div>`; };
   const bank = Object.entries(S.bank || {}).sort((a, b) => (b[1].savedAt || 0) - (a[1].savedAt || 0));
   const bq = (S.tBankQ || '').toLowerCase();
   const bkText = b => (b.title + ' ' + (SUBJ[b.subject]?.name || '') + ' khối ' + b.grade).toLowerCase(); const bankL = bank;
   const classesOf = g => [...new Set(Object.values(S.students).filter(s => String(s.grade) === String(g)).map(s => s.cls))].sort();
   el.innerHTML = `<div class="tk-grid">
-    <div class="stack" style="gap:14px"><div class="panel stack"><div class="row" style="justify-content:space-between;align-items:center;gap:8px"><h2 style="margin:0">Nhiệm vụ đã giao</h2>
+    <div class="stack" style="gap:14px"><div class="panel stack ol-asst" id="olA"></div><div class="panel stack"><div class="row" style="justify-content:space-between;align-items:center;gap:8px"><h2 style="margin:0">Nhiệm vụ đã giao</h2>
       <div class="seg" role="group" aria-label="Lọc khối">${['all', 6, 7, 8, 9].map(g => `<button type="button" data-gf="${g}" aria-pressed="${String(gf) === String(g)}">${g === 'all' ? 'Tất cả' : 'Khối ' + g}</button>`).join('')}</div></div>
       ${S.tDetail ? detail() : ''}
       ${list.length ? `<div class="tk-list">${list.slice(0, S.tMore ? 999 : 8).map(row).join('')}</div>${list.length > 8 && !S.tMore ? `<button type="button" class="btn ghost small" id="tMore" style="justify-self:center">Xem thêm ${list.length - 8} nhiệm vụ</button>` : ''}` : '<p class="muted">Chưa có nhiệm vụ nào.</p>'}
@@ -7758,6 +7846,10 @@ function tTasks(el){
       <div class="row" style="gap:8px"><button class="btn" type="submit" style="flex:0 0 auto">${editing ? 'Lưu thay đổi' : 'Giao nhiệm vụ'}</button>${editing ? '' : '<label class="chk" style="flex:0 0 auto"><input type="checkbox" id="fbank"> Cất bản sao vào kho đề</label>'}</div>
       <p id="ferr" class="pen" role="alert" style="font-size:1.05rem"></p>
     </form></div>`;
+  olAssist($('#olA', el));
+  const orb = $('#olRem', el); if (orb) getSampler().then(sm => { if (!sm) return; orb.hidden = false; orb.onclick = async () => { orb.disabled = true; orb.textContent = '✨ Ô Li đang soạn bài bổ trợ…';
+      try { const r = await olRemedial(S.tDetail); S.olDraft = await olDraft({text:`Soạn 6 câu trắc nghiệm bổ trợ cho ${r.weak.length} học sinh còn yếu.`, base:r.base}); render(); $('#olA')?.scrollIntoView({behavior:'smooth', block:'start'}); }
+      catch(e){ orb.disabled = false; orb.textContent = 'Chưa soạn được, bấm để thử lại'; } }; });
   // ----- danh sách -----
   $$('[data-gf]', el).forEach(b => b.onclick = () => { S.tGrade = b.dataset.gf; render(); });
   const tm = $('#tMore', el); if (tm) tm.onclick = () => { S.tMore = true; render(); };
