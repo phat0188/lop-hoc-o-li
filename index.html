@@ -1315,6 +1315,7 @@ mark{background:transparent;color:inherit;border-radius:4px;padding:0 2px}mark.p
 .rp-gold{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px}.rp-gold > div{padding:10px;border-radius:12px;background:var(--surface-2);border:1px solid var(--line)}.rp-gold ol{margin:6px 0 0;padding-left:20px;font-size:.86rem;display:grid;gap:3px}.rp-gold li b{color:#facc15;margin-left:4px}
 .hb-grades{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:6px;margin-top:8px}.hb-grades span{display:grid;padding:6px 8px;border-radius:10px;background:rgba(250,204,21,.08);border:1px solid rgba(250,204,21,.3);font-size:.8rem}.hb-grades i{font-style:normal;color:#facc15;font-weight:700}.hb-grades small{color:var(--muted)}
 @media (max-width:900px){.xt-grid{grid-template-columns:1fr 1fr}.rp-tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.pill.lib{background:rgba(250,204,21,.15);color:#fde68a;border:1px solid rgba(250,204,21,.45)}
 </style>
 
 <header class="top"><div class="wrap">
@@ -1920,15 +1921,16 @@ function vLabs(app){
 function vRoom(app){
   const key = S.arg, all = key === 'all', r = ROOMS[key]; if (!all && !r) return go('labs');
   const m = me();
-  const keys = all ? Object.keys(LABS) : r.labs;
+  const gOk = k => !m || String(LABS[k].grade) === String(m.grade);
+  const keys = (all ? Object.keys(LABS) : r.labs).filter(gOk);
   const taskFor = k => m ? Object.entries(S.tasks).map(([id, t]) => ({id, ...t})).find(t => t.kind === 'lab' && t.lab === k && forMe(t, m)) : null;
   const card = k => { const l = LABS[k], t = taskFor(k), s = t ? S.subs[`${m.id}__${t.id}`] : null, rr = ROOMS[roomOf(k)];
     return `<article class="rlab" style="--c1:${rr.c1};--c2:${rr.c2}"><span class="rlab-ic">${ICONS[k] || ''}</span>
       <div class="rlab-b"><div class="t-meta">${chip(l.subj)}<span class="pill lab">Khối ${l.grade}</span><span class="pill done">3D</span>${t ? (s ? `<span class="pill done">Đã nộp · ${vn(s.score)}</span>` : `<span class="pill todo">Nhiệm vụ${t.due ? ' · hạn ' + h(t.due.split('-').reverse().slice(0,2).join('/')) : ''}</span>`) : ''}</div>
       <h3>${h(l.name)}</h3><p>${h(l.desc.replace(/^Phòng 3D:\s*/, ''))}</p><span class="muted" style="font-size:.78rem">${h(l.topic)}</span>
       <div class="row" style="gap:8px">${t && !s ? `<button class="btn small" data-go="task" data-arg="${h(t.id)}" style="flex:0 0 auto">Làm nhiệm vụ</button>` : ''}<button class="btn ${t && !s ? 'ghost ' : ''}small" data-go="lab" data-arg="${k}" style="flex:0 0 auto">${t && s ? 'Thực hành lại' : 'Vào phòng 3D'}</button></div></div></article>`; };
-  const body = all ? Object.entries(ROOMS).map(([rk, rv]) => `<h2 class="hub-h2" style="--c2:${rv.c2}"><span class="room-sw"></span>${h(rv.name)} <span class="muted" style="font-weight:600;text-transform:none;letter-spacing:0">· ${h(HUB_SUBJ[rv.subj])}</span></h2><div class="rlabs">${rv.labs.map(card).join('')}</div>`).join('')
-    : `<div class="rlabs">${keys.map(card).join('')}</div>`;
+  const body = all ? Object.entries(ROOMS).map(([rk, rv]) => `<h2 class="hub-h2" style="--c2:${rv.c2}"><span class="room-sw"></span>${h(rv.name)} <span class="muted" style="font-weight:600;text-transform:none;letter-spacing:0">· ${h(HUB_SUBJ[rv.subj])}</span></h2><div class="rlabs">${rv.labs.filter(gOk).map(card).join('') || `<p class="muted">Phòng này chưa có thí nghiệm dành cho khối ${h(m ? m.grade : '')}.</p>`}</div>`).join('')
+    : `<div class="rlabs">${keys.map(card).join('') || `<p class="notice">Phòng này chưa có thí nghiệm dành cho khối ${h(m ? m.grade : '')}. Em chọn phòng khác nhé.</p>`}</div>`;
   app.innerHTML = `<section class="hub"><div class="wrap hub-wrap">
     <div class="sec-head"><div class="room-head" ${r ? `style="--c1:${r.c1};--c2:${r.c2}"` : ''}>${r ? `<span class="room-art sm">${ROOM_ART[key]}</span>` : `<span class="hub-atom">${HUB_ICON.atom}</span>`}<div><span class="eyebrow">${all ? 'Tất cả phòng chuyên đề' : 'Phòng chuyên đề · ' + h(HUB_SUBJ[r.subj])}</span><h1 class="hub-title" style="font-size:clamp(1.5rem,4vw,2.2rem)">${all ? 'Thí nghiệm 3D' : h(r.name)}</h1><p class="muted" style="max-width:60ch">${all ? `${keys.length} phòng thí nghiệm 3D cho Vật lí, Hóa học và Sinh học.` : h(r.desc)}</p></div></div>
       <button class="hub-mini" data-go="labs">← Sảnh phòng học ảo</button></div>
@@ -4561,7 +4563,7 @@ function aiSave(sid, lid, patch){ const all = aiProg(sid), cur = all[lid] || {},
   if (sid){ const g = gearOf(sid); g.ai = all; if (S.gear && S.gear[sid]) S.gear[sid].ai = all; clearTimeout(_aiSaveT); _aiSaveT = setTimeout(() => saveGear(sid, g), 600); }
   if (sid && !was && aiDone(nx)){ const L = AI_BY[lid]; awardActivity('ai_' + lid, Math.round((nx.q || 0)/4*100)/10, 'Hoàn thành chuyên đề Lớp học AI: ' + (L ? L.name : lid)).then(r => { if (r) toast('⭐ +5 điểm thưởng vào bảng vàng'); }); }
   return nx; }
-const aiGradeOf = () => { const m = me(); const g = m && +m.grade; return AI_GRADES[S.aiG] ? S.aiG : AI_GRADES[g] ? g : 6; };
+const aiGradeOf = () => { const m = me(); const g = m && +m.grade; if (m && AI_GRADES[g]) return g; return AI_GRADES[S.aiG] ? S.aiG : AI_GRADES[g] ? g : 6; };
 const aiChip = c => { const st = AI_STRAND[c[0]]; return `<span class="ai-chip" style="--sc:${st.c}" title="${h(st.n)}: ${h(AI_TOPIC[c] || '')}"><b>${c}</b>${h(AI_TOPIC[c] || '')}</span>`; };
 const aiRand = seed => () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0)/4294967296; };
 
@@ -4578,7 +4580,7 @@ function vAi(app){
       <div class="ai-hero-art" aria-hidden="true">${aiArt()}</div>
     </header>
     <div class="ai-strands">${Object.entries(AI_STRAND).map(([k, s]) => `<div class="ai-st" style="--sc:${s.c}"><b>${k}</b><span>${h(s.n)}</span></div>`).join('')}</div>
-    <div class="ai-grades" role="tablist" aria-label="Chọn khối lớp">${Object.entries(AI_GRADES).map(([g, x]) => { const d = x.lessons.filter(l => aiDone(prog[l.id])).length;
+    <div class="ai-grades" role="tablist" aria-label="Chọn khối lớp">${Object.entries(AI_GRADES).filter(([g]) => !m || +g === +G).map(([g, x]) => { const d = x.lessons.filter(l => aiDone(prog[l.id])).length;
       return `<button role="tab" data-aig="${g}" aria-selected="${+g === +G}"><b>Lớp ${g}</b><small>${h(x.title)}</small><i>${d}/6</i></button>`; }).join('')}</div>
     <div class="ai-prog"><div class="ai-bar"><span style="width:${nDone/6*100}%"></span></div><span>${m ? `Em đã hoàn thành <b>${nDone}/6</b> chuyên đề lớp ${G} (${nDone*2}/12 tiết)` : 'Đăng nhập để lưu tiến độ học tập. Em vẫn có thể học thử ngay.'}</span></div>
     <div class="ai-grid">${L.map((l, i) => { const p = prog[l.id] || {}, d = aiDone(p);
@@ -5359,7 +5361,7 @@ function resultBox(task, s){
 }
 
 function vTask(app){
-  const m = me(); const t = S.tasks[S.arg]; if (!m || !t) return go('student');
+  const m = me(); const t = S.tasks[S.arg] || LIB_BY[S.arg]; if (!m || !t) return go(LIB_BY[S.arg] ? 'class' : 'student');
   const task = {id:S.arg, ...t};
   if (!forMe(task, m)) return go('student');
   if (taskLocked(task)){ const s0 = S.subs[`${m.id}__${task.id}`];
@@ -6807,12 +6809,475 @@ function openVoiceSettings(onChange){
 const splitSents = txt => String(txt || '').replace(/\s+/g, ' ').trim().split(/(?<=[.!?…])\s+(?=\S)/).filter(s => s.replace(/^\[en\]/i,'').trim());
 const slideSay = s => s.say ? splitSents(s.say) : splitSents([s.h + '.', ...(s.b || []).map(x => /[.!?…]$/.test(x) ? x : x + '.'), s.f ? `Ghi nhớ: ${s.f}.` : '', s.ex ? `Ví dụ: ${s.ex}` : ''].join(' '));
 
+/* ===================== THƯ VIỆN BÀI GIẢNG CÓ SẴN (hiện theo khối của học sinh) ===================== */
+const LS = (h, b, say, f) => ({type:'slide', h, b, say, ...(f ? {f} : {})});
+const LQ = (q, o, a, e) => ({type:'q', q, o, a, e, p:4});
+const LIB = [];
+const LIBADD = (id, grade, subject, title, segs) => LIB.push({id:'lib_' + id, lib:true, kind:'lesson', grade, subject, title, segs, cls:[], sids:[]});
+/* ---------- TIẾNG ANH 6 ---------- */
+LIBADD('a6u2', 6, 'anh', 'Unit 2 · My House', [
+  LS('Rooms in a house', ['living room – phòng khách', 'bedroom – phòng ngủ', 'kitchen – nhà bếp', 'bathroom – phòng tắm', 'hall – hành lang'], 'Hôm nay chúng ta học về ngôi nhà. [en] Living room. Là phòng khách. [en] Bedroom. Là phòng ngủ. [en] Kitchen. Là nhà bếp. [en] Bathroom. Là phòng tắm.'),
+  LS('Furniture', ['sofa, fridge, cupboard', 'chest of drawers – tủ có ngăn kéo', 'dishwasher – máy rửa bát', 'wardrobe – tủ quần áo'], 'Các đồ đạc trong nhà. [en] Sofa. Fridge. Cupboard. [en] Chest of drawers. Là tủ có ngăn kéo. [en] Wardrobe. Là tủ quần áo.'),
+  LQ('Where do we usually cook meals?', ['in the kitchen', 'in the bedroom', 'in the bathroom', 'in the hall'], 0, 'Kitchen là nhà bếp, nơi nấu ăn.'),
+  LS('There is / There are', ['There is + danh từ số ít: There is a sofa.', 'There are + danh từ số nhiều: There are two beds.', 'Câu hỏi: Is there…? / Are there…?'], 'Để nói có cái gì, ta dùng there is với danh từ số ít và there are với danh từ số nhiều. [en] There is a sofa in the living room. [en] There are two beds in my bedroom.', 'There is a lamp. · There are three chairs.'),
+  LQ('___ four chairs in the kitchen.', ['There are', 'There is', 'There be', 'It is'], 0, '"four chairs" là số nhiều nên dùng There are.'),
+  LS('Prepositions of place', ['in – ở trong · on – ở trên', 'under – ở dưới · next to – bên cạnh', 'behind – phía sau · in front of – phía trước', 'between – ở giữa'], 'Giới từ chỉ vị trí. [en] The cat is under the table. Con mèo ở dưới cái bàn. [en] The lamp is next to the bed. Cái đèn ở bên cạnh giường.'),
+  LQ('The dog is ___ the sofa and the TV. (ở giữa)', ['between', 'behind', 'under', 'on'], 0, 'between … and … nghĩa là ở giữa hai vật.'),
+  LQ('Choose the correct question.', ['Is there a fridge in your kitchen?', 'Are there a fridge in your kitchen?', 'There is a fridge in your kitchen?', 'Is there fridges in your kitchen?'], 0, 'a fridge là số ít nên hỏi Is there…?')]);
+LIBADD('a6u3', 6, 'anh', 'Unit 3 · My Friends', [
+  LS('Describing appearance', ['tall / short', 'long hair / short hair', 'round face, big eyes', 'glasses – kính'], 'Miêu tả ngoại hình. [en] She is tall. She has long hair. [en] He has a round face and big eyes.'),
+  LS('Personality adjectives', ['kind – tốt bụng · friendly – thân thiện', 'clever – thông minh · funny – hài hước', 'confident – tự tin · shy – nhút nhát', 'creative – sáng tạo · hard-working – chăm chỉ'], 'Tính từ chỉ tính cách. [en] Kind. Tốt bụng. [en] Funny. Hài hước. [en] Confident. Tự tin. [en] Hard-working. Chăm chỉ.'),
+  LQ('My friend always helps other people. She is very ___.', ['kind', 'shy', 'lazy', 'boring'], 0, 'Luôn giúp đỡ người khác là tốt bụng: kind.'),
+  LS('be + adjective / have + noun', ['She is friendly. (be + tính từ)', 'She has short black hair. (have + danh từ)', 'He / She / It → is, has'], 'Khi nói về tính cách ta dùng động từ be. Khi nói về bộ phận cơ thể ta dùng have hoặc has. [en] Mai is friendly. She has short black hair.'),
+  LQ('Nam ___ big brown eyes.', ['has', 'have', 'is', 'are'], 0, 'Chủ ngữ số ít Nam nên dùng has.'),
+  LS('Present continuous for future plans', ['I am visiting my grandparents this weekend.', 'Are you doing anything on Sunday?', 'Cấu trúc: be + V-ing + thời gian tương lai'], 'Thì hiện tại tiếp diễn còn dùng để nói về kế hoạch đã sắp xếp trong tương lai gần. [en] I am visiting my grandparents this weekend.'),
+  LQ('We ___ a picnic next Saturday.', ['are having', 'has', 'have had', 'is having'], 0, 'Kế hoạch đã sắp xếp: are having với chủ ngữ We.'),
+  LQ('Which word is NOT a personality adjective?', ['tall', 'funny', 'shy', 'clever'], 0, 'tall nói về ngoại hình (cao), không phải tính cách.')]);
+LIBADD('a6u4', 6, 'anh', 'Unit 4 · My Neighbourhood', [
+  LS('Places in a neighbourhood', ['square – quảng trường', 'cathedral – nhà thờ lớn', 'railway station – ga tàu', 'art gallery – phòng trưng bày tranh', 'temple, market, park'], 'Các địa điểm trong khu phố. [en] Square. Quảng trường. [en] Railway station. Ga tàu. [en] Art gallery. Phòng trưng bày tranh.'),
+  LS('Adjectives for places', ['noisy ↔ quiet', 'crowded – đông đúc', 'modern ↔ historic', 'convenient – thuận tiện'], 'Các tính từ miêu tả nơi chốn. [en] Noisy. Ồn ào. [en] Quiet. Yên tĩnh. [en] Crowded. Đông đúc. [en] Convenient. Thuận tiện.'),
+  LQ('There are too many people here. It is very ___.', ['crowded', 'quiet', 'empty', 'peaceful'], 0, 'Quá nhiều người: crowded (đông đúc).'),
+  LS('Comparative adjectives', ['Tính từ ngắn: adj + -er + than (cheap → cheaper)', 'Tận cùng -y: busy → busier', 'Tính từ dài: more + adj + than (more modern)', 'Bất quy tắc: good → better, bad → worse'], 'So sánh hơn. Với tính từ ngắn, thêm e r rồi dùng than. Với tính từ dài, dùng more đặt trước. [en] The city is noisier than the countryside. [en] My town is more modern than my village.', 'Ha Noi is bigger than Hue.'),
+  LQ('My street is ___ than your street.', ['quieter', 'more quiet than', 'quietest', 'quiet'], 0, 'quiet là tính từ ngắn: quieter than.'),
+  LQ('This museum is ___ than that one.', ['more interesting', 'interestinger', 'most interesting', 'interesting more'], 0, 'interesting là tính từ dài: more interesting.'),
+  LQ('The weather today is ___ than yesterday. (bad)', ['worse', 'badder', 'more bad', 'worst'], 0, 'bad là tính từ bất quy tắc: worse.'),
+  LS('Asking for directions', ['Excuse me, how can I get to the post office?', 'Go straight. Turn left / right.', 'It is on your left / right.'], 'Hỏi đường lịch sự. [en] Excuse me, how can I get to the post office? [en] Go straight, then turn left. It is on your right.')]);
+LIBADD('a6u5', 6, 'anh', 'Unit 5 · Natural Wonders of Viet Nam', [
+  LS('Natural wonders', ['bay – vịnh · cave – hang động', 'island – đảo · waterfall – thác nước', 'mountain – núi · river – sông', 'desert – sa mạc · forest – rừng'], 'Các kì quan thiên nhiên. [en] Ha Long Bay. Vịnh Hạ Long. [en] Cave. Hang động. [en] Waterfall. Thác nước.'),
+  LS('Travel items', ['backpack – ba lô', 'compass – la bàn', 'plaster – băng dán cá nhân', 'sun cream – kem chống nắng', 'torch – đèn pin'], 'Đồ dùng khi đi du lịch. [en] Backpack. Ba lô. [en] Sun cream. Kem chống nắng. [en] Torch. Đèn pin.'),
+  LQ('You need a ___ to see in a dark cave.', ['torch', 'plaster', 'sun cream', 'sleeping bag'], 0, 'Torch là đèn pin, dùng trong hang tối.'),
+  LS('must / mustn\'t', ['must + V: phải làm (bắt buộc)', 'mustn\'t + V: không được làm (cấm)', 'You must stay with the group.', 'You mustn\'t litter.'], 'Must dùng để nói điều bắt buộc phải làm. Mustn\'t dùng để nói điều bị cấm. [en] You must stay with your group. [en] You mustn\'t throw rubbish in the cave.'),
+  LQ('You ___ swim in this lake. It is dangerous.', ['mustn\'t', 'must', 'should', 'can'], 0, 'Nguy hiểm nên bị cấm: mustn\'t.'),
+  LQ('We ___ bring water when we climb the mountain.', ['must', 'mustn\'t', 'aren\'t', 'don\'t'], 0, 'Việc cần thiết, bắt buộc: must.'),
+  LS('Countable and uncountable nouns', ['Đếm được: a backpack, two torches', 'Không đếm được: water, sun cream, information', 'Không đếm được không thêm -s, không dùng a/an'], 'Danh từ đếm được có số ít và số nhiều. Danh từ không đếm được như water, sun cream thì không thêm s. [en] two torches. [en] some water.'),
+  LQ('Which noun is uncountable?', ['water', 'island', 'cave', 'backpack'], 0, 'water là danh từ không đếm được.')]);
+LIBADD('a6u6', 6, 'anh', 'Unit 6 · Our Tet Holiday', [
+  LS('Tet words', ['lucky money – tiền lì xì', 'peach flowers – hoa đào', 'apricot blossoms – hoa mai', 'firework – pháo hoa', 'first-foot – xông đất'], 'Từ vựng về Tết. [en] Lucky money. Tiền lì xì. [en] Peach flowers. Hoa đào. [en] Fireworks. Pháo hoa.'),
+  LS('Tet activities', ['clean and decorate the house', 'visit relatives – thăm họ hàng', 'make banh chung', 'watch fireworks'], 'Các hoạt động ngày Tết. [en] We clean and decorate our house. [en] We visit our relatives. [en] We make banh chung.'),
+  LQ('Children often get ___ from adults at Tet.', ['lucky money', 'homework', 'fireworks', 'rice'], 0, 'Trẻ em được nhận tiền lì xì: lucky money.'),
+  LS('should / shouldn\'t', ['should + V: nên làm (lời khuyên)', 'shouldn\'t + V: không nên làm', 'You should say "Happy New Year" to your grandparents.', 'You shouldn\'t break things at Tet.'], 'Should dùng để đưa ra lời khuyên. [en] You should help your mother clean the house. [en] You shouldn\'t argue at Tet.'),
+  LQ('You ___ eat too many sweets. They are bad for your teeth.', ['shouldn\'t', 'should', 'must', 'can'], 0, 'Lời khuyên không nên: shouldn\'t.'),
+  LS('some / any', ['some: câu khẳng định (There are some flowers.)', 'any: câu phủ định và câu hỏi (Are there any cakes?)', 'some còn dùng khi mời: Would you like some tea?'], 'Some dùng trong câu khẳng định. Any dùng trong câu phủ định và câu hỏi. [en] We have some banh chung. [en] Do you have any lucky money?'),
+  LQ('There aren\'t ___ fireworks this year.', ['any', 'some', 'a', 'an'], 0, 'Câu phủ định dùng any.'),
+  LQ('Would you like ___ candy?', ['some', 'any', 'a', 'many'], 0, 'Lời mời dùng some.')]);
+LIBADD('a6u7', 6, 'anh', 'Unit 7 · Television', [
+  LS('TV programmes', ['cartoon – phim hoạt hình', 'game show – trò chơi truyền hình', 'news – tin tức', 'documentary – phim tài liệu', 'sports programme'], 'Các chương trình truyền hình. [en] Cartoon. Phim hoạt hình. [en] Game show. [en] News. Tin tức. [en] Documentary. Phim tài liệu.'),
+  LS('Adjectives', ['funny, boring, exciting', 'educational – mang tính giáo dục', 'popular – được ưa chuộng'], 'Tính từ nói về chương trình. [en] This programme is educational. Nó mang tính giáo dục. [en] The game show is exciting.'),
+  LQ('A ___ gives you facts about animals, history or science.', ['documentary', 'cartoon', 'game show', 'comedy'], 0, 'Documentary là phim tài liệu cung cấp kiến thức.'),
+  LS('Wh-questions', ['What – cái gì · Who – ai', 'When – khi nào · Where – ở đâu', 'Why – tại sao · How often – bao lâu một lần'], 'Từ để hỏi. [en] What is your favourite programme? [en] When is it on? [en] How often do you watch TV?'),
+  LQ('___ is the programme on? – At 8 p.m.', ['When', 'Where', 'Who', 'Why'], 0, 'Hỏi thời gian: When.'),
+  LS('Conjunctions: and, but, so, because', ['and: và · but: nhưng', 'so: vì vậy · because: bởi vì', 'I like cartoons because they are funny.'], 'Liên từ nối hai ý. [en] I like cartoons because they are funny. [en] The film is long, but it is interesting.'),
+  LQ('I was tired, ___ I went to bed early.', ['so', 'because', 'but', 'or'], 0, 'Kết quả của việc mệt: so (vì vậy).'),
+  LQ('She watches the news ___ she wants to know what is happening.', ['because', 'so', 'but', 'and'], 0, 'Nêu lí do: because.')]);
+/* ---------- TIẾNG ANH 7 ---------- */
+LIBADD('a7u1', 7, 'anh', 'Unit 1 · Hobbies', [
+  LS('Hobbies', ['gardening – làm vườn', 'collecting stamps – sưu tầm tem', 'horse riding – cưỡi ngựa', 'making models – làm mô hình', 'building dollhouses'], 'Sở thích. [en] Gardening. Làm vườn. [en] Collecting stamps. Sưu tầm tem. [en] Making models. Làm mô hình.'),
+  LS('Verbs of liking + V-ing', ['like / love / enjoy + V-ing', 'hate / don\'t like + V-ing', 'I love collecting coins.', 'She enjoys gardening.'], 'Sau các động từ chỉ sự yêu thích như like, love, enjoy, hate, ta dùng động từ thêm i n g. [en] I love collecting coins. [en] My sister enjoys gardening.'),
+  LQ('My brother enjoys ___ models.', ['making', 'make', 'to makes', 'made'], 0, 'enjoy + V-ing.'),
+  LQ('Do you like ___ stamps?', ['collecting', 'collect', 'collects', 'collected'], 0, 'like + V-ing.'),
+  LS('Present simple', ['Thói quen, sở thích: I go swimming every Sunday.', 'He / She / It + V-s/es: She plays chess.', 'Phủ định: doesn\'t / don\'t + V'], 'Thì hiện tại đơn diễn tả thói quen. [en] I go swimming every Sunday. [en] She doesn\'t like football.'),
+  LQ('My father ___ gardening at weekends.', ['does', 'do', 'doing', 'is do'], 0, 'Chủ ngữ số ít, hiện tại đơn: does.'),
+  LS('Talking about hobbies', ['What is your hobby?', 'When did you start it?', 'Why do you like it? – Because it is relaxing.'], 'Hỏi đáp về sở thích. [en] What is your hobby? [en] My hobby is gardening. [en] Why do you like it? Because it is relaxing.'),
+  LQ('Choose the correct answer: "What\'s your hobby?"', ['I like horse riding.', 'Yes, I do.', 'At 7 o\'clock.', 'It\'s my brother.'], 0, 'Trả lời về sở thích.')]);
+LIBADD('a7u2', 7, 'anh', 'Unit 2 · Healthy Living', [
+  LS('Health words', ['spot – mụn · sunburn – cháy nắng', 'chapped lips – môi nứt nẻ', 'stay up late – thức khuya', 'tofu, vegetables, fruit'], 'Từ vựng về sức khỏe. [en] Sunburn. Cháy nắng. [en] Chapped lips. Môi nứt nẻ. [en] Stay up late. Thức khuya.'),
+  LS('Healthy habits', ['eat more vegetables', 'drink lots of water', 'do exercise every day', 'wash your face regularly'], 'Thói quen tốt cho sức khỏe. [en] Eat more vegetables. [en] Drink lots of water. [en] Do exercise every day.'),
+  LQ('If you stay outside in the sun too long, you may get ___.', ['sunburn', 'chapped lips', 'a cold', 'spots'], 0, 'Ra nắng lâu dễ bị cháy nắng: sunburn.'),
+  LS('Simple sentences', ['Câu đơn có một chủ ngữ và một động từ chính.', 'I eat fruit every day.', 'My mother and I go jogging. (chủ ngữ ghép)'], 'Câu đơn là câu chỉ có một mệnh đề, gồm một chủ ngữ và một động từ chính. [en] I eat fruit every day.'),
+  LQ('Which is a simple sentence?', ['She drinks a lot of water.', 'She drinks water and she eats fruit.', 'Because she is thirsty.', 'Drinking water.'], 0, 'Câu chỉ có một chủ ngữ và một động từ chính.'),
+  LS('Giving advice', ['You should go to bed early.', 'You shouldn\'t eat junk food.', 'Why don\'t you do more exercise?'], 'Đưa lời khuyên về sức khỏe. [en] You should go to bed early. [en] You shouldn\'t eat too much junk food.'),
+  LQ('I always feel tired. – You ___ stay up late.', ['shouldn\'t', 'should', 'must', 'can'], 0, 'Lời khuyên: không nên thức khuya.'),
+  LQ('Which habit is healthy?', ['drinking enough water', 'eating lots of fast food', 'staying up late', 'skipping breakfast'], 0, 'Uống đủ nước là thói quen tốt.')]);
+LIBADD('a7u3', 7, 'anh', 'Unit 3 · Community Service', [
+  LS('Volunteer work', ['volunteer – tình nguyện viên', 'donate – quyên góp', 'homeless people – người vô gia cư', 'clean up the beach', 'plant trees'], 'Hoạt động cộng đồng. [en] Volunteer. Tình nguyện viên. [en] Donate. Quyên góp. [en] We clean up the beach and plant trees.'),
+  LS('Past simple', ['Hành động đã xảy ra và kết thúc trong quá khứ.', 'Có quy tắc: V-ed (help → helped)', 'Bất quy tắc: go → went, give → gave', 'Dấu hiệu: yesterday, last week, ago'], 'Thì quá khứ đơn diễn tả việc đã xảy ra. Động từ có quy tắc thêm e d. Động từ bất quy tắc phải học thuộc. [en] Last summer, we helped the elderly. [en] We gave books to children.'),
+  LQ('Last month, our class ___ 200 books to a village school.', ['donated', 'donates', 'donate', 'is donating'], 0, 'last month → quá khứ đơn: donated.'),
+  LQ('They ___ to the beach to pick up rubbish yesterday.', ['went', 'goed', 'go', 'gone'], 0, 'go là động từ bất quy tắc: went.'),
+  LS('Questions in the past', ['Did you + V…? – Yes, I did. / No, I didn\'t.', 'What did you do? – We planted trees.'], 'Câu hỏi ở quá khứ đơn dùng did và động từ nguyên mẫu. [en] Did you join the clean-up? Yes, I did. [en] What did you do there?'),
+  LQ('___ you help the old people last weekend?', ['Did', 'Do', 'Were', 'Are'], 0, 'Câu hỏi quá khứ đơn: Did + S + V?'),
+  LS('Benefits of community service', ['help people in need', 'make friends', 'learn new skills', 'feel happy and useful'], 'Lợi ích của hoạt động cộng đồng. [en] We help people in need. [en] We learn new skills and we feel useful.'),
+  LQ('Which activity is community service?', ['tutoring young children for free', 'playing computer games', 'shopping online', 'watching TV']
+    , 0, 'Dạy kèm miễn phí cho em nhỏ là hoạt động vì cộng đồng.')]);
+LIBADD('a7u4', 7, 'anh', 'Unit 4 · Music and Arts', [
+  LS('Music and arts', ['musical instrument – nhạc cụ', 'concert – buổi hòa nhạc', 'painting – bức tranh', 'puppet show – múa rối', 'portrait – chân dung'], 'Âm nhạc và nghệ thuật. [en] Musical instrument. Nhạc cụ. [en] Concert. Buổi hòa nhạc. [en] Water puppet show. Múa rối nước.'),
+  LS('Comparisons: (not) as … as', ['as + adj + as: bằng nhau', 'not as + adj + as: không bằng', 'The guitar is as popular as the piano.'], 'So sánh bằng dùng as … as. [en] My painting is as beautiful as yours. [en] This song is not as famous as that one.'),
+  LQ('This concert is ___ exciting ___ the one last year.', ['as … as', 'more … as', 'as … than', 'so … than'], 0, 'So sánh bằng: as + adj + as.'),
+  LS('the same as / different from', ['the same as: giống với', 'different from: khác với', 'Her dress is the same as mine.', 'Vietnamese music is different from Western music.'], 'Diễn đạt giống và khác. [en] Her hobby is the same as mine. [en] Folk music is different from rock music.'),
+  LQ('Your answer is different ___ mine.', ['from', 'as', 'than', 'with'], 0, 'different from: khác với.'),
+  LS('Talking about preferences', ['I prefer painting to drawing.', 'Which do you like better, music or art?'], 'Nói về sở thích hơn. [en] I prefer music to art. [en] Which do you like better?'),
+  LQ('Water puppetry is a traditional art of ___.', ['Viet Nam', 'Italy', 'Brazil', 'Canada'], 0, 'Múa rối nước là nghệ thuật truyền thống của Việt Nam.'),
+  LQ('The film is ___ long as the book. (không dài bằng)', ['not as', 'as not', 'not so than', 'less as'], 0, 'not as + adj + as.')]);
+LIBADD('a7u5', 7, 'anh', 'Unit 5 · Food and Drink', [
+  LS('Food and drink', ['pork, beef, eel – lươn', 'omelette – trứng tráng', 'pancake – bánh kếp', 'lemonade, mineral water'], 'Đồ ăn thức uống. [en] Pork. Beef. Eel. [en] Omelette. Trứng tráng. [en] Lemonade. Nước chanh.'),
+  LS('How much / How many', ['How many + danh từ đếm được số nhiều', 'How much + danh từ không đếm được', 'How many eggs? · How much milk?', 'How much is it? → hỏi giá'], 'Hỏi số lượng. How many dùng với danh từ đếm được. How much dùng với danh từ không đếm được, và để hỏi giá. [en] How many eggs do we need? [en] How much milk do you want?'),
+  LQ('How ___ sugar do we need?', ['much', 'many', 'any', 'some'], 0, 'sugar không đếm được: How much.'),
+  LQ('How ___ bananas are there?', ['many', 'much', 'lot', 'few'], 0, 'bananas đếm được số nhiều: How many.'),
+  LS('Some / any; a lot of', ['some: khẳng định · any: phủ định, nghi vấn', 'a lot of / lots of: nhiều (cả hai loại danh từ)'], 'Some, any và a lot of. [en] There is some rice. [en] Is there any juice? [en] We eat a lot of vegetables.'),
+  LQ('Is there ___ orange juice in the fridge?', ['any', 'some', 'many', 'a'], 0, 'Câu hỏi: any.'),
+  LS('Recipe language', ['First, … Then, … Next, … Finally, …', 'beat the eggs, add salt, fry'], 'Cách nói công thức nấu ăn. [en] First, beat two eggs. Then, add some salt. Finally, fry them in a pan.'),
+  LQ('Which word goes with "eggs" in a recipe?', ['beat', 'drink', 'wear', 'read'], 0, 'beat the eggs: đánh trứng.')]);
+LIBADD('a7u6', 7, 'anh', 'Unit 6 · A Visit to a School', [
+  LS('School facilities', ['library, playground, gym', 'school garden – vườn trường', 'lab – phòng thí nghiệm', 'entrance exam – kì thi đầu vào'], 'Cơ sở vật chất của trường. [en] Library. Thư viện. [en] Lab. Phòng thí nghiệm. [en] Playground. Sân chơi.'),
+  LS('Prepositions of time', ['at + giờ: at 7 a.m.', 'on + ngày, thứ: on Monday, on 2nd September', 'in + tháng, năm, mùa: in May, in 2026, in summer'], 'Giới từ chỉ thời gian. [en] At seven o\'clock. [en] On Monday. [en] In September.'),
+  LQ('School starts ___ September.', ['in', 'on', 'at', 'by'], 0, 'Tháng dùng in.'),
+  LQ('We have English ___ Tuesday.', ['on', 'in', 'at', 'of'], 0, 'Thứ trong tuần dùng on.'),
+  LS('Prepositions of place', ['at school, at the gate', 'in the classroom, in the library', 'on the second floor'], 'Giới từ chỉ nơi chốn. [en] The library is on the second floor. [en] We meet at the school gate.'),
+  LQ('The computer room is ___ the third floor.', ['on', 'in', 'at', 'under'], 0, 'Tầng dùng on.'),
+  LS('Talking about a school', ['My school has 30 classrooms.', 'It was built in 1990.', 'Students wear uniforms.'], 'Giới thiệu về ngôi trường. [en] My school has a big library. [en] Students wear uniforms on Mondays.'),
+  LQ('Choose the correct sentence.', ['The break is at 9.30.', 'The break is in 9.30.', 'The break is on 9.30.', 'The break at is 9.30.'], 0, 'Giờ dùng at.')]);
+/* ---------- TIẾNG ANH 8 ---------- */
+LIBADD('a8u1', 8, 'anh', 'Unit 1 · Leisure Time', [
+  LS('Leisure activities', ['hang out with friends – đi chơi với bạn', 'do DIY – tự làm đồ thủ công', 'surf the net – lướt mạng', 'knitting – đan len', 'messaging friends'], 'Hoạt động thư giãn. [en] Hang out with friends. [en] Do DIY. Tự làm đồ thủ công. [en] Surf the net. Lướt mạng.'),
+  LS('Verbs of liking + gerund', ['adore, love, like, enjoy, fancy', 'don\'t mind – không phiền', 'dislike, hate, detest', '+ V-ing: I adore reading.'], 'Các động từ chỉ mức độ yêu thích đi với danh động từ. [en] I adore reading comics. [en] She doesn\'t mind doing housework. [en] He detests waking up early.'),
+  LQ('I don\'t mind ___ the dishes after dinner.', ['washing', 'wash', 'to washing', 'washed'], 0, "don't mind + V-ing."),
+  LQ('Which verb shows the STRONGEST dislike?', ['detest', 'don\'t mind', 'fancy', 'like'], 0, 'detest: rất ghét.'),
+  LS('Some verbs + to-infinitive or V-ing', ['like / love / hate / prefer + to V hoặc V-ing', 'I like to read / I like reading.'], 'Một số động từ như like, love, hate, prefer có thể theo sau bởi to V hoặc V i n g mà nghĩa gần như nhau. [en] I love to swim. I love swimming.'),
+  LQ('She prefers ___ at home at weekends.', ['staying', 'stay', 'stays', 'stayed'], 0, 'prefer + V-ing (hoặc to stay).'),
+  LS('Balance your leisure time', ['Spend time outdoors.', 'Limit screen time.', 'Try a new hobby.'], 'Cân bằng thời gian rảnh. [en] Spend time outdoors. [en] Limit your screen time.'),
+  LQ('"Surf the net" means ___.', ['use the Internet', 'swim in the sea', 'play football', 'go fishing'], 0, 'Lướt mạng Internet.')]);
+LIBADD('a8u2', 8, 'anh', 'Unit 2 · Life in the Countryside', [
+  LS('Country life', ['harvest – thu hoạch', 'paddy field – cánh đồng lúa', 'buffalo – con trâu', 'herd the cattle – chăn gia súc', 'peaceful, vast'], 'Cuộc sống nông thôn. [en] Harvest. Thu hoạch. [en] Paddy field. Cánh đồng lúa. [en] Herd the cattle. Chăn gia súc.'),
+  LS('Comparative adverbs', ['Trạng từ ngắn: hard → harder, fast → faster', 'Trạng từ -ly: more slowly, more carefully', 'Bất quy tắc: well → better, badly → worse'], 'So sánh hơn của trạng từ. [en] People in the countryside work harder in the harvest season. [en] Life moves more slowly in the countryside.'),
+  LQ('My grandfather walks ___ than my father.', ['more slowly', 'slowlier', 'slower than more', 'most slowly'], 0, 'slowly là trạng từ đuôi -ly: more slowly.'),
+  LQ('She sings ___ than her sister.', ['better', 'more good', 'gooder', 'best'], 0, 'well → better.'),
+  LS('City vs countryside', ['The air in the countryside is fresher.', 'Life in the city is more convenient.', 'Rural – nông thôn · urban – thành thị'], 'So sánh thành phố và nông thôn. [en] The air in the countryside is fresher. [en] Life in the city is more convenient.'),
+  LQ('"Rural" means ___.', ['in the countryside', 'in the city', 'by the sea', 'very modern'], 0, 'rural: thuộc về nông thôn.'),
+  LS('Mekong Delta life', ['floating market – chợ nổi', 'orchard – vườn cây ăn trái', 'canal – kênh rạch'], 'Ở Cần Thơ có chợ nổi Cái Răng nổi tiếng. [en] Floating market. Chợ nổi. [en] Orchard. Vườn cây ăn trái.'),
+  LQ('Cai Rang is a famous ___ in Can Tho.', ['floating market', 'desert', 'mountain', 'cathedral'], 0, 'Chợ nổi Cái Răng.')]);
+LIBADD('a8u3', 8, 'anh', 'Unit 3 · Teenagers', [
+  LS('Teen life', ['peer pressure – áp lực bạn bè', 'stressed – căng thẳng', 'forum – diễn đàn', 'concentrate – tập trung', 'social media'], 'Cuộc sống tuổi teen. [en] Peer pressure. Áp lực từ bạn bè. [en] Stressed. Căng thẳng. [en] Concentrate. Tập trung.'),
+  LS('Simple and compound sentences', ['Câu đơn: một mệnh đề độc lập.', 'Câu ghép: hai mệnh đề độc lập + and, but, or, so', 'I was tired, so I went to bed.'], 'Câu ghép gồm hai mệnh đề độc lập nối bằng các liên từ and, but, or, so. [en] I like music, but my brother likes sport.'),
+  LQ('Which is a compound sentence?', ['I studied hard, so I passed the exam.', 'I studied hard.', 'Studying hard.', 'Because I studied hard.'], 0, 'Hai mệnh đề độc lập nối bằng so.'),
+  LQ('She wanted to join the club, ___ she was too busy.', ['but', 'so', 'or', 'because'], 0, 'Ý trái ngược: but.'),
+  LS('Dealing with stress', ['talk to someone you trust', 'get enough sleep', 'make a study plan'], 'Cách đối phó căng thẳng. [en] Talk to someone you trust. [en] Get enough sleep. [en] Make a study plan.'),
+  LQ('"Peer pressure" comes from ___.', ['people of your age', 'your teachers', 'the weather', 'your pets'], 0, 'peer: bạn cùng trang lứa.'),
+  LS('Online safety', ['Don\'t share personal information.', 'Be kind online.', 'Tell an adult about bullying.'], 'An toàn trên mạng. [en] Don\'t share personal information. [en] Tell an adult if someone bullies you online.'),
+  LQ('If someone bullies you online, you should ___.', ['tell a trusted adult', 'keep it secret', 'bully them back', 'share your password'], 0, 'Báo người lớn đáng tin cậy.')]);
+LIBADD('a8u4', 8, 'anh', 'Unit 4 · Ethnic Groups of Viet Nam', [
+  LS('Ethnic groups', ['ethnic group – dân tộc', 'minority – thiểu số', 'stilt house – nhà sàn', 'communal house – nhà rông/đình', 'costume – trang phục'], 'Các dân tộc Việt Nam. Việt Nam có 54 dân tộc. [en] Ethnic group. Dân tộc. [en] Stilt house. Nhà sàn. [en] Costume. Trang phục.'),
+  LQ('Viet Nam has ___ ethnic groups.', ['54', '45', '64', '34'], 0, 'Việt Nam có 54 dân tộc anh em.'),
+  LS('Countable and uncountable nouns', ['Đếm được: a house, two costumes', 'Không đếm được: rice, information, furniture', 'a piece of information, a bowl of rice'], 'Danh từ không đếm được dùng đơn vị đo để đếm. [en] a piece of information. [en] two bowls of rice.'),
+  LQ('Which noun is uncountable?', ['information', 'village', 'festival', 'house'], 0, 'information không đếm được.'),
+  LS('Questions: How many / How much / Which', ['How many ethnic groups are there?', 'How much rice do they grow?', 'Which group has the largest population?'], 'Các mẫu câu hỏi. [en] Which ethnic group has the largest population? The Kinh.'),
+  LQ('Which ethnic group has the largest population in Viet Nam?', ['the Kinh', 'the Tay', 'the Thai', 'the Hmong'], 0, 'Dân tộc Kinh có số dân đông nhất.'),
+  LS('Respecting cultures', ['Learn about other cultures.', 'Respect their customs.', 'Protect traditional crafts.'], 'Tôn trọng văn hóa các dân tộc. [en] We should learn about and respect other cultures.'),
+  LQ('A "stilt house" is ___.', ['a house built on posts above the ground', 'a house under the ground', 'a house on a boat', 'a very tall building'], 0, 'Nhà sàn dựng trên cột.')]);
+LIBADD('a8u5', 8, 'anh', 'Unit 5 · Our Customs and Traditions', [
+  LS('Customs and traditions', ['custom – phong tục', 'tradition – truyền thống', 'worship – thờ cúng', 'ancestor – tổ tiên', 'family reunion – sum họp'], 'Phong tục và truyền thống. [en] Custom. Phong tục. [en] Worship ancestors. Thờ cúng tổ tiên. [en] Family reunion. Sum họp gia đình.'),
+  LS('Articles: a, an, the', ['a / an: lần đầu nhắc tới, danh từ số ít', 'an + nguyên âm: an apple, an hour', 'the: đã xác định, duy nhất (the sun)'], 'Mạo từ. A và an dùng khi nhắc lần đầu. The dùng khi đã xác định. [en] I saw a festival. The festival was amazing.'),
+  LQ('There is ___ old temple in my village.', ['an', 'a', 'the', '—'], 0, 'old bắt đầu bằng nguyên âm: an.'),
+  LQ('___ moon is very bright tonight.', ['The', 'A', 'An', '—'], 0, 'Vật duy nhất: the.'),
+  LS('should / have to for customs', ['You should take off your shoes.', 'You have to bow when you meet the elderly.'], 'Nói về điều nên làm và phải làm theo phong tục. [en] In Viet Nam, you should use both hands to give something to older people.'),
+  LQ('In many Vietnamese families, people ___ ancestors on special days.', ['worship', 'forget', 'sell', 'visit']
+    , 0, 'Thờ cúng tổ tiên: worship ancestors.'),
+  LS('Table manners', ['Wait for the eldest to start eating.', 'Don\'t point chopsticks at people.'], 'Phép lịch sự trong bữa ăn. [en] Wait for the eldest person to start eating.'),
+  LQ('Choose the correct article: "He is ___ honest boy."', ['an', 'a', 'the', 'no article'], 0, 'honest có âm h câm, đọc bắt đầu bằng nguyên âm: an.')]);
+LIBADD('a8u6', 8, 'anh', 'Unit 6 · Lifestyles', [
+  LS('Lifestyle words', ['lifestyle – lối sống', 'online learning', 'greet – chào hỏi', 'eat out – ăn ngoài', 'habit – thói quen'], 'Lối sống. [en] Lifestyle. Lối sống. [en] Online learning. Học trực tuyến. [en] Eat out. Ăn ngoài.'),
+  LS('Future simple', ['will + V: dự đoán, quyết định tức thì', 'In the future, people will work from home more.', 'won\'t = will not'], 'Thì tương lai đơn dùng will cộng động từ nguyên mẫu. [en] In the future, people will learn online more. [en] We won\'t use cash much.'),
+  LQ('I think students ___ more online classes in the future.', ['will have', 'have', 'had', 'having'], 0, 'Dự đoán tương lai: will + V.'),
+  LS('First conditional', ['If + hiện tại đơn, will + V', 'If you eat healthy food, you will feel better.'], 'Câu điều kiện loại một nói về điều có thể xảy ra. [en] If you eat healthy food, you will feel better.'),
+  LQ('If it ___ tomorrow, we will stay at home.', ['rains', 'will rain', 'rained', 'raining'], 0, 'Mệnh đề If dùng hiện tại đơn.'),
+  LQ('If you study hard, you ___ the exam.', ['will pass', 'pass', 'passed', 'passing'], 0, 'Mệnh đề chính dùng will + V.'),
+  LS('Healthy lifestyle', ['balance study and rest', 'reduce screen time', 'cook at home'], 'Lối sống lành mạnh. [en] Balance study and rest. [en] Reduce screen time.'),
+  LQ('"Eat out" means ___.', ['eat at a restaurant', 'eat in the garden', 'stop eating', 'eat very fast'], 0, 'Ăn ở ngoài, nhà hàng.')]);
+/* ---------- TIẾNG ANH 9 ---------- */
+LIBADD('a9u2', 9, 'anh', 'Unit 2 · City Life', [
+  LS('City life words', ['metro – tàu điện', 'traffic jam – tắc đường', 'skyscraper – nhà chọc trời', 'public amenities – tiện ích công cộng', 'liveable – đáng sống'], 'Cuộc sống thành phố. [en] Traffic jam. Tắc đường. [en] Skyscraper. Nhà chọc trời. [en] Liveable. Đáng sống.'),
+  LS('Phrasal verbs', ['get around – đi lại', 'cut down on – cắt giảm', 'turn down – từ chối; vặn nhỏ', 'look forward to + V-ing – mong chờ'], 'Cụm động từ. [en] It is easy to get around by metro. [en] We should cut down on plastic bags. [en] I look forward to seeing you.'),
+  LQ('We should ___ the number of private cars to reduce pollution.', ['cut down on', 'look after', 'get on', 'turn up'], 0, 'cut down on: cắt giảm.'),
+  LQ('I\'m looking forward to ___ the new museum.', ['visiting', 'visit', 'visited', 'to visit'], 0, 'look forward to + V-ing.'),
+  LS('Comparisons with adjectives', ['the + adj-est / the most + adj: so sánh nhất', 'Ha Noi is one of the biggest cities in Viet Nam.', 'the more …, the more …'], 'So sánh nhất và so sánh kép. [en] It is the most crowded street in the city. [en] The bigger the city, the busier the life.'),
+  LQ('This is ___ building in our city.', ['the tallest', 'taller', 'the most tall', 'tallest than'], 0, 'tall là tính từ ngắn: the tallest.'),
+  LS('Problems and solutions', ['air pollution → use public transport', 'noise → plant more trees'], 'Vấn đề và giải pháp. [en] To reduce air pollution, people should use public transport.'),
+  LQ('A "traffic jam" happens when ___.', ['too many vehicles are on the road', 'there are no cars', 'the road is new', 'it is a holiday']
+    , 0, 'Quá nhiều xe trên đường.')]);
+LIBADD('a9u3', 9, 'anh', 'Unit 3 · Healthy Living for Teens', [
+  LS('Teen health', ['mental health – sức khỏe tinh thần', 'well-balanced – cân bằng', 'priority – ưu tiên', 'deadline – hạn chót', 'distraction – điều gây xao nhãng'], 'Sức khỏe tuổi teen. [en] Mental health. [en] Well-balanced. Cân bằng. [en] Distraction. Điều gây xao nhãng.'),
+  LS('Advice: should, ought to, had better', ['should / ought to + V: nên', 'had better + V: tốt hơn hết nên (cảnh báo)', 'You had better sleep early before the exam.'], 'Các cách đưa lời khuyên. [en] You should take short breaks. [en] You ought to drink more water. [en] You had better go to bed early.'),
+  LQ('You ___ better see a doctor if the headache continues.', ['had', 'should', 'would', 'have'], 0, 'had better + V.'),
+  LS('must vs have to', ['must: bắt buộc do người nói thấy cần', 'have to: bắt buộc do quy định bên ngoài', 'don\'t have to: không cần, không bắt buộc'], 'Must, have to và don\'t have to. [en] We have to wear uniforms at school. [en] You don\'t have to finish it today.'),
+  LQ('Tomorrow is Sunday, so I ___ get up early.', ['don\'t have to', 'mustn\'t', 'have to', 'must'], 0, 'Không cần phải: don\'t have to.'),
+  LS('Time management', ['make a to-do list', 'set priorities', 'avoid distractions like phones'], 'Quản lí thời gian. [en] Make a to-do list. [en] Set priorities. [en] Avoid distractions.'),
+  LQ('Which is a good way to manage your time?', ['making a to-do list', 'checking your phone every minute', 'doing everything at the last minute', 'sleeping very late'], 0, 'Lập danh sách việc cần làm.'),
+  LQ('"Mental health" is about your ___.', ['mind and feelings', 'teeth', 'hair', 'clothes'], 0, 'Sức khỏe tinh thần liên quan đến tâm trí và cảm xúc.')]);
+LIBADD('a9u4', 9, 'anh', 'Unit 4 · Remembering the Past', [
+  LS('The past', ['generation – thế hệ', 'heritage – di sản', 'preserve – bảo tồn', 'bare-footed – đi chân đất', 'street vendor – người bán hàng rong'], 'Kí ức ngày xưa. [en] Heritage. Di sản. [en] Preserve. Bảo tồn. [en] Generation. Thế hệ.'),
+  LS('used to + V', ['Thói quen hoặc trạng thái trong quá khứ, nay không còn.', 'My grandparents used to walk to school.', 'Did you use to…? · didn\'t use to'], 'Used to diễn tả thói quen trong quá khứ mà bây giờ không còn nữa. [en] My grandmother used to cook on a wood stove. [en] Did you use to play marbles?'),
+  LQ('When I was small, I ___ play hide-and-seek every evening.', ['used to', 'use to', 'am used to', 'using to'], 0, 'Thói quen trong quá khứ: used to + V.'),
+  LQ('Choose the correct question.', ['Did people use to watch black-and-white TV?', 'Did people used to watch black-and-white TV?', 'Used people to watch?', 'Do people used to watch?'], 0, 'Câu hỏi: Did + S + use to + V?'),
+  LS('Past simple vs used to', ['Past simple: một sự việc cụ thể (I visited Hue in 2020.)', 'used to: thói quen lặp lại đã chấm dứt'], 'Phân biệt quá khứ đơn và used to. [en] I visited Hue in 2020. [en] I used to visit my grandparents every summer.'),
+  LQ('There ___ be a big tree here, but they cut it down.', ['used to', 'uses to', 'was used', 'is used to'], 0, 'Trạng thái trong quá khứ: used to.'),
+  LS('Preserving the past', ['visit museums', 'listen to elderly people\'s stories', 'protect historical sites'], 'Gìn giữ quá khứ. [en] We can visit museums and listen to our grandparents\' stories.'),
+  LQ('"Preserve" means ___.', ['keep something safe from harm', 'destroy', 'sell', 'forget'], 0, 'Bảo tồn, giữ gìn.')]);
+LIBADD('a9u5', 9, 'anh', 'Unit 5 · Our Experiences', [
+  LS('Experiences', ['experience – trải nghiệm', 'memorable – đáng nhớ', 'embarrassing – xấu hổ', 'challenge – thử thách', 'abroad – ở nước ngoài'], 'Trải nghiệm. [en] Memorable. Đáng nhớ. [en] Embarrassing. Xấu hổ. [en] Challenge. Thử thách.'),
+  LS('Present perfect', ['have / has + V3 (past participle)', 'Trải nghiệm đến hiện tại: I have been to Da Lat.', 'ever, never, already, yet, just'], 'Thì hiện tại hoàn thành dùng have hoặc has cộng quá khứ phân từ. [en] Have you ever climbed a mountain? [en] I have never eaten sushi.'),
+  LQ('___ you ever ___ a wild animal?', ['Have … seen', 'Did … see', 'Have … saw', 'Has … seen'], 0, 'Hỏi trải nghiệm: Have + S + ever + V3?'),
+  LQ('She ___ already ___ her homework.', ['has … finished', 'have … finished', 'is … finished', 'has … finish'], 0, 'Chủ ngữ số ít: has + V3.'),
+  LS('Present perfect vs past simple', ['Present perfect: không nêu thời gian cụ thể', 'Past simple: có thời gian cụ thể (yesterday, in 2024)', 'I have visited Hue. · I visited Hue last year.'], 'Phân biệt hiện tại hoàn thành và quá khứ đơn. [en] I have visited Hue. [en] I visited Hue last year.'),
+  LQ('We ___ to Phu Quoc last summer.', ['went', 'have gone', 'have been', 'go'], 0, 'last summer là thời gian cụ thể: quá khứ đơn.'),
+  LS('Talking about experiences', ['What was the most memorable experience?', 'How did you feel?', 'What did you learn?'], 'Kể về một trải nghiệm. [en] What was your most memorable experience? [en] How did you feel?'),
+  LQ('Which word describes a bad feeling when people laugh at your mistake?', ['embarrassed', 'excited', 'proud', 'relaxed'], 0, 'embarrassed: xấu hổ.')]);
+LIBADD('a9u6', 9, 'anh', 'Unit 6 · Vietnamese Lifestyle: Then and Now', [
+  LS('Then and now', ['extended family – gia đình nhiều thế hệ', 'nuclear family – gia đình hạt nhân', 'tram – xe điện', 'generation gap – khoảng cách thế hệ'], 'Lối sống xưa và nay. [en] Extended family. Gia đình nhiều thế hệ. [en] Nuclear family. Gia đình hạt nhân. [en] Generation gap.'),
+  LS('wish + past simple', ['Ước điều không có thật ở hiện tại', 'I wish I had more free time.', 'I wish my grandparents lived nearer.', 'be → were (I wish I were…)'], 'Câu ước ở hiện tại dùng wish cộng thì quá khứ đơn. [en] I wish I had more free time. [en] I wish I were taller.'),
+  LQ('I wish I ___ how to play the guitar.', ['knew', 'know', 'known', 'will know'], 0, 'wish + quá khứ đơn: knew.'),
+  LQ('She wishes she ___ a pet.', ['had', 'has', 'have', 'having'], 0, 'wish + quá khứ đơn: had.'),
+  LS('Changes in lifestyle', ['People used to live in extended families.', 'Now many people live in nuclear families.', 'Technology has changed communication.'], 'Sự thay đổi lối sống. [en] People used to live in extended families. [en] Now many people live in nuclear families.'),
+  LQ('A family of parents and children only is a(n) ___ family.', ['nuclear', 'extended', 'large', 'royal'], 0, 'Gia đình hạt nhân: nuclear family.'),
+  LS('Keeping good traditions', ['respect the elderly', 'family meals', 'traditional festivals'], 'Giữ gìn nét đẹp truyền thống. [en] We should respect the elderly and keep family meals.'),
+  LQ('"Generation gap" means ___.', ['differences between older and younger people', 'a gap in the road', 'a type of family', 'a festival'], 0, 'Khoảng cách thế hệ.')]);
+LIBADD('a9u7', 9, 'anh', 'Unit 7 · Natural Wonders of the World', [
+  LS('Natural wonders', ['wonder – kì quan', 'valley – thung lũng', 'rainforest – rừng mưa nhiệt đới', 'glacier – sông băng', 'canyon – hẻm núi'], 'Kì quan thiên nhiên thế giới. [en] Rainforest. Rừng mưa nhiệt đới. [en] Glacier. Sông băng. [en] Canyon. Hẻm núi.'),
+  LS('Passive voice (present simple)', ['am / is / are + V3 (+ by …)', 'Ha Long Bay is visited by millions of tourists.', 'Dùng khi đối tượng chịu tác động quan trọng hơn người làm.'], 'Câu bị động ở thì hiện tại đơn: am, is, are cộng quá khứ phân từ. [en] Ha Long Bay is visited by millions of tourists every year.'),
+  LQ('The Amazon rainforest ___ "the lungs of the Earth".', ['is called', 'calls', 'is calling', 'called'], 0, 'Bị động: is called.'),
+  LQ('Many trees ___ every year in the rainforest.', ['are cut down', 'cut down', 'is cut down', 'are cutting down'], 0, 'Chủ ngữ số nhiều, bị động: are cut down.'),
+  LS('Protecting natural wonders', ['don\'t litter', 'follow the rules', 'support conservation'], 'Bảo vệ kì quan. [en] Tourists should not litter. [en] We should support conservation.'),
+  LQ('Son Doong, one of the largest caves in the world, is in ___.', ['Viet Nam', 'Japan', 'Peru', 'Egypt'], 0, 'Hang Sơn Đoòng ở Quảng Bình, Việt Nam.'),
+  LS('Describing a wonder', ['It is located in…', 'It is famous for…', 'It was recognised as a World Heritage Site.'], 'Giới thiệu một kì quan. [en] It is located in Quang Ninh. [en] It is famous for thousands of limestone islands.'),
+  LQ('"Glacier" is a large mass of ___.', ['ice', 'sand', 'water vapour', 'rock']
+    , 0, 'Sông băng là khối băng lớn.')]);
+/* ---------- TOÁN ---------- */
+LIBADD('t6ps', 6, 'toan', 'Phân số bằng nhau. Rút gọn phân số', [
+  LS('Phân số bằng nhau', ['a/b = c/d nếu a · d = b · c', 'Ví dụ: 2/3 = 4/6 vì 2 · 6 = 3 · 4 = 12'], 'Hai phân số a trên b và c trên d bằng nhau nếu a nhân d bằng b nhân c. Ví dụ hai phần ba bằng bốn phần sáu vì hai nhân sáu bằng ba nhân bốn, cùng bằng mười hai.', 'a/b = c/d ⇔ a·d = b·c'),
+  LS('Tính chất cơ bản của phân số', ['Nhân cả tử và mẫu với cùng một số khác 0 được phân số bằng nó.', 'Chia cả tử và mẫu cho cùng một ước chung được phân số bằng nó.'], 'Nếu ta nhân hoặc chia cả tử và mẫu của một phân số với cùng một số khác không, ta được một phân số bằng phân số đã cho.', '3/5 = 6/10 = 9/15'),
+  LQ('Phân số nào bằng 3/4?', ['6/8', '4/3', '3/8', '6/4'], 0, 'Nhân cả tử và mẫu của 3/4 với 2 được 6/8.'),
+  LS('Rút gọn phân số', ['Chia cả tử và mẫu cho ƯCLN của chúng.', 'Phân số tối giản: tử và mẫu chỉ có ước chung là 1 và −1.', '18/24: ƯCLN(18, 24) = 6 → 3/4'], 'Muốn rút gọn phân số, ta chia cả tử và mẫu cho ước chung lớn nhất của chúng để được phân số tối giản. Ví dụ mười tám phần hai mươi tư, ước chung lớn nhất là sáu, rút gọn được ba phần tư.'),
+  LQ('Rút gọn 12/30 đến tối giản được:', ['2/5', '4/10', '6/15', '1/3'], 0, 'ƯCLN(12, 30) = 6, nên 12/30 = 2/5.'),
+  LQ('Với x/9 = 2/3 thì x bằng:', ['6', '3', '2', '18'], 0, 'x · 3 = 9 · 2 = 18 nên x = 6.')]);
+LIBADD('t6dx', 6, 'toan', 'Hình có trục đối xứng và tâm đối xứng', [
+  LS('Trục đối xứng', ['Gấp hình theo một đường thẳng, hai nửa trùng khít nhau.', 'Đường thẳng đó gọi là trục đối xứng.', 'Hình tròn có vô số trục đối xứng.'], 'Một hình có trục đối xứng nếu khi gấp theo một đường thẳng, hai nửa hình trùng khít lên nhau. Đường thẳng đó là trục đối xứng.'),
+  LQ('Hình vuông có bao nhiêu trục đối xứng?', ['4', '2', '1', '0'], 0, 'Hai đường chéo và hai đường nối trung điểm các cạnh đối.'),
+  LS('Tâm đối xứng', ['Quay hình nửa vòng (180°) quanh một điểm, hình trùng với chính nó.', 'Điểm đó gọi là tâm đối xứng.', 'Hình bình hành có tâm đối xứng là giao điểm hai đường chéo.'], 'Hình có tâm đối xứng nếu khi quay nửa vòng quanh một điểm, hình trùng với chính nó. Hình bình hành có tâm đối xứng là giao điểm hai đường chéo.'),
+  LQ('Hình nào sau đây có tâm đối xứng?', ['Hình chữ nhật', 'Tam giác đều', 'Hình thang cân', 'Hình chữ cái A'], 0, 'Hình chữ nhật có tâm đối xứng là giao điểm hai đường chéo.'),
+  LS('Đối xứng trong đời sống', ['Lá cây, cánh bướm, hoa văn trống đồng', 'Kiến trúc chùa Một Cột, cổng trường'], 'Tính đối xứng có ở khắp nơi: cánh bướm, lá cây, các công trình kiến trúc. Em hãy tìm thêm ví dụ quanh mình nhé.'),
+  LQ('Tam giác đều có bao nhiêu trục đối xứng?', ['3', '1', '2', '6'], 0, 'Mỗi đường cao (đường trung trực) là một trục đối xứng.')]);
+LIBADD('t7sht', 7, 'toan', 'Số hữu tỉ', [
+  LS('Khái niệm số hữu tỉ', ['Số viết được dưới dạng a/b, a, b ∈ ℤ, b ≠ 0.', 'Kí hiệu tập hợp: ℚ', 'Ví dụ: −3/4; 0,5 = 1/2; 2 = 2/1'], 'Số hữu tỉ là số viết được dưới dạng phân số a trên b, với a và b là số nguyên, b khác không. Tập hợp các số hữu tỉ kí hiệu là chữ Q.'),
+  LQ('Số nào KHÔNG phải số hữu tỉ?', ['√2', '−5', '0,75', '3/7'], 0, '√2 không viết được dưới dạng phân số nên không là số hữu tỉ.'),
+  LS('So sánh số hữu tỉ', ['Đưa về cùng mẫu dương rồi so sánh tử.', 'Số hữu tỉ dương > 0 > số hữu tỉ âm.'], 'Muốn so sánh hai số hữu tỉ, ta viết chúng về cùng mẫu dương rồi so sánh tử số.', '−2/3 < −1/2 vì −4/6 < −3/6'),
+  LQ('So sánh: −3/5 ___ −1/2', ['<', '>', '=', 'Không so sánh được'], 0, '−3/5 = −6/10 < −5/10 = −1/2.'),
+  LS('Cộng, trừ số hữu tỉ', ['Viết về cùng mẫu rồi cộng, trừ tử.', 'Quy tắc chuyển vế: x + a = b ⇒ x = b − a'], 'Cộng trừ số hữu tỉ như cộng trừ phân số. Khi chuyển một số hạng sang vế kia, ta đổi dấu số hạng đó.'),
+  LQ('Tìm x: x + 1/4 = 3/4', ['1/2', '1', '−1/2', '3/16'], 0, 'x = 3/4 − 1/4 = 2/4 = 1/2.')]);
+LIBADD('t7tg', 7, 'toan', 'Các trường hợp bằng nhau của tam giác', [
+  LS('Hai tam giác bằng nhau', ['Các cạnh tương ứng bằng nhau, các góc tương ứng bằng nhau.', 'Viết đúng thứ tự đỉnh tương ứng: △ABC = △DEF'], 'Hai tam giác bằng nhau khi có các cạnh tương ứng bằng nhau và các góc tương ứng bằng nhau. Khi viết, các đỉnh tương ứng phải đúng thứ tự.'),
+  LS('Ba trường hợp', ['c.c.c: ba cạnh tương ứng bằng nhau', 'c.g.c: hai cạnh và góc xen giữa', 'g.c.g: một cạnh và hai góc kề'], 'Có ba trường hợp bằng nhau của tam giác: cạnh cạnh cạnh, cạnh góc cạnh, và góc cạnh góc. Chú ý với cạnh góc cạnh, góc phải nằm xen giữa hai cạnh.'),
+  LQ('△ABC và △DEF có AB = DE, góc B = góc E, BC = EF. Hai tam giác bằng nhau theo trường hợp:', ['c.g.c', 'c.c.c', 'g.c.g', 'không bằng nhau'], 0, 'Góc B xen giữa AB, BC; góc E xen giữa DE, EF.'),
+  LQ('Nếu △ABC = △MNP thì cạnh tương ứng với BC là:', ['NP', 'MN', 'MP', 'PN và MN'], 0, 'B ↔ N, C ↔ P nên BC ↔ NP.'),
+  LS('Ứng dụng', ['Chứng minh hai đoạn thẳng, hai góc bằng nhau', 'Đo khoảng cách không đến được'], 'Từ hai tam giác bằng nhau ta suy ra các cạnh, các góc tương ứng bằng nhau. Đây là công cụ chứng minh rất quan trọng.'),
+  LQ('Trường hợp g.c.g cần:', ['một cạnh và hai góc kề cạnh đó', 'hai cạnh và một góc bất kì', 'ba góc', 'ba cạnh'], 0, 'Góc – cạnh – góc: hai góc kề cạnh đó.')]);
+LIBADD('t8hdt', 8, 'toan', 'Hằng đẳng thức đáng nhớ', [
+  LS('Bình phương của tổng và hiệu', ['(a + b)² = a² + 2ab + b²', '(a − b)² = a² − 2ab + b²'], 'Bình phương của một tổng bằng bình phương số thứ nhất, cộng hai lần tích, cộng bình phương số thứ hai.', '(a + b)² = a² + 2ab + b²'),
+  LQ('(x + 3)² bằng:', ['x² + 6x + 9', 'x² + 9', 'x² + 3x + 9', 'x² + 6x + 6'], 0, '(x + 3)² = x² + 2·3·x + 9.'),
+  LS('Hiệu hai bình phương', ['a² − b² = (a − b)(a + b)', 'Ví dụ: x² − 16 = (x − 4)(x + 4)'], 'Hiệu hai bình phương bằng tích của hiệu và tổng. Ví dụ x bình trừ mười sáu bằng x trừ bốn nhân x cộng bốn.'),
+  LQ('Tính nhanh 51 · 49:', ['2499', '2500', '2501', '2449'], 0, '(50 + 1)(50 − 1) = 2500 − 1 = 2499.'),
+  LS('Lập phương', ['(a + b)³ = a³ + 3a²b + 3ab² + b³', '(a − b)³ = a³ − 3a²b + 3ab² − b³', 'a³ + b³ = (a + b)(a² − ab + b²)'], 'Các hằng đẳng thức lập phương giúp khai triển và phân tích đa thức nhanh hơn.'),
+  LQ('x² − 10x + 25 viết thành:', ['(x − 5)²', '(x + 5)²', '(x − 25)²', '(x − 5)(x + 5)'], 0, 'x² − 2·5·x + 5² = (x − 5)².')]);
+LIBADD('t8py', 8, 'toan', 'Định lí Pythagore', [
+  LS('Định lí Pythagore', ['Tam giác vuông: bình phương cạnh huyền bằng tổng bình phương hai cạnh góc vuông.', '△ABC vuông tại A: BC² = AB² + AC²'], 'Trong một tam giác vuông, bình phương cạnh huyền bằng tổng bình phương hai cạnh góc vuông.', 'BC² = AB² + AC²'),
+  LQ('Tam giác vuông có hai cạnh góc vuông 6 cm và 8 cm. Cạnh huyền dài:', ['10 cm', '14 cm', '12 cm', '7 cm'], 0, '6² + 8² = 36 + 64 = 100 nên cạnh huyền 10 cm.'),
+  LS('Định lí đảo', ['Nếu BC² = AB² + AC² thì △ABC vuông tại A.', 'Dùng để kiểm tra một tam giác có vuông không.'], 'Định lí đảo: nếu bình phương một cạnh bằng tổng bình phương hai cạnh kia thì tam giác đó vuông.'),
+  LQ('Bộ ba độ dài nào tạo thành tam giác vuông?', ['5, 12, 13', '4, 5, 6', '2, 3, 4', '6, 7, 8'], 0, '5² + 12² = 25 + 144 = 169 = 13².'),
+  LS('Ứng dụng thực tế', ['Tính chiều dài thang dựa vào tường', 'Tính đường chéo màn hình tivi'], 'Định lí Pythagore giúp tính độ dài trong thực tế, như chiều dài cái thang hay đường chéo màn hình.'),
+  LQ('Cạnh huyền 13 cm, một cạnh góc vuông 5 cm. Cạnh còn lại:', ['12 cm', '8 cm', '18 cm', '10 cm'], 0, '13² − 5² = 169 − 25 = 144 = 12².')]);
+LIBADD('t9cb2', 9, 'toan', 'Căn bậc hai và căn thức bậc hai', [
+  LS('Căn bậc hai số học', ['Với a ≥ 0, √a là số không âm mà bình phương bằng a.', 'Ví dụ: √25 = 5; √0 = 0', 'Số âm không có căn bậc hai.'], 'Căn bậc hai số học của một số a không âm là số không âm mà bình phương của nó bằng a. Ví dụ căn hai mươi lăm bằng năm.'),
+  LQ('√49 bằng:', ['7', '−7', '±7', '24,5'], 0, 'Căn bậc hai số học là số không âm: 7.'),
+  LS('Hằng đẳng thức √(A²) = |A|', ['√(A²) = A nếu A ≥ 0', '√(A²) = −A nếu A < 0', 'Ví dụ: √((−3)²) = 3'], 'Căn của A bình phương bằng giá trị tuyệt đối của A. Ví dụ căn của âm ba bình phương bằng ba.'),
+  LQ('√((−5)²) bằng:', ['5', '−5', '25', '±5'], 0, '√(A²) = |A| = 5.'),
+  LS('Điều kiện xác định', ['√A xác định khi A ≥ 0', 'Ví dụ: √(x − 2) xác định khi x ≥ 2'], 'Căn thức căn A xác định khi biểu thức dưới dấu căn lớn hơn hoặc bằng không.'),
+  LQ('√(2x − 6) xác định khi:', ['x ≥ 3', 'x > 6', 'x ≤ 3', 'x ≥ −3'], 0, '2x − 6 ≥ 0 ⇔ x ≥ 3.')]);
+LIBADD('t9hpt', 9, 'toan', 'Hệ hai phương trình bậc nhất hai ẩn', [
+  LS('Hệ phương trình', ['ax + by = c và a\'x + b\'y = c\'', 'Nghiệm là cặp (x; y) thỏa mãn cả hai phương trình.'], 'Hệ hai phương trình bậc nhất hai ẩn gồm hai phương trình. Nghiệm của hệ là cặp số x, y thỏa mãn đồng thời cả hai phương trình.'),
+  LS('Phương pháp thế', ['Từ một phương trình, biểu diễn x theo y (hoặc y theo x).', 'Thế vào phương trình còn lại, giải tìm một ẩn.', 'Suy ra ẩn còn lại.'], 'Phương pháp thế: rút một ẩn từ một phương trình rồi thế vào phương trình kia.', 'x + y = 5, x − y = 1 ⇒ x = 3, y = 2'),
+  LQ('Nghiệm của hệ x + y = 7 và x − y = 3 là:', ['(5; 2)', '(2; 5)', '(4; 3)', '(7; 0)'], 0, 'Cộng hai phương trình: 2x = 10, x = 5, y = 2.'),
+  LS('Phương pháp cộng đại số', ['Nhân để hệ số một ẩn đối nhau hoặc bằng nhau.', 'Cộng hoặc trừ hai phương trình để khử ẩn.'], 'Phương pháp cộng đại số: biến đổi để hệ số của một ẩn đối nhau rồi cộng hai phương trình để khử ẩn đó.'),
+  LQ('Cặp (1; 2) là nghiệm của phương trình nào?', ['2x + y = 4', 'x + y = 4', 'x − y = 1', '3x + y = 6'], 0, '2·1 + 2 = 4.'),
+  LQ('Giải bài toán: hai số có tổng 20, hiệu 4. Số lớn là:', ['12', '8', '16', '10'], 0, 'x + y = 20, x − y = 4 ⇒ x = 12.')]);
+/* ---------- KHOA HỌC TỰ NHIÊN ---------- */
+LIBADD('k6the', 6, 'khtn', 'Các thể của chất và sự chuyển thể', [
+  LS('Ba thể của chất', ['Rắn: có hình dạng và thể tích xác định', 'Lỏng: có thể tích xác định, hình dạng theo vật chứa', 'Khí: không có hình dạng và thể tích xác định'], 'Chất tồn tại ở ba thể chính là rắn, lỏng và khí. Chất rắn có hình dạng xác định, chất lỏng có hình dạng của vật chứa, chất khí lan tỏa khắp không gian.'),
+  LQ('Chất nào ở thể khí ở nhiệt độ phòng?', ['Oxygen', 'Nước đá', 'Sắt', 'Dầu ăn'], 0, 'Oxygen là chất khí ở điều kiện thường.'),
+  LS('Sự chuyển thể', ['Nóng chảy: rắn → lỏng', 'Đông đặc: lỏng → rắn', 'Bay hơi: lỏng → hơi', 'Ngưng tụ: hơi → lỏng'], 'Các quá trình chuyển thể: nóng chảy, đông đặc, bay hơi, ngưng tụ. Ví dụ nước đá tan là nóng chảy, hơi nước đọng trên nắp nồi là ngưng tụ.'),
+  LQ('Hơi nước đọng thành giọt trên nắp nồi là hiện tượng:', ['Ngưng tụ', 'Nóng chảy', 'Bay hơi', 'Đông đặc'], 0, 'Hơi chuyển thành lỏng: ngưng tụ.'),
+  LS('Nhiệt độ sôi và nóng chảy của nước', ['Nước đá nóng chảy ở 0 °C', 'Nước sôi ở 100 °C (áp suất thường)'], 'Ở áp suất khí quyển bình thường, nước đá nóng chảy ở không độ C và nước sôi ở một trăm độ C.'),
+  LQ('Quá trình phơi quần áo cho khô là:', ['Bay hơi', 'Ngưng tụ', 'Đông đặc', 'Nóng chảy'], 0, 'Nước trong quần áo chuyển thành hơi.')]);
+LIBADD('k6luc', 6, 'khtn', 'Lực và biểu diễn lực', [
+  LS('Lực là gì?', ['Lực là sự đẩy hoặc kéo của vật này lên vật khác.', 'Lực có thể làm vật biến dạng, thay đổi tốc độ, hướng chuyển động.', 'Đơn vị lực: newton (N)'], 'Lực là sự đẩy hoặc kéo của vật này lên vật khác. Lực có thể làm vật biến dạng hoặc thay đổi chuyển động. Đơn vị đo lực là niu tơn.'),
+  LQ('Đơn vị đo lực là:', ['Newton (N)', 'Kilôgam (kg)', 'Mét (m)', 'Jun (J)'], 0, 'Lực đo bằng newton.'),
+  LS('Biểu diễn lực bằng mũi tên', ['Gốc: điểm đặt lực', 'Hướng: hướng của lực', 'Độ dài: độ lớn của lực theo tỉ xích'], 'Lực được biểu diễn bằng mũi tên. Gốc mũi tên là điểm đặt, hướng mũi tên là hướng lực, độ dài thể hiện độ lớn theo tỉ xích.'),
+  LQ('Theo tỉ xích 1 cm ứng với 10 N, mũi tên dài 3 cm biểu diễn lực:', ['30 N', '3 N', '13 N', '10 N'], 0, '3 × 10 N = 30 N.'),
+  LS('Lực tiếp xúc và không tiếp xúc', ['Tiếp xúc: đá bóng, kéo xe', 'Không tiếp xúc: lực hút của Trái Đất, lực của nam châm'], 'Lực tiếp xúc xuất hiện khi hai vật chạm nhau. Lực không tiếp xúc như lực hấp dẫn, lực từ của nam châm.'),
+  LQ('Lực nào là lực không tiếp xúc?', ['Nam châm hút đinh sắt', 'Tay đẩy cửa', 'Chân đá bóng', 'Kéo co'], 0, 'Lực từ tác dụng không cần chạm.')]);
+LIBADD('k7td', 7, 'khtn', 'Tốc độ chuyển động', [
+  LS('Tốc độ', ['Tốc độ cho biết vật chuyển động nhanh hay chậm.', 'v = s / t', 'Đơn vị: m/s, km/h'], 'Tốc độ cho biết mức độ nhanh hay chậm của chuyển động, được tính bằng quãng đường chia cho thời gian.', 'v = s / t'),
+  LQ('Một bạn đi xe đạp 6 km trong 0,5 h. Tốc độ là:', ['12 km/h', '3 km/h', '6 km/h', '30 km/h'], 0, 'v = 6 : 0,5 = 12 km/h.'),
+  LS('Đổi đơn vị', ['1 m/s = 3,6 km/h', '36 km/h = 10 m/s'], 'Một mét trên giây bằng ba phẩy sáu ki lô mét trên giờ. Ví dụ ba mươi sáu ki lô mét trên giờ bằng mười mét trên giây.'),
+  LQ('54 km/h bằng:', ['15 m/s', '5,4 m/s', '54 m/s', '150 m/s'], 0, '54 : 3,6 = 15 m/s.'),
+  LS('Đồ thị quãng đường – thời gian', ['Đường thẳng qua gốc: chuyển động đều', 'Càng dốc: tốc độ càng lớn'], 'Đồ thị quãng đường theo thời gian của chuyển động đều là đường thẳng. Đường càng dốc thì tốc độ càng lớn.'),
+  LQ('Tốc độ an toàn giúp:', ['giảm nguy cơ tai nạn giao thông', 'đến nơi chậm hơn vô ích', 'tốn nhiều xăng hơn', 'không có tác dụng'], 0, 'Đi đúng tốc độ quy định để an toàn.')]);
+LIBADD('k7qh', 7, 'khtn', 'Quang hợp ở thực vật', [
+  LS('Quang hợp là gì?', ['Lá cây dùng năng lượng ánh sáng để tạo chất hữu cơ.', 'Nguyên liệu: nước, carbon dioxide', 'Sản phẩm: glucose, oxygen'], 'Quang hợp là quá trình lá cây sử dụng năng lượng ánh sáng, biến nước và khí carbon dioxide thành chất hữu cơ và giải phóng oxygen.', 'Nước + Carbon dioxide → (ánh sáng, diệp lục) Glucose + Oxygen'),
+  LQ('Khí được thải ra trong quang hợp là:', ['Oxygen', 'Carbon dioxide', 'Nitrogen', 'Hydrogen'], 0, 'Quang hợp giải phóng oxygen.'),
+  LS('Vai trò của lá', ['Diệp lục hấp thụ ánh sáng', 'Khí khổng trao đổi khí', 'Gân lá vận chuyển nước và chất'], 'Lá là cơ quan quang hợp chính. Chất diệp lục hấp thụ ánh sáng, khí khổng giúp trao đổi khí.'),
+  LQ('Chất giúp lá hấp thụ năng lượng ánh sáng là:', ['Diệp lục', 'Tinh bột', 'Nước', 'Muối khoáng'], 0, 'Diệp lục (chlorophyll).'),
+  LS('Ý nghĩa', ['Tạo thức ăn cho sinh vật', 'Cung cấp oxygen, điều hòa không khí'], 'Quang hợp tạo ra thức ăn cho hầu hết sinh vật và cung cấp oxygen cho sự sống. Vì vậy cần trồng và bảo vệ cây xanh.'),
+  LQ('Yếu tố KHÔNG trực tiếp cần cho quang hợp là:', ['Đất sét', 'Ánh sáng', 'Nước', 'Carbon dioxide'], 0, 'Quang hợp cần ánh sáng, nước, CO₂ và diệp lục.')]);
+LIBADD('k8btkl', 8, 'khtn', 'Định luật bảo toàn khối lượng', [
+  LS('Phản ứng hóa học', ['Chất ban đầu (chất phản ứng) → chất mới (sản phẩm)', 'Dấu hiệu: đổi màu, tạo khí, kết tủa, tỏa nhiệt'], 'Phản ứng hóa học là quá trình biến đổi chất này thành chất khác. Dấu hiệu nhận biết là đổi màu, sủi bọt khí, tạo kết tủa hoặc tỏa nhiệt.'),
+  LS('Định luật bảo toàn khối lượng', ['Tổng khối lượng các chất phản ứng bằng tổng khối lượng sản phẩm.', 'A + B → C + D: mA + mB = mC + mD'], 'Trong một phản ứng hóa học, tổng khối lượng các chất sản phẩm bằng tổng khối lượng các chất tham gia phản ứng.', 'mA + mB = mC + mD'),
+  LQ('Đốt 3 g carbon cần 8 g oxygen. Khối lượng khí carbon dioxide tạo thành là:', ['11 g', '5 g', '24 g', '8 g'], 0, '3 + 8 = 11 g.'),
+  LS('Giải thích', ['Trong phản ứng, liên kết giữa các nguyên tử thay đổi.', 'Số nguyên tử mỗi nguyên tố giữ nguyên nên khối lượng không đổi.'], 'Trong phản ứng hóa học chỉ có liên kết giữa các nguyên tử thay đổi, số nguyên tử của mỗi nguyên tố giữ nguyên, nên khối lượng được bảo toàn.'),
+  LQ('Vì sao khối lượng được bảo toàn?', ['Số nguyên tử mỗi nguyên tố không đổi', 'Có thêm nguyên tử mới', 'Nguyên tử bị mất đi', 'Do nhiệt độ tăng'], 0, 'Nguyên tử chỉ sắp xếp lại.'),
+  LQ('Hiện tượng nào là hiện tượng hóa học?', ['Sắt bị gỉ', 'Nước đá tan', 'Cồn bay hơi', 'Gấp giấy'], 0, 'Sắt gỉ tạo chất mới.')]);
+LIBADD('k8as', 8, 'khtn', 'Áp suất', [
+  LS('Áp suất là gì?', ['Áp suất = áp lực / diện tích bị ép', 'p = F / S', 'Đơn vị: pascal (Pa), 1 Pa = 1 N/m²'], 'Áp suất là độ lớn của áp lực trên một đơn vị diện tích bị ép.', 'p = F / S'),
+  LQ('Lực 100 N ép lên diện tích 0,5 m². Áp suất là:', ['200 Pa', '50 Pa', '100,5 Pa', '0,005 Pa'], 0, 'p = 100 : 0,5 = 200 Pa.'),
+  LS('Tăng, giảm áp suất', ['Tăng áp suất: giảm diện tích (lưỡi dao sắc, mũi đinh nhọn)', 'Giảm áp suất: tăng diện tích (xe tăng có bánh xích)'], 'Muốn tăng áp suất ta giảm diện tích bị ép, như mài dao cho sắc. Muốn giảm áp suất ta tăng diện tích, như xe tăng có bánh xích.'),
+  LQ('Vì sao lưỡi dao sắc dễ cắt hơn?', ['Diện tích bị ép nhỏ nên áp suất lớn', 'Dao nặng hơn', 'Diện tích bị ép lớn', 'Áp lực nhỏ hơn'], 0, 'S nhỏ thì p lớn.'),
+  LS('Áp suất chất lỏng', ['Càng xuống sâu, áp suất càng lớn: p = d · h', 'Thợ lặn phải mặc đồ chịu áp suất'], 'Áp suất chất lỏng tăng theo độ sâu. Vì vậy thợ lặn ở sâu phải mặc bộ đồ đặc biệt.'),
+  LQ('Ở cùng một chất lỏng, điểm nào có áp suất lớn nhất?', ['Điểm sâu nhất', 'Điểm sát mặt thoáng', 'Mọi điểm như nhau', 'Điểm ở giữa'], 0, 'Áp suất tăng theo độ sâu.')]);
+LIBADD('k9cn', 9, 'khtn', 'Cơ năng', [
+  LS('Động năng và thế năng', ['Động năng: Wđ = ½ m v²', 'Thế năng trọng trường: Wt = P · h = m · g · h (≈ 10 · m · h)', 'Đơn vị: jun (J)'], 'Vật chuyển động có động năng, bằng một phần hai m v bình phương. Vật ở độ cao có thế năng trọng trường, bằng trọng lượng nhân độ cao.'),
+  LQ('Vật 2 kg chuyển động với tốc độ 3 m/s có động năng:', ['9 J', '6 J', '18 J', '3 J'], 0, 'Wđ = ½ · 2 · 3² = 9 J.'),
+  LS('Cơ năng', ['Cơ năng = động năng + thế năng', 'Khi bỏ qua ma sát, cơ năng được bảo toàn.'], 'Cơ năng là tổng động năng và thế năng. Nếu bỏ qua ma sát và lực cản, cơ năng của vật được bảo toàn.'),
+  LQ('Quả bóng rơi từ trên cao xuống (bỏ qua lực cản), khi rơi:', ['thế năng giảm, động năng tăng', 'cả hai đều tăng', 'thế năng tăng, động năng giảm', 'cả hai đều giảm'], 0, 'Thế năng chuyển hóa thành động năng.'),
+  LS('Chuyển hóa năng lượng', ['Thủy điện: thế năng của nước → điện năng', 'Con lắc dao động: thế năng ⇄ động năng'], 'Năng lượng có thể chuyển hóa từ dạng này sang dạng khác. Nhà máy thủy điện dùng thế năng của nước để tạo ra điện.'),
+  LQ('Vật 5 kg ở độ cao 2 m (lấy g = 10 m/s²) có thế năng:', ['100 J', '10 J', '50 J', '7 J'], 0, 'Wt = 5 · 10 · 2 = 100 J.')]);
+LIBADD('k9gen', 9, 'khtn', 'Gene và DNA', [
+  LS('DNA', ['DNA mang thông tin di truyền.', 'Cấu trúc xoắn kép gồm hai mạch.', '4 loại nucleotide: A, T, G, C', 'Nguyên tắc bổ sung: A – T, G – C'], 'DNA là phân tử mang thông tin di truyền, có cấu trúc xoắn kép gồm hai mạch. Các nucleotide liên kết theo nguyên tắc bổ sung: A với T, G với C.'),
+  LQ('Theo nguyên tắc bổ sung, nucleotide G liên kết với:', ['C', 'A', 'T', 'G'], 0, 'G liên kết với C.'),
+  LS('Gene', ['Gene là một đoạn DNA mang thông tin quy định một sản phẩm (thường là protein).', 'Gene → protein → tính trạng'], 'Gene là một đoạn của phân tử DNA mang thông tin quy định một sản phẩm, thường là protein, từ đó biểu hiện thành tính trạng.'),
+  LQ('Mạch DNA có trình tự A – T – G – C thì mạch bổ sung là:', ['T – A – C – G', 'A – T – G – C', 'G – C – A – T', 'C – G – T – A'], 0, 'A–T, T–A, G–C, C–G.'),
+  LS('Ứng dụng', ['Xác định huyết thống', 'Chọn giống cây trồng, vật nuôi', 'Y học: chẩn đoán bệnh di truyền'], 'Hiểu biết về gene và DNA được ứng dụng trong y học, nông nghiệp và xác định quan hệ huyết thống.'),
+  LQ('Đơn phân cấu tạo nên DNA là:', ['Nucleotide', 'Amino acid', 'Glucose', 'Acid béo'], 0, 'DNA cấu tạo từ các nucleotide.')]);
+/* ---------- NGỮ VĂN ---------- */
+LIBADD('v6lb', 6, 'van', 'Thơ lục bát', [
+  LS('Đặc điểm thể thơ lục bát', ['Cặp câu: câu sáu chữ và câu tám chữ', 'Vần: chữ 6 câu lục vần với chữ 6 câu bát; chữ 8 câu bát vần với chữ 6 câu lục tiếp theo', 'Thanh: chữ 2, 4, 6 theo luật bằng – trắc – bằng'], 'Thơ lục bát gồm các cặp câu sáu chữ và tám chữ. Tiếng thứ sáu câu lục vần với tiếng thứ sáu câu bát. Đây là thể thơ truyền thống của dân tộc.'),
+  LQ('Câu lục trong thơ lục bát có mấy tiếng?', ['6', '8', '7', '5'], 0, 'Lục là sáu.'),
+  LS('Ví dụ ca dao', ['"Công cha như núi Thái Sơn / Nghĩa mẹ như nước trong nguồn chảy ra"', 'Vần: "Sơn" – "nguồn"'], 'Ca dao: Công cha như núi Thái Sơn, nghĩa mẹ như nước trong nguồn chảy ra. Tiếng Sơn ở câu lục vần với tiếng nguồn ở câu bát.'),
+  LQ('Trong câu "Nghĩa mẹ như nước trong nguồn chảy ra", tiếng thứ sáu là:', ['nguồn', 'nước', 'chảy', 'ra'], 0, 'Nghĩa(1) mẹ(2) như(3) nước(4) trong(5) nguồn(6).'),
+  LS('Biện pháp so sánh', ['So sánh công cha với núi, nghĩa mẹ với nước nguồn', 'Tác dụng: hình ảnh cụ thể, gợi công ơn to lớn'], 'Biện pháp so sánh giúp diễn tả công ơn cha mẹ một cách cụ thể, gần gũi và sâu sắc.'),
+  LQ('Thơ lục bát thường được dùng trong:', ['ca dao, dân ca', 'văn bản hành chính', 'báo cáo khoa học', 'quảng cáo'], 0, 'Lục bát gắn với ca dao, dân ca.')]);
+LIBADD('v6ts', 6, 'van', 'Viết bài văn kể lại một trải nghiệm', [
+  LS('Bố cục', ['Mở bài: giới thiệu trải nghiệm', 'Thân bài: kể diễn biến theo trình tự', 'Kết bài: cảm xúc, bài học'], 'Bài văn kể lại trải nghiệm gồm ba phần. Mở bài giới thiệu, thân bài kể lại diễn biến, kết bài nêu cảm xúc và bài học.'),
+  LQ('Bài văn kể trải nghiệm thường dùng ngôi kể nào?', ['Ngôi thứ nhất', 'Ngôi thứ ba', 'Ngôi thứ hai', 'Không dùng ngôi'], 0, 'Người viết xưng "tôi" kể lại trải nghiệm của mình.'),
+  LS('Kể theo trình tự', ['Thời gian: trước – sau', 'Dùng từ nối: đầu tiên, sau đó, cuối cùng', 'Kết hợp miêu tả và biểu cảm'], 'Em kể theo trình tự thời gian, dùng các từ nối như đầu tiên, sau đó, cuối cùng, và kết hợp miêu tả, bộc lộ cảm xúc.'),
+  LQ('Phần nào nêu bài học rút ra?', ['Kết bài', 'Mở bài', 'Thân bài', 'Nhan đề'], 0, 'Kết bài nêu cảm xúc, bài học.'),
+  LS('Lỗi cần tránh', ['Kể lan man, không có trọng tâm', 'Chỉ liệt kê, thiếu cảm xúc', 'Sai chính tả, dấu câu'], 'Tránh kể lan man, chỉ liệt kê sự việc. Hãy chọn chi tiết tiêu biểu và nói lên cảm xúc thật của em.'),
+  LQ('Câu nào thể hiện cảm xúc?', ['Em vui sướng đến mức muốn hét lên.', 'Hôm đó là thứ Hai.', 'Lớp em có 40 bạn.', 'Trường em ở gần chợ.'], 0, 'Câu bộc lộ cảm xúc của người kể.')]);
+LIBADD('v7tn', 7, 'van', 'Tục ngữ về thiên nhiên và lao động', [
+  LS('Tục ngữ là gì?', ['Câu nói ngắn gọn, có vần nhịp', 'Đúc kết kinh nghiệm của nhân dân', 'Về thiên nhiên, lao động, con người, xã hội'], 'Tục ngữ là những câu nói ngắn gọn, có vần nhịp, đúc kết kinh nghiệm của nhân dân về thiên nhiên, lao động và đời sống.'),
+  LS('Ví dụ', ['"Chuồn chuồn bay thấp thì mưa, bay cao thì nắng, bay vừa thì râm"', '"Nhất nước, nhì phân, tam cần, tứ giống"'], 'Câu chuồn chuồn bay thấp thì mưa, bay cao thì nắng là kinh nghiệm dự báo thời tiết. Câu nhất nước nhì phân tam cần tứ giống nói về các yếu tố trong trồng lúa.'),
+  LQ('Câu "Nhất nước, nhì phân, tam cần, tứ giống" nói về kinh nghiệm:', ['trồng lúa', 'dự báo bão', 'nuôi cá', 'buôn bán'], 0, 'Các yếu tố quan trọng trong nghề trồng lúa.'),
+  LS('Đặc điểm nghệ thuật', ['Ngắn gọn, hàm súc', 'Vần lưng, nhịp cân đối', 'Hình ảnh cụ thể, dễ nhớ'], 'Tục ngữ ngắn gọn, có vần, nhịp cân đối và hình ảnh cụ thể nên dễ nhớ, dễ truyền miệng.'),
+  LQ('"Chuồn chuồn bay thấp thì mưa" là kinh nghiệm về:', ['thời tiết', 'sức khỏe', 'học tập', 'giao tiếp'], 0, 'Dự báo thời tiết.'),
+  LQ('Tục ngữ khác thành ngữ ở chỗ tục ngữ:', ['diễn đạt trọn vẹn một nhận xét, kinh nghiệm', 'chỉ là cụm từ', 'luôn rất dài', 'không có vần'], 0, 'Tục ngữ là một câu hoàn chỉnh.')]);
+LIBADD('v7nl', 7, 'van', 'Văn nghị luận: luận điểm, lí lẽ, bằng chứng', [
+  LS('Văn nghị luận', ['Bày tỏ quan điểm về một vấn đề', 'Thuyết phục người đọc bằng lí lẽ và bằng chứng'], 'Văn nghị luận dùng để bày tỏ ý kiến về một vấn đề và thuyết phục người đọc bằng lí lẽ và bằng chứng.'),
+  LS('Ba yếu tố', ['Luận điểm: ý kiến chính', 'Lí lẽ: giải thích vì sao', 'Bằng chứng: ví dụ, số liệu, sự việc thực tế'], 'Một bài nghị luận gồm luận điểm là ý kiến chính, lí lẽ để giải thích, và bằng chứng cụ thể để chứng minh.'),
+  LQ('"Theo khảo sát, 80% học sinh lớp em đọc sách mỗi tuần" là:', ['bằng chứng', 'luận điểm', 'lí lẽ', 'kết luận'], 0, 'Số liệu cụ thể là bằng chứng (ví dụ minh họa).'),
+  LQ('"Đọc sách giúp mở rộng hiểu biết" thường là:', ['luận điểm', 'bằng chứng', 'nhan đề', 'dẫn chứng số liệu'], 0, 'Đây là một ý kiến chính.'),
+  LS('Bằng chứng phải đáng tin', ['Có nguồn rõ ràng', 'Phù hợp với luận điểm', 'Không bịa số liệu'], 'Bằng chứng phải có nguồn rõ ràng và phù hợp với luận điểm. Tuyệt đối không bịa đặt số liệu.'),
+  LQ('Bằng chứng tốt cần:', ['chính xác, có nguồn rõ ràng', 'càng dài càng tốt', 'tự nghĩ ra cho hay', 'không liên quan đến vấn đề'], 0, 'Bằng chứng phải xác thực.')]);
+LIBADD('v8ttin', 8, 'van', 'Văn bản thông tin giải thích một hiện tượng tự nhiên', [
+  LS('Mục đích', ['Giải thích vì sao, như thế nào một hiện tượng xảy ra', 'Ví dụ: mưa, sấm sét, nhật thực, sóng thần'], 'Văn bản thông tin giải thích hiện tượng tự nhiên giúp người đọc hiểu vì sao và như thế nào hiện tượng đó xảy ra.'),
+  LS('Cấu trúc', ['Nhan đề, sa-pô', 'Giới thiệu hiện tượng', 'Giải thích nguyên nhân, quá trình', 'Kết luận, lưu ý'], 'Văn bản thường có nhan đề, đoạn giới thiệu, phần giải thích nguyên nhân và quá trình, và phần kết luận.'),
+  LQ('Phần trọng tâm của văn bản giải thích hiện tượng là:', ['nguyên nhân và quá trình diễn ra', 'cảm xúc của người viết', 'lời kể chuyện cổ tích', 'quảng cáo sản phẩm'], 0, 'Giải thích vì sao và như thế nào.'),
+  LS('Phương tiện phi ngôn ngữ', ['Sơ đồ, hình ảnh, bảng số liệu', 'Giúp thông tin trực quan, dễ hiểu'], 'Hình ảnh, sơ đồ và bảng số liệu giúp thông tin trực quan, dễ hiểu hơn.'),
+  LQ('Sơ đồ vòng tuần hoàn của nước trong văn bản là:', ['phương tiện phi ngôn ngữ', 'luận điểm', 'nhân vật', 'vần thơ'], 0, 'Hình ảnh, sơ đồ là phương tiện phi ngôn ngữ.'),
+  LQ('Ngôn ngữ văn bản thông tin cần:', ['chính xác, khách quan, rõ ràng', 'nhiều từ cảm thán', 'mơ hồ, đa nghĩa', 'dùng nhiều từ lóng'], 0, 'Thông tin phải chính xác, khách quan.')]);
+LIBADD('v8tt', 8, 'van', 'Câu hỏi tu từ và các biện pháp tu từ', [
+  LS('Biện pháp tu từ', ['So sánh, nhân hóa, ẩn dụ, hoán dụ', 'Điệp ngữ, nói quá, nói giảm nói tránh', 'Câu hỏi tu từ'], 'Biện pháp tu từ là cách dùng từ ngữ đặc biệt để tăng sức gợi hình, gợi cảm cho câu văn, câu thơ.'),
+  LS('Câu hỏi tu từ', ['Hỏi nhưng không cần câu trả lời', 'Nhấn mạnh, bộc lộ cảm xúc', 'Ví dụ: "Ai mà chẳng thương mẹ?"'], 'Câu hỏi tu từ là câu hỏi không nhằm để được trả lời mà để nhấn mạnh ý hoặc bộc lộ cảm xúc.'),
+  LQ('Câu nào là câu hỏi tu từ?', ['Ai mà không yêu quê hương mình?', 'Mấy giờ rồi bạn?', 'Bạn ăn cơm chưa?', 'Nhà bạn ở đâu?'], 0, 'Câu hỏi khẳng định ai cũng yêu quê hương.'),
+  LS('Nói giảm nói tránh', ['Dùng cách diễn đạt tế nhị, nhẹ nhàng', '"Bác đã đi rồi sao Bác ơi!" (Tố Hữu)'], 'Nói giảm nói tránh là cách diễn đạt tế nhị để tránh gây cảm giác đau buồn hoặc thô tục.'),
+  LQ('"Ông em đã về với tổ tiên" dùng biện pháp:', ['nói giảm nói tránh', 'nói quá', 'so sánh', 'điệp ngữ'], 0, 'Cách nói tế nhị về sự ra đi.'),
+  LQ('"Mẹ là ngọn gió của con suốt đời" dùng biện pháp:', ['ẩn dụ', 'nhân hóa', 'nói quá', 'câu hỏi tu từ'], 0, 'Gọi mẹ là ngọn gió dựa trên nét tương đồng: ẩn dụ.')]);
+LIBADD('v9nlxh', 9, 'van', 'Nghị luận về một vấn đề cần giải quyết', [
+  LS('Yêu cầu', ['Nêu vấn đề, phân tích thực trạng', 'Chỉ ra nguyên nhân, tác hại', 'Đề xuất giải pháp khả thi'], 'Bài nghị luận về một vấn đề cần giải quyết phải nêu thực trạng, phân tích nguyên nhân, tác hại và đề xuất giải pháp khả thi.'),
+  LS('Ví dụ: Rác thải nhựa ở trường học', ['Thực trạng: chai nhựa, túi nilon sau giờ ra chơi', 'Nguyên nhân: thói quen, thiếu thùng phân loại', 'Giải pháp: bình nước cá nhân, phân loại rác, tuyên truyền'], 'Ví dụ vấn đề rác thải nhựa ở trường. Em nêu thực trạng, nguyên nhân và đề xuất giải pháp như mang bình nước cá nhân, phân loại rác.'),
+  LQ('Giải pháp tốt cần:', ['cụ thể, khả thi, có người thực hiện', 'thật chung chung', 'không liên quan nguyên nhân', 'chỉ để cho hay'], 0, 'Giải pháp phải thực hiện được.'),
+  LS('Dàn ý', ['Mở bài: nêu vấn đề', 'Thân bài: thực trạng – nguyên nhân – tác hại – giải pháp', 'Kết bài: khẳng định, kêu gọi hành động'], 'Dàn ý gồm mở bài nêu vấn đề, thân bài phân tích và đề xuất giải pháp, kết bài khẳng định và kêu gọi hành động.'),
+  LQ('Phần "kêu gọi hành động" thường nằm ở:', ['Kết bài', 'Mở bài', 'Đầu thân bài', 'Nhan đề'], 0, 'Kết bài khẳng định và kêu gọi.'),
+  LQ('Khi đưa số liệu vào bài nghị luận, em cần:', ['ghi rõ nguồn và dùng số liệu thật', 'tự đặt ra số liệu', 'làm tròn tùy ý', 'không cần nguồn'], 0, 'Trung thực, có nguồn rõ ràng.')]);
+LIBADD('v9tv', 9, 'van', 'Tiếng Việt: thành phần biệt lập', [
+  LS('Thành phần biệt lập', ['Không tham gia diễn đạt nghĩa sự việc của câu', 'Gồm: tình thái, cảm thán, gọi – đáp, phụ chú'], 'Thành phần biệt lập không tham gia vào việc diễn đạt nghĩa sự việc của câu. Có bốn loại: tình thái, cảm thán, gọi đáp và phụ chú.'),
+  LS('Ví dụ', ['Tình thái: "Chắc chắn, bạn ấy sẽ đến."', 'Cảm thán: "Ôi, đẹp quá!"', 'Gọi – đáp: "Này, cậu đi đâu đấy?"', 'Phụ chú: "Lan – bạn thân của tôi – học rất giỏi."'], 'Ví dụ thành phần tình thái chắc chắn, cảm thán ôi, gọi đáp này, phụ chú đặt giữa hai dấu gạch ngang.'),
+  LQ('"Hình như trời sắp mưa." Thành phần biệt lập là:', ['Hình như (tình thái)', 'trời (chủ ngữ)', 'sắp mưa (vị ngữ)', 'không có'], 0, '"Hình như" thể hiện độ tin cậy: tình thái.'),
+  LQ('"Lan – lớp trưởng lớp 9A – rất chăm chỉ." Phần in giữa dấu gạch ngang là:', ['thành phần phụ chú', 'thành phần cảm thán', 'thành phần gọi – đáp', 'vị ngữ'], 0, 'Bổ sung thông tin: phụ chú.'),
+  LS('Tác dụng', ['Thể hiện thái độ, cảm xúc người nói', 'Bổ sung thông tin, tạo quan hệ giao tiếp'], 'Thành phần biệt lập giúp thể hiện thái độ, cảm xúc của người nói và bổ sung thông tin.'),
+  LQ('"Ôi, quê hương mình đẹp quá!" Thành phần biệt lập là:', ['Ôi (cảm thán)', 'quê hương (chủ ngữ)', 'đẹp quá (vị ngữ)', 'mình (phụ chú)'], 0, '"Ôi" bộc lộ cảm xúc.')]);
+/* ---------- LỊCH SỬ VÀ ĐỊA LÍ ---------- */
+LIBADD('s6ac', 6, 'sudia', 'Ai Cập cổ đại', [
+  LS('Điều kiện tự nhiên', ['Hình thành bên dòng sông Nile', 'Đất phù sa màu mỡ, thuận lợi trồng trọt', 'Nhà nước ra đời khoảng 3200 TCN'], 'Ai Cập cổ đại hình thành bên dòng sông Nile. Đất phù sa màu mỡ giúp nông nghiệp phát triển. Nhà nước Ai Cập ra đời khoảng năm ba nghìn hai trăm trước Công nguyên.'),
+  LQ('Nền văn minh Ai Cập cổ đại gắn với dòng sông:', ['Nile', 'Hoàng Hà', 'Ấn', 'Tigris'], 0, 'Sông Nile.'),
+  LS('Thành tựu văn hóa', ['Chữ tượng hình, giấy papyrus', 'Kim tự tháp, tượng Nhân sư', 'Lịch, toán học, y học (ướp xác)'], 'Người Ai Cập có chữ tượng hình viết trên giấy papyrus, xây kim tự tháp, giỏi toán học và có kĩ thuật ướp xác.'),
+  LQ('Công trình nổi tiếng của Ai Cập cổ đại là:', ['Kim tự tháp', 'Vạn Lí Trường Thành', 'Đền Parthenon', 'Đấu trường Colosseum'], 0, 'Kim tự tháp Ai Cập.'),
+  LS('Người đứng đầu', ['Pharaoh có quyền lực tối cao', 'Xã hội: quý tộc, nông dân, nô lệ'], 'Đứng đầu nhà nước là Pha ra ông với quyền lực tối cao.'),
+  LQ('Người Ai Cập cổ đại viết chữ trên:', ['giấy papyrus', 'thẻ tre', 'giấy dó', 'đất sét nung']
+    , 0, 'Giấy làm từ cây papyrus.')]);
+LIBADD('s6kh', 6, 'sudia', 'Các đới khí hậu trên Trái Đất', [
+  LS('Năm đới khí hậu', ['1 đới nóng (nhiệt đới)', '2 đới ôn hòa (ôn đới)', '2 đới lạnh (hàn đới)'], 'Trên Trái Đất có năm đới khí hậu: một đới nóng, hai đới ôn hòa và hai đới lạnh.'),
+  LQ('Việt Nam nằm trong đới khí hậu:', ['Nóng (nhiệt đới)', 'Ôn hòa', 'Lạnh', 'Cận cực'], 0, 'Việt Nam nằm trong vùng nhiệt đới.'),
+  LS('Đặc điểm', ['Đới nóng: nóng quanh năm, mưa nhiều', 'Đới ôn hòa: bốn mùa rõ rệt', 'Đới lạnh: lạnh giá, băng tuyết phần lớn năm'], 'Đới nóng nóng quanh năm. Đới ôn hòa có bốn mùa rõ rệt. Đới lạnh rất lạnh và có băng tuyết phần lớn thời gian trong năm.'),
+  LQ('Đới có bốn mùa xuân, hạ, thu, đông rõ rệt là:', ['Đới ôn hòa', 'Đới nóng', 'Đới lạnh', 'Không có'], 0, 'Ôn đới có bốn mùa rõ.'),
+  LS('Biến đổi khí hậu', ['Nhiệt độ tăng, nước biển dâng', 'Đồng bằng sông Cửu Long chịu ảnh hưởng xâm nhập mặn', 'Hành động: tiết kiệm năng lượng, trồng cây'], 'Biến đổi khí hậu làm nhiệt độ tăng và nước biển dâng. Đồng bằng sông Cửu Long, nơi chúng ta sống, bị ảnh hưởng bởi xâm nhập mặn.'),
+  LQ('Việc làm góp phần giảm biến đổi khí hậu là:', ['Tiết kiệm điện, trồng cây xanh', 'Đốt rác bừa bãi', 'Dùng nhiều túi nilon', 'Chặt phá rừng'], 0, 'Giảm khí thải, tăng cây xanh.')]);
+LIBADD('s7ly', 7, 'sudia', 'Nhà Lý và kinh đô Thăng Long', [
+  LS('Thành lập nhà Lý', ['Năm 1009, Lý Công Uẩn lên ngôi, lập nhà Lý', 'Năm 1010, dời đô từ Hoa Lư ra Đại La, đổi tên là Thăng Long'], 'Năm một nghìn không trăm linh chín, Lý Công Uẩn lên ngôi. Năm một nghìn không trăm mười, ông dời đô từ Hoa Lư ra Đại La và đổi tên là Thăng Long.'),
+  LQ('Lý Công Uẩn dời đô về Thăng Long năm:', ['1010', '1009', '1054', '938'], 0, 'Năm 1010.'),
+  LS('Chiếu dời đô', ['Thăng Long: trung tâm đất nước, đất rộng, bằng phẳng', 'Thuận lợi giao thông, phát triển lâu dài'], 'Trong Chiếu dời đô, Lý Công Uẩn cho rằng Đại La ở trung tâm, đất rộng và bằng phẳng, thuận lợi cho đất nước phát triển lâu dài.'),
+  LQ('Năm 1054, nhà Lý đổi tên nước là:', ['Đại Việt', 'Đại Cồ Việt', 'Văn Lang', 'Âu Lạc'], 0, 'Năm 1054 đổi quốc hiệu thành Đại Việt.'),
+  LS('Văn hóa, giáo dục', ['Năm 1070: xây Văn Miếu', 'Năm 1075: mở khoa thi đầu tiên', 'Năm 1076: lập Quốc Tử Giám'], 'Nhà Lý xây Văn Miếu năm một nghìn không trăm bảy mươi, mở khoa thi đầu tiên năm một nghìn không trăm bảy mươi lăm và lập Quốc Tử Giám năm một nghìn không trăm bảy mươi sáu.'),
+  LQ('Quốc Tử Giám được lập năm:', ['1076', '1070', '1075', '1010'], 0, 'Năm 1076.')]);
+LIBADD('s7ca', 7, 'sudia', 'Thiên nhiên châu Âu', [
+  LS('Vị trí và địa hình', ['Châu Âu nằm ở bán cầu Bắc', 'Đồng bằng chiếm phần lớn diện tích', 'Dãy núi Alps, Pyrenees ở phía nam'], 'Châu Âu nằm ở bán cầu Bắc. Đồng bằng chiếm phần lớn diện tích, các dãy núi cao như An pơ nằm ở phía nam.'),
+  LQ('Dạng địa hình chiếm phần lớn diện tích châu Âu là:', ['Đồng bằng', 'Núi cao', 'Hoang mạc', 'Cao nguyên băng'], 0, 'Đồng bằng chiếm phần lớn.'),
+  LS('Khí hậu', ['Chủ yếu ôn đới', 'Ven biển phía tây: ôn đới hải dương, ẩm', 'Phía nam: cận nhiệt địa trung hải, hè khô nóng'], 'Châu Âu chủ yếu có khí hậu ôn đới. Phía tây ẩm do ảnh hưởng của biển, phía nam có khí hậu địa trung hải với mùa hè khô nóng.'),
+  LQ('Kiểu khí hậu ở các nước ven Địa Trung Hải có đặc điểm:', ['mùa hè khô, nóng', 'lạnh giá quanh năm', 'nóng ẩm quanh năm', 'mưa nhiều vào mùa hè'], 0, 'Hè khô nóng, đông ấm ẩm.'),
+  LS('Sông ngòi', ['Sông Danube, Rhine, Volga', 'Mạng lưới sông dày, nhiều sông được nối bằng kênh đào'], 'Châu Âu có nhiều sông lớn như Đa nuýp, Rai nơ và Von ga.'),
+  LQ('Sông dài nhất châu Âu là:', ['Volga', 'Rhine', 'Thames', 'Seine'], 0, 'Sông Volga dài nhất châu Âu.')]);
+LIBADD('s8cmcn', 8, 'sudia', 'Cách mạng công nghiệp', [
+  LS('Cách mạng công nghiệp ở Anh', ['Bắt đầu từ nửa sau thế kỉ XVIII', 'Máy kéo sợi, máy dệt, máy hơi nước (James Watt cải tiến)'], 'Cách mạng công nghiệp bắt đầu ở Anh từ nửa sau thế kỉ mười tám với các phát minh như máy kéo sợi và máy hơi nước.'),
+  LQ('Cách mạng công nghiệp bắt đầu đầu tiên ở nước:', ['Anh', 'Pháp', 'Mỹ', 'Đức'], 0, 'Nước Anh.'),
+  LS('Hệ quả', ['Năng suất lao động tăng mạnh', 'Hình thành các thành phố công nghiệp', 'Xuất hiện giai cấp tư sản và công nhân'], 'Cách mạng công nghiệp làm năng suất tăng mạnh, hình thành các thành phố công nghiệp và hai giai cấp mới là tư sản và vô sản.'),
+  LQ('Phát minh tiêu biểu thúc đẩy cách mạng công nghiệp là:', ['Máy hơi nước', 'Điện thoại di động', 'Máy bay phản lực', 'Internet'], 0, 'Máy hơi nước.'),
+  LS('Các cuộc cách mạng công nghiệp', ['Lần 1: máy hơi nước', 'Lần 2: điện, dây chuyền sản xuất', 'Lần 3: máy tính, tự động hóa', 'Lần 4: trí tuệ nhân tạo, Internet vạn vật'], 'Hiện nay chúng ta đang ở cuộc cách mạng công nghiệp lần thứ tư với trí tuệ nhân tạo và Internet vạn vật.'),
+  LQ('Trí tuệ nhân tạo gắn với cách mạng công nghiệp lần thứ:', ['tư', 'nhất', 'hai', 'ba'], 0, 'Cách mạng công nghiệp lần thứ tư.')]);
+LIBADD('s8khvn', 8, 'sudia', 'Khí hậu Việt Nam', [
+  LS('Đặc điểm chung', ['Nhiệt đới ẩm gió mùa', 'Nhiệt độ trung bình năm cao (trên 20 °C)', 'Lượng mưa lớn, độ ẩm cao'], 'Khí hậu Việt Nam là khí hậu nhiệt đới ẩm gió mùa, nhiệt độ trung bình năm cao, mưa nhiều và độ ẩm cao.'),
+  LQ('Khí hậu Việt Nam là khí hậu:', ['nhiệt đới ẩm gió mùa', 'ôn đới lục địa', 'hoang mạc', 'hàn đới'], 0, 'Nhiệt đới ẩm gió mùa.'),
+  LS('Sự phân hóa', ['Miền Bắc: có mùa đông lạnh', 'Miền Nam: nóng quanh năm, hai mùa mưa – khô', 'Nam Bộ: mùa mưa khoảng tháng 5 đến tháng 11'], 'Miền Bắc có mùa đông lạnh. Miền Nam, trong đó có Cần Thơ, nóng quanh năm với hai mùa mưa và khô rõ rệt.'),
+  LQ('Ở Nam Bộ, một năm có:', ['hai mùa: mưa và khô', 'bốn mùa rõ rệt', 'mùa đông lạnh có tuyết', 'chỉ có mùa khô'], 0, 'Nam Bộ có mùa mưa và mùa khô.'),
+  LS('Thiên tai', ['Bão, lũ lụt, hạn hán, xâm nhập mặn', 'Cần theo dõi dự báo, chủ động phòng tránh'], 'Khí hậu cũng gây ra thiên tai như bão, lũ, hạn hán và xâm nhập mặn. Chúng ta cần theo dõi dự báo thời tiết và chủ động phòng tránh.'),
+  LQ('Hiện tượng thường gặp vào mùa khô ở Đồng bằng sông Cửu Long là:', ['xâm nhập mặn', 'tuyết rơi', 'sương muối dày đặc', 'núi lửa'], 0, 'Mùa khô nước mặn lấn sâu vào sông.')]);
+LIBADD('s9ww2', 9, 'sudia', 'Chiến tranh thế giới thứ hai (1939 – 1945)', [
+  LS('Nguyên nhân và bùng nổ', ['Mâu thuẫn giữa các nước đế quốc', 'Chủ nghĩa phát xít (Đức, Ý, Nhật) gây chiến', '1/9/1939: Đức tấn công Ba Lan'], 'Chiến tranh thế giới thứ hai bùng nổ ngày một tháng chín năm một nghìn chín trăm ba mươi chín khi phát xít Đức tấn công Ba Lan.'),
+  LQ('Chiến tranh thế giới thứ hai bùng nổ khi Đức tấn công:', ['Ba Lan', 'Pháp', 'Anh', 'Liên Xô'], 0, 'Ngày 1/9/1939 Đức tấn công Ba Lan.'),
+  LS('Diễn biến chính', ['1941: Đức tấn công Liên Xô; Nhật tấn công Trân Châu Cảng', '1943: trận Stalingrad – bước ngoặt', '1945: Đức đầu hàng (5/1945), Nhật đầu hàng (8/1945)'], 'Năm một nghìn chín trăm bốn mươi mốt, Đức tấn công Liên Xô và Nhật tấn công Trân Châu Cảng. Chiến thắng Xta lin grát là bước ngoặt. Năm một nghìn chín trăm bốn mươi lăm, Đức và Nhật lần lượt đầu hàng.'),
+  LQ('Trận đánh được xem là bước ngoặt của chiến tranh là:', ['Stalingrad', 'Trân Châu Cảng', 'Trận Marne', 'Trận Verdun'], 0, 'Chiến thắng Stalingrad của Liên Xô (đầu năm 1943).'),
+  LS('Hậu quả và bài học', ['Hàng chục triệu người chết', 'Liên Hợp Quốc ra đời (1945)', 'Bài học: gìn giữ hòa bình'], 'Chiến tranh làm hàng chục triệu người thiệt mạng. Sau chiến tranh, Liên Hợp Quốc được thành lập để duy trì hòa bình.'),
+  LQ('Tổ chức quốc tế ra đời năm 1945 nhằm duy trì hòa bình là:', ['Liên Hợp Quốc', 'ASEAN', 'Hội Quốc Liên', 'EU'], 0, 'Liên Hợp Quốc thành lập năm 1945.')]);
+LIBADD('s9dbscl', 9, 'sudia', 'Vùng Đồng bằng sông Cửu Long', [
+  LS('Vị trí và điều kiện tự nhiên', ['Nằm ở cực nam đất nước', 'Đồng bằng châu thổ rộng lớn do sông Mê Công bồi đắp', 'Khí hậu cận xích đạo, nóng ẩm quanh năm'], 'Đồng bằng sông Cửu Long nằm ở phía nam đất nước, là đồng bằng châu thổ rộng lớn do sông Mê Công bồi đắp. Cần Thơ là thành phố trung tâm của vùng.'),
+  LQ('Sông bồi đắp nên Đồng bằng sông Cửu Long là:', ['Mê Công', 'Hồng', 'Đồng Nai', 'Mã'], 0, 'Sông Mê Công (Cửu Long).'),
+  LS('Kinh tế', ['Vùng trọng điểm lúa lớn nhất cả nước', 'Thủy sản, cây ăn trái', 'Du lịch sông nước: chợ nổi, miệt vườn'], 'Đây là vùng sản xuất lúa gạo lớn nhất cả nước, đồng thời phát triển thủy sản, cây ăn trái và du lịch sông nước.'),
+  LQ('Đồng bằng sông Cửu Long là vùng sản xuất ___ lớn nhất nước ta.', ['lúa gạo', 'cà phê', 'chè', 'than đá'], 0, 'Vùng trọng điểm lúa.'),
+  LS('Thách thức', ['Biến đổi khí hậu, nước biển dâng', 'Xâm nhập mặn, sạt lở bờ sông', 'Giải pháp: chuyển đổi cây trồng, trữ nước ngọt'], 'Vùng đang đối mặt với biến đổi khí hậu, xâm nhập mặn và sạt lở. Người dân chuyển đổi cây trồng, vật nuôi và trữ nước ngọt để thích ứng.'),
+  LQ('Thành phố trực thuộc trung ương nằm ở trung tâm vùng là:', ['Cần Thơ', 'Đà Nẵng', 'Hải Phòng', 'Huế'], 0, 'Thành phố Cần Thơ.')]);
+/* trộn vị trí đáp án đúng để không luôn là A */
+LIB.forEach(l => l.segs.forEach(s => { if (s.type !== 'q') return; const n = s.o.length, k = hash(l.id + s.q) % n; if (!k) return; const ok = s.o[s.a]; const rest = s.o.filter((_, i) => i !== s.a); rest.splice(k, 0, ok); s.o = rest; s.a = k; }));
+const LIB_BY = Object.fromEntries(LIB.map(l => [l.id, l]));
 function vClass(app){
   const m = me(); const teacher = !m && S.canEdit;
   if (!m && !teacher) return go('login');
   const f = S.classFilter || 'all';
-  const all = Object.entries(S.tasks).map(([id, t]) => ({id, ...t})).filter(t => t.kind === 'lesson' && (teacher || forMe(t, m)))
-    .sort((a, b) => (a.grade - b.grade) || LESSON_SUBJ.indexOf(a.subject) - LESSON_SUBJ.indexOf(b.subject) || (a.due||'').localeCompare(b.due||''));
+  const cg = teacher ? (S.classGrade || 'all') : String(m.grade);
+  const all = [...Object.entries(S.tasks).map(([id, t]) => ({id, ...t})).filter(t => t.kind === 'lesson' && (teacher || forMe(t, m))), ...LIB.filter(l => teacher || String(l.grade) === String(m.grade))]
+    .filter(t => cg === 'all' || String(t.grade) === cg)
+    .sort((a, b) => (a.grade - b.grade) || LESSON_SUBJ.indexOf(a.subject) - LESSON_SUBJ.indexOf(b.subject) || (/^Unit \d/.test(a.title) && /^Unit \d/.test(b.title) ? a.title.localeCompare(b.title, 'en', {numeric:true}) : (!!a.lib - !!b.lib) || (a.due||'').localeCompare(b.due||'')));
   const list = all.filter(t => f === 'all' || t.subject === f);
   const sub = t => m ? S.subs[`${m.id}__${t.id}`] : null;
   const prog = t => { if (!m) return null; const p = lpLoad(m.id, t.id); if (!p) return null; return Math.round(Math.min(p.idx, (t.segs||[]).length)/Math.max(1, (t.segs||[]).length)*100); };
@@ -6822,9 +7287,9 @@ function vClass(app){
     const tag = teacher ? 'div' : 'button';
     return `<${tag} class="lcard" ${teacher ? '' : `data-go="task" data-arg="${h(t.id)}"`}>
       <span class="lglyph s-${h(t.subject)}" aria-hidden="true">${SUBJ_GLYPH[t.subject] || '•'}</span>
-      <span class="lmain"><span class="t-meta">${chip(t.subject)}${teacher ? `<span>Khối ${t.grade}</span>` : ''}${status}</span>
+      <span class="lmain"><span class="t-meta">${chip(t.subject)}${teacher ? `<span>Khối ${t.grade}</span>` : ''}${t.lib ? '<span class="pill lib">Thư viện</span>' : ''}${status}</span>
         <b>${h(t.title)}</b><span class="muted" style="font-size:.82rem">${ns} trang giảng · ${nq} câu hỏi · ${lessonMax(t)} điểm${t.due ? ' · hạn ' + h(t.due.split('-').reverse().slice(0,2).join('/')) : ''}</span></span>
-      ${teacher ? `<span class="lgo2"><button class="lgo" data-go="preview" data-arg="${h(t.id)}">Xem trước</button><button class="lgo live" data-live="${h(t.id)}">● Dạy trực tiếp</button></span>` : `<span class="lgo">${s ? 'Học lại' : p ? 'Học tiếp' : 'Vào lớp'}</span>`}</${tag}>`; };
+      ${teacher ? `<span class="lgo2"><button class="lgo" data-go="preview" data-arg="${h(t.id)}">Xem trước</button>${t.lib ? '' : `<button class="lgo live" data-live="${h(t.id)}">● Dạy trực tiếp</button>`}</span>` : `<span class="lgo">${s ? 'Học lại' : p ? 'Học tiếp' : 'Vào lớp'}</span>`}</${tag}>`; };
   const lv = m ? liveOf(m.cls) : null;
   const lives = teacher ? Object.entries(S.liveC || {}).filter(([c]) => liveOf(c)) : [];
   const myQ = m ? myQna(m.id).slice(0, 6) : [], newA = myQ.filter(([, q]) => q.a).length;
@@ -6836,14 +7301,17 @@ function vClass(app){
     <section class="hub-rooms"><div class="sec-head"><h2 class="hub-h2"><span>${HUB_ICON.book}</span>Chọn môn học</h2>
       <div class="row" style="gap:8px;flex:0 0 auto">${m ? `<span class="pill done" style="flex:0 0 auto">Đã học ${doneN}/${all.length} bài</span>` : `<button class="btn ghost small" data-go="teacher" style="flex:0 0 auto">Soạn bài giảng mới</button>`}<button class="btn ${f === 'all' ? '' : 'ghost '}small" data-cf="all" style="flex:0 0 auto">Tất cả môn (${all.length})</button></div></div>
       <div class="rooms" role="group" aria-label="Chọn môn">${LESSON_SUBJ.map(k => subjCard(k, all.filter(t => t.subject === k).length, f === k, `data-cf="${k}"`)).join('')}</div></section>
-    <h2>${f === 'all' ? 'Tất cả bài giảng' : 'Bài giảng môn ' + h(SUBJ[f].name)}</h2>
+    ${teacher ? `<div class="seg" role="group" aria-label="Lọc khối" style="justify-self:start">${['all', '6', '7', '8', '9'].map(g => `<button type="button" data-cg="${g}" aria-pressed="${cg === g}">${g === 'all' ? 'Tất cả khối' : 'Khối ' + g}</button>`).join('')}</div>` : ''}
+    <h2>${f === 'all' ? 'Tất cả bài giảng' : 'Bài giảng môn ' + h(SUBJ[f].name)}${teacher ? '' : ` <span class="muted" style="font-size:.9rem;font-weight:600">· khối ${h(m.grade)}</span>`}</h2>
+    <p class="muted" style="margin:-6px 0 0;font-size:.85rem">Bài có nhãn <span class="pill lib">Thư viện</span> là bài giảng có sẵn trong phần mềm, ${teacher ? 'tự hiện cho học sinh đúng khối' : 'em tự học bất cứ lúc nào để nhận điểm thưởng'}.</p>
     <div class="lessons">${list.map(card).join('') || `<p class="notice">${f === 'all' ? 'Thầy cô chưa giao bài giảng nào.' : 'Môn này chưa có bài giảng nào.'}</p>`}</div>
   </section></div>`;
   $$('[data-live]', app).forEach(b => b.onclick = e => { e.stopPropagation(); startLive(b.dataset.live); });
+  $$('[data-cg]', app).forEach(b => b.onclick = () => { S.classGrade = b.dataset.cg; render(); });
   $$('[data-cf]', app).forEach(b => b.onclick = () => { S.classFilter = S.classFilter === b.dataset.cf && b.dataset.cf !== 'all' ? 'all' : b.dataset.cf; render(); });
 }
 
-function vPreview(app){ const t = S.tasks[S.arg]; if (!t) return go('class'); lessonPlayer(app, {id:S.arg, ...t}, true); }
+function vPreview(app){ const t = S.tasks[S.arg] || LIB_BY[S.arg]; if (!t) return go('class'); lessonPlayer(app, {id:S.arg, ...t}, true); }
 
 /* ===================== LỚP HỌC BẢNG XANH ===================== */
 const TEACHER_SVG = `<svg viewBox="0 0 120 200" class="tch" aria-hidden="true">
@@ -7951,7 +8419,7 @@ function xtPanel(box){
 }
 /* ---------- Thống kê & báo cáo (phục vụ hồ sơ KHKT: số liệu thử nghiệm, Nhật ký nghiên cứu PL V) ---------- */
 const RP_KIND = {lesson:'Bài giảng tương tác', quiz:'Trắc nghiệm', lab:'Thí nghiệm ảo 3D', ai:'Lớp học AI', stem:'Phòng STEM', ev:'Hội trường (sự kiện)', other:'Khác'};
-const rpKind = sb => { const t = S.tasks[sb.tid]; if (t) return RP_KIND[t.kind] ? t.kind : 'other'; const id = String(sb.tid || ''); return id.startsWith('ai_') ? 'ai' : id.startsWith('stem_') ? 'stem' : id.startsWith('ev_') ? 'ev' : 'other'; };
+const rpKind = sb => { const t = S.tasks[sb.tid]; if (t) return RP_KIND[t.kind] ? t.kind : 'other'; const id = String(sb.tid || ''); return id.startsWith('lib_') ? 'lesson' : id.startsWith('ai_') ? 'ai' : id.startsWith('stem_') ? 'stem' : id.startsWith('ev_') ? 'ev' : 'other'; };
 const RP_PART = [['tc', 'Tích cực (từ 10 lượt)', n => n >= 10], ['tx', 'Thường xuyên (5–9 lượt)', n => n >= 5 && n < 10], ['tt', 'Thỉnh thoảng (1–4 lượt)', n => n >= 1 && n < 5], ['no', 'Chưa tham gia', n => n === 0]];
 const RP_RANK = [['g', 'Giỏi (TB từ 8,0)', a => a >= 8], ['k', 'Khá (6,5 – dưới 8,0)', a => a >= 6.5 && a < 8], ['tb', 'Trung bình (5,0 – dưới 6,5)', a => a >= 5 && a < 6.5], ['y', 'Yếu (dưới 5,0)', a => a < 5]];
 function rpData(from, to){
