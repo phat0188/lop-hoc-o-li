@@ -1300,6 +1300,7 @@ mark{background:transparent;color:inherit;border-radius:4px;padding:0 2px}mark.p
 @media (max-width:760px){.ai-formula,.ai-light,.aw-cmp{grid-template-columns:1fr}}
 .ol-asst{border-color:rgba(167,139,250,.55);background:radial-gradient(120% 120% at 100% 0%,rgba(167,139,250,.16),transparent 60%),var(--surface)}
 .ol-h{display:flex;gap:12px;align-items:center}.ol-av{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font-size:1.4rem;background:linear-gradient(135deg,#22d3ee,#a78bfa);flex:0 0 auto}
+.ol-alt{padding:10px 12px;border-radius:12px;background:var(--surface-2);border:1px solid var(--line);font-size:.88rem}.ol-alt ol{margin:6px 0 0;padding-left:20px;display:grid;gap:4px}
 .ol-ex{display:flex;flex-wrap:wrap;gap:6px}.ol-chip{border:1px dashed var(--line);background:transparent;color:var(--muted);border-radius:99px;padding:4px 10px;font:inherit;font-size:.78rem;cursor:pointer;text-align:left}.ol-chip:hover{border-color:#a78bfa;color:var(--ink)}
 #olMsg.bad{color:var(--red)}
 .ol-draft{display:grid;gap:8px;padding:12px;border-radius:14px;border:1.5px solid rgba(74,222,128,.5);background:rgba(74,222,128,.06)}
@@ -7756,7 +7757,8 @@ function olAssist(box){
     <div id="olBody"><p class="muted" style="margin:0">Đang kiểm tra trợ lí AI…</p></div>`;
   getSampler().then(s => {
     const B = $('#olBody', box); if (!B) return;
-    if (!s){ B.innerHTML = `<p class="notice" style="margin:0">Trợ lí Ô Li chưa được bật trên trang này. Ở bản web, thầy cô cần bật tính năng AI một lần theo file <b>HUONG-DAN-AI.md</b> (khóa AI cất trên máy chủ Supabase). Trong lúc chờ, cô dùng nút <b>“Nhờ AI miễn phí soạn đề”</b> trong khung Giao nhiệm vụ mới.</p>`; return; }
+    if (!s){ B.innerHTML = `<p class="notice" style="margin:0">Trợ lí Ô Li chưa được bật trên trang này. Ở bản web, thầy cô cần bật tính năng AI một lần theo file <b>HUONG-DAN-AI.md</b> (khóa AI cất trên máy chủ Supabase). </p>
+      <div class="ol-alt"><b>Không cần cài gì: dùng Claude của cô</b><ol><li>Bấm <b>Hình thức: Trắc nghiệm</b> ở khung Giao nhiệm vụ mới, mở <b>“Dán đề có sẵn” → “Nhờ AI miễn phí soạn đề”</b>.</li><li>Nhập chủ đề, bấm <b>📋 Chép câu lệnh</b> rồi <b>Mở Claude</b>, dán vào và gửi.</li><li>Claude soạn xong, sao chép kết quả, dán lại vào ô và bấm <b>Tách thành câu hỏi</b>. Chọn lớp, hạn nộp rồi giao.</li></ol></div>`; return; }
     const exs = ['Ra 10 câu trắc nghiệm ôn tập phân số bằng nhau cho lớp 6A, hạn thứ Sáu', 'Soạn 8 câu về quang hợp cho khối 7, có 2 câu vận dụng thực tế', 'Đề 12 câu thì hiện tại hoàn thành tiếng Anh lớp 8, hạn 3 ngày nữa'];
     B.innerHTML = `<textarea class="inp" id="olReq" rows="3" maxlength="800" placeholder="Ví dụ: ${h(exs[0])}">${h(S.olReq || '')}</textarea>
       <div class="ol-ex">${exs.map(x => `<button type="button" class="ol-chip" data-olx="${h(x)}">${h(x)}</button>`).join('')}</div>
@@ -7778,7 +7780,9 @@ function olAssist(box){
       ${t.intro ? `<p style="margin:0;font-size:.9rem">📝 ${h(t.intro)}</p>` : ''}
       <details class="ol-qs"><summary>Xem ${t.questions.length} câu hỏi và đáp án</summary><ol>${t.questions.map(q => `<li><b>${h(q.q)}</b><ul>${q.o.map((o, j) => `<li class="${j === q.a ? 'ok' : ''}">${'ABCD'[j]}. ${h(o)}${j === q.a ? ' ✓' : ''}</li>`).join('')}</ul>${q.e ? `<small>💡 ${h(q.e)}</small>` : ''}</li>`).join('')}</ol></details>
       <p class="muted" style="margin:0;font-size:.8rem">AI có thể sai: cô đọc lại câu hỏi và đáp án trước khi giao.</p>
-      <div class="row" style="gap:8px;flex-wrap:wrap"><button type="button" class="btn small" id="olSend" style="flex:0 0 auto">✅ Đã kiểm tra, giao ngay</button><button type="button" class="btn ghost small" id="olEdit" style="flex:0 0 auto">✏️ Sửa trước khi giao</button><label class="chk" style="flex:0 0 auto"><input type="checkbox" id="olBank"> Cất vào kho đề</label></div></div>`;
+      <div class="row" style="gap:8px;flex-wrap:wrap"><button type="button" class="btn small" id="olSend" style="flex:0 0 auto">✅ Đã kiểm tra, giao ngay</button><button type="button" class="btn ghost small" id="olEdit" style="flex:0 0 auto">✏️ Sửa trước khi giao</button><label class="chk" style="flex:0 0 auto"><input type="checkbox" id="olBank"> Cất vào kho đề</label><button type="button" class="btn ghost small" id="olCopy" style="flex:0 0 auto" title="Dán vào ô “Dán đề có sẵn” ở bản web">📋 Sao chép đề</button></div>
+      ${SB_ON ? '' : '<p class="muted" style="margin:0;font-size:.8rem">Đang ở bản Claude: nhiệm vụ giao ở đây chỉ nằm trong bản này. Muốn giao cho học sinh trên trang web, cô bấm <b>📋 Sao chép đề</b> rồi dán vào ô <b>“Dán đề có sẵn”</b> ở trang web.</p>'}</div>`;
+    $('#olCopy', D).onclick = () => copyText(t.questions.map((q, i) => `Câu ${i + 1}: ${q.q}\n${q.o.map((o, j) => `${'ABCD'[j]}. ${o}`).join('\n')}\nĐáp án: ${'ABCD'[q.a]}${q.e ? '\nGiải thích: ' + q.e : ''}`).join('\n\n'));
     $('#olX', D).onclick = () => { S.olDraft = null; drawDraft(); };
     $('#olEdit', D).onclick = () => { S.tEdit = {id:null, t:{...t}, from:'Đề do Trợ lí Ô Li soạn. Cô kiểm tra từng câu, chọn lớp, đặt hạn rồi bấm Giao nhiệm vụ.'}; S.olDraft = null; render(); $('#tf')?.scrollIntoView({behavior:'smooth', block:'start'}); };
     $('#olSend', D).onclick = async () => { const b = $('#olSend', D); b.disabled = true; const id = uid('t'); const doc = {...t, createdAt:Date.now(), by:'ol'};
