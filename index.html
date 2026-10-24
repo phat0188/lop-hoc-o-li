@@ -1345,6 +1345,135 @@ mark{background:transparent;color:inherit;border-radius:4px;padding:0 2px}mark.p
 .rc-lobby{z-index:5}.rc-lob,.rc-res{max-width:560px;display:grid;gap:10px;text-align:center}.rc-set{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;align-items:center}.rc-board{text-align:left;padding:10px 12px;border-radius:12px;background:rgba(255,255,255,.06)}.rc-board ol{margin:6px 0 0;padding-left:20px;display:grid;gap:3px;font-size:.9rem}.rc-go{min-height:52px;font-size:1.1rem;justify-self:center;padding-inline:34px}
 @media (max-width:600px){.rc-opts{grid-template-columns:1fr}.rc-opts button{min-height:42px}.rc-q{top:100px}}
 .rc-chip:empty{display:none}
+/* ===================== GIAO DIỆN SÁNG — phong cách đảo phiêu lưu ===================== */
+:root,.labhub{
+  --bg:#e3f4ff; --surface:#fffaf0; --surface-2:#fff3dc; --ink:#2b2a3d; --muted:#6c6880; --line:#ead2a2;
+  --grid:#f3e6c8; --margin:#f0d7d7; --tim:#2b8a3e; --tim-soft:#e2f5e5; --on-tim:#fff;
+  --red:#e03131; --good:#2b8a3e; --good-soft:#d9f2de; --warn:#d9480f; --warn-soft:#fff0d9;
+  --s-toan:#1c7ed6; --s-van:#d6336c; --s-anh:#0b8a8f; --s-ly:#7048e8; --s-hoa:#e8590c; --s-sinh:#2b8a3e; --s-sudia:#b07c00;
+  --neon:#1c7ed6; --wood:#9a6230; --wood-d:#5c3714; --parch:#fffaf0; --brown:#6b3d12;
+  color-scheme:light;
+}
+body{color:var(--ink);background:
+  radial-gradient(ellipse 260px 60px at 12% 70px,rgba(255,255,255,.95),transparent 70%),
+  radial-gradient(ellipse 200px 46px at 18% 100px,rgba(255,255,255,.85),transparent 70%),
+  radial-gradient(ellipse 300px 64px at 82% 120px,rgba(255,255,255,.9),transparent 70%),
+  radial-gradient(ellipse 180px 40px at 60% 60px,rgba(255,255,255,.75),transparent 70%),
+  linear-gradient(180deg,#8fd3f7 0,#c4eaff 260px,#e6f6ff 520px,#eef9e6 100%);background-attachment:fixed}
+body::before{background:#8a5226}
+.labhub{color:var(--ink);background:none;color-scheme:light}
+h1,h2{color:var(--brown)}
+.muted{color:var(--muted)}
+.eyebrow{color:#2b8a3e}
+/* thanh menu gỗ */
+.top{background:linear-gradient(#bf7d3e,#8a5226);border-bottom:4px solid var(--wood-d);box-shadow:inset 0 -3px 0 rgba(255,255,255,.12),0 6px 16px -10px rgba(60,30,8,.6);-webkit-backdrop-filter:none;backdrop-filter:none}
+.brand{color:#fff;text-shadow:0 2px 0 var(--wood-d),0 0 1px var(--wood-d)}
+.brand-mark{background:linear-gradient(135deg,#55b8ff,#7048e8);border:2.5px solid #fff;border-radius:10px;box-shadow:0 2px 0 var(--wood-d);font-family:var(--f-disp);font-weight:800}
+.nav button{color:#fff1d6;font-weight:700}
+.nav button:hover{background:rgba(255,255,255,.16);color:#fff}
+.nav button[aria-current="page"]{background:linear-gradient(#69db7c,#2f9e44);color:#fff;box-shadow:0 0 0 2px #fff,0 3px 0 2px #1b5e2a;text-shadow:0 1px 0 #1b5e2a}
+body.imm .imm-fab{background:linear-gradient(#bf7d3e,#8a5226);border:2px solid #f0c27a;color:#fff}
+/* nút */
+.btn{background:linear-gradient(#63d273,#2f9e44);border:0;color:#fff;border-radius:14px;box-shadow:0 3px 0 #1f7a33,inset 0 1px 0 rgba(255,255,255,.4);font-family:var(--f-disp);font-weight:800;letter-spacing:.01em;text-shadow:0 1px 0 rgba(27,94,42,.6)}
+.btn:active:not(:disabled){transform:translateY(2px);box-shadow:0 1px 0 #1f7a33}
+.btn.ghost{background:#fff;color:var(--brown);border:2px solid #dcbf8a;box-shadow:0 2px 0 #dcbf8a;text-shadow:none}
+.btn.danger{background:#fff;border:2px solid var(--red);color:var(--red);box-shadow:0 2px 0 #f2b8b8;text-shadow:none}
+.field input,.field select,.field textarea,.inp{background:#fff;border:2px solid #e3cb98;color:var(--ink);border-radius:12px}
+.field input:focus,.field select:focus,.field textarea:focus,.inp:focus{border-color:#2f9e44;box-shadow:0 0 0 3px rgba(47,158,68,.2)}
+input,select,textarea{color-scheme:light}
+/* khung giấy viền gỗ */
+.panel,.labhub .panel{background:var(--parch);border:3px solid #ecd2a0;border-radius:18px;box-shadow:0 4px 0 #dfc08a,0 12px 26px -18px rgba(92,55,20,.5)}
+.labhub .stage{background:#fff;border-color:#ecd2a0}
+.notice{background:#fff6dd;border:2px dashed #e2c48d;color:#6b4a22}
+.seg{background:#fff3dc;border:2px solid #ead2a2}
+.seg button{color:#7a5a2a}
+.seg button[aria-pressed="true"]{background:linear-gradient(#69db7c,#2f9e44);color:#fff}
+.tabs{border-bottom:3px solid #ecd2a0}
+.tabs button{color:#8a6a3a}
+.tabs button[aria-selected="true"]{color:#2b8a3e;border-bottom-color:#2f9e44}
+th{color:#8a6a3a}
+th,td{border-bottom-color:#efdcb4}
+tbody tr:hover td{background:#fff6e0}
+.foot{background:linear-gradient(#8a5226,#6b3d1a);color:#fbe7c2;border-top:4px solid var(--wood-d)}
+.toast{background:#5c3714;color:#fff;border:2px solid #f0c27a;box-shadow:0 8px 20px rgba(60,30,8,.35)}
+.pill.lib{background:#fff3bf;color:#8a6100;border:1px solid #f0c94a}
+.pill.nudge{background:#fff0d9;color:#d9480f}
+.task,.lcard,.labcard,.opt,.qopt,.qedit{background:#fff;border-color:#ecd2a0}
+.rank .pos.rk1{color:#e8a200}.rank .pos.rk2{color:#8a96a8}.rank .pos.rk3{color:#d9480f}
+.rank li.me-row{background:#e2f5e5}
+/* đầu trang hub */
+.hub-head{background:linear-gradient(#fffaf0,#fff0cf);border:3px solid #ecd2a0;box-shadow:0 4px 0 #dfc08a,0 12px 24px -16px rgba(92,55,20,.5)}
+.hub-title{color:var(--brown);text-shadow:0 2px 0 #f6dfae}
+.hub-title span{background:none;-webkit-background-clip:border-box;background-clip:border-box;color:#1c7ed6}
+.hub-atom{filter:none}
+.hub-tagl,.hub-who span,.hub-xpt span{color:var(--muted)}
+.hub-ava{color:#fff;box-shadow:0 0 0 3px #fff,0 0 0 5px #dcbf8a}
+.hub-bar{background:#eadbb8}.hub-bar i{background:linear-gradient(90deg,#8ce99a,#2f9e44);box-shadow:none}
+.hub-ic{background:#fff;border:2px solid #ecd2a0;color:var(--brown);box-shadow:0 2px 0 #dfc08a}
+.hub-mini{background:#fff;border:2px solid #ecd2a0;color:var(--brown);box-shadow:0 2px 0 #dfc08a}
+.hub-subj{background:#fff3dc;border:2px solid #ecd2a0}
+.hub-subj button{color:#7a5a2a}
+.hub-subj button[aria-selected="true"]{background:linear-gradient(#69db7c,#2f9e44);box-shadow:0 2px 0 #1f7a33}
+.hm{border:3px solid #fff;background:linear-gradient(135deg,var(--b),var(--a));box-shadow:0 4px 0 color-mix(in srgb,var(--a) 70%,#000),0 10px 18px -10px rgba(0,0,0,.4);text-shadow:0 1px 0 rgba(0,0,0,.25)}
+.hm-new{border:2px solid #fff}
+.hub-stage{border:4px solid #f0c27a;box-shadow:0 0 0 3px var(--wood-d),0 12px 26px -14px rgba(0,0,0,.45)}
+.hub-rooms{background:var(--parch);border:3px solid #ecd2a0;box-shadow:0 4px 0 #dfc08a}
+.hub-h2{color:var(--brown)}
+.hub-h2 > span:first-child{color:#2f9e44}
+.hub-dw-bg{background:rgba(40,25,10,.45)}
+.hub-sheet{background:var(--parch);border-left:5px solid var(--wood);color:var(--ink)}
+.room{color:var(--ink);background:linear-gradient(180deg,color-mix(in srgb,var(--c1) 22%,#fff),#fff 80%);border:3px solid color-mix(in srgb,var(--c2) 70%,#fff);box-shadow:0 4px 0 color-mix(in srgb,var(--c2) 45%,#d8c39a)}
+.room-txt{background:none}.room-txt span{color:var(--muted)}.room-ch{color:var(--brown)}
+.rlab{background:linear-gradient(135deg,color-mix(in srgb,var(--c1) 14%,#fff),var(--parch));border:2.5px solid color-mix(in srgb,var(--c2) 55%,#fff)}
+/* thẻ số liệu, bảng vàng */
+.ntile{background:linear-gradient(135deg,color-mix(in srgb,var(--c) 16%,#fff),#fffaf0);border:2.5px solid color-mix(in srgb,var(--c) 50%,#fff);box-shadow:0 3px 0 color-mix(in srgb,var(--c) 35%,#e3cfa3)}
+.ntile span{color:color-mix(in srgb,var(--c) 75%,#000)}
+.ntile b{color:#3b2a14}
+.home-stage{background:linear-gradient(#e4f6ff,#fff7e3)}
+.hboard{background:var(--parch);border:3px solid #f0c27a;box-shadow:0 4px 0 #dfc08a}
+.hb-head h2{color:#b06a00}
+.hb-grades span{background:#fff8e1;border-color:#f0d68a}
+.hb-grades i,.rp-gold li b,.pts-rules em,.ai-star,.aw-stars,.ai-st2 em.ok{color:#d98c00}
+.pts-rules{background:#fff8e1;border-color:#f0d68a}
+.pts-rules summary,.aw-say,.xt-warn{color:#b06a00}
+/* bài giảng, câu hỏi */
+.slide{background:var(--parch)}.slide .sh{background:linear-gradient(90deg,#e7f5ff,#fff3dc)}
+.qcard{background:var(--parch);box-shadow:0 4px 0 #f5c27a}
+.caption{background:var(--parch)}
+.pctrl{background:rgba(255,250,240,.97);border-top:3px solid #ecd2a0;-webkit-backdrop-filter:none;backdrop-filter:none}
+.lk-card{background:var(--parch);border:3px solid #ecd2a0;color:var(--ink)}
+.evc{background:linear-gradient(135deg,color-mix(in srgb,var(--c1) 18%,#fff),var(--parch))}
+.rw{background:#fff}
+.inv-card{background:var(--parch);color:var(--ink)}
+/* STEM */
+.stem-card{background:linear-gradient(150deg,color-mix(in srgb,var(--c1) 28%,#fff),#fffaf0 75%);color:var(--ink);border:3px solid color-mix(in srgb,var(--c2) 60%,#fff);box-shadow:0 4px 0 color-mix(in srgb,var(--c2) 40%,#d8c39a)}
+.stem-card .muted{color:var(--muted)}
+.stem-ms .ok{color:#d98c00}
+.pe-prog{background:#fff}
+/* Lớp học AI */
+.ai-hero{background:radial-gradient(120% 140% at 100% 0%,rgba(112,72,232,.14),transparent 55%),linear-gradient(135deg,#e7f5ff,#fffaf0);border:3px solid #cfe3ff;box-shadow:0 4px 0 #b9d4f5}
+.ai-hero h1{color:var(--brown)}
+.ai-hero h1 span{background:linear-gradient(90deg,#1c7ed6,#7048e8);-webkit-background-clip:text;background-clip:text;color:transparent}
+.ai-hero p,.ai-tip p,.ai-why,.aw-h p,.aw-res small,.aw-score,.aw-acc,.aw-strange span span,.aw-leg,.ai-ext-h p,.aw-cmp small,.aw-chk li small,.ol-qs small,.ai-learn p{color:#545871}
+.ai-steps button.ok .d::after,.ai-done li.ok,.aw-res,.aw-tbl div.ok b,.aw-chk li.ok,.ol-qs li li.ok{color:#2b8a3e}
+.ai-st{background:color-mix(in srgb,var(--sc) 12%,#fff);border:2px solid color-mix(in srgb,var(--sc) 45%,#fff)}
+.ai-st b{color:#fff}
+.ai-card{background:linear-gradient(160deg,#fff,#f4f8ff);border:2px solid #dbe4f5;box-shadow:0 3px 0 #d3def2}
+.ai-card:hover{border-color:#1c7ed6}
+.ai-formula div{background:color-mix(in srgb,var(--sc) 10%,#fff)}
+.aw-rules li,.aw-opt,.aw-task{background:#f3f7ff;border-color:#cfdcf5}
+.aw-opt:hover:not(:disabled){border-color:#1c7ed6}
+.aw-bubble{background:#eef4ff}
+/* Đường đua (thẻ câu hỏi) */
+.rc-card{background:var(--parch);color:var(--ink);border:3px solid #f0c27a;box-shadow:0 0 0 3px var(--wood-d),0 12px 30px rgba(0,0,0,.3)}
+.rc-opts button{background:#fff;color:var(--ink);border-color:#dcbf8a}
+.rc-opts button:hover:not(:disabled){border-color:#2f9e44}
+.rc-qh{color:#b06a00}
+.chs-pts b,.chs-rank li.me{color:#d98c00}
+.cr-tts{background:#fff3dc;color:#5c3714;border:2px solid #ecd2a0}.cr-tts .lnk{color:#1c7ed6}
+.lab-intro{background:rgba(40,25,10,.5)}
+.hub-brand>div{min-width:0}.hub-title{overflow-wrap:break-word}.hub-title span{display:inline}
+.hub-wrap,.section{grid-template-columns:minmax(0,1fr)}
 /* ---- trang chào ---- */
 body.wl-on .top,body.wl-on .foot{display:none}
 body.wl-on{background:#174a26}
@@ -2239,10 +2368,10 @@ function hubScene(){
   const balls = [236,252,268,284,300].map((x, i) => `<g class="${i === 0 ? 'nc-l' : i === 4 ? 'nc-r' : ''}"><line x1="${x}" y1="338" x2="${x}" y2="386" stroke="#c7d2e8" stroke-width="1.2"/><circle cx="${x}" cy="390" r="8" fill="url(#hmet)"/></g>`).join('');
   return `<svg viewBox="0 0 1000 560" class="hub-svg" role="img" aria-label="Phòng thí nghiệm ảo với các dụng cụ, bấm vào dụng cụ để vào phòng chuyên đề">
   <defs>
-    <linearGradient id="hw" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#173070"/><stop offset="1" stop-color="#0c1944"/></linearGradient>
+    <linearGradient id="hw" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#fdf0d6"/><stop offset="1" stop-color="#f0d9ad"/></linearGradient>
     <linearGradient id="hsky" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#4f8bd8"/><stop offset="1" stop-color="#cbe6fb"/></linearGradient>
     <linearGradient id="htab" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#8a9fcc"/><stop offset="1" stop-color="#e3eaf8"/></linearGradient>
-    <linearGradient id="hface" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#2d4386"/><stop offset="1" stop-color="#15204a"/></linearGradient>
+    <linearGradient id="hface" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#b8763a"/><stop offset="1" stop-color="#7a4a22"/></linearGradient>
     <linearGradient id="hrain" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#ff3b3b"/><stop offset=".17" stop-color="#ff9a2b"/><stop offset=".33" stop-color="#ffe94a"/><stop offset=".5" stop-color="#3fdc5a"/><stop offset=".67" stop-color="#3aa0ff"/><stop offset=".83" stop-color="#5a4bff"/><stop offset="1" stop-color="#b04bff"/></linearGradient>
     <linearGradient id="hcu" x1="0" x2="1"><stop offset="0" stop-color="#8c4a1f"/><stop offset=".5" stop-color="#e8975a"/><stop offset="1" stop-color="#8c4a1f"/></linearGradient>
     <radialGradient id="hmet" cx=".35" cy=".35"><stop offset="0" stop-color="#ffffff"/><stop offset=".5" stop-color="#9aa6bd"/><stop offset="1" stop-color="#3b4459"/></radialGradient>
@@ -2253,7 +2382,7 @@ function hubScene(){
     <filter id="hblur" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="5"/></filter>
   </defs>
   <rect width="1000" height="560" fill="url(#hw)"/>
-  <rect width="1000" height="44" fill="#0a1534"/>
+  <rect width="1000" height="44" fill="#9a6230"/>
   <line x1="120" y1="34" x2="880" y2="34" stroke="#5fe3ff" stroke-width="8" filter="url(#hblur)" opacity=".7"/><line x1="120" y1="34" x2="880" y2="34" stroke="#b9f4ff" stroke-width="2.5"/>
   <ellipse cx="500" cy="46" rx="60" ry="10" fill="#5fe3ff" filter="url(#hblur)" opacity=".8"/><rect x="470" y="38" width="60" height="10" rx="5" fill="#dff8ff"/>
   <g><rect x="30" y="68" width="310" height="232" fill="url(#hsky)"/>
@@ -2275,13 +2404,13 @@ function hubScene(){
     ${['Thẳng đều','Biến đổi đều','Rơi tự do'].map((t, i) => `<rect x="784" y="${112 + i*30}" width="14" height="14" rx="3" fill="none" stroke="#7ff3ff" stroke-width="1.6"/><path d="M787 ${119 + i*30} l3 3 l6 -7" stroke="#7ff3ff" stroke-width="2" fill="none"/><text x="804" y="${123 + i*30}" class="scr-s">${t}</text>`).join('')}
     <rect x="784" y="214" width="110" height="44" rx="8" fill="none" stroke="#58dcff" stroke-width="1.5"/><text x="839" y="242" class="scr-f" text-anchor="middle">v = s / t</text>
     <circle cx="884" cy="88" r="11" fill="none" stroke="#58dcff" stroke-width="1.5"/><path d="M880 82 l9 6 l-9 6z" fill="#58dcff"/></g>
-  <g><rect x="920" y="110" width="80" height="214" fill="#13245a"/>${[170, 240, 310].map(y => `<rect x="920" y="${y}" width="80" height="6" fill="#2a3f7f"/>`).join('')}
+  <g><rect x="920" y="110" width="80" height="214" fill="#c08a52"/>${[170, 240, 310].map(y => `<rect x="920" y="${y}" width="80" height="6" fill="#7a4a22"/>`).join('')}
     ${[['#ff7a5a',928,130],['#5ab0ff',940,134],['#ffd25a',952,128],['#7ae07a',964,136]].map(([c, x, y]) => `<rect x="${x}" y="${y}" width="10" height="${170 - y}" fill="${c}"/>`).join('')}
     <path d="M960 240 c-10 -24 10 -30 0 -50 c18 10 18 34 0 50z M972 240 c8 -20 -6 -28 6 -40 c4 16 6 30 -6 40z" fill="#3fae5a"/><rect x="954" y="226" width="24" height="14" rx="3" fill="#c96f4a"/>
     <circle cx="944" cy="292" r="10" fill="#c9d6ee"/><rect x="934" y="300" width="20" height="10" fill="#c9d6ee"/></g>
-  <rect x="0" y="300" width="1000" height="44" fill="#14245a"/><line x1="0" y1="302" x2="1000" y2="302" stroke="#5fe3ff" stroke-width="2" opacity=".55"/>
+  <rect x="0" y="300" width="1000" height="44" fill="#e2c595"/><line x1="0" y1="302" x2="1000" y2="302" stroke="#5fe3ff" stroke-width="2" opacity=".55"/>
   <path d="M120 340 H880 L980 470 H20Z" fill="url(#htab)"/>
-  <path d="M20 470 H980 V516 H20Z" fill="url(#hface)"/><rect x="0" y="516" width="1000" height="44" fill="#081130"/>
+  <path d="M20 470 H980 V516 H20Z" fill="url(#hface)"/><rect x="0" y="516" width="1000" height="44" fill="#6b3d1a"/>
   <line x1="20" y1="471" x2="980" y2="471" stroke="#46e2ff" stroke-width="8" filter="url(#hblur)" opacity=".8"/><line x1="20" y1="471" x2="980" y2="471" stroke="#b6f6ff" stroke-width="2.5"/>
   <line x1="40" y1="512" x2="960" y2="512" stroke="#46e2ff" stroke-width="2" opacity=".6"/>
   <g opacity=".95"><path d="M168 342 L150 386 M168 342 L186 386 M168 342 L168 388" stroke="#3b4459" stroke-width="3"/><g transform="rotate(-28 168 330)"><rect x="140" y="322" width="62" height="14" rx="5" fill="#dfe6f3"/><rect x="196" y="320" width="12" height="18" rx="3" fill="#6d7a96"/></g></g>
