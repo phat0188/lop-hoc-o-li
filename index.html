@@ -1616,6 +1616,118 @@ body.wl-on{background:#174a26}
   .wl-fbs{grid-template-columns:repeat(2,1fr)}
   .wl-bar{flex-direction:column;text-align:center;gap:8px}
 }
+.sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+/* ===== phòng thí nghiệm giao diện tối (kl) ===== */
+.kl{--bg:#0b1222;--surface:#121b30;--surface-2:#0f1829;--ink:#e6edf7;--muted:#93a3bd;--line:#26344f;--grid:#1a2640;--tim:#5eead4;--tim-soft:#0f2e2c;--good:#4ade80;--good-soft:#123222;--warn:#fbbf24;--warn-soft:#3a2a0c;--red:#f87171;--neon:#38bdf8;--lcd:#0a1f17;--lcd-ink:#7dffb2;
+  color-scheme:dark;color:var(--ink);background:#0a1020;border:1px solid #1d2a44;border-radius:18px;padding:10px;display:grid;gap:10px;
+  grid-template-columns:150px minmax(0,1fr) 340px;grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"hd hd hd" "tr vw pn" "tr tm pn";box-shadow:0 18px 40px -24px rgba(5,10,30,.8)}
+.kl-head{grid-area:hd;display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:4px 6px 2px}
+.kl-chip{font:800 .72rem/1 var(--f-ui);letter-spacing:.06em;text-transform:uppercase;padding:6px 10px;border-radius:999px;background:#1e2a45;color:#c4d4ee;border:1px solid #2f4166}
+.kl-chip.s-ly{background:#1e1b4b;color:#c7d2fe;border-color:#4338ca}.kl-chip.s-hoa{background:#3b1d0b;color:#fed7aa;border-color:#c2410c}.kl-chip.s-sinh{background:#0b2e1b;color:#bbf7d0;border-color:#15803d}
+.kl-sub{color:var(--muted);font-size:.82rem;font-weight:600}
+.kl-title{flex:1 1 100%;order:3;margin:0;font:800 clamp(1.15rem,2vw,1.5rem)/1.2 var(--f-disp);color:#fff}
+.kl-acts{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap}
+.kl-b{background:#16213a;color:#dbe7f8;border:1px solid #2c3d60;border-radius:10px;padding:7px 12px;font:700 .82rem/1.1 var(--f-ui);cursor:pointer;min-height:36px}
+.kl-b:hover{background:#1d2b4b;border-color:#3d5584}.kl-b:focus-visible,.kl-tb:focus-visible,.kl-spd button:focus-visible,.kl-steps button:focus-visible{outline:2px solid var(--neon);outline-offset:2px}
+.kl-pnlb{background:#0f766e;border-color:#14b8a6;color:#fff}
+.kl-tray{grid-area:tr;background:#0e172b;border:1px solid #1f2d49;border-radius:14px;padding:10px 8px;display:flex;flex-direction:column;gap:8px;overflow:auto;min-height:0}
+.kl-tl{font:800 .7rem/1 var(--f-ui);letter-spacing:.22em;color:#7f93b5;text-align:center}
+.kl-hint{font-size:.78rem;color:var(--muted);margin:0;text-align:center}
+.kl-tray .controls{display:flex;flex-direction:column;gap:8px;align-items:stretch}
+.kl-tray .controls > *{flex:0 0 auto!important;width:100%;max-width:none!important}
+.kl .btn{background:linear-gradient(#22c55e,#15803d);box-shadow:0 2px 0 #0f5f2c;text-shadow:none;border-radius:11px}
+.kl .btn.ghost,.kl .hub-mini{background:#16213a;color:#dbe7f8;border:1px solid #2c3d60;box-shadow:none}
+.kl .btn.ghost:hover:not(:disabled){background:#1f2e50}
+.kl .btn:disabled{opacity:.45}
+.kl .field input,.kl .field select,.kl .field textarea,.kl .inp,.kl select{background:#0b1322;border:1.5px solid #2c3d60;color:var(--ink);border-radius:10px}
+.kl .ctrl{color:var(--muted);font-size:.8rem;display:grid;gap:4px}
+.kl .seg{background:#0b1322;border:1.5px solid #2c3d60;border-radius:12px}.kl .seg button{color:#9fb0cc}.kl .seg button[aria-pressed="true"]{background:linear-gradient(#0ea5e9,#0369a1);color:#fff}
+.kl label{color:inherit}
+.kl-view{grid-area:vw;position:relative;border-radius:14px;overflow:hidden;min-height:0;height:clamp(380px,calc(100vh - 360px),800px);
+  background:radial-gradient(ellipse 70% 60% at 50% 40%,#1b2a4a 0%,#0e1830 55%,#070d1b 100%);border:1px solid #1f2d49}
+.kl-view::after{content:"";position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(120,160,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(120,160,255,.05) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 60%,#000 30%,transparent 75%);-webkit-mask-image:radial-gradient(ellipse at 50% 60%,#000 30%,transparent 75%)}
+.kl-view #v3,.kl-view .v3d{height:100%;background:transparent;border-radius:0}
+.kl-view .v3d canvas{height:100%!important}
+.kl-view .notice{margin:16px;background:#16213a;border:1px dashed #33476f;color:#c8d6ee}
+.kl-view .v3d-ui{top:10px;right:10px;z-index:3;flex-wrap:wrap;justify-content:flex-end;max-width:60%}
+.kl-view .v3d-ui .btn{background:rgba(18,27,48,.85);color:#dbe7f8;border:1px solid #2c3d60;box-shadow:none}
+.kl-view .v3d-tip{background:rgba(10,16,32,.75);color:#9fb0cc;right:10px;left:auto;bottom:10px}
+.kl-view > svg.lab-svg{height:100%;width:100%;background-color:#0f1829}
+.kl-card{position:absolute;top:10px;left:10px;z-index:3;width:min(330px,calc(100% - 20px));max-height:calc(100% - 20px);overflow:auto;background:rgba(12,20,38,.88);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border:1px solid #2a3b5e;border-radius:14px;padding:10px 12px;display:grid;gap:8px;font-size:.84rem;box-shadow:0 10px 30px -12px rgba(0,0,0,.6)}
+.kl-ct{font:800 .95rem/1.25 var(--f-disp);color:#fff;padding-right:26px}
+.kl-cx{position:absolute;top:6px;right:6px;width:26px;height:26px;border-radius:8px;border:1px solid #2c3d60;background:#16213a;color:#dbe7f8;cursor:pointer;font-size:.8rem}
+.kl-goal{color:#b9c7de;line-height:1.45}.kl-goal b{color:#7dd3fc}
+.kl-card .meters{display:flex;flex-wrap:wrap;gap:6px}
+.kl-card .lcd{font-size:.95rem;padding:5px 10px;border:1px solid #1f4d33;box-shadow:0 0 18px -8px #22c55e}
+.kl-card svg{max-width:100%}
+.kl.card-min .kl-goal{display:none}
+.kl.card-min .kl-card{width:auto;max-width:calc(100% - 20px)}
+.kl-time{grid-area:tm;display:flex;align-items:center;gap:8px;flex-wrap:wrap;background:#0e172b;border:1px solid #1f2d49;border-radius:12px;padding:6px 10px}
+.kl-tb{width:38px;height:38px;border-radius:10px;border:1px solid #2c3d60;background:#16213a;color:#e6edf7;font-size:1.05rem;cursor:pointer}
+.kl.paused .kl-pause{background:#b45309;border-color:#f59e0b}
+.kl-spd{display:inline-flex;border:1px solid #2c3d60;border-radius:10px;overflow:hidden}
+.kl-spd button{background:#121b30;color:#9fb0cc;border:0;padding:0 10px;height:36px;font:700 .8rem var(--f-mono);cursor:pointer}
+.kl-spd button+button{border-left:1px solid #2c3d60}.kl-spd button.on{background:#0e7490;color:#fff}
+.kl-prog{flex:0 1 160px;height:8px;border-radius:99px;background:#1b2740;overflow:hidden}.kl-prog i{display:block;height:100%;background:linear-gradient(90deg,#22d3ee,#4ade80);transition:width .4s}
+.kl-time .lab-say{flex:1 1 220px;margin:0;color:#a7f3d0;font-size:.86rem;min-height:1.3em}
+.kl-panel{grid-area:pn;background:#0e172b;border:1px solid #1f2d49;border-radius:14px;padding:10px;display:flex;flex-direction:column;gap:10px;min-height:0;overflow:auto;max-height:calc(100vh - 150px);position:sticky;top:76px;scrollbar-width:thin}
+.kl-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;position:sticky;top:-10px;background:#0e172b;padding:2px 0 6px;z-index:1}
+.kl-steps button{display:grid;justify-items:center;gap:3px;background:#121b30;border:1px solid #24344f;color:#9fb0cc;border-radius:10px;padding:6px 2px;font:700 .7rem/1.1 var(--f-ui);cursor:pointer}
+.kl-steps button i{font-style:normal;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:#1b2740;color:#cbd5e1;font-size:.75rem}
+.kl-steps button.on{border-color:#22d3ee;color:#fff;background:#10223a}.kl-steps button.on i{background:#0891b2;color:#fff}
+.kl-steps button.ok i{background:#16a34a;color:#fff}
+.kl.nopred .kl-steps button[data-st="pred"]{opacity:.45}
+.kl-panel > section{display:grid;gap:10px;align-content:start}
+.kl-panel > section[hidden]{display:none}
+.kl-panel h3{margin:0;font:800 .95rem var(--f-disp);color:#7dd3fc}
+.kl-panel > section.panel{background:transparent;border:0;box-shadow:none;padding:0;border-radius:0}
+.kl .goal{background:#0f2238;border:1px solid #1e3a5f;color:#cfe1f7;border-radius:10px}
+.kl .opt{background:#121b30;border:1px solid #26344f;color:var(--ink)}
+.kl .opt:has(input:checked){border-color:#22d3ee;background:#0f2638}
+.kl-q{margin:0;font-weight:700;line-height:1.45}
+.kl-opts{display:grid;gap:6px}.kl-opts .opt{font-size:.88rem;padding:8px 10px}
+.kl-how{margin:0;padding-left:0;list-style:none;display:grid;gap:6px;counter-reset:hw}
+.kl-how li label{display:flex;gap:8px;align-items:flex-start;background:#121b30;border:1px solid #24344f;border-radius:10px;padding:8px 10px;font-size:.86rem;line-height:1.45;cursor:pointer}
+.kl-how input{margin-top:3px;accent-color:#22c55e}.kl-how li:has(input:checked) label{opacity:.65;border-color:#166534}
+.kl-ok{margin:0;background:#0f2e1c;border:1px solid #166534;border-radius:10px;padding:8px 10px;color:#bbf7d0}
+.kl-no{margin:0;background:#2e1a0f;border:1px solid #9a3412;border-radius:10px;padding:8px 10px;color:#fed7aa}
+.kl-why{background:#10223a;border:1px solid #1e3a5f;border-radius:10px;padding:10px;color:#cfe1f7;line-height:1.5;font-size:.88rem}.kl-why b{color:#7dd3fc}
+.kl th,.kl td{border-bottom-color:#26344f}.kl th{color:#93a3bd}
+.kl .x{background:#1b2740;color:#fca5a5;border:1px solid #3a2a40}
+.kl .pen{color:#fca5a5}
+.kl .muted{color:var(--muted)}
+.kl .txt-s{fill:#93a3bd}.kl .w-thin{stroke:#5b6b88}.kl .w-mut{stroke:#3a4a68}
+/* toàn màn hình / trình chiếu */
+.kl.max{position:fixed;inset:0;z-index:70;border-radius:0;border:0;padding:max(8px,env(safe-area-inset-top,0px)) 10px calc(8px + env(safe-area-inset-bottom,0px));height:100vh;height:100dvh;grid-template-rows:auto minmax(0,1fr) auto;overflow:hidden}
+.kl.max .kl-view{height:auto}
+.kl.max .kl-panel{position:static;max-height:none}
+.kl.show{grid-template-columns:150px minmax(0,1fr);grid-template-areas:"hd hd" "tr vw" "tr tm"}
+.kl.show .kl-tray:has(.kl-hint){display:none}.kl.show:has(.kl-tray .kl-hint){grid-template-columns:minmax(0,1fr);grid-template-areas:"hd" "vw" "tm"}
+.kl.show .kl-panel,.kl.show .kl-pnlb,.kl.show .lab-max{display:none}
+.kl.show .kl-card{font-size:1rem;width:min(400px,calc(100% - 20px))}
+.kl.show .kl-title{font-size:clamp(1.3rem,2.6vw,2rem)}
+@media (max-width:1099px){
+  .kl{grid-template-columns:120px minmax(0,1fr);grid-template-areas:"hd hd" "tr vw" "tm tm" "pn pn"}
+  .kl-panel{position:static;max-height:none}
+  .kl.max{overflow:auto;grid-template-rows:auto minmax(320px,1fr) auto auto}
+  .kl.max .kl-view{min-height:320px}
+}
+@media (max-width:759px){
+  .kl{grid-template-columns:minmax(0,1fr);grid-template-areas:"hd" "vw" "tr" "tm" "pn";padding:8px;gap:8px;border-radius:14px}
+  .kl-acts{margin-left:0;width:100%}.kl-acts .kl-b{flex:1 1 auto;padding:7px 8px;font-size:.76rem}
+  .kl-view{height:clamp(300px,52vh,480px)}
+  .kl-tray{flex-direction:row;align-items:center;overflow-x:auto;padding:8px}
+  .kl-tl{writing-mode:vertical-rl;transform:rotate(180deg);letter-spacing:.14em}
+  .kl-tray .controls{flex-direction:row;flex-wrap:nowrap}
+  .kl-tray .controls > *{width:auto;flex:0 0 auto!important;white-space:nowrap}
+  .kl-tray .controls > label{min-width:150px}
+  .kl-card{font-size:.78rem;padding:8px 10px}
+  .kl-view .v3d-ui{top:auto;bottom:8px;right:8px;max-width:calc(100% - 16px)}
+  .kl-view .v3d-ui .btn{min-height:32px;padding:4px 9px;font-size:.74rem}
+  .kl-view .v3d-tip{display:none}
+  .kl-prog{flex:1 1 80px}
+  .kl.show .kl-tray{display:none}
+}
 </style>
 
 <header class="top"><div class="wrap">
@@ -4076,10 +4188,10 @@ function playBell(app){
 function vLab(app){
   const k = S.arg, l = LABS[k]; if (!l) return go('labs');
   app.innerHTML = `<div class="wrap wlab"><section class="section">
-    <div class="sec-head"><div><span class="eyebrow">${h(l.topic)} · Thực hành tự do</span><h1 style="font-size:1.9rem">${h(l.name)}</h1></div><button class="hub-mini" data-go="room" data-arg="${roomOf(k)}">← Phòng ${h(ROOMS[roomOf(k)].name)}</button></div>
+    <div class="sec-head"><div><span class="eyebrow">${h(l.topic)} · Thực hành tự do</span><h1 class="sr-only">${h(l.name)}</h1></div><button class="hub-mini" data-go="room" data-arg="${roomOf(k)}">← Phòng ${h(ROOMS[roomOf(k)].name)}</button></div>
     <div id="labhost"></div></section></div>`;
   app.dataset.lock = '1';
-  LAB_IMPL[k]($('#labhost'), {sid: S.session || 'khach', practice:true, onSubmit: r => { awardPts('lab_' + k, 5, r.score, 'Thực hành tự do: ' + l.name);
+  runLab(k, $('#labhost'), {sid: S.session || 'khach', practice:true, onSubmit: r => { awardPts('lab_' + k, 5, r.score, 'Thực hành tự do: ' + l.name);
     $('#labResult').innerHTML = `<div class="goal"><b>Kết quả thử: <span class="pen" style="font-size:1.5rem">${vn(r.score)}</span>/10.</b> ${h((r.notes||[]).join(' '))} ${me() ? 'Thực hành tự do được cộng tối đa 5 điểm thưởng (giữ lần cao nhất).' : 'Đăng nhập để được cộng điểm thưởng.'}</div>`;
   }});
 }
@@ -5978,7 +6090,7 @@ function vTask(app){
     else toast('Đã nộp bài và ghi nhận kết quả');
     $('#prev').scrollIntoView({behavior:'smooth', block:'start'});
   };
-  if (task.kind === 'lab') LAB_IMPL[task.lab]($('#work'), {sid:m.id, practice:false, task, onSubmit:finish});
+  if (task.kind === 'lab') runLab(task.lab, $('#work'), {sid:m.id, practice:false, task, onSubmit:finish});
   else quiz($('#work'), task, finish);
 }
 
@@ -6033,32 +6145,90 @@ function drag(svg, node, o){
     node.addEventListener('pointermove', mv); node.addEventListener('pointerup', up); node.addEventListener('pointercancel', up);
   });
 }
+/* ===== khung phòng thí nghiệm mới: tối, khay dụng cụ, thanh thời gian, 4 bước ===== */
+const LABCLK = {k:1, p:false};
+const KL_INFO = {
+  spring:{pred:['Mỗi lần treo thêm một quả nặng 50 g, độ dãn của lò xo sẽ thế nào?', ['Tăng thêm một lượng gần bằng nhau (tỉ lệ với khối lượng)', 'Không thay đổi', 'Giảm đi', 'Tăng gấp đôi sau mỗi lần']], why:'Trong giới hạn đàn hồi, độ dãn của lò xo (Δl = l − l₀) tỉ lệ thuận với khối lượng vật treo: treo gấp đôi khối lượng thì độ dãn gấp đôi.'},
+  micro:{pred:['Quan sát biểu bì vảy hành dưới kính hiển vi, em dự đoán sẽ thấy gì?', ['Nhiều tế bào xếp sát nhau, mỗi tế bào có thành tế bào và nhân', 'Một khối đồng nhất, không có cấu trúc', 'Các tế bào hình cầu rời nhau, không có nhân', 'Rất nhiều lục lạp màu xanh']], why:'Tế bào vảy hành là tế bào thực vật: có thành tế bào, màng tế bào, chất tế bào và nhân. Vảy hành nằm dưới đất, không quang hợp nên không có lục lạp.'},
+  reflect:{pred:['Khi tăng góc tới của tia laser, góc phản xạ sẽ…', ['Tăng theo và luôn bằng góc tới', 'Giảm đi', 'Không thay đổi', 'Tăng nhưng luôn nhỏ hơn góc tới']], why:'Định luật phản xạ ánh sáng: tia phản xạ nằm trong mặt phẳng tới, góc phản xạ bằng góc tới (i′ = i).'},
+  lever:{pred:['Một bên đòn bẩy treo vật nặng gấp đôi bên kia. Muốn đòn bẩy cân bằng, em treo vật nặng ở đâu?', ['Cách điểm tựa bằng một nửa khoảng cách của vật nhẹ', 'Cách điểm tựa bằng đúng khoảng cách của vật nhẹ', 'Cách điểm tựa xa gấp đôi', 'Không thể làm đòn bẩy cân bằng']], why:'Đòn bẩy cân bằng khi moment lực hai bên bằng nhau: F₁·d₁ = F₂·d₂. Lực gấp đôi thì cánh tay đòn chỉ cần bằng một nửa.'},
+  archimedes:{pred:['Nhúng cùng một vật lần lượt vào nước và vào dầu. Số chỉ lực kế nhỏ hơn khi nào?', ['Khi nhúng trong nước', 'Khi nhúng trong dầu', 'Bằng nhau trong hai chất lỏng', 'Bằng số chỉ khi để ngoài không khí']], why:'Lực đẩy Archimedes F_A = d·V. Nước có trọng lượng riêng lớn hơn dầu nên đẩy vật mạnh hơn, số chỉ lực kế giảm nhiều hơn.'},
+  indicator:{pred:['Nhỏ phenolphthalein vào một dung dịch base, em dự đoán điều gì xảy ra?', ['Dung dịch chuyển sang màu hồng', 'Dung dịch chuyển sang màu xanh', 'Dung dịch chuyển sang màu đỏ', 'Không có gì thay đổi']], why:'Phenolphthalein không màu trong acid và môi trường trung tính, chuyển hồng trong base. Quỳ tím hóa đỏ trong acid, hóa xanh trong base.'},
+  mass:{pred:['Đổ hai dung dịch vào nhau ngay trên cân để phản ứng xảy ra (không có chất nào thoát ra ngoài). Số chỉ của cân sẽ…', ['Không đổi', 'Tăng lên', 'Giảm đi', 'Về 0']], why:'Định luật bảo toàn khối lượng: trong một phản ứng hóa học, tổng khối lượng các sản phẩm bằng tổng khối lượng các chất tham gia.'},
+  digest:{pred:['Sau khoang miệng, thức ăn đi vào cơ quan nào trước tiên?', ['Thực quản', 'Dạ dày', 'Ruột non', 'Gan']], why:'Ống tiêu hóa: miệng → hầu → thực quản → dạ dày → ruột non → ruột già → hậu môn. Gan là tuyến tiêu hóa, thức ăn không đi qua gan.'},
+  speed:{pred:['Kéo hai cổng quang ra xa nhau hơn rồi bắn xe với cùng một lực. Kết quả đo sẽ ra sao?', ['Thời gian dài hơn, còn tốc độ v = s/t gần như không đổi', 'Thời gian ngắn hơn', 'Thời gian không đổi', 'Tốc độ tăng gấp đôi']], why:'Tốc độ v = s / t. Quãng đường s tăng thì thời gian t tăng theo tỉ lệ, nên tốc độ tính được gần như không đổi.'},
+  sound:{pred:['Vặn núm máy phát cho tần số tăng lên. Âm nghe được và dao động kí sẽ thế nào?', ['Âm cao hơn, chu kì trên dao động kí ngắn lại', 'Âm trầm hơn, chu kì dài ra', 'Âm to hơn nhưng độ cao không đổi', 'Không có gì thay đổi']], why:'Tần số càng lớn thì âm càng cao (bổng). Chu kì T = 1/f nên tần số tăng thì chu kì giảm, các sóng trên màn sát nhau hơn.'},
+  heat:{pred:['Nước đã sôi mà em vẫn tiếp tục đun. Nhiệt độ của nước sẽ…', ['Giữ không đổi, khoảng 100 °C', 'Tiếp tục tăng mãi', 'Giảm dần', 'Tăng lên gấp đôi']], why:'Ở áp suất thường, nước sôi ở khoảng 100 °C. Trong suốt thời gian sôi, nhiệt độ của nước không đổi dù vẫn được đun.'},
+  ohm:{pred:['Tăng hiệu điện thế U giữa hai đầu điện trở lên gấp đôi. Cường độ dòng điện I sẽ…', ['Tăng gấp đôi', 'Giảm một nửa', 'Không đổi', 'Tăng gấp bốn']], why:'Định luật Ohm: I = U / R. Với cùng một điện trở R, I tỉ lệ thuận với U, nên đồ thị I(U) là đường thẳng đi qua gốc tọa độ.'},
+  lens:{pred:['Đặt cây nến rất xa thấu kính hội tụ. Ảnh rõ nét trên màn nằm ở đâu?', ['Gần tiêu điểm F′ phía sau thấu kính', 'Ngay sát thấu kính', 'Rất xa thấu kính', 'Không thu được ảnh nào']], why:'Chùm sáng từ vật ở rất xa gần như song song, sau thấu kính hội tụ sẽ hội tụ gần tiêu điểm F′. Vật càng xa, ảnh thật càng gần F′ và càng nhỏ.'}
+};
+function runLab(k, el, ctx){ el.__kl = {k, ctx}; return LAB_IMPL[k](el, ctx); }
 function labShell(el, {how, svg, meters='', controls='', panel, pnl:pnlLabel='📋 Số liệu · Nộp bài'}){
-  const title = ($('#app h1') || {}).textContent || 'Thí nghiệm';
+  const kk = el.__kl && el.__kl.k, meta = (kk && LABS[kk]) || {}, info = (kk && KL_INFO[kk]) || {};
+  const title = meta.name || ($('#app h1') || {}).textContent || 'Thí nghiệm';
   const goal = (String(panel).match(/<div class="goal">([\s\S]*?)<\/div>/) || [])[1] || '';
-  el.innerHTML = `<div class="lab"><div class="stage">
-      <div class="lab-bar"><button type="button" class="btn ghost small lab-help">📖 Hướng dẫn</button><button type="button" class="btn ghost small lab-max">⛶ Toàn màn hình</button><button type="button" class="btn small lab-pnl">${pnlLabel}</button></div>
-      ${svg}<p class="lab-say" role="status"></p>
-      ${meters ? `<div class="meters">${meters}</div>` : ''}${controls ? `<div class="controls">${controls}</div>` : ''}
-    </div><aside class="panel"><div class="pnl-head"><b>${pnlLabel}</b><button type="button" class="hub-mini pnl-x">✕ Đóng</button></div>${panel}</aside></div>
+  const tok = (el.__klTok = (el.__klTok || 0) + 1);
+  LABCLK.k = 1; LABCLK.p = false;
+  const sb = {ly:'Vật lí', hoa:'Hóa học', sinh:'Sinh học'}[meta.subj] || 'KHTN';
+  const steps = [['pred','Dự đoán'],['do','Làm'],['obs','Quan sát'],['why','Giải thích']];
+  el.innerHTML = `<div class="kl${info.pred ? '' : ' nopred'}">
+    <header class="kl-head"><span class="kl-chip s-${h(meta.subj || 'ly')}">${h(sb)}</span><span class="kl-sub">${meta.grade ? `Lớp ${meta.grade} · ` : ''}${h(meta.topic || 'Thí nghiệm ảo')}</span>
+      <h2 class="kl-title">${h(title)}</h2>
+      <span class="kl-acts"><button type="button" class="kl-b lab-help">📖 Hướng dẫn</button><button type="button" class="kl-b kl-show">▶ Trình chiếu</button><button type="button" class="kl-b lab-max">⛶ Toàn màn hình</button><button type="button" class="kl-b kl-pnlb">${pnlLabel}</button></span></header>
+    <aside class="kl-tray" aria-label="Khay dụng cụ"><b class="kl-tl">KHAY</b>${controls ? `<div class="controls">${controls}</div>` : `<p class="kl-hint">Dụng cụ đặt sẵn trên bàn. Kéo trực tiếp trong cảnh 3D.</p>`}</aside>
+    <div class="kl-view">${svg}
+      <div class="kl-card"><button type="button" class="kl-cx" aria-expanded="true" title="Thu gọn">▾</button><b class="kl-ct">${h(title)}</b>${goal ? `<div class="kl-goal">${goal}</div>` : ''}${meters ? `<div class="meters">${meters}</div>` : ''}</div>
+    </div>
+    <div class="kl-time"><button type="button" class="kl-tb kl-pause" title="Tạm dừng">⏸</button><button type="button" class="kl-tb kl-reset" title="Làm lại từ đầu">↺</button>
+      <span class="kl-spd" role="group" aria-label="Tốc độ mô phỏng">${[[0.25,'0,25×'],[1,'1×'],[4,'4×']].map(([v,t]) => `<button type="button" data-spd="${v}" class="${v === 1 ? 'on' : ''}">${t}</button>`).join('')}</span>
+      <span class="kl-prog"><i style="width:0%"></i></span><p class="lab-say" role="status"></p></div>
+    <aside class="kl-panel"><nav class="kl-steps">${steps.map(([k, t], i) => `<button type="button" data-st="${k}"><i>${i + 1}</i>${t}</button>`).join('')}</nav>
+      <section data-sp="pred">${info.pred ? `<h3>Bước 1 · Dự đoán</h3><p class="kl-q">${h(info.pred[0])}</p><div class="kl-opts">${info.pred[1].map((o, i) => [o, i]).sort((a, b) => hash(kk + a[1] + (el.__kl.ctx.sid || '')) - hash(kk + b[1] + (el.__kl.ctx.sid || ''))).map(([o, i]) => `<label class="opt"><input type="radio" name="klpred" value="${i}"><span>${h(o)}</span></label>`).join('')}</div><p class="muted kl-pm">Chọn một dự đoán rồi làm thí nghiệm để kiểm tra.</p>` : ''}</section>
+      <section data-sp="do"><h3>Bước 2 · Làm thí nghiệm</h3>${how ? `<ol class="kl-how">${how.map((x, i) => `<li><label><input type="checkbox" data-hw="${i}"><span>${x}</span></label></li>`).join('')}</ol>` : ''}<button type="button" class="btn small kl-next" data-to="obs">Sang bước Quan sát →</button></section>
+      <section data-sp="obs" class="panel"><h3>Bước 3 · Quan sát · ghi số liệu</h3>${panel}</section>
+      <section data-sp="why"><h3>Bước 4 · Giải thích</h3><div class="kl-cmp"></div>${info.why ? `<div class="kl-why"><b>Kiến thức:</b> ${h(info.why)}</div>` : ''}<label class="field">Điều em rút ra được (không chấm điểm)<textarea class="inp kl-note" rows="3" placeholder="Em thấy rằng…"></textarea></label></section>
+    </aside></div>
     <div class="lab-intro" role="dialog" aria-modal="true" aria-label="Hướng dẫn thí nghiệm"><div class="lab-intro-card">
       <span class="eyebrow">Hướng dẫn thí nghiệm</span><h2>${h(title)}</h2>
       ${goal ? `<div class="goal">${goal}</div>` : ''}
       ${how ? `<ol class="how-big">${how.map(x => `<li>${x}</li>`).join('')}</ol>` : ''}
-      <p class="muted lab-tip">Mẹo: kéo vùng trống để xoay, chụm hai ngón (hoặc lăn chuột) để phóng to. Bấm <b>📋 Số liệu · Nộp bài</b> để ghi kết quả và trả lời câu hỏi. Bấm <b>📖 Hướng dẫn</b> để xem lại.</p>
+      <p class="muted lab-tip">Làm theo 4 bước ở cột bên phải: <b>Dự đoán → Làm → Quan sát → Giải thích</b>. Kéo vùng trống để xoay, chụm hai ngón (hoặc lăn chuột) để phóng to. Thanh dưới cảnh cho phép tạm dừng, làm lại và đổi tốc độ.</p>
       <button type="button" class="btn lab-go">Bắt đầu thí nghiệm</button></div></div>
     <div id="labResult" style="margin-top:14px"></div>`;
-  const lab = $('.lab', el), stage = $('.stage', el), intro = $('.lab-intro', el);
+  const kl = $('.kl', el), intro = $('.lab-intro', el), done = new Set();
+  const prog = () => { $('.kl-prog i', el).style.width = (done.size/4*100) + '%'; steps.forEach(([k]) => $(`[data-st="${k}"]`, el).classList.toggle('ok', done.has(k))); };
+  const step = k => { $$('.kl-steps button', el).forEach(b => b.classList.toggle('on', b.dataset.st === k)); $$('.kl-panel > section', el).forEach(s => s.hidden = s.dataset.sp !== k);
+    if (k === 'why'){ done.add('why'); cmp(); } if (k === 'obs') done.add('do'); prog(); };
+  const cmp = () => { const c = $('input[name=klpred]:checked', el), box = $('.kl-cmp', el); if (!box || !info.pred) return;
+    box.innerHTML = c ? (+c.value === 0 ? `<p class="kl-ok">✔ Em dự đoán: <b>${h(info.pred[1][+c.value])}</b>. Dự đoán này khớp với thí nghiệm.</p>` : `<p class="kl-no">✘ Em dự đoán: <b>${h(info.pred[1][+c.value])}</b>.<br>Thí nghiệm cho thấy: <b>${h(info.pred[1][0])}</b>.</p>`) : '<p class="muted">Em chưa chọn dự đoán ở bước 1.</p>'; };
+  el.__klStep = k => { done.add(k === 'why' ? 'obs' : k); step(k); };
+  $$('.kl-steps button', el).forEach(b => b.onclick = () => step(b.dataset.st));
+  $$('.kl-next', el).forEach(b => b.onclick = () => step(b.dataset.to));
+  $$('input[name=klpred]', el).forEach(r => r.onchange = () => { done.add('pred'); prog(); $('.kl-pm', el).textContent = 'Đã ghi dự đoán. Sang bước 2 để làm thí nghiệm.'; setTimeout(() => step('do'), 500); });
+  $$('[data-hw]', el).forEach(c => c.onchange = () => { if ($$('[data-hw]', el).every(x => x.checked)){ done.add('do'); prog(); } });
+  step(info.pred ? 'pred' : 'do');
   S.labSeen = S.labSeen || {};
   const open = () => { intro.classList.add('on'); setTimeout(() => $('.lab-go', intro)?.focus(), 30); };
-  const start = () => { intro.classList.remove('on'); S.labSeen[title] = 1; if (stage.getBoundingClientRect().top < 0 || stage.getBoundingClientRect().top > window.innerHeight*0.4) stage.scrollIntoView({block:'start', behavior:reduceMotion() ? 'auto' : 'smooth'}); };
+  const start = () => { intro.classList.remove('on'); S.labSeen[title] = 1; const r = kl.getBoundingClientRect(); if (!kl.classList.contains('max') && (r.top < 0 || r.top > window.innerHeight*0.4)) kl.scrollIntoView({block:'start', behavior:reduceMotion() ? 'auto' : 'smooth'}); };
   $('.lab-go', intro).onclick = start; intro.onclick = e => { if (e.target === intro) start(); };
   $('.lab-help', el).onclick = open;
-  const pnl = on => { lab.classList.toggle('pnl-open', on); };
-  $('.lab-pnl', el).onclick = () => pnl(!lab.classList.contains('pnl-open')); $('.pnl-x', el).onclick = () => pnl(false);
-  const mx = $('.lab-max', el); const setMax = on => { stage.classList.toggle('max', on); document.body.classList.toggle('sc-lock', on); mx.textContent = on ? '✕ Thu nhỏ' : '⛶ Toàn màn hình'; setTimeout(() => window.dispatchEvent(new Event('resize')), 30); };
-  mx.onclick = () => setMax(!stage.classList.contains('max'));
-  document.addEventListener('keydown', function esc(e){ if (!document.body.contains(el)) return document.removeEventListener('keydown', esc); if (e.key === 'Escape'){ if (intro.classList.contains('on')) start(); else if (lab.classList.contains('pnl-open')) pnl(false); else if (stage.classList.contains('max')) setMax(false); } });
+  const mx = $('.lab-max', el), sh = $('.kl-show', el);
+  const setMax = (on, show = false) => { kl.classList.toggle('max', on); kl.classList.toggle('show', on && show); document.body.classList.toggle('sc-lock', on);
+    mx.textContent = on && !show ? '✕ Thu nhỏ' : '⛶ Toàn màn hình'; sh.textContent = on && show ? '✕ Thoát trình chiếu' : '▶ Trình chiếu'; setTimeout(() => window.dispatchEvent(new Event('resize')), 40); };
+  el.__klMax = setMax;
+  mx.onclick = () => setMax(!(kl.classList.contains('max') && !kl.classList.contains('show')));
+  sh.onclick = () => setMax(!kl.classList.contains('show'), true);
+  $('.kl-pnlb', el).onclick = () => { if (kl.classList.contains('show')) setMax(true, false); step('obs'); const p = $('.kl-panel', el); if (getComputedStyle(p).position !== 'static' || window.innerWidth < 1000) p.scrollIntoView({block:'start', behavior:'smooth'}); };
+  const cx = $('.kl-cx', el); cx.onclick = () => { const c = kl.classList.toggle('card-min'); cx.textContent = c ? '▸' : '▾'; cx.setAttribute('aria-expanded', String(!c)); };
+  if (window.innerWidth < 760){ kl.classList.add('card-min'); cx.textContent = '▸'; }
+  const pz = $('.kl-pause', el); pz.onclick = () => { LABCLK.p = !LABCLK.p; pz.textContent = LABCLK.p ? '▶' : '⏸'; pz.title = LABCLK.p ? 'Chạy tiếp' : 'Tạm dừng'; kl.classList.toggle('paused', LABCLK.p); };
+  $$('[data-spd]', el).forEach(b => b.onclick = () => { LABCLK.k = +b.dataset.spd; $$('[data-spd]', el).forEach(x => x.classList.toggle('on', x === b)); });
+  const rs = $('.kl-reset', el); let rsT = 0;
+  rs.onclick = () => { if (!el.__kl) return; if (Date.now() - rsT > 2500){ rsT = Date.now(); say(el, 'Bấm ↺ thêm lần nữa để làm lại từ đầu (số liệu đang ghi sẽ bị xóa).'); return; }
+    const wasMax = kl.classList.contains('max'), wasShow = kl.classList.contains('show'); document.body.classList.remove('sc-lock'); runLab(el.__kl.k, el, el.__kl.ctx); if (wasMax && el.__klMax) el.__klMax(true, wasShow); };
+  document.addEventListener('keydown', function esc(e){ if (!document.body.contains(el) || el.__klTok !== tok) return document.removeEventListener('keydown', esc);
+    if (e.key === 'Escape'){ if (intro.classList.contains('on')) start(); else if (kl.classList.contains('max')) setMax(false); }
+    else if (e.key === ' ' && e.target === document.body){ e.preventDefault(); pz.click(); } });
   if (!S.labSeen[title]) open();
   return $('svg.lab-svg', el);
 }
@@ -6067,7 +6237,7 @@ function submitRow(practice){ return `<button class="btn" id="lsub">${practice?'
 const mcHTML = (name, q, opts) => `<fieldset style="border:0;padding:0;margin:0;display:grid;gap:6px"><legend style="font-weight:700;padding:0;margin-bottom:6px;font-size:.9rem">${q}</legend>${opts.map((o,i)=>`<label class="opt" style="padding:7px 10px;font-size:.88rem"><input type="radio" name="${name}" value="${i}"><span>${o}</span></label>`).join('')}</fieldset>`;
 const mcVal = (el, name) => { const c = $(`input[name=${name}]:checked`, el); return c ? +c.value : -1; };
 const lerr = (el, m) => { $('#lerr', el).textContent = m || ''; return !m; };
-function finishLab(el, ctx, result){ const lb = $('.lab', el); if (lb) lb.classList.remove('pnl-open'); const stg = $('.stage.max', el); if (stg){ stg.classList.remove('max'); document.body.classList.remove('sc-lock'); const mx = $('.lab-max', el); if (mx) mx.textContent = '⛶ Toàn màn hình'; } ctx.onSubmit(result); setTimeout(() => { const r = $('#labResult') || $('#prev'); if (r && r.textContent.trim()) r.scrollIntoView({behavior:'smooth', block:'start'}); }, 80); if (!ctx.practice) $('#lsub', el).disabled = true; }
+function finishLab(el, ctx, result){ if (el.__klMax && $('.kl.max', el)) el.__klMax(false); if (el.__klStep) setTimeout(() => el.__klStep('why'), 60); const lb = $('.lab', el); if (lb) lb.classList.remove('pnl-open'); const stg = $('.stage.max', el); if (stg){ stg.classList.remove('max'); document.body.classList.remove('sc-lock'); const mx = $('.lab-max', el); if (mx) mx.textContent = '⛶ Toàn màn hình'; } ctx.onSubmit(result); setTimeout(() => { const r = $('#labResult') || $('#prev'); if (r && r.textContent.trim()) r.scrollIntoView({behavior:'smooth', block:'start'}); }, 80); if (!ctx.practice) $('#lsub', el).disabled = true; }
 function bindDel(el, sel, rows, redraw){ $$(sel, el).forEach(b => b.onclick = () => { rows.splice(+b.dataset.del, 1); redraw(); }); }
 const WEIGHT = `<line x1="0" y1="-5" x2="0" y2="0" stroke="var(--ink)" stroke-width="1.5"/><rect x="-17" y="0" width="34" height="18" rx="3" fill="var(--s-hoa)" stroke="var(--ink)" stroke-width="1"/><text class="txt-s" x="0" y="12.5" text-anchor="middle" style="fill:#fff;font-weight:700">50 g</text>`;
 
@@ -6094,7 +6264,8 @@ async function scene3D(host, o = {}){
     <p class="v3d-tip">Kéo vùng trống để xoay · lăn chuột hoặc chụm hai ngón để phóng to · kéo dụng cụ để di chuyển</p></div>`;
   const canvas = $('canvas', host);
   let renderer;
-  try { renderer = new THREE.WebGLRenderer({canvas, antialias: HUBFX.q !== 'low'}); } catch(e){ throw new Error('webgl'); }
+  const inKL = !!host.closest('.kl');
+  try { renderer = new THREE.WebGLRenderer({canvas, antialias: HUBFX.q !== 'low', alpha: inKL}); } catch(e){ throw new Error('webgl'); }
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, HUBFX.q === 'low' ? 1 : 2));
   renderer.setClearColor(new THREE.Color(cssVar('--surface-2', host)));
   const scene = new THREE.Scene();
@@ -6107,6 +6278,7 @@ async function scene3D(host, o = {}){
     const fill = new THREE.DirectionalLight(0xcfe0ff, 0.32); fill.position.set(-1.5, 1.2, -1); scene.add(fill); }
   else { scene.add(new THREE.HemisphereLight(0xffffff, 0x7c7a90, 0.9));
     sun = new THREE.DirectionalLight(0xffffff, 0.7); sun.position.set(2, 4, 3); scene.add(sun); }
+  if (inKL) renderer.setClearColor(0x000000, 0);
   const target = new THREE.Vector3(...(o.target || [0,0,0]));
   const home = {r:o.r || 1.4, th:o.th ?? 0, ph:o.ph ?? 1.05}; const cam = {...home};
   const rMin = o.rMin || 0.45, rMax = o.rMax || 3.5;
@@ -6130,7 +6302,9 @@ async function scene3D(host, o = {}){
   } catch(e){ console.warn('fit', e); } };
   const resize = () => { const w = Math.max(280, host.clientWidth || 600), vw = window.innerWidth, vh = window.innerHeight, st = host.closest('.stage');
     let hh = w*(o.aspect || 0.6); if (vw < vh && vw < 760) hh = w*Math.max(o.aspect || 0.6, 1.05);
-    if (st && st.classList.contains('max')){ const bar = st.querySelector('.lab-bar'); if (vw > vh) hh = vh - (bar ? bar.offsetHeight : 40) - 34; else { const kids = [...st.children].filter(c => !c.contains(canvas)); const other = kids.reduce((a, c) => a + c.offsetHeight, 0) + kids.length*12 + 24; hh = vh - other; } }
+    const klv = host.closest('.kl-view');
+    if (klv) hh = Math.max(220, klv.clientHeight);
+    else if (st && st.classList.contains('max')){ const bar = st.querySelector('.lab-bar'); if (vw > vh) hh = vh - (bar ? bar.offsetHeight : 40) - 34; else { const kids = [...st.children].filter(c => !c.contains(canvas)); const other = kids.reduce((a, c) => a + c.offsetHeight, 0) + kids.length*12 + 24; hh = vh - other; } }
     else if (st && vw >= 1101 && vh >= 560){ const kids = [...st.children].filter(c => !c.contains(canvas)); const ck = [...st.children].find(c => c.contains(canvas)); const other = ck ? Math.max(0, st.getBoundingClientRect().height - ck.offsetHeight) : kids.reduce((a, c) => a + c.offsetHeight, 0) + kids.length*8 + 16; const topH = (document.querySelector('.top') || {}).offsetHeight || 64;
       const stTop = Math.max(topH, st.getBoundingClientRect().top + window.scrollY);
       hh = Math.max(300, Math.min(w*0.45, vh - 200), Math.min(vh - stTop - other - 12, w*0.8)); }
@@ -6176,11 +6350,11 @@ async function scene3D(host, o = {}){
   canvas.addEventListener('wheel', e => { e.preventDefault(); userCam = true; cam.r = clamp(cam.r*(1 + Math.sign(e.deltaY)*0.08), rMin, rMax); place(); }, {passive:false});
   $$('[data-z]', host).forEach(b => b.onclick = () => { const z = +b.dataset.z; if (z === 0){ userCam = false; Object.assign(cam, home); } else { userCam = true; cam.r = clamp(cam.r*(1 + z*0.15), rMin, rMax); } place(); });
   $$('[data-view]', host).forEach(b => b.onclick = () => { userCam = true; const v = o.views[+b.dataset.view]; if (v.target) target.set(...v.target); Object.assign(cam, {r:v.r ?? cam.r, th:v.th ?? cam.th, ph:v.ph ?? cam.ph}); place(); });
-  const frames = [], disposers = []; let last = performance.now(), alive = true;
+  const frames = [], disposers = []; let last = performance.now(), alive = true, simT = performance.now()/1000;
   const ro = new ResizeObserver(resize); ro.observe(host); window.addEventListener('orientationchange', () => setTimeout(resize, 300)); const wr = () => { if (!document.body.contains(canvas)) return window.removeEventListener('resize', wr); resize(); }; window.addEventListener('resize', wr);
   const dispose = () => { alive = false; ro.disconnect(); disposers.forEach(f => { try { f(); } catch(_){} }); renderer.dispose(); };
   const loop = t => { if (!alive) return; if (!document.body.contains(canvas)){ dispose(); return; }
-    const dt = Math.min(0.05, Math.max(0, (t - last)/1000)); last = t; if (fitN < 3 && ++fitN === 2) fitCam(); frames.forEach(f => f(dt, t/1000)); renderer.render(scene, camera); requestAnimationFrame(loop); };
+    const dt = Math.min(0.05, Math.max(0, (t - last)/1000)); last = t; if (fitN < 3 && ++fitN === 2) fitCam(); const dd = inKL ? (LABCLK.p ? 0 : dt*LABCLK.k) : dt; simT += dd; frames.forEach(f => f(dd, inKL ? simT : t/1000)); renderer.render(scene, camera); requestAnimationFrame(loop); };
   resize(); place(); requestAnimationFrame(loop);
   const M = (color, extra = {}) => new THREE.MeshStandardMaterial({color, roughness:.55, metalness:.1, ...extra});
   const mesh = (geo, mat, x = 0, y = 0, z = 0, parent = scene) => { const m = new THREE.Mesh(geo, mat); m.position.set(x, y, z); parent.add(m); return m; };
@@ -6200,7 +6374,7 @@ async function scene3D(host, o = {}){
   const planeY = y => new THREE.Plane(new THREE.Vector3(0, 1, 0), -y);
   const planeZ = z => new THREE.Plane(new THREE.Vector3(0, 0, 1), -z);
   const glass = (extra = {}) => new THREE.MeshStandardMaterial({color:'#d6ecf7', transparent:true, opacity:.25, roughness:.05, metalness:0, side:THREE.DoubleSide, depthWrite:false, ...extra});
-  const table = (w = 1.8, d = 0.8, x = 0, z = 0) => { const t = box(w, 0.04, d, M('#c9a57d', {roughness:.8}), x, -0.02, z); t.userData.noFit = true; return t; };
+  const table = (w = 1.8, d = 0.8, x = 0, z = 0) => { const t = box(w, 0.04, d, M(inKL ? '#34425e' : '#c9a57d', {roughness:inKL ? .55 : .8, metalness:inKL ? .15 : .1}), x, -0.02, z); t.userData.noFit = true; return t; };
   const cyl = (rt, rb, hh, mat, x, y, z, parent, seg = 24, open = false) => mesh(new THREE.CylinderGeometry(rt, rb, hh, seg, 1, open), mat, x, y, z, parent);
   const group = (x = 0, y = 0, z = 0, parent = scene) => { const g = new THREE.Group(); g.position.set(x, y, z); parent.add(g); return g; };
   return {THREE, scene, camera, renderer, canvas, M, mesh, box, hitbox, label, screenTex, wire, beam, planeY, planeZ, glass, table, cyl, group,
