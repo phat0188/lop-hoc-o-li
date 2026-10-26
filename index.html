@@ -2111,6 +2111,24 @@ html body .sc-tr .hub-ic{background:#fff!important}
 .gal-mod .row{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 0}
 .gal-mod .btn{padding:6px 10px;min-height:36px;font-size:.88rem}
 @media (max-width:640px){.gal-stage{height:clamp(300px,58vh,520px)}.gal-hint{font-size:.72rem}.gal-mod li{grid-template-columns:72px 1fr}.gal-mod img{width:72px;height:54px}}
+
+/* bảng xanh lớp học: giữ nền bảng phấn để chữ trắng đọc rõ */
+html body .cr-board{background-color:#6d4a2c!important;border-radius:4px!important}
+html body .cb{background-color:#1f5138!important;color:#ffffff!important}
+html body .cb::after{display:none}
+html body .lcard .lgo,html body .lcard .lgo2 .lgo{background-color:var(--tim,#3f3394)!important;color:#fff!important;border-radius:4px!important}
+html body .lcard .lgo.live{background-color:var(--red,#c62828)!important}
+
+/* độ tương phản: quân cờ trắng, nhãn nhỏ */
+html body .chs-board .pc.w{text-shadow:0 0 1px #1f2140,0 0 1px #1f2140,0 0 2px #1f2140!important}
+html body .ai-st b{color:#1f2140!important}
+html body .ai-st i{color:#0e6a7a!important}
+html body .pts-rules em{color:#8a5200!important}
+html body .ai-grades button i{color:#0e6a7a!important}
+
+html body .rot-hint{background-color:#ffffff!important;color:var(--ink,#1f2140)!important;border:2px solid var(--ink,#1f2140)!important}
+html body .rot-hint span{color:var(--ink,#1f2140)!important}
+html body .rot-hint button:last-child{color:var(--ink,#1f2140)!important}
 </style>
 
 <header class="top"><div class="wrap">
@@ -3107,7 +3125,7 @@ const SCH = (() => {
   };
   return {W, H, B, DOORS, TREES, LAMPS, FLAG, BOARDS, ROBOT_AT, SPAWN, YARD, GATE, PAVES, FIELD, BEDS, BENCHES, blocked, RACE:{x:FIELD.x + FIELD.w/2, y:FIELD.y + FIELD.h/2}};
 })();
-const RANK_TIERS = [[1,'Tập sự','#9fb0d9'],[3,'Đồng','#d08a4e'],[6,'Bạc','#dfe7f6'],[10,'Vàng','#ffd54a'],[15,'Bạch kim','#7ff0ff'],[20,'Kim cương','#9f8bff'],[30,'Huyền thoại','#ff7ad9']];
+const RANK_TIERS = [[1,'Tập sự','#4a5f9a'],[3,'Đồng','#9a5a22'],[6,'Bạc','#5f6b85'],[10,'Vàng','#a87400'],[15,'Bạch kim','#0e7a8a'],[20,'Kim cương','#5b3fd0'],[30,'Huyền thoại','#b8237f']];
 const rankOf = lv => RANK_TIERS.filter(t => lv >= t[0]).pop();
 const LOOK_OPT = {
   hair:[['short','Tóc ngắn'],['long','Tóc dài buộc'],['curly','Tóc xoăn'],['bob','Tóc ngang vai']],
