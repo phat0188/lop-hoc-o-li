@@ -2015,6 +2015,11 @@ html body .sc-tr .hub-ic{background:#fff!important}
 
 .sc-stage.is3d .sc-btns{grid-template-columns:repeat(2,44px)}
 @media (max-width:760px){.sc-stage .sc-btns{display:flex!important;flex-wrap:wrap;justify-content:flex-end;max-width:calc(100vw - 48px)}.sc-stage .sc-btns .hub-ic{width:40px;height:40px}}
+
+.sc-stage.is3d > #cuCv{position:relative;background:transparent!important}
+.cu-tr{position:absolute;top:64px;right:10px;display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-end;max-width:60%}
+.cu-tr .hub-ic{width:42px;height:42px;background:#fff!important;font-weight:800}
+@media (max-width:760px){.cu-tr{top:120px;left:10px;right:auto;flex-direction:column;max-width:none}.cu-tr .sc-rot{display:flex;flex-direction:column;gap:6px}.cu-tr .sc-rot[hidden]{display:none}.cu-tr .hub-ic{width:40px;height:40px}}
 </style>
 
 <header class="top"><div class="wrap">
@@ -3570,15 +3575,16 @@ function showInvite(d){
 
 /* ===================== SÂN TRƯỜNG 3D: mô hình giấy dựng trên trang vở ô li ===================== */
 const SC3 = {on(){ const v = store('oli.sc3'); return (v == null ? S.sc3 : v) !== 'off'; }, set(on){ S.sc3 = on ? 'on' : 'off'; store('oli.sc3', on ? null : 'off'); }};
-async function school3D(stage, below){
+const CLEANMAP = {W:1600, H:1000};
+async function school3D(stage, below, kind = 'school', ext = {}){
   const THREE = await loadThree();
-  const {W, H, B, DOORS, TREES, LAMPS, FLAG, BOARDS, ROBOT_AT} = SCH, s = 0.01;
+  const MAPD = kind === 'hall' ? HALLMAP : kind === 'clean' ? CLEANMAP : SCH, {W, H} = MAPD, s = 0.01;
   const X = x => (x - W/2)*s, Z = y => (y - H/2)*s;
   const canvas = document.createElement('canvas'); canvas.className = 'sc3-cv'; canvas.setAttribute('aria-hidden', 'true');
   let renderer; try { renderer = new THREE.WebGLRenderer({canvas, antialias:HUBFX.q !== 'low'}); } catch(e){ throw new Error('webgl'); }
   stage.insertBefore(canvas, below);
   const hq = HUBFX.q !== 'low';
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, hq ? 1.75 : 1));
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, hq ? (matchMedia('(pointer: coarse)').matches ? 1.5 : 1.75) : 1));
   renderer.shadowMap.enabled = hq; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   const scene = new THREE.Scene(); const PAPER = new THREE.Color('#f3f2ea'); scene.background = PAPER; scene.fog = new THREE.Fog(PAPER, 14, 34);
   const camera = new THREE.PerspectiveCamera(38, 1.6, 0.05, 80);
@@ -3598,6 +3604,25 @@ async function school3D(stage, below){
     let fs = px*ch/96; g.font = `${font} ${fs}px "Be Vietnam Pro", system-ui, sans-serif`; while (g.measureText(txt).width > cw*0.9 && fs > 10){ fs -= 2; g.font = `${font} ${fs}px "Be Vietnam Pro", system-ui, sans-serif`; }
     g.fillStyle = fg; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(txt, cw/2, ch/2 + 2);
     return new THREE.Mesh(new THREE.PlaneGeometry(w, hgt), new THREE.MeshBasicMaterial({map:texOf(c), transparent:!bg})); };
+  const hooks = [];
+  const makeBot = at => { const bot = new THREE.Group(); bot.position.set(X(at.x), 0, Z(at.y)); bot.scale.setScalar(1.5); scene.add(bot);
+    const b = new THREE.Group(); b.position.y = 0.22; bot.add(b); bot.userData.b = b;
+    ink(mesh(new THREE.BoxGeometry(0.2, 0.16, 0.14), M('#eef1fb'), 0, 0, 0, b)); ink(mesh(new THREE.BoxGeometry(0.28, 0.22, 0.22), M('#eef1fb'), 0, 0.22, 0, b));
+    mesh(new THREE.BoxGeometry(0.22, 0.13, 0.01), M('#1f2140'), 0, 0.22, 0.112, b, false);
+    [-0.05, 0.05].forEach(ex => mesh(new THREE.SphereGeometry(0.02, 8, 6), new THREE.MeshBasicMaterial({color:'#5fe3ff'}), ex, 0.23, 0.12, b, false));
+    mesh(new THREE.CylinderGeometry(0.008, 0.008, 0.08, 6), M('#3f3394'), 0, 0.37, 0, b, false); mesh(new THREE.SphereGeometry(0.025, 8, 6), M('#e4533a'), 0, 0.42, 0, b, false); return bot; };
+  const botHook = (bot, at, label) => st => { bot.userData.b.position.y = 0.22 + Math.sin(st.T*2.5)*0.02; bot.rotation.y = Math.atan2(X(st.P.x) - bot.position.x, Z(st.P.y) - bot.position.z); tag(at.x, at.y, 1.0, label, '#1f2140', '#fff3c4'); };
+  const paperOut = (col = '#d4d4cc') => { const c = cv2(256, 256), g = c.getContext('2d'); g.fillStyle = '#f7f6ef'; g.fillRect(0, 0, 256, 256); g.strokeStyle = 'rgba(120,110,200,.18)'; g.lineWidth = 1; g.beginPath(); for (let a = 0; a <= 256; a += 32){ g.moveTo(a + .5, 0); g.lineTo(a + .5, 256); g.moveTo(0, a + .5); g.lineTo(256, a + .5); } g.stroke();
+    const t = texOf(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(40, 40); const out = mesh(new THREE.PlaneGeometry(80, 80), new THREE.MeshLambertMaterial({map:t, color:col}), 0, -0.004, 0, scene, false); out.rotation.x = -Math.PI/2; };
+  const olGrid = (g, w, hh, a1 = .28, a2 = .45) => { g.lineWidth = 1.2; g.strokeStyle = `rgba(110,100,200,${a1})`; g.beginPath(); for (let a = 0; a <= w; a += 10){ g.moveTo(a, 0); g.lineTo(a, hh); } for (let b = 0; b <= hh; b += 10){ g.moveTo(0, b); g.lineTo(w, b); } g.stroke();
+    g.lineWidth = 2; g.strokeStyle = `rgba(80,70,180,${a2})`; g.beginPath(); for (let a = 0; a <= w; a += 40){ g.moveTo(a, 0); g.lineTo(a, hh); } for (let b = 0; b <= hh; b += 40){ g.moveTo(0, b); g.lineTo(w, b); } g.stroke(); };
+  const groundOf = (c, col = '#cfd3c4') => { const t = texOf(c); t.anisotropy = 8; const gr = mesh(new THREE.PlaneGeometry(W*s, H*s), new THREE.MeshLambertMaterial({map:t, color:col}), 0, 0, 0, scene, false); gr.rotation.x = -Math.PI/2; return gr; };
+  const crownGeo = new THREE.IcosahedronGeometry(0.34, 0), trunkGeo = new THREE.CylinderGeometry(0.045, 0.06, 0.42, 7);
+  const makeTree = (x, y, kind, i) => { const g = new THREE.Group(); g.position.set(X(x), 0, Z(y)); scene.add(g); mesh(trunkGeo, M('#8a5a34'), 0, 0.21, 0, g);
+    const c1 = ink(mesh(crownGeo, M(kind === 'p' ? '#e4533a' : '#5c9e4a', {flatShading:true}), 0, 0.62, 0, g)); c1.rotation.set(i, i*2, 0);
+    const c2 = ink(mesh(crownGeo, M(kind === 'p' ? '#f07a4a' : '#79b45b', {flatShading:true}), 0.16, 0.8, 0.06, g)); c2.scale.setScalar(0.62); return g; };
+  if (kind === 'school'){
+  const {B, DOORS, TREES, LAMPS, FLAG, BOARDS, ROBOT_AT} = SCH;
   /* ---- trang vở: nền giấy ô li, lề đỏ, lối đi, sân thể thao ---- */
   { const K = 1, c = cv2(W*K, H*K), g = c.getContext('2d');
     g.fillStyle = '#e7eedb'; g.fillRect(0, 0, W, H);
@@ -3657,12 +3682,7 @@ async function school3D(stage, below){
       const pl = new THREE.Mesh(new THREE.PlaneGeometry(0.5, 0.5), new THREE.MeshBasicMaterial({map:texOf(c)})); pl.position.set(-w/2 + 0.5, fh*0.55, front + 0.01); grp.add(pl); }
   });
   /* ---- cây phượng, cây xanh, đèn, ghế đá, bảng ---- */
-  const crownGeo = new THREE.IcosahedronGeometry(0.34, 0), trunkGeo = new THREE.CylinderGeometry(0.045, 0.06, 0.42, 7);
-  const trees = TREES.map(([x, y, kind], i) => { const g = new THREE.Group(); g.position.set(X(x), 0, Z(y)); scene.add(g);
-    mesh(trunkGeo, M('#8a5a34'), 0, 0.21, 0, g);
-    const col = kind === 'p' ? '#e4533a' : '#5c9e4a', c1 = ink(mesh(crownGeo, M(col, {flatShading:true}), 0, 0.62, 0, g)); c1.rotation.set(i, i*2, 0);
-    const c2 = ink(mesh(crownGeo, M(kind === 'p' ? '#f07a4a' : '#79b45b', {flatShading:true}), 0.16, 0.8, 0.06, g)); c2.scale.setScalar(0.62);
-    return g; });
+  const trees = TREES.map(([x, y, k], i) => makeTree(x, y, k, i));
   const lampMat = new THREE.MeshBasicMaterial({color:'#fff5c8'});
   LAMPS.forEach(([x, y]) => { mesh(new THREE.CylinderGeometry(0.02, 0.025, 0.56, 6), M('#3a4466'), X(x), 0.28, Z(y)); mesh(new THREE.SphereGeometry(0.055, 10, 8), lampMat, X(x), 0.6, Z(y), scene, false); });
   [[520,665],[1080,665],[520,945],[1080,945]].forEach(([x, y]) => { box(0.4, 0.05, 0.12, '#a7aeb6', X(x), 0.12, Z(y + 4)); box(0.06, 0.1, 0.1, '#7a838d', X(x - 15), 0.05, Z(y + 4), scene, false); box(0.06, 0.1, 0.1, '#7a838d', X(x + 15), 0.05, Z(y + 4), scene, false); });
@@ -3677,16 +3697,18 @@ async function school3D(stage, below){
     var flag = mesh(flagGeo, new THREE.MeshLambertMaterial({map:texOf(c), side:THREE.DoubleSide}), X(FLAG.x) + 0.02, 1.68, Z(FLAG.y)); }
   const fBase = flagGeo.attributes.position.array.slice();
   // robot Ô Li
-  const bot = new THREE.Group(); bot.position.set(X(ROBOT_AT.x), 0, Z(ROBOT_AT.y)); bot.scale.setScalar(1.5); scene.add(bot);
-  { const b = new THREE.Group(); b.position.y = 0.22; bot.add(b); bot.userData.b = b;
-    ink(mesh(new THREE.BoxGeometry(0.2, 0.16, 0.14), M('#eef1fb'), 0, 0, 0, b)); ink(mesh(new THREE.BoxGeometry(0.28, 0.22, 0.22), M('#eef1fb'), 0, 0.22, 0, b));
-    mesh(new THREE.BoxGeometry(0.22, 0.13, 0.01), M('#1f2140'), 0, 0.22, 0.112, b, false);
-    [-0.05, 0.05].forEach(ex => mesh(new THREE.SphereGeometry(0.02, 8, 6), new THREE.MeshBasicMaterial({color:'#5fe3ff'}), ex, 0.23, 0.12, b, false));
-    mesh(new THREE.CylinderGeometry(0.008, 0.008, 0.08, 6), M('#3f3394'), 0, 0.37, 0, b, false); mesh(new THREE.SphereGeometry(0.025, 8, 6), M('#e4533a'), 0, 0.42, 0, b, false); }
+  const bot = makeBot(ROBOT_AT);
+  const arrow = ink(mesh(new THREE.ConeGeometry(0.09, 0.18, 4), M('#f2c14e'), 0, 0, 0, scene, false)); arrow.rotation.x = Math.PI;
+  hooks.push(st => { const T = st.T;
+    const pa = flagGeo.attributes.position; for (let i = 0; i < pa.count; i++){ const x0 = fBase[i*3], y0 = fBase[i*3 + 1]; pa.setZ(i, Math.sin(T*4 - x0*8)*x0*0.12); pa.setY(i, y0 + Math.sin(T*4 - x0*8)*x0*0.02); } pa.needsUpdate = true; flagGeo.computeVertexNormals();
+    trees.forEach((tr, i) => { tr.rotation.z = Math.sin(T*1.2 + i)*0.015; });
+    if (st.myDoor){ arrow.visible = true; arrow.position.set(X(st.myDoor.x), 1.12 + Math.sin(T*4)*0.05, Z(st.myDoor.y) + 0.2); tag(st.myDoor.x, st.myDoor.y + 20, 1.36, 'Lớp của em', '#1f2140', '#f2c14e'); } else arrow.visible = false; });
+  hooks.push(botHook(bot, ROBOT_AT, 'Ô Li · hướng dẫn'));
+  } else if (kind === 'hall') buildHall(); else buildClean();
   /* ---- học sinh 3D ---- */
   const kidGeo = {leg:new THREE.BoxGeometry(0.055, 0.16, 0.06), body:new THREE.BoxGeometry(0.18, 0.15, 0.11), arm:new THREE.BoxGeometry(0.045, 0.14, 0.05), head:new THREE.SphereGeometry(0.1, 16, 12), hair:new THREE.SphereGeometry(0.106, 16, 10, 0, Math.PI*2, 0, Math.PI*0.55), small:new THREE.SphereGeometry(0.035, 8, 6), skirt:new THREE.CylinderGeometry(0.08, 0.12, 0.1, 10), scarf:new THREE.ConeGeometry(0.035, 0.08, 4), bag:new THREE.BoxGeometry(0.14, 0.15, 0.06), hand:new THREE.BoxGeometry(0.045, 0.035, 0.05)};
   const shadowGeo = new THREE.CircleGeometry(0.13, 18), shadowM = new THREE.MeshBasicMaterial({color:0x1f2140, transparent:true, opacity:.16, depthWrite:false});
-  const makeKid = L => { const g = new THREE.Group(); scene.add(g); const sh = new THREE.Mesh(shadowGeo, shadowM); sh.rotation.x = -Math.PI/2; sh.position.y = 0.004; g.add(sh);
+  const makeKid = L => { const mesh = (geo, mat, x = 0, y = 0, z = 0, p = scene) => { const m = new THREE.Mesh(geo, mat); m.position.set(x, y, z); p.add(m); return m; }; const g = new THREE.Group(); scene.add(g); const sh = new THREE.Mesh(shadowGeo, shadowM); sh.rotation.x = -Math.PI/2; sh.position.y = 0.004; g.add(sh);
     const r = new THREE.Group(); g.add(r); const shirtC = L.shirt === 'pe' ? '#5ab0ff' : '#f6f7fb', pant = '#2b3f80', legC = L.bottom === 'skirt' ? L.skin : pant;
     const lp = new THREE.Group(), rp = new THREE.Group(); lp.position.set(-0.045, 0.16, 0); rp.position.set(0.045, 0.16, 0); r.add(lp, rp);
     mesh(kidGeo.leg, M(legC), 0, -0.08, 0, lp); mesh(kidGeo.leg, M(legC), 0, -0.08, 0, rp); mesh(kidGeo.hand, M('#1f2140'), 0, -0.155, 0.01, lp, false); mesh(kidGeo.hand, M('#1f2140'), 0, -0.155, 0.01, rp, false);
@@ -3713,8 +3735,8 @@ async function school3D(stage, below){
   const kids = new Map();
   const kidFor = (id, L) => { const key = JSON.stringify(L); let k = kids.get(id); if (k && k.userData.key !== key){ scene.remove(k); k = null; } if (!k){ k = makeKid(L); kids.set(id, k); } k.userData.seen = true; return k; };
   const DIR = {down:0, up:Math.PI, left:-Math.PI/2, right:Math.PI/2};
-  const poseKid = (k, x, y, dir, t, moving, dt) => { const u = k.userData; const mx = x - (u.px ?? x), my = y - (u.py ?? y); u.px = x; u.py = y; k.position.set(X(x), 0, Z(y));
-    if (Math.hypot(mx, my) > 0.3) u.face = Math.atan2(mx, my); else if (u.face === undefined) u.face = DIR[dir] ?? 0;
+  const poseKid = (k, x, y, dir, t, moving, dt, idle) => { const u = k.userData; const mx = x - (u.px ?? x), my = y - (u.py ?? y); u.px = x; u.py = y; k.position.set(X(x), 0, Z(y));
+    if (Math.hypot(mx, my) > 0.3) u.face = Math.atan2(mx, my); else if (u.face === undefined || (idle && !moving)) u.face = DIR[dir] ?? 0;
     let want = u.face, d = want - u.ang; while (d > Math.PI) d -= Math.PI*2; while (d < -Math.PI) d += Math.PI*2; u.ang += d*Math.min(1, dt*12); k.rotation.y = u.ang;
     const sw = moving ? Math.sin(t*11)*0.55 : 0; u.lp.rotation.x = sw; u.rp.rotation.x = -sw; u.la.rotation.x = -sw*0.8; u.ra.rotation.x = sw*0.8; u.r.position.y = moving ? Math.abs(Math.sin(t*11))*0.018 : 0; };
   /* ---- nhãn tên, bong bóng chat ---- */
@@ -3739,7 +3761,6 @@ async function school3D(stage, below){
   // vòng sáng điểm tương tác, dấu chạm, mũi tên lớp của em
   const ring = new THREE.Mesh(new THREE.RingGeometry(0.2, 0.26, 32), new THREE.MeshBasicMaterial({color:'#d92b25', transparent:true, opacity:.8, depthWrite:false})); ring.rotation.x = -Math.PI/2; ring.position.y = 0.01; scene.add(ring);
   const tapR = new THREE.Mesh(new THREE.RingGeometry(0.08, 0.11, 24), new THREE.MeshBasicMaterial({color:'#3f3394', transparent:true, depthWrite:false})); tapR.rotation.x = -Math.PI/2; tapR.position.y = 0.012; scene.add(tapR);
-  const arrow = ink(mesh(new THREE.ConeGeometry(0.09, 0.18, 4), M('#f2c14e'), 0, 0, 0, scene, false)); arrow.rotation.x = Math.PI;
   /* ---- camera, kích thước, chọn điểm ---- */
   const look = new THREE.Vector3(), camPos = new THREE.Vector3(); let first = true, cw = 1, ch = 1;
   const PITCH = [0.93, 0.6, 1.3], view = {yaw:0.1, yawT:0.1, pitch:0.93, pitchT:0.93, pi:0};
@@ -3760,32 +3781,126 @@ async function school3D(stage, below){
     pick(cx, cy){ const r = canvas.getBoundingClientRect(); ndc.set((cx - r.left)/r.width*2 - 1, -((cy - r.top)/r.height)*2 + 1); ray.setFromCamera(ndc, camera); return ray.ray.intersectPlane(gp, hit) ? {x:hit.x/s + W/2, y:hit.z/s + H/2} : null; },
     project(x, y, hy = 0.3){ v.set(X(x), hy, Z(y)).project(camera); if (v.z > 1) return null; const r = canvas.getBoundingClientRect(); return {x:r.left + (v.x + 1)/2*r.width, y:r.top + (1 - v.y)/2*r.height}; },
     draw(st){ const {P, dt, T} = st; spI = 0; kids.forEach(k => k.userData.seen = false);
-      // camera bám theo, hơi chéo từ phía nam
-      const zk = 1/clamp(st.zoomMul || 1, 0.6, 1.8), dist = (cw < 700 ? 9.5 : 8.6)*zk;
+      const F = st.focus || P, zk = 1/clamp(st.zoomMul || 1, 0.6, 1.8), dist = (st.dist || (cw < 700 ? 9.5 : 8.6))*zk;
       const kk = Math.min(1, dt*8); view.yaw += (view.yawT - view.yaw)*kk; view.pitch += (view.pitchT - view.pitch)*kk;
       const ox = Math.sin(view.yaw)*Math.cos(view.pitch), oz = Math.cos(view.yaw)*Math.cos(view.pitch), oy = Math.sin(view.pitch);
-      const tgt = new THREE.Vector3(clamp(X(P.x), X(0) + 2.2, X(W) - 2.2), 0.35, clamp(Z(P.y), Z(0) + 1.2, Z(H) - 1.6));
+      const mg = st.focus ? 0 : 1, tgt = new THREE.Vector3(clamp(X(F.x), X(0) + 2.2*mg, X(W) - 2.2*mg), 0.35, clamp(Z(F.y), Z(0) + 1.2*mg, Z(H) - 1.6*mg));
       if (first){ look.copy(tgt); first = false; } else look.lerp(tgt, Math.min(1, dt*5));
       camera.position.set(look.x + ox*dist, look.y + oy*dist, look.z + oz*dist); camera.lookAt(look);
       sun.position.set(look.x + 4, 9, look.z + 5); sun.target.position.copy(look);
-      const night = st.night; hemi.intensity = night ? 0.42 : 0.7; sun.intensity = night ? 0.25 : 0.75; scene.background.set(night ? '#c9cbe0' : '#f3f2ea'); scene.fog.color.copy(scene.background);
-      // cờ bay
-      const pa = flagGeo.attributes.position; for (let i = 0; i < pa.count; i++){ const x0 = fBase[i*3], y0 = fBase[i*3 + 1]; pa.setZ(i, Math.sin(T*4 - x0*8)*x0*0.12); pa.setY(i, y0 + Math.sin(T*4 - x0*8)*x0*0.02); } pa.needsUpdate = true; flagGeo.computeVertexNormals();
-      bot.userData.b.position.y = 0.22 + Math.sin(T*2.5)*0.02; bot.rotation.y = Math.atan2(X(P.x) - bot.position.x, Z(P.y) - bot.position.z);
-      trees.forEach((tr, i) => { tr.rotation.z = Math.sin(T*1.2 + i)*0.015; });
-      // nhân vật
-      st.mates.forEach(mt => { const k = kidFor('m:' + mt.id, mt.look); poseKid(k, mt.x, mt.y, mt.dir, T + mt.x, mt.moving, dt); tag(mt.x, mt.y, 0.74, mt.first + (mt.look.title ? ' · ' + mt.look.title : ''), '#1f2140', '#ffffff'); });
-      st.remotes.forEach(r => { const k = kidFor('r:' + r.id, r.look); poseKid(k, r.x, r.y, r.dir, T + r.x, r.walking, dt); tag(r.x, r.y, 0.74, '● ' + r.name, '#ffffff', '#2e7d32'); });
-      const me3 = kidFor('me', st.look); poseKid(me3, P.x, P.y, P.dir, T, st.moving, dt); tag(P.x, P.y, 0.74, st.myName, '#ffffff', '#3f3394');
+      const night = kind === 'school' && st.night; hemi.intensity = night ? 0.42 : 0.7; sun.intensity = night ? 0.25 : 0.75; scene.background.set(night ? '#c9cbe0' : '#f3f2ea'); scene.fog.color.copy(scene.background);
+      hooks.forEach(f => f(st));
+      (st.mates || []).forEach(mt => { const k = kidFor('m:' + mt.id, mt.look); poseKid(k, mt.x, mt.y, mt.dir, T + mt.x, mt.moving, dt); tag(mt.x, mt.y, 0.74, mt.first + (mt.look.title ? ' · ' + mt.look.title : ''), '#1f2140', '#ffffff'); });
+      (st.remotes || []).forEach(r => { const k = kidFor('r:' + r.id, r.look); poseKid(k, r.x, r.y, r.dir, T + r.x, r.walking, dt); tag(r.x, r.y, 0.74, '● ' + r.name, '#ffffff', '#2e7d32'); });
+      (st.extra || []).forEach(e => { const k = kidFor(e.id, e.look); poseKid(k, e.x, e.y, e.dir, T + e.x, e.moving, dt, true); if (e.tag) tag(e.x, e.y, 0.74, e.tag, e.fg || '#1f2140', e.bg || '#ffffff'); });
+      const me3 = kidFor('me', st.look); poseKid(me3, P.x, P.y, P.dir, T, st.moving, dt, !!st.idleMe); if (st.myName) tag(P.x, P.y, 0.74, st.myName, '#ffffff', '#3f3394');
       kids.forEach((k, id) => { if (!k.userData.seen){ scene.remove(k); kids.delete(id); } });
-      tag(ROBOT_AT.x, ROBOT_AT.y, 1.0, 'Ô Li · hướng dẫn', '#1f2140', '#fff3c4');
-      st.bubbles.forEach(b => bubble(b.x, b.y, 1.02, b.text));
-      if (st.cur && st.cur.ax !== undefined){ ring.visible = true; ring.position.x = X(st.cur.ax); ring.position.z = Z(st.cur.ay); ring.material.opacity = 0.55 + Math.sin(T*6)*0.3; tag(st.cur.ax, st.cur.ay, st.cur.b ? 1.45 : 1.0, st.cur.label + ' · bấm Vào', '#ffffff', '#d92b25', 0.19, true); } else ring.visible = false;
+      (st.boards || []).forEach(b => tag(b.x, b.y, 0.98, b.txt, b.state ? '#ffffff' : '#1f2140', b.state === 'ok' ? '#2e7d32' : b.state === 'no' ? '#c62828' : '#ffffff', 0.22, true));
+      (st.bubbles || []).forEach(b => bubble(b.x, b.y, b.hy || 1.02, b.text));
+      if (st.cur && st.cur.ax !== undefined){ ring.visible = true; ring.position.x = X(st.cur.ax); ring.position.z = Z(st.cur.ay); ring.material.opacity = 0.55 + Math.sin(T*6)*0.3; tag(st.cur.ax, st.cur.ay, st.cur.b ? 1.45 : 1.0, st.cur.label + (st.curText ?? ' · bấm Vào'), '#ffffff', '#d92b25', 0.19, true); } else ring.visible = false;
       if (st.tapMark){ tapR.visible = true; tapR.position.x = X(st.tapMark.x); tapR.position.z = Z(st.tapMark.y); tapR.scale.setScalar(1 + st.tapMark.t*3); tapR.material.opacity = 1 - st.tapMark.t/0.6; } else tapR.visible = false;
-      if (st.myDoor){ arrow.visible = true; arrow.position.set(X(st.myDoor.x), 1.12 + Math.sin(T*4)*0.05, Z(st.myDoor.y) + 0.2); tag(st.myDoor.x, st.myDoor.y + 20, 1.36, 'Lớp của em', '#1f2140', '#f2c14e'); } else arrow.visible = false;
       for (let i = spI; i < sprites.length; i++) sprites[i].visible = false;
       renderer.render(scene, camera); },
     dispose(){ ro.disconnect(); renderer.dispose(); canvas.remove(); }};
+  /* ======== HỘI TRƯỜNG 3D ======== */
+  function buildHall(){
+    const {STAGE, PODIUM, SEATS, BOOTHS, BENCH, BOARDS, ROBOT_AT} = HALLMAP;
+    { const c = cv2(W, H), g = c.getContext('2d');
+      g.fillStyle = '#f2ebdd'; g.fillRect(0, 0, W, H);
+      g.fillStyle = '#d65a5a'; g.fillRect(560, 620, 80, H - 640);
+      g.fillStyle = '#e8c35a'; g.fillRect(292, 372, 616, 252); g.fillStyle = '#d9534f'; g.fillRect(300, 380, 600, 236);
+      olGrid(g, W, H, .22, .36);
+      g.strokeStyle = '#d65a5a'; g.lineWidth = 3; g.beginPath(); g.moveTo(40, 0); g.lineTo(40, H); g.moveTo(47, 0); g.lineTo(47, H); g.stroke();
+      g.fillStyle = '#fff8e0'; g.font = '700 18px "Be Vietnam Pro", system-ui'; g.textAlign = 'center'; g.fillText('Sàn đấu Rung chuông vàng', 600, 366);
+      SEATS.forEach(st => { g.fillStyle = '#3f3394'; g.beginPath(); g.ellipse(st.x, st.y, 19, 9, 0, 0, 7); g.fill(); g.strokeStyle = '#f2c14e'; g.lineWidth = 2; g.stroke(); g.fillStyle = '#ffffff'; g.font = '700 12px "Be Vietnam Pro", system-ui'; g.fillText(String(st.n), st.x, st.y + 26); });
+      g.fillStyle = '#3f3394'; g.font = '600 22px "Patrick Hand", "Be Vietnam Pro", cursive'; g.fillText('Khán đài', 600, 712);
+      groundOf(c, '#d6d0c2'); }
+    paperOut();
+    const WALL = '#b9b2d9';
+    box(W*s, 0.5, 0.3, WALL, 0, 0.25, Z(15)); box(0.3, 0.5, H*s, WALL, X(15), 0.25, 0); box(0.3, 0.5, H*s, WALL, X(W - 15), 0.25, 0);
+    box(5.6, 0.5, 0.3, WALL, X(280), 0.25, Z(H - 20)); box(W*s - 6.4, 0.5, 0.3, WALL, X((640 + W)/2), 0.25, Z(H - 20));
+    // lối ra
+    [552, 648].forEach(x => box(0.08, 0.9, 0.08, '#6d4a2c', X(x), 0.45, Z(H - 20)));
+    { const sg = box(1.0, 0.18, 0.05, '#2e7d32', X(600), 0.95, Z(H - 20)); const tp = textPlate('Lối ra sân trường', {w:0.94, hgt:0.15, bg:'#2e7d32', fg:'#ffffff', border:null}); tp.position.set(0, 0, 0.03); sg.add(tp); }
+    // sân khấu
+    const sw = STAGE.w*s, sd = STAGE.h*s, scx = X(STAGE.x + STAGE.w/2), scz = Z(STAGE.y + STAGE.h/2), SH = 0.28;
+    box(sw, SH, sd, '#d9a868', scx, SH/2, scz); box(sw + 0.02, 0.03, 0.04, '#f2c14e', scx, SH - 0.015, scz + sd/2);
+    box(sw, 1.9, 0.1, '#3f3394', scx, SH + 0.95, Z(STAGE.y) + 0.05);
+    const scrC = cv2(640, 180), scrT = texOf(scrC), scr = new THREE.Mesh(new THREE.PlaneGeometry(3.2, 0.9), new THREE.MeshBasicMaterial({map:scrT})); scr.position.set(scx, SH + 1.32, Z(STAGE.y) + 0.11); scene.add(scr);
+    let scrKey = '';
+    const drawScr = (a, b) => { const k = a + '|' + b; if (k === scrKey) return; scrKey = k; const g = scrC.getContext('2d'); g.fillStyle = '#ffffff'; g.fillRect(0, 0, 640, 180); g.strokeStyle = '#1f2140'; g.lineWidth = 8; g.strokeRect(4, 4, 632, 172);
+      g.fillStyle = '#c62828'; g.font = '800 62px "Be Vietnam Pro", system-ui'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(a, 320, 72, 600); if (b){ g.fillStyle = '#3f3394'; g.font = '700 30px "Be Vietnam Pro", system-ui'; g.fillText(b, 320, 140, 600); } scrT.needsUpdate = true; };
+    drawScr('Rung chuông vàng', 'Đăng kí tại bục MC');
+    { const bn = textPlate('Sân chơi tri thức · THCS và THPT Lương Thế Vinh', {w:4.6, hgt:0.26, bg:'#f2c14e', fg:'#7a1a2e', border:null}); bn.position.set(scx, SH + 0.66, Z(STAGE.y) + 0.11); scene.add(bn); }
+    [STAGE.x + 34, STAGE.x + STAGE.w - 34].forEach(x => box(0.62, 1.85, 0.16, '#c62a38', X(x), SH + 0.92, Z(STAGE.y) + 0.22));
+    // khung chuông và chuông
+    [552, 648].forEach(x => box(0.06, 0.95, 0.06, '#b8740f', X(x), SH + 0.47, Z(170))); box(1.08, 0.07, 0.08, '#f2c14e', X(600), SH + 0.96, Z(170));
+    const bellP = new THREE.Group(); bellP.position.set(X(600), SH + 0.93, Z(170)); scene.add(bellP);
+    { const pts = [[0, 0], [0.05, -0.02], [0.11, -0.1], [0.14, -0.26], [0.2, -0.36], [0.2, -0.38], [0, -0.38]].map(([x, y]) => new THREE.Vector2(x, y));
+      ink(mesh(new THREE.LatheGeometry(pts, 24), M('#f2c14e', {side:THREE.DoubleSide}), 0, -0.05, 0, bellP)); mesh(new THREE.SphereGeometry(0.035, 10, 8), M('#b8740f'), 0, -0.44, 0, bellP); }
+    // bục MC
+    { const pd = box(0.56, 0.48, 0.34, '#3d5bd9', X(PODIUM.x), 0.24, Z(PODIUM.y - 14)); const tp = textPlate('MC', {w:0.3, hgt:0.14, bg:'#ffffff', border:null}); tp.position.set(0, 0.08, 0.175); pd.add(tp); }
+    // quầy chuyên đề
+    BOOTHS.forEach(b => { const cx = X(b.x + b.w/2), w = b.w*s;
+      box(w, 1.05, 0.08, b.col, cx, 0.52, Z(b.y - 18));
+      const lb = textPlate(b.label, {w:w - 0.12, hgt:0.24, bg:'#ffffff', border:b.col}); lb.position.set(cx, 0.86, Z(b.y - 18) + 0.045); scene.add(lb);
+      box(w, 0.46, 0.34, b.col, cx, 0.23, Z(b.y + b.h - 22)); const ft = textPlate(b.kind === 'ward' ? 'Thay đồ · phần thưởng' : 'Học · trả lời · nhận quà', {w:w - 0.16, hgt:0.14, bg:'#ffffff', border:null}); ft.position.set(cx, 0.28, Z(b.y + b.h - 22) + 0.175); scene.add(ft);
+      box(w + 0.1, 0.05, 0.5, '#ffffff', cx, 1.08, Z(b.y - 6)); });
+    // khán đài
+    BENCH.forEach(([x, y, w]) => { box(w*s, 0.14, 0.16, '#c47a3c', X(x + w/2), 0.14, Z(y + 8)); });
+    BOARDS.forEach(bd => { const g = new THREE.Group(); g.position.set(X(bd.x), 0, Z(bd.y)); scene.add(g);
+      box(0.04, 0.5, 0.04, '#6d4a2c', -0.38, 0.25, 0, g); box(0.04, 0.5, 0.04, '#6d4a2c', 0.38, 0.25, 0, g); box(0.92, 0.5, 0.05, '#2f6b4a', 0, 0.62, 0, g);
+      const tp = textPlate(bd.label, {w:0.8, hgt:0.38, bg:'#3e8a5f', fg:'#ffffff', border:null}); tp.position.set(0, 0.62, 0.03); g.add(tp); });
+    const bot = makeBot(ROBOT_AT);
+    hooks.push(botHook(bot, ROBOT_AT, 'Ô Li · MC'));
+    hooks.push(st => { const ring = st.ring || 0; bellP.rotation.z = ring > 0 ? Math.sin(st.T*14)*0.45*Math.min(1, ring) : Math.sin(st.T*1.6)*0.05; if (st.screen) drawScr(st.screen[0], st.screen[1]);
+      if (st.say) bubble(ROBOT_AT.x + 30, ROBOT_AT.y, 1.25, st.say); });
+  }
+  /* ======== NGOÀI CỔNG TRƯỜNG 3D ======== */
+  function buildClean(){
+    const {bins = [], binY = 215, trees: tr = [], benches = [], cars = [], items = []} = ext;
+    { const c = cv2(W, H), g = c.getContext('2d');
+      g.fillStyle = '#d3e6c4'; g.fillRect(0, 0, W, 146);
+      g.fillStyle = '#faf7ee'; g.fillRect(0, 146, W, 430);
+      g.fillStyle = '#b9bec6'; g.fillRect(0, 575, W, 22); g.fillStyle = '#5b6070'; g.fillRect(0, 597, W, 300);
+      g.fillStyle = '#b9bec6'; g.fillRect(0, 897, W, 18); g.fillStyle = '#f1e9d6'; g.fillRect(0, 915, W, 85);
+      olGrid(g, W, H, .22, .36);
+      g.strokeStyle = '#ffffff'; g.lineWidth = 6; g.setLineDash([46, 34]); g.beginPath(); g.moveTo(0, 750); g.lineTo(W, 750); g.stroke(); g.setLineDash([]);
+      g.fillStyle = 'rgba(255,255,255,.92)'; for (let i = 0; i < 7; i++) g.fillRect(700 + i*30, 605, 16, 285);
+      g.fillStyle = '#3f3394'; g.font = '600 24px "Patrick Hand", "Be Vietnam Pro", cursive'; g.textAlign = 'center'; g.fillText('Vỉa hè trước cổng trường', 800, 545);
+      bins.forEach(b => { g.fillStyle = 'rgba(31,33,64,.12)'; g.fillRect(b.x - 34, binY - 8, 68, 30); });
+      groundOf(c, '#d6d6cc'); }
+    paperOut();
+    const WALL = '#d97b63';
+    box(7.2, 0.55, 0.26, WALL, X(360), 0.275, Z(133)); box(7.2, 0.55, 0.26, WALL, X(1240), 0.275, Z(133));
+    [707, 893].forEach(x => box(0.16, 1.2, 0.3, '#c8553d', X(x), 0.6, Z(133)));
+    { const sg = box(2.0, 0.28, 0.08, '#f2c14e', X(800), 1.28, Z(133)); const tp = textPlate('Trường THCS và THPT Lương Thế Vinh', {w:1.9, hgt:0.22, bg:'#f2c14e', fg:'#7a2a12', border:null}); tp.position.set(0, 0, 0.045); sg.add(tp); }
+    // dãy nhà trong trường phía sau tường
+    box(6, 1.1, 0.8, '#f3d27a', X(380), 0.55, Z(40)); box(6, 1.1, 0.8, '#f3d27a', X(1220), 0.55, Z(40));
+    const trees3 = tr.map(([x, y], i) => makeTree(x, y, 'p', i));
+    benches.forEach(([x, y]) => { box(1.0, 0.05, 0.14, '#a7aeb6', X(x), 0.12, Z(y)); box(0.06, 0.1, 0.1, '#7a838d', X(x - 40), 0.05, Z(y), scene, false); box(0.06, 0.1, 0.1, '#7a838d', X(x + 40), 0.05, Z(y), scene, false); });
+    bins.forEach(b => { const g = new THREE.Group(); g.position.set(X(b.x), 0, Z(binY)); scene.add(g);
+      box(0.48, 0.6, 0.4, b.col, 0, 0.3, 0, g); box(0.54, 0.07, 0.46, b.col, 0, 0.64, 0, g);
+      const tp = textPlate(b.n, {w:0.44, hgt:0.15, bg:'#ffffff', border:null}); tp.position.set(0, 0.42, 0.205); g.add(tp); });
+    // cửa hàng bên kia đường (thấp để không che tầm nhìn)
+    [[100, 'Tiệm sách', '#7c3aed'], [520, 'Tạp hóa', '#0e7490'], [980, 'Nhà thuốc', '#16a34a'], [1380, 'Quán chè', '#d97706']].forEach(([x, n, c]) => {
+      const sh = box(2.2, 0.5, 0.5, '#f3ede0', X(x + 70), 0.25, Z(965)); box(2.3, 0.06, 0.6, c, X(x + 70), 0.53, Z(960)); const tp = textPlate(n, {w:1.2, hgt:0.2, bg:c, fg:'#ffffff', border:null}); tp.position.set(X(x + 70), 0.36, Z(965) - 0.255); tp.rotation.y = Math.PI; scene.add(tp); });
+    // xe chạy
+    const car3 = cars.map(c => { const g = new THREE.Group(); scene.add(g); box(1.15, 0.26, 0.5, c.c, 0, 0.2, 0, g); box(0.6, 0.2, 0.44, '#dcecff', -0.05, 0.42, 0, g);
+      [[-0.38, 0.25], [0.38, 0.25], [-0.38, -0.25], [0.38, -0.25]].forEach(([wx, wz]) => { const w = mesh(new THREE.CylinderGeometry(0.09, 0.09, 0.06, 12), M('#1f2140'), wx, 0.09, wz, g); w.rotation.x = Math.PI/2; });
+      box(0.04, 0.08, 0.36, '#fff2a8', 0.58, 0.22, 0, g, false); return g; });
+    // rác: thẻ có hình
+    const tokTex = new Map(), tokOf = e => { if (tokTex.has(e)) return tokTex.get(e); const c = cv2(128, 128), g = c.getContext('2d'); g.fillStyle = '#ffffff'; g.beginPath(); g.arc(64, 64, 58, 0, 7); g.fill(); g.strokeStyle = '#d97706'; g.lineWidth = 8; g.stroke();
+      g.font = '72px "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(e, 64, 70); const t = texOf(c); tokTex.set(e, t); return t; };
+    const toks = items.map(it => { const sp = new THREE.Sprite(new THREE.SpriteMaterial({map:tokOf(it.e), transparent:true})); sp.scale.set(0.34, 0.34, 1); sp.position.set(X(it.x), 0.24, Z(it.y)); sp.renderOrder = 4; scene.add(sp); return sp; });
+    const hand = new THREE.Sprite(new THREE.SpriteMaterial({transparent:true})); hand.scale.set(0.3, 0.3, 1); hand.visible = false; scene.add(hand);
+    hooks.push(st => { const T = st.T;
+      trees3.forEach((t3, i) => { t3.rotation.z = Math.sin(T*1.2 + i)*0.015; });
+      (st.cars || []).forEach((c, i) => { const g = car3[i]; if (!g) return; g.position.set(X(c.x), 0, Z(c.y)); g.rotation.y = c.v < 0 ? Math.PI : 0; });
+      items.forEach((it, i) => { toks[i].visible = !it.done; if (!it.done){ toks[i].position.y = 0.24 + Math.sin(T*3 + i)*0.03; if (Math.hypot(it.x - st.P.x, it.y - st.P.y) < 150) tag(it.x, it.y, 0.56, it.n, '#ffffff', '#1f2140', 0.14); } });
+      if (st.hand){ hand.visible = true; if (hand.material.map !== tokOf(st.hand.e)){ hand.material.map = tokOf(st.hand.e); hand.material.needsUpdate = true; } hand.position.set(X(st.P.x) + 0.12, 0.95 + Math.sin(T*4)*0.02, Z(st.P.y)); } else hand.visible = false;
+      bins.forEach(b => tag(b.x, binY + 20, 0.9, b.s, '#1f2140', '#ffffff', 0.13)); });
+  }
   return api;
 }
 
@@ -3800,7 +3915,7 @@ function vSchool(app){
     <div class="sc-stage" id="scStage">
       <canvas id="scCv" aria-label="Bản đồ sân trường. Dùng phím mũi tên hoặc chạm để di chuyển nhân vật."></canvas>
       <div class="sc-hud"><span class="sc-ava"><canvas id="scAva" width="88" height="88"></canvas></span><span class="sc-hudt"><b>${h(m ? m.name : S.canEdit ? 'Giáo viên' : 'Khách tham quan')}</b><span><i style="color:${tier[2]}">${tier[1]}</i> · Lv. ${d.lv}${m ? ' · Lớp ' + h(m.cls) : ''}</span><span class="hub-bar"><i style="width:${d.inLv}%"></i></span></span></div>
-      <div class="sc-tr"><canvas id="scMini" width="344" height="200" role="button" aria-label="Bản đồ nhỏ, chạm để mở bản đồ lớn"></canvas><div class="sc-btns"><button class="hub-ic" id="scLook" aria-label="Tùy chỉnh nhân vật">${HUB_ICON.user}</button><button class="hub-ic" id="scSet" aria-label="Cài đặt điều khiển">${HUB_ICON.gear}</button><button class="hub-ic" id="scFull" aria-label="Toàn màn hình"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>${isHall ? '' : `<span class="sc-rot" id="scRot" hidden><button class="hub-ic" id="scRotL" aria-label="Xoay góc nhìn sang trái" title="Xoay trái (Q)">⟲</button><button class="hub-ic" id="scRotR" aria-label="Xoay góc nhìn sang phải" title="Xoay phải (E)">⟳</button><button class="hub-ic" id="scTilt" aria-label="Đổi độ nghiêng góc nhìn" title="Nhìn từ trên cao / nhìn ngang"><svg viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="3" fill="currentColor"/></svg></button><button class="hub-ic" id="scNorth" aria-label="Về góc nhìn ban đầu" title="Góc nhìn ban đầu">N</button></span><button class="hub-ic sc-dim" id="scDim" aria-label="Đổi góc nhìn 2D hoặc 3D" title="Đổi góc nhìn 2D / 3D">${SC3.on() ? '2D' : '3D'}</button>`}<button class="hub-ic" id="scTut" aria-label="Hướng dẫn">?</button><button class="hub-ic sc-chatb" id="scChat" aria-label="Trò chuyện">💬<i id="scChatN" hidden></i></button></div></div>
+      <div class="sc-tr"><canvas id="scMini" width="344" height="200" role="button" aria-label="Bản đồ nhỏ, chạm để mở bản đồ lớn"></canvas><div class="sc-btns"><button class="hub-ic" id="scLook" aria-label="Tùy chỉnh nhân vật">${HUB_ICON.user}</button><button class="hub-ic" id="scSet" aria-label="Cài đặt điều khiển">${HUB_ICON.gear}</button><button class="hub-ic" id="scFull" aria-label="Toàn màn hình"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>${`<span class="sc-rot" id="scRot" hidden><button class="hub-ic" id="scRotL" aria-label="Xoay góc nhìn sang trái" title="Xoay trái (Q)">⟲</button><button class="hub-ic" id="scRotR" aria-label="Xoay góc nhìn sang phải" title="Xoay phải (E)">⟳</button><button class="hub-ic" id="scTilt" aria-label="Đổi độ nghiêng góc nhìn" title="Nhìn từ trên cao / nhìn ngang"><svg viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="3" fill="currentColor"/></svg></button><button class="hub-ic" id="scNorth" aria-label="Về góc nhìn ban đầu" title="Góc nhìn ban đầu">N</button></span><button class="hub-ic sc-dim" id="scDim" aria-label="Đổi góc nhìn 2D hoặc 3D" title="Đổi góc nhìn 2D / 3D">${SC3.on() ? '2D' : '3D'}</button>`}<button class="hub-ic" id="scTut" aria-label="Hướng dẫn">?</button><button class="hub-ic sc-chatb" id="scChat" aria-label="Trò chuyện">💬<i id="scChatN" hidden></i></button></div></div>
       <div class="sc-joy" id="scJoy" aria-hidden="true"><span id="scKnob"></span></div>
       <p class="sc-hint" id="scHint">Chạm để đi tới · Giữ và kéo để điều khiển</p>
       <button class="sc-act" id="scAct" hidden><span class="sc-act-ic" aria-hidden="true"></span><span class="sc-act-t"></span></button>
@@ -4240,10 +4355,10 @@ function vSchool(app){
 
   // sân trường 3D (mô hình giấy trên trang vở), tự lùi về 2D nếu máy không hỗ trợ
   let R3 = null;
-  if (!isHall && SC3.on()) school3D(stage, cv).then(r => { if (!document.body.contains(cv)){ r.dispose(); return; } R3 = r; stage.classList.add('is3d'); $('#scRot', app).hidden = false;
+  if (SC3.on()) school3D(stage, cv, isHall ? 'hall' : 'school').then(r => { if (!document.body.contains(cv)){ r.dispose(); return; } R3 = r; stage.classList.add('is3d'); $('#scRot', app).hidden = false;
     $('#scRotL', app).onclick = () => R3 && R3.rotate(Math.PI/4); $('#scRotR', app).onclick = () => R3 && R3.rotate(-Math.PI/4); $('#scTilt', app).onclick = () => { if (R3){ const i = R3.nextPitch(); toast(['Góc nhìn vừa', 'Nhìn ngang', 'Nhìn từ trên cao'][i]); } }; $('#scNorth', app).onclick = () => R3 && R3.resetView();
     if (!store('oli.sc3tip')){ store('oli.sc3tip', '1'); setTimeout(() => toast(matchMedia('(pointer: coarse)').matches ? 'Mẹo: xoay hai ngón tay để xoay góc nhìn, hoặc bấm ⟲ ⟳' : 'Mẹo: kéo chuột để xoay góc nhìn, phím Q / E để xoay, R / F để nghiêng'), 900); } ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, cv.width, cv.height); }).catch(err => { console.warn('3D', err); });
-  if (!isHall) $('#scDim', app).onclick = () => { SC3.set(!SC3.on()); savePos(); delete app.dataset.view; render(); };
+  $('#scDim', app).onclick = () => { SC3.set(!SC3.on()); savePos(); delete app.dataset.view; render(); };
   // vòng lặp
   let last = performance.now(), T = 0, miniT = 0;
   const loop = now => {
@@ -4279,9 +4394,18 @@ function vSchool(app){
     else { vw = cssW/zoom; vh = cssH/zoom; cam.x = vw >= M.W ? (M.W - vw)/2 : clamp(P.x - vw/2, 0, M.W - vw); cam.y = vh >= M.H ? (M.H - vh)/2 : clamp(P.y - vh*0.55, 0, M.H - vh); }
     if (R3){ cur = dlgOpen || busy || paused || game || lobbyOn ? null : near(); if (tapMark){ tapMark.t += dt; if (tapMark.t > 0.6) tapMark = null; }
       const RM3 = remotes(), bl = []; bubbles.forEach((b, k3) => { if (k3 === sid) bl.push({x:P.x, y:P.y, text:b.text}); else { const rr = SOC.remote.get(k3); if (rr && rr.map === mapId) bl.push({x:rr.x, y:rr.y, text:b.text}); } });
-      const md = m ? SCH.DOORS.find(x => x.kind === 'class' && String(x.grade) === String(m.grade)) : null;
-      try { R3.draw({P, dt, T, moving, look, zoomMul, night, cur, tapMark, myDoor:md, myName:(m ? m.name.split(' ').slice(-1)[0] : 'Em') + (look.title ? ' · ' + look.title : ''), bubbles:bl,
-        mates:mates.filter(mt => !SOC.peers.has(mt.id)), remotes:RM3.map(([id, r, pr]) => ({id, x:r.x, y:r.y, dir:r.dir, walking:r.walking, look:{...defaultLook(id), ...(pr.look || {})}, name:String(pr.name || '').split(' ').slice(-1)[0]}))}); } catch(err){ console.warn('3D', err); R3.dispose(); R3 = null; stage.classList.remove('is3d'); }
+      const md = m && !isHall ? SCH.DOORS.find(x => x.kind === 'class' && String(x.grade) === String(m.grade)) : null;
+      let ex3 = [], bd3 = [], scr3 = null, say3 = '';
+      if (isHall){ ex3 = M.BOOTHS.map(b => ({id:'n' + b.id, x:b.ax, y:b.y + 48, dir:'down', moving:false, look:b.look || (b.look = {...defaultLook('booth' + b.id), ...b.npc, scarf:false})}));
+        scr3 = game ? [game.phase === 'end' && game.win ? 'Chuông vàng!' : game.phase === 'gather' ? 'Mời thí sinh' : `Câu ${game.qi + 1}/15`, `Còn ${rcvLeft()} / 30 thí sinh`] : ['Rung chuông vàng', 'Đăng kí tại bục MC'];
+        if (game){ const G = game, q = G.Qs[G.qi], rev = G.phase === 'rev'; say3 = G.sayT > 0 ? G.say : '';
+          G.bots.forEach((b, i) => { ex3.push({id:'b' + i, x:b.x, y:b.y, dir:b.dir || 'up', moving:b.moving, look:b.look, tag:b.human && !(b.leaving && b.leaveAt <= 0) ? b.name : '', fg:'#ffffff', bg:'#2e7d32'});
+            if (b.raised && !(b.leaving && b.leaveAt <= 0) && !b.moving) bd3.push({x:b.x, y:b.y, txt:rev ? ('ABCD'[b.ans] || '?') : ' ', state:rev ? (b.ok ? 'ok' : 'no') : null}); });
+          const seat = M.SEATS[G.mySeat ?? MY_SEAT];
+          if (G.phase !== 'end' && (G.alive || rev) && !G.pWalk && Math.hypot(P.x - seat.x, P.y - seat.y) < 3) bd3.push((G.phase === 'q' && G.raised) || rev ? {x:P.x, y:P.y, txt:G.myAns >= 0 ? 'ABCD'[G.myAns] : '?', state:rev ? (G.myAns === q.a ? 'ok' : 'no') : null} : {x:P.x, y:P.y, txt:'Em', state:null}); } }
+      try { R3.draw({P, dt, T, moving:moving || !!(game && game.pWalk), look, zoomMul, night, cur, tapMark, myDoor:md, myName:game && game.phase === 'q' ? '' : (m ? m.name.split(' ').slice(-1)[0] : 'Em') + (look.title ? ' · ' + look.title : ''), bubbles:bl,
+        extra:ex3, boards:bd3, screen:scr3, say:say3, ring:game ? game.ring : 0, focus:game ? (f0 => ({x:f0.x, y:f0.y - 70}))(game.focus || {x:600, y:470}) : null, dist:game ? (cssW < 700 ? 12 : 9.8) : 0, idleMe:!!game,
+        mates:game ? [] : mates.filter(mt => !SOC.peers.has(mt.id)), remotes:RM3.map(([id, r, pr]) => ({id, x:r.x, y:r.y, dir:r.dir, walking:r.walking, look:{...defaultLook(id), ...(pr.look || {})}, name:String(pr.name || '').split(' ').slice(-1)[0]}))}); } catch(err){ console.warn('3D', err); R3.dispose(); R3 = null; stage.classList.remove('is3d'); }
     } else {
     // vẽ
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.fillStyle = isHall ? '#1a0b2e' : '#82c46c'; ctx.fillRect(0, 0, cssW, cssH);
@@ -6361,6 +6485,7 @@ function vCleanup(app){
     <div class="sc-stage cu-stage" id="cuStage"><canvas id="cuCv"></canvas>
       <div class="cu-hud"><div class="cu-hand" id="cuHand"></div><div class="cu-stat" id="cuStat"></div><button class="hub-mini" id="cuExit">← Vào trường</button></div>
       <div class="cu-msg" id="cuMsg" role="status"></div>
+      <div class="cu-tr"><span class="sc-rot" id="cuRot" hidden><button class="hub-ic" id="cuRotL" aria-label="Xoay góc nhìn sang trái" title="Xoay trái (Q)">⟲</button><button class="hub-ic" id="cuRotR" aria-label="Xoay góc nhìn sang phải" title="Xoay phải (E)">⟳</button><button class="hub-ic" id="cuTilt" aria-label="Đổi độ nghiêng góc nhìn">◐</button><button class="hub-ic" id="cuNorth" aria-label="Về góc nhìn ban đầu">N</button></span><button class="hub-ic sc-dim" id="cuDim" aria-label="Đổi góc nhìn 2D hoặc 3D">${SC3.on() ? '2D' : '3D'}</button></div>
       <button class="sc-act" id="cuAct" hidden><span class="sc-act-ic">✋</span><span class="sc-act-t">Nhặt</span></button>
       <div class="cu-end" id="cuEnd" hidden></div></div>
   </div></section>`;
@@ -6422,15 +6547,26 @@ function vCleanup(app){
   act.onclick = () => { const b = nearBin(); if (b && hand) drop(b); else if (atGate()) go('school'); updAct(); };
   $('#cuExit', app).onclick = () => go('school');
   const kd = e => { if (!document.body.contains(cv)) return; const k = e.key.toLowerCase(); if (['arrowup', 'arrowdown', 'arrowleft', 'arrowright', 'w', 'a', 's', 'd'].includes(k)){ keys[k] = e.type === 'keydown'; target = null; e.preventDefault(); }
+    if (R3 && e.type === 'keydown' && (k === 'q' || k === 'e')) R3.rotate(k === 'q' ? 0.5 : -0.5); if (R3 && e.type === 'keydown' && (k === 'r' || k === 'f')){ R3.tilt(k === 'r' ? 0.12 : -0.12); R3.commit(); }
     if (e.type === 'keydown' && (k === ' ' || k === 'enter' || k === 'e') && !act.hidden){ act.click(); e.preventDefault(); } };
   document.addEventListener('keydown', kd); document.addEventListener('keyup', kd);
-  cv.addEventListener('pointerdown', e => { const r = cv.getBoundingClientRect(); target = {x:cam.x + (e.clientX - r.left - cssW/2)/zoom, y:cam.y + (e.clientY - r.top - cssH/2)/zoom}; });
+  let R3 = null, drag = null, tapMk = null;
+  cv.addEventListener('pointerdown', e => { if (!R3){ const r = cv.getBoundingClientRect(); target = {x:cam.x + (e.clientX - r.left - cssW/2)/zoom, y:cam.y + (e.clientY - r.top - cssH/2)/zoom}; return; }
+    e.preventDefault(); drag = {id:e.pointerId, x0:e.clientX, y0:e.clientY, x:e.clientX, y:e.clientY, moved:false}; try { cv.setPointerCapture(e.pointerId); } catch(_){} });
+  cv.addEventListener('pointermove', e => { if (!R3 || !drag || drag.id !== e.pointerId) return; if (Math.hypot(e.clientX - drag.x0, e.clientY - drag.y0) > 8) drag.moved = true;
+    if (drag.moved){ R3.setYaw(R3.yawT() - (e.clientX - drag.x)*0.008); R3.tilt((e.clientY - drag.y)*0.005); } drag.x = e.clientX; drag.y = e.clientY; });
+  const cuUp = e => { if (!R3 || !drag || drag.id !== e.pointerId) return; const d = drag; drag = null; R3.commit(); if (!d.moved && e.type === 'pointerup'){ const w = R3.pick(e.clientX, e.clientY); if (w){ target = w; tapMk = {x:w.x, y:w.y, t:0}; } } };
+  cv.addEventListener('pointerup', cuUp); cv.addEventListener('pointercancel', cuUp);
+  if (SC3.on()) school3D(stage, cv, 'clean', {bins:BINS, binY, trees, benches, cars, items}).then(r => { if (!document.body.contains(cv)){ r.dispose(); return; } R3 = r; stage.classList.add('is3d'); ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, cv.width, cv.height); $('#cuRot', app).hidden = false;
+    $('#cuRotL', app).onclick = () => R3.rotate(Math.PI/4); $('#cuRotR', app).onclick = () => R3.rotate(-Math.PI/4); $('#cuTilt', app).onclick = () => R3.nextPitch(); $('#cuNorth', app).onclick = () => R3.resetView(); }).catch(err => console.warn('3D', err));
+  $('#cuDim', app).onclick = () => { SC3.set(!SC3.on()); vCleanup(app); };
   if (window.__OLI_TEST) window.__cu = {P, items, get hand(){ return hand; }};
   hud(); msg('Nhặt rác quanh cổng trường rồi mang tới đúng thùng: <b>Tái chế</b> · <b>Hữu cơ</b> · <b>Rác khác</b> · <b>Nguy hại</b>. Mỗi món đúng được +1 điểm rèn luyện.');
   let last = performance.now();
   const loop = t => { if (!alive) return; if (!document.body.contains(cv)){ alive = false; ro.disconnect(); document.removeEventListener('keydown', kd); document.removeEventListener('keyup', kd); return; }
     const dt = Math.min(0.05, (t - last)/1000); last = t; T += dt;
     let vx = (keys.arrowright || keys.d ? 1 : 0) - (keys.arrowleft || keys.a ? 1 : 0), vy = (keys.arrowdown || keys.s ? 1 : 0) - (keys.arrowup || keys.w ? 1 : 0);
+    if (R3 && (vx || vy)){ const ya = R3.yaw(), c = Math.cos(ya), sn = Math.sin(ya), ix = vx, iy = vy; vx = c*ix + sn*iy; vy = -sn*ix + c*iy; }
     if (!vx && !vy && target){ const dx = target.x - P.x, dy = target.y - P.y, d = Math.hypot(dx, dy); if (d < 6) target = null; else { vx = dx/d; vy = dy/d; } }
     moving = !!(vx || vy) && !ended;
     if (moving){ const d = Math.hypot(vx, vy), sp = 230*dt; const nx = P.x + vx/d*sp, ny = P.y + vy/d*sp; let mv = false;
@@ -6440,6 +6576,9 @@ function vCleanup(app){
     updAct(); if (msgT > 0){ msgT -= dt; if (msgT <= 0){ const el = $('#cuMsg', app); if (el) el.classList.remove('on'); } }
     cars.forEach(c => { c.x += c.v*dt; if (c.v > 0 && c.x > W + 200) c.x = -200; if (c.v < 0 && c.x < -200) c.x = W + 200; });
     cam.x = clamp(P.x, cssW/2/zoom, W - cssW/2/zoom); cam.y = clamp(P.y, cssH/2/zoom, H - cssH/2/zoom); if (cssW/zoom > W) cam.x = W/2; if (cssH/zoom > H) cam.y = H/2;
+    if (R3){ const nb3 = nearBin(); if (tapMk){ tapMk.t += dt; if (tapMk.t > 0.6) tapMk = null; }
+      try { R3.draw({P, dt, T, moving, look:L, zoomMul:1, hand, cars, tapMark:tapMk, myName:'Em', curText:'', cur:nb3 && hand ? {ax:nb3.x, ay:binY + 50, label:'Bỏ vào ' + nb3.n} : atGate() ? {ax:800, ay:SY0 + 12, label:'Vào trường'} : null}); } catch(err){ console.warn('3D', err); R3.dispose(); R3 = null; stage.classList.remove('is3d'); }
+      requestAnimationFrame(loop); return; }
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.fillStyle = '#82c46c'; ctx.fillRect(0, 0, cssW, cssH);
     ctx.save(); ctx.translate(cssW/2, cssH/2); ctx.scale(zoom, zoom); ctx.translate(-cam.x, -cam.y); ctx.drawImage(bg, 0, 0);
     cars.forEach(c => { ctx.save(); ctx.translate(c.x, c.y); if (c.v < 0) ctx.scale(-1, 1); ctx.fillStyle = 'rgba(0,0,0,.25)'; ctx.fillRect(-58, 22, 116, 10); ctx.fillStyle = c.c; ctx.beginPath(); ctx.roundRect ? ctx.roundRect(-60, -24, 120, 48, 12) : ctx.rect(-60, -24, 120, 48); ctx.fill(); ctx.fillStyle = '#cfe8ff'; ctx.fillRect(-10, -18, 34, 36); ctx.fillStyle = '#ffe680'; ctx.fillRect(54, -18, 6, 10); ctx.fillRect(54, 8, 6, 10); ctx.restore(); });
