@@ -3592,7 +3592,7 @@ async function school3D(stage, below, kind = 'school', ext = {}){
   const camera = new THREE.PerspectiveCamera(38, 1.6, 0.05, 80);
   const hemi = new THREE.HemisphereLight(0xffffff, 0xb9b5cf, 0.7); scene.add(hemi);
   const sun = new THREE.DirectionalLight(0xfff6e8, 0.75); sun.castShadow = hq; Object.assign(sun.shadow.camera, {left:-9, right:9, top:9, bottom:-9, near:0.5, far:30});
-  sun.shadow.mapSize.set(2048, 2048); sun.shadow.bias = -0.0006; sun.shadow.normalBias = 0.02; scene.add(sun); scene.add(sun.target);
+  sun.shadow.mapSize.set(matchMedia('(pointer: coarse)').matches ? 1024 : 2048, matchMedia('(pointer: coarse)').matches ? 1024 : 2048); sun.shadow.bias = -0.0006; sun.shadow.normalBias = 0.02; scene.add(sun); scene.add(sun.target);
   const INK = 0x1f2140, inkM = new THREE.LineBasicMaterial({color:INK, transparent:true, opacity:.85});
   const mats = {}; const M = (c, o = {}) => { const k = c + JSON.stringify(o); return mats[k] || (mats[k] = new THREE.MeshLambertMaterial({color:c, ...o})); };
   const mesh = (geo, mat, x = 0, y = 0, z = 0, p = scene, cast = true) => { const m = new THREE.Mesh(geo, mat); m.position.set(x, y, z); m.castShadow = cast && hq; m.receiveShadow = hq; p.add(m); return m; };
@@ -3663,14 +3663,14 @@ async function school3D(stage, below, kind = 'school', ext = {}){
     const w = b.w*s, d = b.h*s, cx = X(b.x + b.w/2), cz = Z(b.y + b.h/2), floors = k === 'cls' ? 2 : 1, fh = k === 'hall' ? 1.5 : k === 'cls' ? 0.8 : 0.95, hh = floors*fh;
     const grp = new THREE.Group(); grp.position.set(cx, 0, cz); scene.add(grp);
     box(w, hh, d, b.wall, 0, hh/2, 0, grp);
-    if (floors > 1){ box(w + 0.08, 0.06, d + 0.08, '#ffffff', 0, fh, 0, grp); }
+    if (floors > 1){ box(w + 0.04, 0.035, d + 0.04, '#ffffff', 0, fh + 0.06, 0, grp); }
     const rh = k === 'hall' ? 0.7 : 0.48, roof = ink(mesh(roofGeo(w + 0.24, d + 0.3, rh), M(b.roof), 0, hh, 0, grp)), front = d/2 + 0.002;
     // cửa
     const ds = DOORS.filter(dd => dd.b === k);
     ds.forEach(dd => { const dw = (dd.kind === 'hall' ? 82 : 44)*s, dhh = (dd.kind === 'hall' ? 72 : 62)*s, dx = X(dd.x) - cx;
       box(dw + 0.06, dhh + 0.04, 0.03, '#ffffff', dx, dhh/2 + 0.02, front, grp, false); const door = box(dw, dhh, 0.04, dd.color, dx, dhh/2, front + 0.01, grp);
       mesh(new THREE.SphereGeometry(0.018, 8, 6), M('#f2c14e'), dw*0.32, 0, 0.03, door, false);
-      const lp = textPlate(dd.label, {w:Math.max(0.5, dd.label.length*0.072 + 0.16), hgt:0.17, border:dd.color}); lp.position.set(dx, dhh + 0.16, front + 0.03); grp.add(lp);
+      const lp = textPlate(dd.label, {w:Math.max(0.56, dd.label.length*0.08 + 0.18), hgt:0.19, border:dd.color}); lp.position.set(dx, dhh + 0.12, front + 0.075); grp.add(lp); lp.renderOrder = 3;
       box(dw + 0.12, 0.03, 0.12, '#cdbf9e', dx, 0.015, front + 0.06, grp, false); });
     // cửa sổ
     if (k !== 'hall') for (let f = 0; f < floors; f++) for (let wx = b.x + 40; wx < b.x + b.w - 30; wx += 72){ if (f === 0 && ds.some(dd => Math.abs(dd.x - (wx + 18)) < 60)) continue;
@@ -3750,25 +3750,25 @@ async function school3D(stage, below, kind = 'school', ext = {}){
     const c = cv2(512, 96), g = c.getContext('2d'); g.font = '700 46px "Be Vietnam Pro", system-ui, sans-serif'; const tw = Math.min(500, g.measureText(txt).width + 36), x0 = (512 - tw)/2;
     g.fillStyle = bg; g.fillRect(x0, 10, tw, 76); g.strokeStyle = '#1f2140'; g.lineWidth = 4; g.strokeRect(x0 + 2, 12, tw - 4, 72);
     g.fillStyle = fg; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(txt, 256, 50); const v = {tex:texOf(c), aspect:512/96}; tagCache.set(k, v); return v; };
-  const sprites = []; let spI = 0;
-  const tag = (x, y, hy, txt, fg = '#1f2140', bg = '#ffffff', size = 0.17, top = false) => { const t = tagTex(txt, fg, bg); let sp = sprites[spI];
-    if (!sp){ sp = new THREE.Sprite(new THREE.SpriteMaterial({transparent:true})); sprites.push(sp); scene.add(sp); }
-    spI++; sp.visible = true; if (sp.material.map !== t.tex){ sp.material.map = t.tex; sp.material.needsUpdate = true; } sp.material.depthTest = !top; sp.renderOrder = top ? 20 : 5;
-    sp.scale.set(size*t.aspect, size, 1); sp.position.set(X(x), hy, Z(y)); };
+  const spPool = new Map(), spSeq = new Map(); let spFrame = 0;
+  const spGet = (key, tex) => { const n = spSeq.get(key) || 0; spSeq.set(key, n + 1); const k = key + '#' + n; let sp = spPool.get(k);
+    if (!sp){ sp = new THREE.Sprite(new THREE.SpriteMaterial({map:tex, transparent:true})); spPool.set(k, sp); scene.add(sp); }
+    sp.visible = true; sp.userData.f = spFrame; return sp; };
+  const tag = (x, y, hy, txt, fg = '#1f2140', bg = '#ffffff', size = 0.17, top = false) => { const t = tagTex(txt, fg, bg), sp = spGet('t|' + txt + '|' + fg + '|' + bg + '|' + top, t.tex);
+    sp.material.depthTest = !top; sp.renderOrder = top ? 20 : 5; sp.scale.set(size*t.aspect, size, 1); sp.position.set(X(x), hy, Z(y)); };
   const bubCache = new Map();
   const bubble = (x, y, hy, text) => { let b = bubCache.get(text); if (!b){ const c = cv2(512, 200), g = c.getContext('2d'); g.font = '600 38px "Be Vietnam Pro", system-ui'; const words = text.split(' '), lines = []; let ln = '';
       words.forEach(w => { const t2 = ln ? ln + ' ' + w : w; if (g.measureText(t2).width > 440 && ln){ lines.push(ln); ln = w; } else ln = t2; }); if (ln) lines.push(ln); const L3 = lines.slice(0, 3); if (lines.length > 3) L3[2] += '…';
       const hh = L3.length*46 + 26; g.fillStyle = '#ffffff'; g.strokeStyle = '#1f2140'; g.lineWidth = 5; g.fillRect(16, 200 - hh - 24, 480, hh); g.strokeRect(16, 200 - hh - 24, 480, hh);
       g.beginPath(); g.moveTo(240, 176); g.lineTo(272, 176); g.lineTo(256, 196); g.closePath(); g.fill(); g.stroke(); g.fillStyle = '#1f2140'; g.textAlign = 'center';
       L3.forEach((l, i) => g.fillText(l, 256, 200 - hh - 24 + 50 + i*46)); b = {tex:texOf(c)}; bubCache.set(text, b); if (bubCache.size > 40) bubCache.delete(bubCache.keys().next().value); }
-    let sp = sprites[spI]; if (!sp){ sp = new THREE.Sprite(new THREE.SpriteMaterial({transparent:true})); sprites.push(sp); scene.add(sp); } spI++;
-    sp.visible = true; if (sp.material.map !== b.tex){ sp.material.map = b.tex; sp.material.needsUpdate = true; } sp.material.depthTest = false; sp.renderOrder = 21; sp.scale.set(1.15, 0.45, 1); sp.position.set(X(x), hy, Z(y)); };
+    const sp = spGet('b|' + text, b.tex); sp.material.depthTest = false; sp.renderOrder = 21; sp.scale.set(1.15, 0.45, 1); sp.position.set(X(x), hy, Z(y)); };
   // vòng sáng điểm tương tác, dấu chạm, mũi tên lớp của em
   const ring = new THREE.Mesh(new THREE.RingGeometry(0.2, 0.26, 32), new THREE.MeshBasicMaterial({color:'#d92b25', transparent:true, opacity:.8, depthWrite:false})); ring.rotation.x = -Math.PI/2; ring.position.y = 0.01; scene.add(ring);
   const tapR = new THREE.Mesh(new THREE.RingGeometry(0.08, 0.11, 24), new THREE.MeshBasicMaterial({color:'#3f3394', transparent:true, depthWrite:false})); tapR.rotation.x = -Math.PI/2; tapR.position.y = 0.012; scene.add(tapR);
   /* ---- camera, kích thước, chọn điểm ---- */
   const look = new THREE.Vector3(), camPos = new THREE.Vector3(); let first = true, cw = 1, ch = 1;
-  const PITCH = [0.93, 0.6, 1.3], view = {yaw:0.1, yawT:0.1, pitch:0.93, pitchT:0.93, pi:0};
+  const PITCH = [0.93, 0.6, 1.3], view = {yaw:0.1, yawT:0.1, pitch:0.93, pitchT:0.93, pi:0, vel:0, held:false, lt:0};
   try { const sv = JSON.parse(store('oli.sc3cam') || 'null'); if (sv){ view.yaw = view.yawT = +sv.yaw || 0.1; view.pitch = view.pitchT = clamp(+sv.pitch || 0.93, 0.35, 1.45); } } catch(_){}
   const saveView = () => store('oli.sc3cam', JSON.stringify({yaw:+view.yawT.toFixed(3), pitch:+view.pitchT.toFixed(3)}));
   const resize = () => { const r = stage.getBoundingClientRect(); cw = Math.max(280, r.width); ch = Math.max(300, r.height); renderer.setSize(cw, ch, false); canvas.style.width = cw + 'px'; canvas.style.height = ch + 'px'; camera.aspect = cw/ch; camera.updateProjectionMatrix(); };
@@ -3778,19 +3778,22 @@ async function school3D(stage, below, kind = 'school', ext = {}){
     yaw(){ return view.yaw; },
     yawT(){ return view.yawT; },
     rotate(d){ view.yawT += d; saveView(); },
-    setYaw(v){ view.yawT = v; },
+    setYaw(v){ view.yawT = view.yaw = v; view.vel = 0; },
+    drag(dy, dp){ const now = performance.now(), el = Math.max(8, now - (view.lt || now - 16))/1000; view.lt = now; view.held = true; view.yaw = view.yawT = view.yaw + dy; view.pitch = view.pitchT = clamp(view.pitch + dp, 0.35, 1.45); view.vel = view.vel*0.5 + clamp(dy/el, -6, 6)*0.5; },
+    release(){ view.held = false; if (performance.now() - view.lt > 90) view.vel = 0; saveView(); },
     tilt(d){ view.pitchT = clamp(view.pitchT + d, 0.35, 1.45); },
     nextPitch(){ view.pi = (view.pi + 1) % PITCH.length; view.pitchT = PITCH[view.pi]; saveView(); return view.pi; },
     resetView(){ view.yawT = Math.round((view.yawT - 0.1)/(Math.PI*2))*Math.PI*2 + 0.1; view.pitchT = 0.93; view.pi = 0; saveView(); },
     commit: saveView,
     pick(cx, cy){ const r = canvas.getBoundingClientRect(); ndc.set((cx - r.left)/r.width*2 - 1, -((cy - r.top)/r.height)*2 + 1); ray.setFromCamera(ndc, camera); return ray.ray.intersectPlane(gp, hit) ? {x:hit.x/s + W/2, y:hit.z/s + H/2} : null; },
     project(x, y, hy = 0.3){ v.set(X(x), hy, Z(y)).project(camera); if (v.z > 1) return null; const r = canvas.getBoundingClientRect(); return {x:r.left + (v.x + 1)/2*r.width, y:r.top + (1 - v.y)/2*r.height}; },
-    draw(st){ const {P, dt, T} = st; spI = 0; kids.forEach(k => k.userData.seen = false);
+    draw(st){ const {P, dt, T} = st; spFrame++; spSeq.clear(); kids.forEach(k => k.userData.seen = false);
       const F = st.focus || P, zk = 1/clamp(st.zoomMul || 1, 0.6, 1.8), dist = (st.dist || (cw < 700 ? 9.5 : 8.6))*zk;
-      const kk = Math.min(1, dt*8); view.yaw += (view.yawT - view.yaw)*kk; view.pitch += (view.pitchT - view.pitch)*kk;
+      if (!view.held && Math.abs(view.vel) > 0.02){ view.yawT += view.vel*dt; view.yaw += view.vel*dt; view.vel *= Math.exp(-dt*4.5); } else if (!view.held) view.vel = 0;
+      const kk = 1 - Math.exp(-dt*7); view.yaw += (view.yawT - view.yaw)*kk; view.pitch += (view.pitchT - view.pitch)*kk;
       const ox = Math.sin(view.yaw)*Math.cos(view.pitch), oz = Math.cos(view.yaw)*Math.cos(view.pitch), oy = Math.sin(view.pitch);
       const mg = st.focus ? 0 : 1, tgt = new THREE.Vector3(clamp(X(F.x), X(0) + 2.2*mg, X(W) - 2.2*mg), 0.35, clamp(Z(F.y), Z(0) + 1.2*mg, Z(H) - 1.6*mg));
-      if (first){ look.copy(tgt); first = false; } else look.lerp(tgt, Math.min(1, dt*5));
+      if (first){ look.copy(tgt); first = false; } else look.lerp(tgt, 1 - Math.exp(-dt*6));
       camera.position.set(look.x + ox*dist, look.y + oy*dist, look.z + oz*dist); camera.lookAt(look);
       sun.position.set(look.x + 4, 9, look.z + 5); sun.target.position.copy(look);
       const night = kind === 'school' && st.night; hemi.intensity = night ? 0.42 : 0.7; sun.intensity = night ? 0.25 : 0.75; scene.background.set(night ? '#c9cbe0' : '#f3f2ea'); scene.fog.color.copy(scene.background);
@@ -3804,7 +3807,7 @@ async function school3D(stage, below, kind = 'school', ext = {}){
       (st.bubbles || []).forEach(b => bubble(b.x, b.y, b.hy || 1.02, b.text));
       if (st.cur && st.cur.ax !== undefined){ ring.visible = true; ring.position.x = X(st.cur.ax); ring.position.z = Z(st.cur.ay); ring.material.opacity = 0.55 + Math.sin(T*6)*0.3; tag(st.cur.ax, st.cur.ay, st.cur.b ? 1.45 : 1.0, st.cur.label + (st.curText ?? ' · bấm Vào'), '#ffffff', '#d92b25', 0.19, true); } else ring.visible = false;
       if (st.tapMark){ tapR.visible = true; tapR.position.x = X(st.tapMark.x); tapR.position.z = Z(st.tapMark.y); tapR.scale.setScalar(1 + st.tapMark.t*3); tapR.material.opacity = 1 - st.tapMark.t/0.6; } else tapR.visible = false;
-      for (let i = spI; i < sprites.length; i++) sprites[i].visible = false;
+      spPool.forEach((sp, k) => { if (sp.userData.f !== spFrame){ sp.visible = false; if (spFrame - sp.userData.f > 600){ scene.remove(sp); sp.material.dispose(); spPool.delete(k); } } });
       renderer.render(scene, camera); },
     dispose(){ ro.disconnect(); renderer.dispose(); canvas.remove(); }};
   /* ======== HỘI TRƯỜNG 3D ======== */
@@ -4080,14 +4083,14 @@ function vSchool(app){
     if (ptrs.size === 2){ endJoy(); tapStart = null; const [a, b] = [...ptrs.values()]; pinch = {d0:Math.hypot(a.x - b.x, a.y - b.y) || 1, z0:zoomMul, a0:Math.atan2(b.y - a.y, b.x - a.x), y0:R3 ? R3.yawT() : 0, my0:(a.y + b.y)/2}; return; }
     if (ptrs.size > 2) return;
     tapStart = {id:e.pointerId, x:e.clientX, y:e.clientY}; });
-  cv.addEventListener('pointermove', e => { if (rot && rot.id === e.pointerId){ const dx = e.clientX - rot.x, dy = e.clientY - rot.y; if (Math.hypot(dx, dy) > 4) rot.moved = true; if (rot.moved && R3){ R3.setYaw(R3.yawT() - dx*0.008); R3.tilt(dy*0.005); rot.x = e.clientX; rot.y = e.clientY; hideHint(); } return; }
+  cv.addEventListener('pointermove', e => { if (rot && rot.id === e.pointerId){ const dx = e.clientX - rot.x, dy = e.clientY - rot.y; if (Math.hypot(dx, dy) > 4) rot.moved = true; if (rot.moved && R3){ R3.drag(-dx*0.008, dy*0.005); rot.x = e.clientX; rot.y = e.clientY; hideHint(); } return; }
     if (!ptrs.has(e.pointerId)) return; ptrs.set(e.pointerId, {x:e.clientX, y:e.clientY});
-    if (pinch && ptrs.size >= 2){ const [a, b] = [...ptrs.values()]; setZoom(pinch.z0*Math.hypot(a.x - b.x, a.y - b.y)/pinch.d0); if (R3){ let da = Math.atan2(b.y - a.y, b.x - a.x) - pinch.a0; while (da > Math.PI) da -= Math.PI*2; while (da < -Math.PI) da += Math.PI*2; R3.setYaw(pinch.y0 - da); const my = (a.y + b.y)/2; R3.tilt((my - pinch.my0)*0.004); pinch.my0 = my; } return; }
+    if (pinch && ptrs.size >= 2){ const [a, b] = [...ptrs.values()]; setZoom(pinch.z0*Math.hypot(a.x - b.x, a.y - b.y)/pinch.d0); if (R3){ let da = Math.atan2(b.y - a.y, b.x - a.x) - pinch.a0; while (da > Math.PI) da -= Math.PI*2; while (da < -Math.PI) da += Math.PI*2; const want = pinch.y0 - da; R3.drag(want - R3.yaw(), ((a.y + b.y)/2 - pinch.my0)*0.004); pinch.my0 = (a.y + b.y)/2; } return; }
     if (tapStart && tapStart.id === e.pointerId && joyId === null && Math.hypot(e.clientX - tapStart.x, e.clientY - tapStart.y) > 12) startJoy(tapStart.x, tapStart.y, e.pointerId);
     if (joyId === e.pointerId) moveJoy(e.clientX, e.clientY); });
-  const ptrUp = e => { if (rot && rot.id === e.pointerId){ const r0 = rot; rot = null; if (R3) R3.commit(); if (!r0.moved && r0.btn === 0 && e.type === 'pointerup' && !dlgOpen && !busy) tap(e.clientX, e.clientY); return; }
+  const ptrUp = e => { if (rot && rot.id === e.pointerId){ const r0 = rot; rot = null; if (R3) R3.release(); if (!r0.moved && r0.btn === 0 && e.type === 'pointerup' && !dlgOpen && !busy) tap(e.clientX, e.clientY); return; }
     const had = ptrs.delete(e.pointerId);
-    if (pinch){ if (ptrs.size < 2){ pinch = null; if (R3) R3.commit(); } tapStart = null; return; }
+    if (pinch){ if (ptrs.size < 2){ pinch = null; if (R3) R3.release(); } tapStart = null; return; }
     if (joyId === e.pointerId){ endJoy(); tapStart = null; return; }
     if (had && tapStart && tapStart.id === e.pointerId && e.type === 'pointerup' && !dlgOpen && !busy) tap(tapStart.x, tapStart.y);
     tapStart = null; };
@@ -6562,8 +6565,8 @@ function vCleanup(app){
   cv.addEventListener('pointerdown', e => { if (!R3){ const r = cv.getBoundingClientRect(); target = {x:cam.x + (e.clientX - r.left - cssW/2)/zoom, y:cam.y + (e.clientY - r.top - cssH/2)/zoom}; return; }
     e.preventDefault(); drag = {id:e.pointerId, x0:e.clientX, y0:e.clientY, x:e.clientX, y:e.clientY, moved:false}; try { cv.setPointerCapture(e.pointerId); } catch(_){} });
   cv.addEventListener('pointermove', e => { if (!R3 || !drag || drag.id !== e.pointerId) return; if (Math.hypot(e.clientX - drag.x0, e.clientY - drag.y0) > 8) drag.moved = true;
-    if (drag.moved){ R3.setYaw(R3.yawT() - (e.clientX - drag.x)*0.008); R3.tilt((e.clientY - drag.y)*0.005); } drag.x = e.clientX; drag.y = e.clientY; });
-  const cuUp = e => { if (!R3 || !drag || drag.id !== e.pointerId) return; const d = drag; drag = null; R3.commit(); if (!d.moved && e.type === 'pointerup'){ const w = R3.pick(e.clientX, e.clientY); if (w){ target = w; tapMk = {x:w.x, y:w.y, t:0}; } } };
+    if (drag.moved){ R3.drag(-(e.clientX - drag.x)*0.008, (e.clientY - drag.y)*0.005); } drag.x = e.clientX; drag.y = e.clientY; });
+  const cuUp = e => { if (!R3 || !drag || drag.id !== e.pointerId) return; const d = drag; drag = null; R3.release(); if (!d.moved && e.type === 'pointerup'){ const w = R3.pick(e.clientX, e.clientY); if (w){ target = w; tapMk = {x:w.x, y:w.y, t:0}; } } };
   cv.addEventListener('pointerup', cuUp); cv.addEventListener('pointercancel', cuUp);
   if (SC3.on()) school3D(stage, cv, 'clean', {bins:BINS, binY, trees, benches, cars, items}).then(r => { if (!document.body.contains(cv)){ r.dispose(); return; } R3 = r; stage.classList.add('is3d'); ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, cv.width, cv.height); $('#cuRot', app).hidden = false;
     $('#cuRotL', app).onclick = () => R3.rotate(Math.PI/4); $('#cuRotR', app).onclick = () => R3.rotate(-Math.PI/4); $('#cuTilt', app).onclick = () => R3.nextPitch(); $('#cuNorth', app).onclick = () => R3.resetView(); }).catch(err => console.warn('3D', err));
