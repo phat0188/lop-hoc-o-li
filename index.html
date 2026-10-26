@@ -2021,7 +2021,46 @@ html body .sc-tr .hub-ic{background:#fff!important}
 .cu-tr .hub-ic{width:42px;height:42px;background:#fff!important;font-weight:800}
 @media (max-width:760px){.cu-tr{top:120px;left:10px;right:auto;flex-direction:column;max-width:none}.cu-tr .sc-rot{display:flex;flex-direction:column;gap:6px}.cu-tr .sc-rot[hidden]{display:none}.cu-tr .hub-ic{width:40px;height:40px}}
 
-html body .school .sc-stage{height:clamp(420px,calc(100vh - 150px),920px);height:clamp(420px,calc(100dvh - 150px),920px)}
+@media (pointer:fine) and (min-width:900px){html body .school .sc-stage:not(.sc-max){height:clamp(420px,calc(100vh - 150px),920px);height:clamp(420px,calc(100dvh - 150px),920px)}}
+
+/* ===== phòng thí nghiệm trên điện thoại: toàn màn hình, bảng số liệu trượt lên ===== */
+.kl-back,.kl-px{display:none}
+.kl.mob{position:fixed;inset:0;z-index:70;height:100vh;height:100dvh;border:0!important;border-radius:0!important;padding:max(6px,env(safe-area-inset-top,0px)) max(6px,env(safe-area-inset-right,0px)) max(6px,env(safe-area-inset-bottom,0px)) max(6px,env(safe-area-inset-left,0px));gap:6px;overflow:hidden;
+  grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(0,1fr) auto auto;grid-template-areas:"hd" "vw" "tr" "tm"}
+.kl.mob .kl-head{flex-wrap:nowrap;gap:6px;padding:0;min-width:0}
+.kl.mob .kl-chip,.kl.mob .kl-sub,.kl.mob .kl-show,.kl.mob .lab-max{display:none}
+.kl.mob.card-min .kl-ct{display:none}.kl.mob.card-min .kl-card{padding-right:40px}
+.kl.mob .kl-back{display:inline-flex;align-items:center;justify-content:center;min-width:38px;font-size:1.1rem}
+.kl.mob .kl-title{order:0;flex:1 1 auto;min-width:0;font-size:1rem!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kl.mob .kl-acts{margin:0;width:auto;flex:0 0 auto;flex-wrap:nowrap;gap:4px}
+.kl.mob .kl-acts .kl-b{flex:0 0 auto;min-height:36px;padding:4px 10px;font-size:.78rem}
+.kl.mob .kl-view{height:auto!important;min-height:0}
+.kl.mob .kl-tray{flex-direction:row;align-items:center;overflow-x:auto;overflow-y:hidden;padding:6px;min-height:0}
+.kl.mob .kl-tl{writing-mode:vertical-rl;transform:rotate(180deg)}
+.kl.mob .kl-tray .controls{flex-direction:row;flex-wrap:nowrap;gap:6px}
+.kl.mob .kl-tray .controls > *{width:auto;white-space:nowrap}
+.kl.mob .kl-tray .controls > label{min-width:150px}
+.kl.mob .kl-time{padding:4px 6px;gap:6px;flex-wrap:nowrap}
+.kl.mob .kl-prog{display:none}
+.kl.mob .kl-tb{width:36px;height:36px;flex:0 0 auto}
+.kl.mob .kl-spd{flex:0 0 auto}.kl.mob .kl-spd button{height:34px;padding:0 7px}
+.kl.mob .kl-time .lab-say{flex:1 1 0;min-width:0;font-size:.78rem;line-height:1.25;max-height:2.6em;overflow:hidden}
+.kl.mob .kl-panel{position:fixed;left:0;right:0;bottom:0;top:auto;z-index:76;max-height:80vh;max-height:80dvh;overflow:auto;border-radius:12px 12px 0 0!important;transform:translateY(105%);transition:transform .25s ease;box-shadow:0 -12px 32px rgba(20,20,50,.28)!important;padding:10px 12px max(12px,env(safe-area-inset-bottom,0px))}
+.kl.mob.pnl-on .kl-panel{transform:none}
+.kl.mob .kl-px{display:inline-flex;align-self:flex-end;min-height:34px;padding:4px 12px}
+.kl.mob .kl-view .v3d-tip{display:none}
+.kl.mob .kl-view .v3d-ui{top:auto;bottom:6px;right:6px;max-width:calc(100% - 12px)}
+.kl.mob .kl-view .v3d-ui .btn{min-height:32px;padding:4px 8px;font-size:.74rem}
+@media (orientation:landscape){
+  .kl.mob{grid-template-columns:clamp(110px,18vw,150px) minmax(0,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"hd hd" "tr vw" "tr tm"}
+  .kl.mob .kl-tray{flex-direction:column;align-items:stretch;overflow-x:hidden;overflow-y:auto}
+  .kl.mob .kl-tl{writing-mode:horizontal-tb;transform:none}
+  .kl.mob .kl-tray .controls{flex-direction:column;flex-wrap:nowrap}
+  .kl.mob .kl-tray .controls > *{width:100%;white-space:normal}
+  .kl.mob .kl-tray .controls > label{min-width:0}
+  .kl.mob .kl-panel{left:auto;top:0;bottom:0;width:min(400px,62vw);max-height:none;border-radius:0!important;transform:translateX(105%)}
+  .kl.mob.pnl-on .kl-panel{transform:none}
+}
 </style>
 
 <header class="top"><div class="wrap">
@@ -2589,7 +2628,8 @@ async function saveSubmission(task, result){
 }
 
 /* ===================== navigation ===================== */
-function go(view, arg=null){ $('#app').dataset.lock = ''; try { TTS.stop(); } catch(e){} S.view = view; S.arg = arg; render(); window.scrollTo({top:0}); }
+const touchDev = () => matchMedia('(pointer: coarse)').matches || (navigator.maxTouchPoints > 0 && Math.min(window.innerWidth, window.innerHeight) < 600);
+function go(view, arg=null){ $('#app').dataset.lock = ''; document.body.classList.remove('sc-lock'); try { TTS.stop(); } catch(e){} S.view = view; S.arg = arg; render(); window.scrollTo({top:0}); }
 document.addEventListener('click', e => {
   const g = e.target.closest('[data-go]'); if (g){ e.preventDefault(); go(g.dataset.go, g.dataset.arg || null); }
 });
@@ -4104,6 +4144,7 @@ function vSchool(app){
   const setMax = on => { stage.classList.toggle('sc-max', on); document.body.classList.toggle('sc-lock', on); $('#scFull', app).innerHTML = on ? '×' : '<svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>'; $('#scFull', app).setAttribute('aria-label', on ? 'Thoát toàn màn hình' : 'Chơi toàn màn hình');
     try { if (on && stage.requestFullscreen && !document.fullscreenElement) stage.requestFullscreen().catch(() => {}); if (!on && document.fullscreenElement) document.exitFullscreen().catch(() => {}); } catch(_){} };
   $('#scFull', app).onclick = () => setMax(!stage.classList.contains('sc-max'));
+  if (touchDev()){ stage.classList.add('sc-max'); document.body.classList.add('sc-lock'); $('#scFull', app).innerHTML = '×'; $('#scFull', app).setAttribute('aria-label', 'Thoát toàn màn hình'); }
   document.addEventListener('fullscreenchange', () => { if (!document.fullscreenElement && stage.classList.contains('sc-max') && document.body.contains(stage)) setMax(false); });
   // bản đồ lớn: chạm vào nơi muốn đến
   mini.addEventListener('click', e => { if (game) return; if (!stage.classList.contains('map-big')){ stage.classList.add('map-big'); return; }
@@ -6790,7 +6831,7 @@ function labShell(el, {how, svg, meters='', controls='', panel, pnl:pnlLabel='S�
   const sb = {ly:'Vật lí', hoa:'Hóa học', sinh:'Sinh học'}[meta.subj] || 'KHTN';
   const steps = [['pred','Dự đoán'],['do','Làm'],['obs','Quan sát'],['why','Giải thích']];
   el.innerHTML = `<div class="kl${info.pred ? '' : ' nopred'}">
-    <header class="kl-head"><span class="kl-chip s-${h(meta.subj || 'ly')}">${h(sb)}</span><span class="kl-sub">${meta.grade ? `Lớp ${meta.grade} · ` : ''}${h(meta.topic || 'Thí nghiệm ảo')}</span>
+    <header class="kl-head"><button type="button" class="kl-b kl-back" aria-label="Quay lại">←</button><span class="kl-chip s-${h(meta.subj || 'ly')}">${h(sb)}</span><span class="kl-sub">${meta.grade ? `Lớp ${meta.grade} · ` : ''}${h(meta.topic || 'Thí nghiệm ảo')}</span>
       <h2 class="kl-title">${h(title)}</h2>
       <span class="kl-acts"><button type="button" class="kl-b lab-help">Hướng dẫn</button><button type="button" class="kl-b kl-show">▶ Trình chiếu</button><button type="button" class="kl-b lab-max">Toàn màn hình</button><button type="button" class="kl-b kl-pnlb">${pnlLabel}</button></span></header>
     <aside class="kl-tray" aria-label="Khay dụng cụ"><b class="kl-tl">KHAY</b>${controls ? `<div class="controls">${controls}</div>` : `<p class="kl-hint">Dụng cụ đặt sẵn trên bàn. Kéo trực tiếp trong cảnh 3D.</p>`}</aside>
@@ -6800,7 +6841,7 @@ function labShell(el, {how, svg, meters='', controls='', panel, pnl:pnlLabel='S�
     <div class="kl-time"><button type="button" class="kl-tb kl-pause" title="Tạm dừng">⏸</button><button type="button" class="kl-tb kl-reset" title="Làm lại từ đầu">↺</button>
       <span class="kl-spd" role="group" aria-label="Tốc độ mô phỏng">${[[0.25,'0,25×'],[1,'1×'],[4,'4×']].map(([v,t]) => `<button type="button" data-spd="${v}" class="${v === 1 ? 'on' : ''}">${t}</button>`).join('')}</span>
       <span class="kl-prog"><i style="width:0%"></i></span><p class="lab-say" role="status"></p></div>
-    <aside class="kl-panel"><nav class="kl-steps">${steps.map(([k, t], i) => `<button type="button" data-st="${k}"><i>${i + 1}</i>${t}</button>`).join('')}</nav>
+    <aside class="kl-panel"><button type="button" class="kl-b kl-px">✕ Đóng</button><nav class="kl-steps">${steps.map(([k, t], i) => `<button type="button" data-st="${k}"><i>${i + 1}</i>${t}</button>`).join('')}</nav>
       <section data-sp="pred">${info.pred ? `<h3>Bước 1 · Dự đoán</h3><p class="kl-q">${h(info.pred[0])}</p><div class="kl-opts">${info.pred[1].map((o, i) => [o, i]).sort((a, b) => hash(kk + a[1] + (el.__kl.ctx.sid || '')) - hash(kk + b[1] + (el.__kl.ctx.sid || ''))).map(([o, i]) => `<label class="opt"><input type="radio" name="klpred" value="${i}"><span>${h(o)}</span></label>`).join('')}</div><p class="muted kl-pm">Chọn một dự đoán rồi làm thí nghiệm để kiểm tra.</p>` : ''}</section>
       <section data-sp="do"><h3>Bước 2 · Làm thí nghiệm</h3>${how ? `<ol class="kl-how">${how.map((x, i) => `<li><label><input type="checkbox" data-hw="${i}"><span>${x}</span></label></li>`).join('')}</ol>` : ''}<button type="button" class="btn small kl-next" data-to="obs">Sang bước Quan sát →</button></section>
       <section data-sp="obs" class="panel"><h3>Bước 3 · Quan sát · ghi số liệu</h3>${panel}</section>
@@ -6836,7 +6877,11 @@ function labShell(el, {how, svg, meters='', controls='', panel, pnl:pnlLabel='S�
   el.__klMax = setMax;
   mx.onclick = () => setMax(!(kl.classList.contains('max') && !kl.classList.contains('show')));
   sh.onclick = () => setMax(!kl.classList.contains('show'), true);
-  $('.kl-pnlb', el).onclick = () => { if (kl.classList.contains('show')) setMax(true, false); step('obs'); const p = $('.kl-panel', el); if (getComputedStyle(p).position !== 'static' || window.innerWidth < 1000) p.scrollIntoView({block:'start', behavior:'smooth'}); };
+  const isMob = () => touchDev() || window.innerWidth < 760 || window.innerHeight < 500;
+  if (isMob()){ kl.classList.add('mob', 'card-min'); document.body.classList.add('sc-lock'); setTimeout(() => window.dispatchEvent(new Event('resize')), 60); }
+  $('.kl-back', el).onclick = () => { const b = $$('#app [data-go].hub-mini').find(x => !kl.contains(x)); if (b) b.click(); else go('school'); };
+  $('.kl-px', el).onclick = () => kl.classList.remove('pnl-on');
+  $('.kl-pnlb', el).onclick = () => { if (kl.classList.contains('mob')){ const on = !kl.classList.contains('pnl-on'); kl.classList.toggle('pnl-on', on); if (on) step('obs'); return; } if (kl.classList.contains('show')) setMax(true, false); step('obs'); const p = $('.kl-panel', el); if (getComputedStyle(p).position !== 'static' || window.innerWidth < 1000) p.scrollIntoView({block:'start', behavior:'smooth'}); };
   const cx = $('.kl-cx', el); cx.onclick = () => { const c = kl.classList.toggle('card-min'); cx.textContent = c ? '▸' : '▾'; cx.setAttribute('aria-expanded', String(!c)); };
   if (window.innerWidth < 760){ kl.classList.add('card-min'); cx.textContent = '▸'; }
   const pz = $('.kl-pause', el); pz.onclick = () => { LABCLK.p = !LABCLK.p; pz.textContent = LABCLK.p ? '▶' : '⏸'; pz.title = LABCLK.p ? 'Chạy tiếp' : 'Tạm dừng'; kl.classList.toggle('paused', LABCLK.p); };
@@ -6855,7 +6900,7 @@ function submitRow(practice){ return `<button class="btn" id="lsub">${practice?'
 const mcHTML = (name, q, opts) => `<fieldset style="border:0;padding:0;margin:0;display:grid;gap:6px"><legend style="font-weight:700;padding:0;margin-bottom:6px;font-size:.9rem">${q}</legend>${opts.map((o,i)=>`<label class="opt" style="padding:7px 10px;font-size:.88rem"><input type="radio" name="${name}" value="${i}"><span>${o}</span></label>`).join('')}</fieldset>`;
 const mcVal = (el, name) => { const c = $(`input[name=${name}]:checked`, el); return c ? +c.value : -1; };
 const lerr = (el, m) => { $('#lerr', el).textContent = m || ''; return !m; };
-function finishLab(el, ctx, result){ if (el.__klMax && $('.kl.max', el)) el.__klMax(false); if (el.__klStep) setTimeout(() => el.__klStep('why'), 60); const lb = $('.lab', el); if (lb) lb.classList.remove('pnl-open'); const stg = $('.stage.max', el); if (stg){ stg.classList.remove('max'); document.body.classList.remove('sc-lock'); const mx = $('.lab-max', el); if (mx) mx.textContent = 'Toàn màn hình'; } ctx.onSubmit(result); setTimeout(() => { const r = $('#labResult') || $('#prev'); if (r && r.textContent.trim()) r.scrollIntoView({behavior:'smooth', block:'start'}); }, 80); if (!ctx.practice) $('#lsub', el).disabled = true; }
+function finishLab(el, ctx, result){ { const k = $('.kl.mob', el); if (k){ k.classList.remove('mob', 'pnl-on'); document.body.classList.remove('sc-lock'); setTimeout(() => window.dispatchEvent(new Event('resize')), 60); } } if (el.__klMax && $('.kl.max', el)) el.__klMax(false); if (el.__klStep) setTimeout(() => el.__klStep('why'), 60); const lb = $('.lab', el); if (lb) lb.classList.remove('pnl-open'); const stg = $('.stage.max', el); if (stg){ stg.classList.remove('max'); document.body.classList.remove('sc-lock'); const mx = $('.lab-max', el); if (mx) mx.textContent = 'Toàn màn hình'; } ctx.onSubmit(result); setTimeout(() => { const r = $('#labResult') || $('#prev'); if (r && r.textContent.trim()) r.scrollIntoView({behavior:'smooth', block:'start'}); }, 80); if (!ctx.practice) $('#lsub', el).disabled = true; }
 function bindDel(el, sel, rows, redraw){ $$(sel, el).forEach(b => b.onclick = () => { rows.splice(+b.dataset.del, 1); redraw(); }); }
 const WEIGHT = `<line x1="0" y1="-5" x2="0" y2="0" stroke="var(--ink)" stroke-width="1.5"/><rect x="-17" y="0" width="34" height="18" rx="3" fill="var(--s-hoa)" stroke="var(--ink)" stroke-width="1"/><text class="txt-s" x="0" y="12.5" text-anchor="middle" style="fill:#fff;font-weight:700">50 g</text>`;
 
@@ -6887,7 +6932,7 @@ async function scene3D(host, o = {}){
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, HUBFX.q === 'low' ? 1 : 2));
   renderer.setClearColor(new THREE.Color(cssVar('--surface-2', host)));
   const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(o.fov || 38, 1.6, 0.01, 50);
+  const camera = new THREE.PerspectiveCamera(o.fov || 38, 1.6, 0.01, 50); if (window.__OLI_TEST) window.__cam3 = {camera, o, host};
   let sun;
   if (o.studio){ renderer.setClearColor(new THREE.Color(o.bg || '#dfe6ee')); renderer.shadowMap.enabled = HUBFX.q !== 'low'; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     scene.add(new THREE.HemisphereLight(0xffffff, 0x9aa7b8, 0.72));
@@ -7010,7 +7055,7 @@ async function scene3D(host, o = {}){
 }
 function mount3D(el, opts, build){
   const host = $('#v3', el);
-  if ((opts.studio || opts.adapt) && host.clientWidth && host.clientHeight){ const asp = host.clientWidth/host.clientHeight; if (asp < 1.25){ const k = Math.min(2.6, Math.pow(1.25/asp, 1.15)); opts = {...opts, r:opts.r*k, rMax:(opts.rMax || 3)*k, views:(opts.views || []).map(v => ({...v, r:v.r && v.r*k}))}; } }
+  if (host.clientWidth && host.clientHeight){ const asp = host.clientWidth/host.clientHeight; if (asp < 1.25){ const k = Math.min(2.6, Math.pow(1.25/asp, 1.15)); opts = {...opts, r:opts.r*k, rMax:(opts.rMax || 3)*k, views:(opts.views || []).map(v => ({...v, r:v.r && v.r*k}))}; } }
   scene3D(host, opts).then(build).catch(err => {
     console.warn(err);
     host.innerHTML = `<p class="notice">${err && err.message === 'webgl' ? 'Thiết bị hoặc trình duyệt này chưa hỗ trợ đồ họa 3D (WebGL). Em thử mở bằng Chrome hoặc Edge trên máy tính.' : 'Chưa tải được thư viện 3D. Kiểm tra kết nối mạng rồi mở lại thí nghiệm.'}</p>`;
