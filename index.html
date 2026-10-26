@@ -2991,7 +2991,8 @@ function vHome(app){
 
 /* ===================== TRƯỜNG HỌC NHẬP VAI (bản đồ 2D) ===================== */
 const SCH = (() => {
-  const W = 2000, H = 1160, R = 10;
+  const DY = 150, sy = y => y >= 300 ? y + DY : y;
+  const W = 2000, H = 1160 + DY, R = 10;
   const B = {
     cls:{x:240, y:40, w:1120, h:210, roofH:78, name:'DÃY PHÒNG HỌC', wall:'#f3d27a', roof:'#c8553d'},
     lib:{x:60, y:330, w:340, h:170, roofH:62, name:'THƯ VIỆN', wall:'#f6e3b4', roof:'#4f7fbf'},
@@ -3001,6 +3002,7 @@ const SCH = (() => {
     clb:{x:1610, y:820, w:330, h:160, roofH:58, name:'CLB CỜ VUA', wall:'#eef2ff', roof:'#2e3a7a'},
     stem:{x:1420, y:50, w:330, h:150, roofH:58, name:'STEM · AI', wall:'#e3f6f4', roof:'#0e7490'}
   };
+  Object.values(B).forEach(b => { if (b.y >= 250) b.y += DY; });
   const DOORS = [
     {id:'c6', b:'cls', x:380, label:'Khối 6', kind:'class', grade:6, color:'#2f7dff'},
     {id:'c7', b:'cls', x:600, label:'Khối 7', kind:'class', grade:7, color:'#14a85a'},
@@ -3025,18 +3027,19 @@ const SCH = (() => {
   const ROBOT_AT = {x:880, y:1035};
   const SPAWN = {x:800, y:1065};
   const YARD = {x:470, y:600, w:660, h:380};
+  [TREES, LAMPS].forEach(a => a.forEach(p => { p[1] = sy(p[1]); })); [FLAG, ROBOT_AT, SPAWN, YARD, ...BOARDS].forEach(o => { o.y = sy(o.y); });
   const rects = [];
   Object.values(B).forEach(b => rects.push({x:b.x, y:b.y - (b === B.cls ? 0 : 30), w:b.w, h:b.h + (b === B.cls ? 0 : 30)}));
   rects.push({x:0, y:0, w:W, h:32}, {x:0, y:0, w:26, h:H}, {x:W - 26, y:0, w:26, h:H}, {x:0, y:H - 28, w:740, h:28}, {x:860, y:H - 28, w:W - 860, h:28});
   BOARDS.forEach(b => rects.push({x:b.x - 48, y:b.y - 10, w:96, h:12}));
-  const circles = TREES.map(([x, y]) => ({x, y, r:11})).concat([{x:FLAG.x, y:FLAG.y, r:26}], LAMPS.map(([x, y]) => ({x, y, r:5})), [{x:1360, y:660, r:8}, {x:1360, y:950, r:8}]);
+  const circles = TREES.map(([x, y]) => ({x, y, r:11})).concat([{x:FLAG.x, y:FLAG.y, r:26}], LAMPS.map(([x, y]) => ({x, y, r:5})), [{x:1360, y:sy(660), r:8}, {x:1360, y:sy(950), r:8}]);
   const blocked = (x, y) => {
     if (x < R || y < R || x > W - R || y > H - R) return true;
     for (const r of rects){ const cx = clamp(x, r.x, r.x + r.w), cy = clamp(y, r.y, r.y + r.h); if ((x - cx)**2 + (y - cy)**2 < R*R) return true; }
     for (const c of circles) if ((x - c.x)**2 + (y - c.y)**2 < (c.r + R)**2) return true;
     return false;
   };
-  return {W, H, B, DOORS, TREES, LAMPS, FLAG, BOARDS, ROBOT_AT, SPAWN, YARD, blocked};
+  return {W, H, B, DOORS, TREES, LAMPS, FLAG, BOARDS, ROBOT_AT, SPAWN, YARD, blocked, sy, DY};
 })();
 const RANK_TIERS = [[1,'Tập sự','#9fb0d9'],[3,'Đồng','#d08a4e'],[6,'Bạc','#dfe7f6'],[10,'Vàng','#ffd54a'],[15,'Bạch kim','#7ff0ff'],[20,'Kim cương','#9f8bff'],[30,'Huyền thoại','#ff7ad9']];
 const rankOf = lv => RANK_TIERS.filter(t => lv >= t[0]).pop();
@@ -3123,17 +3126,18 @@ function schoolStatic(scale){
   let sd = 7; const rnd = () => (sd = (sd*16807) % 2147483647) / 2147483647;
   g.fillStyle = '#82c46c'; g.fillRect(0, 0, W, H);
   for (let i = 0; i < 900; i++){ g.fillStyle = rnd() < .5 ? 'rgba(255,255,255,.06)' : 'rgba(30,90,30,.08)'; g.beginPath(); g.arc(rnd()*W, rnd()*H, 4 + rnd()*14, 0, 7); g.fill(); }
-  const pave = (x, y, w, h, col = '#e9e0cb', line = '#d9cdb2') => { g.fillStyle = col; g.fillRect(x, y, w, h); g.strokeStyle = line; g.lineWidth = 1; g.beginPath(); for (let a = Math.ceil(x/40)*40; a < x + w; a += 40){ g.moveTo(a, y); g.lineTo(a, y + h); } for (let b = Math.ceil(y/40)*40; b < y + h; b += 40){ g.moveTo(x, b); g.lineTo(x + w, b); } g.stroke(); };
+  const pave = (x, y, w, h, col = '#e9e0cb', line = '#d9cdb2') => { const y2 = SCH.sy(y); h = SCH.sy(y + h) - y2; y = y2; g.fillStyle = col; g.fillRect(x, y, w, h); g.strokeStyle = line; g.lineWidth = 1; g.beginPath(); for (let a = Math.ceil(x/40)*40; a < x + w; a += 40){ g.moveTo(a, y); g.lineTo(a, y + h); } for (let b = Math.ceil(y/40)*40; b < y + h; b += 40){ g.moveTo(x, b); g.lineTo(x + w, b); } g.stroke(); };
   pave(240, 250, 1120, 60); pave(440, 290, 720, 720); pave(740, 1000, 120, 160); pave(60, 500, 1900, 80); pave(1700, 580, 170, 40); pave(1700, 980, 160, 34); pave(180, 580, 70, 180); pave(1160, 580, 40, 40); pave(1420, 200, 330, 36); pave(1552, 236, 56, 264);
+  g.save(); g.translate(0, SCH.DY);
   // sân thể thao
   g.fillStyle = '#4fae55'; g.fillRect(1190, 640, 350, 330); g.strokeStyle = 'rgba(255,255,255,.85)'; g.lineWidth = 3; g.strokeRect(1205, 655, 320, 300); g.beginPath(); g.moveTo(1205, 805); g.lineTo(1525, 805); g.stroke(); g.beginPath(); g.arc(1365, 805, 40, 0, 7); g.stroke(); g.strokeRect(1325, 655, 80, 34); g.strokeRect(1325, 921, 80, 34);
-  g.fillStyle = '#ffffff'; g.font = '700 14px "Be Vietnam Pro", system-ui'; g.textAlign = 'center'; g.fillText('SÂN THỂ THAO', 1365, 990);
+  g.fillStyle = '#ffffff'; g.font = '700 14px "Be Vietnam Pro", system-ui'; g.textAlign = 'center'; g.fillText('SÂN THỂ THAO', 1365, 990); g.restore();
   // bồn hoa trước dãy lớp
   [[270,256],[480,256],[700,256],[920,256],[1140,256]].forEach(([x, y]) => { g.fillStyle = '#5a8a3a'; g.fillRect(x, y, 70, 12); for (let i = 0; i < 10; i++){ g.fillStyle = ['#ff6b8a','#ffd54a','#ffffff','#ff9a3a'][i % 4]; g.beginPath(); g.arc(x + 5 + i*6.5, y + 6, 2.6, 0, 7); g.fill(); } });
   // bóng cây
   TREES.forEach(([x, y]) => { g.fillStyle = 'rgba(20,60,20,.22)'; g.beginPath(); g.ellipse(x + 8, y + 4, 34, 14, 0, 0, 7); g.fill(); });
   // ghế đá
-  [[520,665],[1080,665],[520,945],[1080,945]].forEach(([x, y]) => { g.fillStyle = '#9aa3ad'; g.fillRect(x - 20, y, 40, 9); g.fillStyle = '#7a838d'; g.fillRect(x - 20, y + 9, 40, 3); });
+  [[520,665],[1080,665],[520,945],[1080,945]].forEach(([x, y]) => { y = SCH.sy(y); g.fillStyle = '#9aa3ad'; g.fillRect(x - 20, y, 40, 9); g.fillStyle = '#7a838d'; g.fillRect(x - 20, y + 9, 40, 3); });
   // tòa nhà
   const building = (b, doors) => {
     const {x, y, w, h, roofH} = b, fy = y + roofH;
@@ -3668,17 +3672,17 @@ async function school3D(stage, below, kind = 'school', ext = {}){
   /* ---- trang vở: nền giấy ô li, lề đỏ, lối đi, sân thể thao ---- */
   { const K = 1, c = cv2(W*K, H*K), g = c.getContext('2d');
     g.fillStyle = '#e7eedb'; g.fillRect(0, 0, W, H);
-    const pave = (x, y, w, h) => { g.fillStyle = '#faf7ee'; g.fillRect(x, y, w, h); };
+    const pave = (x, y, w, h) => { const y2 = SCH.sy(y); g.fillStyle = '#faf7ee'; g.fillRect(x, y2, w, SCH.sy(y + h) - y2); };
     pave(240, 250, 1120, 60); pave(440, 290, 720, 720); pave(740, 1000, 120, 160); pave(60, 500, 1900, 80); pave(1700, 580, 170, 40); pave(1700, 980, 160, 34); pave(180, 580, 70, 180); pave(1160, 580, 40, 40); pave(1420, 200, 330, 36); pave(1552, 236, 56, 264);
-    g.fillStyle = '#d3e6c4'; g.fillRect(1190, 640, 350, 330);
+    g.fillStyle = '#d3e6c4'; g.fillRect(1190, 640 + SCH.DY, 350, 330);
     // ô li: ô nhỏ 10, ô lớn 40
     g.lineWidth = 1.2; g.strokeStyle = 'rgba(110,100,200,.28)'; g.beginPath(); for (let a = 0; a <= W; a += 10){ g.moveTo(a, 0); g.lineTo(a, H); } for (let b = 0; b <= H; b += 10){ g.moveTo(0, b); g.lineTo(W, b); } g.stroke();
     g.lineWidth = 2; g.strokeStyle = 'rgba(80,70,180,.45)'; g.beginPath(); for (let a = 0; a <= W; a += 40){ g.moveTo(a, 0); g.lineTo(a, H); } for (let b = 0; b <= H; b += 40){ g.moveTo(0, b); g.lineTo(W, b); } g.stroke();
     g.strokeStyle = '#d65a5a'; g.lineWidth = 3; g.beginPath(); g.moveTo(40, 0); g.lineTo(40, H); g.moveTo(47, 0); g.lineTo(47, H); g.stroke();
     // sân thể thao vẽ bằng bút
-    g.strokeStyle = '#ffffff'; g.lineWidth = 5; g.strokeRect(1205, 655, 320, 300); g.beginPath(); g.moveTo(1205, 805); g.lineTo(1525, 805); g.stroke(); g.beginPath(); g.arc(1365, 805, 40, 0, 7); g.stroke(); g.strokeRect(1325, 655, 80, 34); g.strokeRect(1325, 921, 80, 34);
-    g.fillStyle = '#3f3394'; g.font = '700 22px "Be Vietnam Pro", system-ui'; g.textAlign = 'center'; g.fillText('Sân thể thao', 1365, 995);
-    g.fillStyle = '#3f3394'; g.font = '600 20px "Patrick Hand", "Be Vietnam Pro", cursive'; g.fillText('Sân trường', 800, 1030);
+    g.save(); g.translate(0, SCH.DY); g.strokeStyle = '#ffffff'; g.lineWidth = 5; g.strokeRect(1205, 655, 320, 300); g.beginPath(); g.moveTo(1205, 805); g.lineTo(1525, 805); g.stroke(); g.beginPath(); g.arc(1365, 805, 40, 0, 7); g.stroke(); g.strokeRect(1325, 655, 80, 34); g.strokeRect(1325, 921, 80, 34);
+    g.fillStyle = '#3f3394'; g.font = '700 22px "Be Vietnam Pro", system-ui'; g.textAlign = 'center'; g.fillText('Sân thể thao', 1365, 995); g.restore();
+    g.fillStyle = '#3f3394'; g.font = '600 20px "Patrick Hand", "Be Vietnam Pro", cursive'; g.fillText('Sân trường', 800, 1030 + SCH.DY);
     // bồn hoa
     [[270,256],[480,256],[700,256],[920,256],[1140,256]].forEach(([x, y]) => { g.fillStyle = '#7fae4a'; g.fillRect(x, y, 70, 12); for (let i = 0; i < 10; i++){ g.fillStyle = ['#e8553a','#f2c14e','#ffffff','#e98ab0'][i % 4]; g.beginPath(); g.arc(x + 5 + i*6.5, y + 6, 3, 0, 7); g.fill(); } });
     // bục cờ
@@ -3727,7 +3731,7 @@ async function school3D(stage, below, kind = 'school', ext = {}){
   const trees = TREES.map(([x, y, k], i) => makeTree(x, y, k, i));
   const lampMat = new THREE.MeshBasicMaterial({color:'#fff5c8'});
   LAMPS.forEach(([x, y]) => { mesh(new THREE.CylinderGeometry(0.02, 0.025, 0.56, 6), M('#3a4466'), X(x), 0.28, Z(y)); mesh(new THREE.SphereGeometry(0.055, 10, 8), lampMat, X(x), 0.6, Z(y), scene, false); });
-  [[520,665],[1080,665],[520,945],[1080,945]].forEach(([x, y]) => { box(0.4, 0.05, 0.12, '#a7aeb6', X(x), 0.12, Z(y + 4)); box(0.06, 0.1, 0.1, '#7a838d', X(x - 15), 0.05, Z(y + 4), scene, false); box(0.06, 0.1, 0.1, '#7a838d', X(x + 15), 0.05, Z(y + 4), scene, false); });
+  [[520,665],[1080,665],[520,945],[1080,945]].forEach(([x, y]) => { y = SCH.sy(y); box(0.4, 0.05, 0.12, '#a7aeb6', X(x), 0.12, Z(y + 4)); box(0.06, 0.1, 0.1, '#7a838d', X(x - 15), 0.05, Z(y + 4), scene, false); box(0.06, 0.1, 0.1, '#7a838d', X(x + 15), 0.05, Z(y + 4), scene, false); });
   BOARDS.forEach(bd => { const gold = bd.kind === 'honor', g = new THREE.Group(); g.position.set(X(bd.x), 0, Z(bd.y)); scene.add(g);
     box(0.04, 0.5, 0.04, '#6d4a2c', -0.38, 0.25, 0, g); box(0.04, 0.5, 0.04, '#6d4a2c', 0.38, 0.25, 0, g); box(0.92, 0.5, 0.05, gold ? '#c9961f' : '#2f6b4a', 0, 0.62, 0, g);
     const tp = textPlate(bd.label, {w:0.8, hgt:0.38, bg:gold ? '#fff3c4' : '#3e8a5f', fg:gold ? '#7a4a00' : '#ffffff', border:null}); tp.position.set(0, 0.62, 0.03); g.add(tp); });
@@ -3740,8 +3744,8 @@ async function school3D(stage, below, kind = 'school', ext = {}){
   const fBase = flagGeo.attributes.position.array.slice();
   // robot Ô Li
   const bot = makeBot(ROBOT_AT);
-  [[1250, 720], [1480, 720], [1250, 890], [1480, 890], [1365, 720], [1365, 890]].forEach(([x, y]) => { box(0.03, 0.18, 0.03, '#ffffff', X(x) - 0.2, 0.09, Z(y), scene, false); box(0.03, 0.18, 0.03, '#ffffff', X(x) + 0.2, 0.09, Z(y), scene, false); box(0.44, 0.05, 0.03, '#d92b25', X(x), 0.18, Z(y)); });
-  { const g = new THREE.Group(); g.position.set(X(1365), 0, Z(650)); scene.add(g); box(0.04, 0.7, 0.04, '#6d4a2c', -0.5, 0.35, 0, g); box(0.04, 0.7, 0.04, '#6d4a2c', 0.5, 0.35, 0, g);
+  [[1250, 720], [1480, 720], [1250, 890], [1480, 890], [1365, 720], [1365, 890]].forEach(([x, y]) => { y = SCH.sy(y); box(0.03, 0.18, 0.03, '#ffffff', X(x) - 0.2, 0.09, Z(y), scene, false); box(0.03, 0.18, 0.03, '#ffffff', X(x) + 0.2, 0.09, Z(y), scene, false); box(0.44, 0.05, 0.03, '#d92b25', X(x), 0.18, Z(y)); });
+  { const g = new THREE.Group(); g.position.set(X(1365), 0, Z(SCH.sy(650))); scene.add(g); box(0.04, 0.7, 0.04, '#6d4a2c', -0.5, 0.35, 0, g); box(0.04, 0.7, 0.04, '#6d4a2c', 0.5, 0.35, 0, g);
     const tp = textPlate('Đường đua tiếng Anh', {w:1.15, hgt:0.26, bg:'#3f3394', fg:'#ffffff', border:null}); tp.position.set(0, 0.62, 0.03); g.add(tp); box(1.2, 0.3, 0.04, '#3f3394', 0, 0.62, 0, g, false); }
   const arrow = ink(mesh(new THREE.ConeGeometry(0.09, 0.18, 4), M('#f2c14e'), 0, 0, 0, scene, false)); arrow.rotation.x = Math.PI;
   hooks.push(st => { const T = st.T;
@@ -3836,7 +3840,7 @@ async function school3D(stage, below, kind = 'school', ext = {}){
       if (first){ look.copy(tgt); first = false; } else look.lerp(tgt, 1 - Math.exp(-dt*6));
       camera.position.set(look.x + ox*dist, look.y + oy*dist, look.z + oz*dist); camera.lookAt(look);
       sun.position.set(look.x + 4, 9, look.z + 5); sun.target.position.copy(look);
-      const night = kind === 'school' && st.night; hemi.intensity = night ? 0.42 : 0.7; sun.intensity = night ? 0.25 : 0.75; scene.background.set(night ? '#c9cbe0' : '#f3f2ea'); scene.fog.color.copy(scene.background);
+      const night = kind === 'school' && st.night; hemi.intensity = night ? 0.6 : 0.7; sun.intensity = night ? 0.45 : 0.75; hemi.color.set(night ? '#dfe3ff' : '#ffffff'); scene.background.set(night ? '#dcdcec' : '#f3f2ea'); scene.fog.color.copy(scene.background);
       hooks.forEach(f => f(st));
       (st.mates || []).forEach(mt => { const k = kidFor('m:' + mt.id, mt.look); poseKid(k, mt.x, mt.y, mt.dir, T + mt.x, mt.moving, dt); tag(mt.x, mt.y, 0.74, mt.first + (mt.look.title ? ' · ' + mt.look.title : ''), '#1f2140', '#ffffff'); });
       (st.remotes || []).forEach(r => { const k = kidFor('r:' + r.id, r.look); poseKid(k, r.x, r.y, r.dir, T + r.x, r.walking, dt); tag(r.x, r.y, 0.74, '● ' + r.name, '#ffffff', '#2e7d32'); });
@@ -3996,7 +4000,7 @@ function vSchool(app){
     ...SCH.BOARDS.map(b => ({...b, ax:b.x, ay:b.y + 26, r:36, verb:'Xem ' + b.label.toLowerCase()})),
     {id:'bot', kind:'bot', label:'Robot Ô Li', ax:SCH.ROBOT_AT.x, ay:SCH.ROBOT_AT.y + 4, r:40, verb:'Nói chuyện'},
     {id:'gate', kind:'cleanup', label:'Cổng trường · nhặt rác', ax:800, ay:SCH.H - 40, r:34, verb:'Ra cổng nhặt rác'},
-    {id:'race', kind:'race', label:'Đường đua tiếng Anh', ax:1365, ay:805, r:70, verb:'Vào đường đua'}
+    {id:'race', kind:'race', label:'Đường đua tiếng Anh', ax:1365, ay:SCH.sy(805), r:70, verb:'Vào đường đua'}
   ];
   const near = () => { let best = null, bd = 1e9; acts.forEach(a => { const z = a.zone, dd = z && P.x > z.x && P.x < z.x + z.w && P.y > z.y && P.y < z.y + z.h ? 1 : Math.hypot(P.x - a.ax, P.y - a.ay); if (dd < a.r && dd < bd){ bd = dd; best = a; } });
     mates.forEach(mt => { if (SOC.peers.has(mt.id)) return; const dd = Math.hypot(P.x - mt.x, P.y - mt.y); if (dd < 34 && dd < bd){ bd = dd; best = {kind:'mate', mt, label:mt.first, verb:'Chào ' + mt.first}; } });
@@ -4071,8 +4075,8 @@ function vSchool(app){
   function updZoom(){ zoom = clamp(clamp(Math.min(cssW/880, cssH/600), 0.8, 1.15)*(typeof zoomMul === 'number' ? zoomMul : 1), 0.6, 1.8); const nSL = Math.min(zoom*dpr, 1.6); if (!stat || Math.abs(nSL - SL) > 0.25){ SL = nSL; stat = M.paint ? M.paint(SL) : schoolStatic(SL); } }
   const ro = new ResizeObserver(resize); ro.observe(stage); resize();
   // bản đồ nhỏ
-  const drawMini = () => { const MW = mini.width, MH = mini.height, sx = MW/M.W, sy = MH/M.H, k = MW/160; if (isHall) M.mini(mctx, sx, sy, k, stage.classList.contains('map-big')); else { mctx.fillStyle = '#5aa04d'; mctx.fillRect(0, 0, MW, MH); mctx.fillStyle = '#e9e0cb'; mctx.fillRect(440*sx, 250*sy, 720*sx, 760*sy); mctx.fillRect(60*sx, 500*sy, 1480*sx, 80*sy);
-    mctx.fillStyle = '#4fae55'; mctx.fillRect(1190*sx, 640*sy, 350*sx, 330*sy); Object.values(SCH.B).forEach(b => { mctx.fillStyle = b.roof; mctx.fillRect(b.x*sx, b.y*sy, b.w*sx, b.h*sy); });
+  const drawMini = () => { const MW = mini.width, MH = mini.height, sx = MW/M.W, sy = MH/M.H, k = MW/160; if (isHall) M.mini(mctx, sx, sy, k, stage.classList.contains('map-big')); else { mctx.fillStyle = '#5aa04d'; mctx.fillRect(0, 0, MW, MH); mctx.fillStyle = '#e9e0cb'; mctx.fillRect(440*sx, 250*sy, 720*sx, (760 + SCH.DY)*sy); mctx.fillRect(60*sx, SCH.sy(500)*sy, 1480*sx, 80*sy);
+    mctx.fillStyle = '#4fae55'; mctx.fillRect(1190*sx, SCH.sy(640)*sy, 350*sx, 330*sy); Object.values(SCH.B).forEach(b => { mctx.fillStyle = b.roof; mctx.fillRect(b.x*sx, b.y*sy, b.w*sx, b.h*sy); });
     if (m){ const dd = SCH.DOORS.find(x => x.kind === 'class' && String(x.grade) === String(m.grade)); if (dd){ mctx.fillStyle = '#ffd54a'; mctx.beginPath(); mctx.arc(dd.x*sx, dd.y*sy, 3.5*k, 0, 7); mctx.fill(); } }
     if (game) game.bots.forEach(b => { mctx.fillStyle = b.out ? '#7a86a8' : '#3fe091'; mctx.fillRect(b.x*sx - k, b.y*sy - k, 2.5*k, 2.5*k); }); else { remotes().forEach(([id, r]) => { mctx.fillStyle = '#3fe091'; mctx.beginPath(); mctx.arc(r.x*sx, r.y*sy, 2.6*k, 0, 7); mctx.fill(); }); } if (!game) mates.forEach(mt => { if (SOC.peers.has(mt.id)) return; mctx.fillStyle = '#ffffff'; mctx.fillRect(mt.x*sx - k, mt.y*sy - k, 2.5*k, 2.5*k); });
     if (stage.classList.contains('map-big')){ mctx.font = `700 ${7*k}px "Be Vietnam Pro", system-ui`; mctx.textAlign = 'center'; mctx.fillStyle = '#ffffff'; Object.values(SCH.B).forEach(b => mctx.fillText(b.name, (b.x + b.w/2)*sx, (b.y + b.h/2)*sy)); mctx.fillText('SÂN TRƯỜNG', 800*sx, 760*sy); mctx.fillText('CỔNG', 800*sx, 1120*sy); mctx.fillText('SÂN THỂ THAO', 1365*sx, 900*sy); } }
