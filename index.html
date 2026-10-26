@@ -1661,6 +1661,7 @@ body.wl-on{background:#174a26}
 .kl-card .lcd{font-size:.95rem;padding:5px 10px;border:1px solid #1f4d33;box-shadow:0 0 18px -8px #22c55e}
 .kl-card svg{max-width:100%}
 .kl.card-min .kl-goal{display:none}
+@media (max-width:759px){.kl.card-min .kl-ct{display:none}.kl.card-min .kl-card{padding-right:40px}}
 .kl.card-min .kl-card{width:auto;max-width:calc(100% - 20px)}
 .kl-time{grid-area:tm;display:flex;align-items:center;gap:8px;flex-wrap:wrap;background:#0e172b;border:1px solid #1f2d49;border-radius:12px;padding:6px 10px}
 .kl-tb{width:38px;height:38px;border-radius:10px;border:1px solid #2c3d60;background:#16213a;color:#e6edf7;font-size:1.05rem;cursor:pointer}
@@ -2399,7 +2400,12 @@ const ICONS = {
   indicator:`<svg viewBox="0 0 120 70" aria-hidden="true"><path d="M30 6 v46 a8 8 0 0 0 16 0 v-46" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M32 34 v18 a6 6 0 0 0 12 0 v-18z" fill="#d9363e"/><path d="M56 6 v46 a8 8 0 0 0 16 0 v-46" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M58 34 v18 a6 6 0 0 0 12 0 v-18z" fill="#ff4fa3"/><path d="M82 6 v46 a8 8 0 0 0 16 0 v-46" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M84 34 v18 a6 6 0 0 0 12 0 v-18z" fill="#2f5fd0"/></svg>`,
   mass:`<svg viewBox="0 0 120 70" aria-hidden="true"><rect x="22" y="48" width="76" height="18" rx="3" fill="none" stroke="currentColor" stroke-width="2.5"/><rect x="45" y="53" width="30" height="8" fill="var(--lcd)"/><path d="M32 14 v32 h22 v-32" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M66 14 v32 h22 v-32" fill="none" stroke="currentColor" stroke-width="2.5"/><rect x="34" y="30" width="18" height="15" fill="var(--water)" opacity=".6"/><rect x="68" y="24" width="18" height="21" fill="#e9eef2"/></svg>`,
   micro:`<svg viewBox="0 0 120 70" aria-hidden="true"><circle cx="78" cy="35" r="30" fill="none" stroke="currentColor" stroke-width="2.5"/><rect x="58" y="22" width="22" height="13" fill="none" stroke="var(--s-sinh)" stroke-width="1.5"/><rect x="80" y="22" width="22" height="13" fill="none" stroke="var(--s-sinh)" stroke-width="1.5"/><rect x="69" y="35" width="22" height="13" fill="none" stroke="var(--s-sinh)" stroke-width="1.5"/><circle cx="72" cy="29" r="3" fill="var(--s-sinh)"/><path d="M20 62 h28 M34 62 v-14 M26 40 h16 l-4 8 h-8z M30 12 h8 v28 h-8z" fill="none" stroke="currentColor" stroke-width="2.5"/></svg>`,
-  digest:`<svg viewBox="0 0 120 70" aria-hidden="true"><path d="M60 4 v16" stroke="#d98c8c" stroke-width="5" stroke-linecap="round"/><path d="M54 22 c10 -8 26 -6 26 6 c0 10 -14 12 -20 6z" fill="#d9776b"/><path d="M36 22 c8 -6 18 -4 18 4 c-6 6 -14 8 -20 4z" fill="#8c3b2e"/><path d="M40 40 v24 M40 40 h40 v26" fill="none" stroke="#c98b6b" stroke-width="5"/><ellipse cx="60" cy="52" rx="13" ry="9" fill="#eab3a8"/></svg>`
+  digest:`<svg viewBox="0 0 120 70" aria-hidden="true"><path d="M60 4 v16" stroke="#d98c8c" stroke-width="5" stroke-linecap="round"/><path d="M54 22 c10 -8 26 -6 26 6 c0 10 -14 12 -20 6z" fill="#d9776b"/><path d="M36 22 c8 -6 18 -4 18 4 c-6 6 -14 8 -20 4z" fill="#8c3b2e"/><path d="M40 40 v24 M40 40 h40 v26" fill="none" stroke="#c98b6b" stroke-width="5"/><ellipse cx="60" cy="52" rx="13" ry="9" fill="#eab3a8"/></svg>`,
+  density:`<svg viewBox="0 0 120 70" aria-hidden="true"><rect x="8" y="50" width="44" height="12" rx="3" fill="currentColor" opacity=".6"/><rect x="20" y="34" width="16" height="16" fill="#c7794a"/><path d="M80 6 v56 h20 V6" fill="none" stroke="currentColor" stroke-width="2.5"/><rect x="82" y="28" width="16" height="33" fill="var(--water,#5ab4f0)" opacity=".55"/><path d="M80 18h6M80 28h6M80 38h6M80 48h6" stroke="currentColor" stroke-width="1.5"/></svg>`,
+  molecule:`<svg viewBox="0 0 120 70" aria-hidden="true"><line x1="60" y1="32" x2="36" y2="52" stroke="currentColor" stroke-width="4"/><line x1="60" y1="32" x2="84" y2="52" stroke="currentColor" stroke-width="4"/><circle cx="60" cy="30" r="16" fill="#e03b3b"/><circle cx="34" cy="54" r="10" fill="#f4f4f4" stroke="currentColor" stroke-width="1.5"/><circle cx="86" cy="54" r="10" fill="#f4f4f4" stroke="currentColor" stroke-width="1.5"/></svg>`,
+  tools:`<svg viewBox="0 0 120 70" aria-hidden="true"><path d="M16 8 v46 a6 6 0 0 0 12 0 v-46" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M48 14 h8 v14 l14 28 h-36 l14 -28z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/><path d="M38 50 h28 l3 6 h-34z" fill="#e58cff" opacity=".6"/><rect x="84" y="40" width="24" height="22" rx="4" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M96 36 q-8 -12 0 -24 q8 12 0 24" fill="#ff9d2e"/></svg>`,
+  cell3d:`<svg viewBox="0 0 120 70" aria-hidden="true"><ellipse cx="60" cy="36" rx="46" ry="28" fill="#f2a7b8" opacity=".55" stroke="currentColor" stroke-width="2.5"/><circle cx="52" cy="34" r="11" fill="#7b4fc9"/><rect x="76" y="22" width="16" height="7" rx="3.5" fill="#f08a24"/><rect x="72" y="44" width="14" height="6" rx="3" fill="#f08a24"/><circle cx="30" cy="42" r="2" fill="currentColor"/><circle cx="38" cy="22" r="2" fill="currentColor"/></svg>`,
+  heart:`<svg viewBox="0 0 120 70" aria-hidden="true"><path d="M60 64 C20 40 22 10 42 10 c9 0 15 6 18 12 c3 -6 9 -12 18 -12 c20 0 22 30 -18 54z" fill="#e0303a"/><path d="M60 22 v38" stroke="#fff" stroke-width="2" opacity=".6"/><path d="M48 6 q-6 -4 -12 0 M72 6 q6 -4 12 0" stroke="#3b6fe0" stroke-width="4" fill="none" stroke-linecap="round"/></svg>`
 };
 const LABS = {
   spring:{grade:6, subj:'ly', d3:true, name:'Biến dạng của lò xo', topic:'KHTN 6 · Lực', desc:'Kéo quả nặng từ khay treo vào lò xo, dùng kính lúp đọc chiều dài trên thước.'},
@@ -2414,7 +2420,12 @@ const LABS = {
   sound:{grade:7, subj:'ly', d3:true, name:'Sóng âm và dao động kí', topic:'KHTN 7 · Âm thanh', desc:'Phòng 3D: vặn núm máy phát âm tần, xem không khí nén – dãn và đọc chu kì trên dao động kí.'},
   heat:{grade:6, subj:'ly', d3:true, name:'Đun nóng nước – nhiệt độ sôi', topic:'KHTN 6 · Nhiệt độ, sự sôi', desc:'Phòng 3D: đặt nhiệt kế vào cốc nước, bật bếp điện, đọc nhiệt độ theo thời gian và tìm nhiệt độ sôi.'},
   ohm:{grade:9, subj:'ly', d3:true, name:'Định luật Ohm', topic:'KHTN 9 · Điện', desc:'Kéo linh kiện lắp mạch, mắc đúng ampe kế, vôn kế, xoay núm nguồn và đo.'},
-  lens:{grade:9, subj:'ly', d3:true, name:'Thấu kính hội tụ', topic:'KHTN 9 · Ánh sáng', desc:'Kéo cây nến và màn chắn trên giá quang học để thu ảnh rõ nét, tìm tiêu cự.'}
+  lens:{grade:9, subj:'ly', d3:true, name:'Thấu kính hội tụ', topic:'KHTN 9 · Ánh sáng', desc:'Kéo cây nến và màn chắn trên giá quang học để thu ảnh rõ nét, tìm tiêu cự.'},
+  density:{grade:8, subj:'ly', d3:true, name:'Khối lượng riêng', topic:'KHTN 8 · Khối lượng riêng', desc:'Đặt khối nhôm, sắt, đồng, đá, gỗ lên cân và thả vào ống đong để tính khối lượng riêng D = m/V.'},
+  molecule:{grade:7, subj:'hoa', d3:true, name:'Phân tử – đơn chất – hợp chất', topic:'KHTN 7 · Phân tử', desc:'Ghép mô hình phân tử H₂O, CO₂, CH₄… từ các nguyên tử, xếp loại và tính khối lượng phân tử.'},
+  tools:{grade:6, subj:'hoa', d3:true, name:'Dụng cụ thí nghiệm và an toàn', topic:'KHTN 6 · An toàn trong phòng thực hành', desc:'Gọi tên ống nghiệm, ống đong, đèn cồn… trên giá dụng cụ và trả lời các câu hỏi an toàn.'},
+  cell3d:{grade:6, subj:'sinh', d3:true, name:'Tế bào 3D: động vật, thực vật, nhân sơ', topic:'KHTN 6 · Cấu tạo tế bào', desc:'Xoay mô hình tế bào cắt đôi, tìm nhân, ti thể, lục lạp, thành tế bào, vùng nhân, roi.'},
+  heart:{grade:8, subj:'sinh', d3:true, name:'Tim, vòng tuần hoàn và nhóm máu', topic:'KHTN 8 · Máu và hệ tuần hoàn', desc:'Bấm theo đường đi của máu qua tim trong vòng tuần hoàn nhỏ và lớn, tìm hiểu nguyên tắc truyền máu.'}
 };
 const LAB_GROUPS = [['ly','Vật lí'],['hoa','Hóa học'],['sinh','Sinh học']];
 function labCard(k, l){
@@ -2423,15 +2434,15 @@ function labCard(k, l){
 /* ===================== PHÒNG HỌC ẢO 3D: sảnh chính ===================== */
 const HUBFX = { get anim(){ return store('oli.fx') !== 'off'; }, get q(){ return store('oli.q') || 'high'; } };
 const ROOMS = {
-  co:{subj:'ly', name:'Cơ học', sub:'Chuyển động – Lực – Năng lượng', c1:'#2f7dff', c2:'#56c8ff', labs:['speed','spring','lever','archimedes'], desc:'Đo tốc độ, tìm hiểu lực đàn hồi, đòn bẩy và lực đẩy của chất lỏng.'},
+  co:{subj:'ly', name:'Cơ học', sub:'Chuyển động – Lực – Năng lượng', c1:'#2f7dff', c2:'#56c8ff', labs:['speed','spring','lever','archimedes','density'], desc:'Đo tốc độ, tìm hiểu lực đàn hồi, đòn bẩy và lực đẩy của chất lỏng.'},
   quang:{subj:'ly', name:'Quang học', sub:'Ánh sáng – Thấu kính – Gương', c1:'#7b4dff', c2:'#c77dff', labs:['reflect','lens'], desc:'Quan sát đường truyền của tia sáng qua gương phẳng và thấu kính hội tụ.'},
   dien:{subj:'ly', name:'Điện học', sub:'Dòng điện – Mạch điện – Điện trở', c1:'#ff8a1f', c2:'#ffc94a', labs:['ohm'], desc:'Tự lắp mạch điện, mắc ampe kế, vôn kế và kiểm chứng định luật Ohm.'},
   nhiet:{subj:'ly', name:'Nhiệt học', sub:'Nhiệt độ – Sự sôi – Truyền nhiệt', c1:'#ff3b55', c2:'#ff8a6a', labs:['heat'], desc:'Đun nước, đo nhiệt độ theo thời gian và tìm nhiệt độ sôi của nước.'},
   am:{subj:'ly', name:'Âm học', sub:'Sóng âm – Độ cao – Độ to', c1:'#14c97a', c2:'#6dffb8', labs:['sound'], desc:'Dùng máy phát âm tần và dao động kí để thấy, nghe và đo sóng âm.'},
-  phanung:{subj:'hoa', name:'Phản ứng hóa học', sub:'Định luật bảo toàn khối lượng', c1:'#14b8c9', c2:'#7ff0ff', labs:['mass'], desc:'Cân các chất trước và sau phản ứng tạo kết tủa.'},
+  phanung:{subj:'hoa', name:'Chất và phản ứng', sub:'Dụng cụ – Phân tử – Bảo toàn khối lượng', c1:'#14b8c9', c2:'#7ff0ff', labs:['tools','molecule','mass'], desc:'Làm quen dụng cụ thí nghiệm, ghép mô hình phân tử và cân các chất trước, sau phản ứng.'},
   acid:{subj:'hoa', name:'Acid – Base – pH', sub:'Chất chỉ thị màu', c1:'#e0408f', c2:'#ff9ccc', labs:['indicator'], desc:'Dùng quỳ tím, giấy pH và phenolphthalein để nhận biết dung dịch.'},
-  tebao:{subj:'sinh', name:'Tế bào', sub:'Kính hiển vi – Quan sát tế bào', c1:'#5fb32a', c2:'#bff27a', labs:['micro'], desc:'Lấy nét kính hiển vi, quan sát và gắn nhãn tế bào vảy hành.'},
-  cothe:{subj:'sinh', name:'Cơ thể người', sub:'Hệ tiêu hóa', c1:'#e2742f', c2:'#ffc08a', labs:['digest'], desc:'Lắp ráp các cơ quan tiêu hóa vào đúng vị trí trong cơ thể.'}
+  tebao:{subj:'sinh', name:'Tế bào', sub:'Kính hiển vi – Quan sát tế bào', c1:'#5fb32a', c2:'#bff27a', labs:['micro','cell3d'], desc:'Lấy nét kính hiển vi, quan sát tế bào vảy hành và khám phá mô hình tế bào 3D.'},
+  cothe:{subj:'sinh', name:'Cơ thể người', sub:'Tiêu hóa – Tuần hoàn', c1:'#e2742f', c2:'#ffc08a', labs:['digest','heart'], desc:'Lắp ráp hệ tiêu hóa, theo dõi đường đi của máu qua tim và hai vòng tuần hoàn.'}
 };
 const HUB_SUBJ = {ly:'Vật lí', hoa:'Hóa học', sinh:'Sinh học'};
 const roomOf = k => Object.keys(ROOMS).find(r => ROOMS[r].labs.includes(k)) || 'co';
@@ -6160,7 +6171,12 @@ const KL_INFO = {
   sound:{pred:['Vặn núm máy phát cho tần số tăng lên. Âm nghe được và dao động kí sẽ thế nào?', ['Âm cao hơn, chu kì trên dao động kí ngắn lại', 'Âm trầm hơn, chu kì dài ra', 'Âm to hơn nhưng độ cao không đổi', 'Không có gì thay đổi']], why:'Tần số càng lớn thì âm càng cao (bổng). Chu kì T = 1/f nên tần số tăng thì chu kì giảm, các sóng trên màn sát nhau hơn.'},
   heat:{pred:['Nước đã sôi mà em vẫn tiếp tục đun. Nhiệt độ của nước sẽ…', ['Giữ không đổi, khoảng 100 °C', 'Tiếp tục tăng mãi', 'Giảm dần', 'Tăng lên gấp đôi']], why:'Ở áp suất thường, nước sôi ở khoảng 100 °C. Trong suốt thời gian sôi, nhiệt độ của nước không đổi dù vẫn được đun.'},
   ohm:{pred:['Tăng hiệu điện thế U giữa hai đầu điện trở lên gấp đôi. Cường độ dòng điện I sẽ…', ['Tăng gấp đôi', 'Giảm một nửa', 'Không đổi', 'Tăng gấp bốn']], why:'Định luật Ohm: I = U / R. Với cùng một điện trở R, I tỉ lệ thuận với U, nên đồ thị I(U) là đường thẳng đi qua gốc tọa độ.'},
-  lens:{pred:['Đặt cây nến rất xa thấu kính hội tụ. Ảnh rõ nét trên màn nằm ở đâu?', ['Gần tiêu điểm F′ phía sau thấu kính', 'Ngay sát thấu kính', 'Rất xa thấu kính', 'Không thu được ảnh nào']], why:'Chùm sáng từ vật ở rất xa gần như song song, sau thấu kính hội tụ sẽ hội tụ gần tiêu điểm F′. Vật càng xa, ảnh thật càng gần F′ và càng nhỏ.'}
+  lens:{pred:['Đặt cây nến rất xa thấu kính hội tụ. Ảnh rõ nét trên màn nằm ở đâu?', ['Gần tiêu điểm F′ phía sau thấu kính', 'Ngay sát thấu kính', 'Rất xa thấu kính', 'Không thu được ảnh nào']], why:'Chùm sáng từ vật ở rất xa gần như song song, sau thấu kính hội tụ sẽ hội tụ gần tiêu điểm F′. Vật càng xa, ảnh thật càng gần F′ và càng nhỏ.'},
+  density:{pred:['Một khối nhôm và một khối đồng có cùng thể tích. Khối nào nặng hơn?', ['Khối đồng nặng hơn nhiều', 'Khối nhôm nặng hơn', 'Hai khối nặng bằng nhau', 'Không so sánh được']], why:'Khối lượng riêng D = m / V cho biết khối lượng của 1 cm³ chất. Đồng (≈ 8,9 g/cm³) có khối lượng riêng lớn hơn nhôm (≈ 2,7 g/cm³) nên cùng thể tích thì đồng nặng hơn. Vật có D nhỏ hơn nước (1 g/cm³) như gỗ thì nổi.'},
+  molecule:{pred:['Phân tử nước H₂O được tạo thành từ những nguyên tố nào?', ['Hydrogen và oxygen', 'Chỉ có oxygen', 'Hydrogen và carbon', 'Chỉ có hydrogen']], why:'Đơn chất được tạo nên từ một nguyên tố hóa học (H₂, O₂, N₂, Cl₂). Hợp chất được tạo nên từ hai nguyên tố trở lên (H₂O, CO₂, CH₄…). Khối lượng phân tử bằng tổng khối lượng các nguyên tử trong phân tử.'},
+  tools:{pred:['Dụng cụ nào thích hợp nhất để đo chính xác 20 mL nước?', ['Ống đong', 'Cốc thủy tinh', 'Bình tam giác', 'Ống nghiệm']], why:'Mỗi dụng cụ có công dụng riêng: ống đong để đo thể tích, đèn cồn để đun, kẹp để giữ ống nghiệm khi đun. Luôn làm theo hướng dẫn của thầy cô, không nếm, ngửi trực tiếp hóa chất, và tắt đèn cồn bằng nắp.'},
+  cell3d:{pred:['Thành phần nào em nghĩ có ở CẢ tế bào động vật, thực vật và nhân sơ?', ['Màng tế bào và chất tế bào', 'Lục lạp', 'Nhân có màng nhân', 'Không bào lớn']], why:'Mọi tế bào đều có màng tế bào, chất tế bào và vật chất di truyền. Tế bào nhân thực (động vật, thực vật) có nhân hoàn chỉnh; tế bào thực vật có thêm thành tế bào, lục lạp, không bào lớn. Tế bào nhân sơ chỉ có vùng nhân.'},
+  heart:{pred:['Máu từ tâm thất phải sẽ được bơm đi đâu?', ['Lên phổi', 'Đi nuôi các cơ quan trong cơ thể', 'Sang tâm thất trái', 'Về tâm nhĩ phải']], why:'Vòng tuần hoàn nhỏ: tâm thất phải → động mạch phổi → phổi (trao đổi khí) → tĩnh mạch phổi → tâm nhĩ trái. Vòng tuần hoàn lớn: tâm thất trái → động mạch chủ → các cơ quan → tĩnh mạch chủ → tâm nhĩ phải.'}
 };
 function runLab(k, el, ctx){ el.__kl = {k, ctx}; return LAB_IMPL[k](el, ctx); }
 function labShell(el, {how, svg, meters='', controls='', panel, pnl:pnlLabel='📋 Số liệu · Nộp bài'}){
@@ -6312,7 +6328,7 @@ async function scene3D(host, o = {}){
     if (o.fill) hh = Math.max(200, host.clientHeight || hh);
     hh = Math.round(Math.max(o.fill ? 200 : 220, hh)); renderer.setSize(w, hh, false); canvas.style.height = hh + 'px'; camera.aspect = w/hh; camera.updateProjectionMatrix(); if (fitN > 1) fitCam(); };
   const ray = new THREE.Raycaster(), ndc = new THREE.Vector2();
-  const drags = [], clicks = []; if (window.__OLI_TEST) window.__s3c = clicks;
+  const drags = [], clicks = []; if (window.__OLI_TEST){ window.__s3c = clicks; window.__s3d = drags; }
   const aim = e => { const r = canvas.getBoundingClientRect(); ndc.set(((e.clientX - r.left)/r.width)*2 - 1, -((e.clientY - r.top)/r.height)*2 + 1); ray.setFromCamera(ndc, camera); };
   const live = o => { let n = o; while (n && n.parent) n = n.parent; return n === scene; };
   const pick = e => { aim(e); const list = [...drags, ...clicks].filter(d => live(d.obj)); const hits = ray.intersectObjects(list.map(d => d.obj), true);
@@ -6392,7 +6408,7 @@ async function scene3D(host, o = {}){
 }
 function mount3D(el, opts, build){
   const host = $('#v3', el);
-  if (opts.studio && host.clientWidth && host.clientHeight){ const asp = host.clientWidth/host.clientHeight; if (asp < 1.25){ const k = Math.min(2.6, Math.pow(1.25/asp, 1.15)); opts = {...opts, r:opts.r*k, rMax:(opts.rMax || 3)*k, views:(opts.views || []).map(v => ({...v, r:v.r && v.r*k}))}; } }
+  if ((opts.studio || opts.adapt) && host.clientWidth && host.clientHeight){ const asp = host.clientWidth/host.clientHeight; if (asp < 1.25){ const k = Math.min(2.6, Math.pow(1.25/asp, 1.15)); opts = {...opts, r:opts.r*k, rMax:(opts.rMax || 3)*k, views:(opts.views || []).map(v => ({...v, r:v.r && v.r*k}))}; } }
   scene3D(host, opts).then(build).catch(err => {
     console.warn(err);
     host.innerHTML = `<p class="notice">${err && err.message === 'webgl' ? 'Thiết bị hoặc trình duyệt này chưa hỗ trợ đồ họa 3D (WebGL). Em thử mở bằng Chrome hoặc Edge trên máy tính.' : 'Chưa tải được thư viện 3D. Kiểm tra kết nối mạng rồi mở lại thí nghiệm.'}</p>`;
@@ -9300,6 +9316,361 @@ function lessonBuilder(box, assets){
 }
 
 /* ---------- 3D: Đun nóng nước – nhiệt độ sôi (khối 6) ---------- */
+/* ===================== 5 phòng thí nghiệm mới (giao diện kl) ===================== */
+/* nhãn có đường dẫn (leader line) gắn vào một nhóm 3D */
+function klTag(S3, parent, text, from, to, size = 0.02){
+  const {THREE, label} = S3; const lb = label(text, size); lb.position.set(...to); parent.add(lb);
+  const ln = new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(...from), new THREE.Vector3(...to)]), new THREE.LineBasicMaterial({color:0x9fe8ff, transparent:true, opacity:.9, depthTest:false}));
+  ln.renderOrder = 9; parent.add(ln); const dot = new THREE.Mesh(new THREE.SphereGeometry(size*0.12, 10, 8), new THREE.MeshBasicMaterial({color:0x9fe8ff, depthTest:false})); dot.position.set(...from); dot.renderOrder = 9; parent.add(dot);
+  return {lb, ln, dot, show(v){ lb.visible = ln.visible = dot.visible = v; }};
+}
+const klGlow = (obj, c) => obj.traverse(n => { if (n.isMesh && n.material && n.material.emissive) n.material.emissive.set(c); });
+
+/* ---------- Khối lượng riêng (khối 8) ---------- */
+LAB_IMPL.density = (el, ctx) => {
+  const V0 = 50 + (hash(ctx.sid + 'dv0') % 3)*5;
+  const B = [['al','Nhôm',2.7,'#d5dbe2',.35,.35],['fe','Sắt',7.8,'#7d828a',.35,.45],['cu','Đồng',8.9,'#d08050',.35,.35],['st','Đá',2.6,'#8d8a7c',0,.95],['wd','Gỗ',0.6,'#b98a55',0,.8]]
+    .map(([k, n, rho, c, met, ro], i) => { const V = (k === 'wd' ? 14 : 8) + hash(ctx.sid + 'dv' + k) % 11; return {k, n, rho, c, met, ro, V, m:Math.round(rho*V*10)/10, at:'tray', mm:null, vv:null}; });
+  const sinkers = B.filter(b => b.k !== 'wd');
+  labShell(el, {
+    how:['Kéo một vật từ khay đặt lên đĩa cân, đọc khối lượng m (g).','Đọc mực nước ban đầu V₁ trong ống đong, rồi kéo vật thả vào ống đong và đọc mực nước mới V₂.','Tính thể tích V = V₂ − V₁ (1 mL = 1 cm³) và khối lượng riêng D = m / V. Làm với ít nhất 3 vật.','Thử thả miếng gỗ vào ống đong và giải thích điều em thấy.'],
+    svg:V3,
+    meters:`<div class="lcd"><small>Cân điện tử</small><span id="dsc">0,0 g</span></div><div class="lcd"><small>Mực nước ống đong</small><span id="dcy">${V0} mL</span></div>`,
+    controls:`<p class="kl-hint">Kéo các khối vật liệu trên khay vào cân hoặc ống đong.</p><button class="btn ghost small" id="dback">↩ Đưa tất cả về khay</button>`,
+    panel:`<div class="goal"><b>Mục tiêu:</b> Đo khối lượng và thể tích của các khối vật liệu, tính khối lượng riêng D = m / V (g/cm³) và so sánh các chất.</div>
+      <div class="tbl-wrap"><table><thead><tr><th>Vật</th><th class="num">m (g)</th><th class="num">V₁ → V₂ (mL)</th><th class="num">D em tính (g/cm³)</th></tr></thead><tbody id="dtb"></tbody></table></div>
+      <p class="muted" style="margin:0;font-size:.8rem">Đổi đơn vị: 1 g/cm³ = 1000 kg/m³.</p>
+      ${mcHTML('dq1', 'Trong các vật em đo, chất nào có khối lượng riêng lớn nhất?', ['Nhôm', 'Đá', 'Đồng', 'Sắt'])}
+      ${mcHTML('dq2', 'Vì sao không đo được thể tích miếng gỗ bằng cách thả vào ống đong?', ['Vì gỗ quá nhẹ, cân không đo được.', 'Vì gỗ nổi, không chìm hẳn trong nước (khối lượng riêng nhỏ hơn nước).', 'Vì gỗ hút hết nước trong ống.', 'Vì gỗ không có thể tích.'])}
+      ${submitRow(ctx.practice)}`
+  });
+  const level = () => { const b = B.find(x => x.at === 'cyl'); return V0 + (b ? (b.k === 'wd' ? b.m : b.V) : 0); };
+  const scaleR = () => { const b = B.find(x => x.at === 'scale'); return b ? b.m : 0; };
+  const table = () => { const keep = {}; $$('[data-dd]', el).forEach(i => keep[i.dataset.dd] = i.value);
+    $('#dtb', el).innerHTML = B.map(b => `<tr><td>${h(b.n)}</td><td class="num">${b.mm != null ? vn(b.mm, 1) : '—'}</td><td class="num">${b.vv != null ? `${V0} → ${b.vv}` : b.k === 'wd' && b.tried ? 'nổi' : '—'}</td><td class="num">${b.k === 'wd' ? '—' : `<input class="inp" data-dd="${b.k}" inputmode="decimal" style="width:84px;padding:4px 6px" value="${h(keep[b.k] || '')}">`}</td></tr>`).join(''); };
+  const info = () => { $('#dsc', el).textContent = vn(scaleR(), 1) + ' g'; $('#dcy', el).textContent = Math.round(level()) + ' mL'; };
+  $('#lsub', el).onclick = () => {
+    const d1 = mcVal(el, 'dq1'), d2 = mcVal(el, 'dq2'), got = sinkers.map(b => ({b, v:pnum(($(`[data-dd="${b.k}"]`, el) || {}).value)})).filter(x => Number.isFinite(x.v));
+    if (got.length < 3) return lerr(el, 'Em tính khối lượng riêng cho ít nhất 3 vật nhé.'); if (d1 < 0 || d2 < 0) return lerr(el, 'Em trả lời cả hai câu hỏi.'); lerr(el);
+    const notes = []; let ok = 0;
+    got.forEach(({b, v}) => { const meas = b.mm != null && b.vv != null, D = b.m/b.V, good = Math.abs(v - D)/D <= 0.04;
+      if (!meas) notes.push(`${b.n}: em chưa đo đủ m và V trên dụng cụ.`); else if (good) ok++; else notes.push(`${b.n}: D = m / V = ${vn(b.m, 1)} / ${b.V} ≈ ${vn(D, 2)} g/cm³.`); });
+    const pts = Math.min(6, ok*2); if (ok >= 3) notes.unshift(`Em tính đúng khối lượng riêng của ${ok} vật.`);
+    if (d1 !== 2) notes.push('Đồng có khối lượng riêng lớn nhất (khoảng 8,9 g/cm³).');
+    if (d2 !== 1) notes.push('Gỗ có khối lượng riêng nhỏ hơn nước nên nổi; muốn đo phải dìm chìm hẳn hoặc dùng cách khác.');
+    finishLab(el, ctx, {score: pts + (d1 === 2 ? 2 : 0) + (d2 === 1 ? 2 : 0), detail:{B:B.map(b => ({k:b.k, mm:b.mm, vv:b.vv}))}, notes});
+  };
+  table(); info();
+  mount3D(el, {target:[0, 0.06, 0.04], r:0.72, th:0.1, ph:1.05, rMin:0.3, views:[{t:'Nhìn gần ống đong', r:0.42, th:-0.25, ph:1.38, target:[0.16, 0.11, -0.04]}], label:'Cân điện tử, ống đong và khay vật liệu', studio:true, shadowSize:0.6}, S3 => {
+    const {THREE, M, box, mesh, cyl, group, label, screenTex, table: tbl, glass, planeY} = S3, scene = S3.scene;
+    tbl(1.0, 0.6);
+    const SC = {x:-0.17, z:-0.04}, CY = {x:0.16, z:-0.04};
+    box(0.2, 0.05, 0.17, M('#e9edf2'), SC.x, 0.025, SC.z); cyl(0.075, 0.075, 0.006, M('#c9cdd2', {metalness:.8, roughness:.25}), SC.x, 0.053, SC.z);
+    const lt = screenTex(256, 96); mesh(new THREE.PlaneGeometry(0.09, 0.032), new THREE.MeshBasicMaterial({map:lt.tex}), SC.x, 0.026, SC.z + 0.0855);
+    const drawL = () => { const g = lt.g; g.fillStyle = '#10200f'; g.fillRect(0, 0, 256, 96); g.fillStyle = '#9dff8a'; g.font = '700 54px "JetBrains Mono", monospace'; g.textAlign = 'right'; g.fillText(scaleR().toFixed(1).replace('.', ',') + ' g', 244, 66); lt.tex.needsUpdate = true; };
+    const sl = label('Cân điện tử', 0.02); sl.position.set(SC.x, 0.1, SC.z - 0.06); scene.add(sl);
+    // ống đong
+    const RIN = 0.03, HM = 0.0022; cyl(0.05, 0.05, 0.01, M('#dfe7f0'), CY.x, 0.005, CY.z, undefined, 6);
+    cyl(RIN + 0.002, RIN + 0.002, 0.26, glass(), CY.x, 0.14, CY.z, undefined, 40, true);
+    const wM = new THREE.MeshStandardMaterial({color:'#5ab4f0', transparent:true, opacity:.45, depthWrite:false, roughness:.1});
+    const water = cyl(RIN, RIN, 1, wM, CY.x, 0, CY.z, undefined, 40);
+    const surf = cyl(RIN, RIN, 0.0015, new THREE.MeshBasicMaterial({color:'#9bd8ff', transparent:true, opacity:.75}), CY.x, 0, CY.z, undefined, 40);
+    for (let v = 10; v <= 100; v += 5){ const big = v % 10 === 0; box(big ? 0.014 : 0.008, 0.0012, 0.001, M('#e8f1ff'), CY.x - RIN + (big ? 0.004 : 0.002), 0.012 + v*HM, CY.z + RIN + 0.003);
+      if (v % 20 === 0){ const t = label(String(v), 0.011); t.position.set(CY.x - RIN - 0.018, 0.012 + v*HM, CY.z + RIN + 0.004); scene.add(t); } }
+    const cl = label('Ống đong 100 mL', 0.02); cl.position.set(CY.x, 0.3, CY.z); scene.add(cl);
+    // khay
+    box(0.58, 0.012, 0.12, M('#2a3550', {roughness:.6}), 0, 0.006, 0.19);
+    const blk = B.map((b, i) => { const s = Math.cbrt(b.V)*0.0135, g = group(); g.userData.s = s;
+      const m = box(s, s, s, M(b.c, {metalness:b.met, roughness:b.ro}), 0, s/2, 0, g); m.castShadow = true;
+      const lb = label(b.n, 0.017); lb.position.set(0, s + 0.022, 0); g.add(lb); g.userData.lb = lb; return g; });
+    const home = i => [-0.22 + i*0.11, 0.012, 0.19];
+    let dragK = -1;
+    const place = () => B.forEach((b, i) => { if (i === dragK) return; const g = blk[i], s = g.userData.s;
+      if (b.at === 'tray'){ g.position.set(...home(i)); g.userData.lb.visible = true; }
+      else if (b.at === 'scale'){ g.position.set(SC.x, 0.056, SC.z); g.userData.lb.visible = true; }
+      else { const lv = 0.012 + level()*HM; g.position.set(CY.x, b.k === 'wd' ? lv - s*0.6 : 0.011, CY.z); g.userData.lb.visible = false; } });
+    const upd = () => { const lv = level(), hh = lv*HM; water.scale.y = hh; water.position.y = 0.011 + hh/2; surf.position.y = 0.011 + hh; place(); drawL(); info(); table(); };
+    $('#dback', el).onclick = () => { B.forEach(b => b.at = 'tray'); upd(); say(el, 'Đã đưa tất cả vật về khay.'); };
+    blk.forEach((g, i) => S3.drag(g, { plane: () => planeY(0.09),
+      start: () => { dragK = i; g.userData.lb.visible = true; }, move: p => g.position.set(p.x, 0.09, p.z),
+      end: p => { dragK = -1; const b = B[i]; const dS = Math.hypot(p.x - SC.x, p.z - SC.z), dC = Math.hypot(p.x - CY.x, p.z - CY.z);
+        if (dS < 0.09){ B.forEach(x => { if (x !== b && x.at === 'scale') x.at = 'tray'; }); b.at = 'scale'; b.mm = b.m; say(el, `Cân chỉ ${vn(b.m, 1)} g: khối lượng của ${b.n.toLowerCase()} là m = ${vn(b.m, 1)} g.`); }
+        else if (dC < 0.07){ B.forEach(x => { if (x !== b && x.at === 'cyl') x.at = 'tray'; }); b.at = 'cyl';
+          if (b.k === 'wd'){ b.tried = true; say(el, 'Miếng gỗ nổi trên mặt nước, không chìm hẳn nên không đo được thể tích của nó bằng cách này.'); }
+          else { b.vv = V0 + b.V; say(el, `Mực nước dâng từ ${V0} mL lên ${b.vv} mL. Thể tích vật: V = ${b.vv} − ${V0} = ? cm³`); } }
+        else { b.at = 'tray'; }
+        upd(); } }));
+    S3.shadows(); upd(); say(el, `Bắt đầu: ống đong đang chứa ${V0} mL nước. Kéo khối nhôm lên đĩa cân.`);
+  });
+};
+
+/* ---------- Phân tử – đơn chất – hợp chất (khối 7) ---------- */
+LAB_IMPL.molecule = (el, ctx) => {
+  const AT = {H:{c:'#f4f4f4', r:.013, m:1, n:'hydrogen'}, C:{c:'#3a3a3a', r:.02, m:12, n:'carbon'}, N:{c:'#3b6fe0', r:.02, m:14, n:'nitrogen'}, O:{c:'#e03b3b', r:.02, m:16, n:'oxygen'}, Cl:{c:'#3fbf4f', r:.026, m:35.5, n:'chlorine'}};
+  const t4 = .024, MOL = {
+    H2:{f:'H₂', el:true, g:[['H',-.02,0,0],['H',.02,0,0]], b:[[0,1]]}, O2:{f:'O₂', el:true, g:[['O',-.024,0,0],['O',.024,0,0]], b:[[0,1]]},
+    N2:{f:'N₂', el:true, g:[['N',-.024,0,0],['N',.024,0,0]], b:[[0,1]]}, Cl2:{f:'Cl₂', el:true, g:[['Cl',-.03,0,0],['Cl',.03,0,0]], b:[[0,1]]},
+    H2O:{f:'H₂O', g:[['O',0,0,0],['H',-.03,-.022,0],['H',.03,-.022,0]], b:[[0,1],[0,2]]}, CO2:{f:'CO₂', g:[['O',-.044,0,0],['C',0,0,0],['O',.044,0,0]], b:[[0,1],[1,2]]},
+    NH3:{f:'NH₃', g:[['N',0,.012,0],...[0,1,2].map(i => ['H', .034*Math.cos(i*2.094), -.014, .034*Math.sin(i*2.094)])], b:[[0,1],[0,2],[0,3]]},
+    CH4:{f:'CH₄', g:[['C',0,0,0],['H',t4,t4,t4],['H',t4,-t4,-t4],['H',-t4,t4,-t4],['H',-t4,-t4,t4]], b:[[0,1],[0,2],[0,3],[0,4]]}, HCl:{f:'HCl', g:[['H',-.034,0,0],['Cl',.01,0,0]], b:[[0,1]]}};
+  const cnt = k => MOL[k].g.reduce((o, [a]) => (o[a] = (o[a] || 0) + 1, o), {});
+  const mw = k => MOL[k].g.reduce((s, [a]) => s + AT[a].m, 0);
+  const comp = ['H2O','CO2','NH3','CH4','HCl'].sort((a, b) => hash(ctx.sid + a) - hash(ctx.sid + b)).slice(0, 3);
+  const T = [['H2','O2','N2','Cl2'][hash(ctx.sid + 'mel') % 4], ...comp].sort((a, b) => hash(ctx.sid + 'o' + a) - hash(ctx.sid + 'o' + b));
+  let cur = 0; const plate = [], built = new Set();
+  const fmt = o => Object.entries(o).map(([a, n]) => `${n} ${a}`).join(', ') || 'trống';
+  labShell(el, {
+    how:['Xem ô "Cần ghép" để biết phân tử cần tạo.','Bấm các nút nguyên tử trong khay (hoặc bấm vào đống nguyên tử trên bàn) để đặt lên khay ghép.','Bấm "Ghép phân tử". Nếu đúng, mô hình 3D của phân tử hiện ra và được đặt lên kệ.','Ở bước Quan sát, xếp loại đơn chất / hợp chất và tính khối lượng phân tử (amu) của từng chất.'],
+    svg:V3,
+    meters:`<div class="lcd"><small>Cần ghép</small><span id="mtg">—</span></div><div class="lcd"><small>Trên khay ghép</small><span id="mpl">trống</span></div><div class="lcd"><small>Đã ghép</small><span id="mdn">0/${T.length}</span></div>`,
+    controls:`${Object.entries(AT).map(([a, o]) => `<button class="btn ghost small" data-at="${a}"><i style="display:inline-block;width:12px;height:12px;border-radius:50%;background:${o.c};border:1px solid #889;vertical-align:-1px"></i> ${a} <small style="opacity:.7">(${vn(o.m, o.m % 1 ? 1 : 0)})</small></button>`).join('')}
+      <button class="btn ghost small" id="mclr">↺ Xóa khay ghép</button><button class="btn" id="mgo">Ghép phân tử</button>`,
+    panel:`<div class="goal"><b>Mục tiêu:</b> Ghép mô hình ${T.length} phân tử từ các nguyên tử, xếp loại đơn chất hay hợp chất và tính khối lượng phân tử.</div>
+      <div class="tbl-wrap"><table><thead><tr><th>Chất</th><th>Loại</th><th class="num">KLPT (amu)</th></tr></thead><tbody>${T.map(k => `<tr><td><b>${MOL[k].f}</b> <span id="mok_${k}" class="muted">· chưa ghép</span></td><td><select class="inp" data-mt="${k}" style="padding:4px 6px"><option value="">Chọn…</option><option value="el">Đơn chất</option><option value="cp">Hợp chất</option></select></td><td class="num"><input class="inp" data-mw="${k}" inputmode="decimal" style="width:76px;padding:4px 6px"></td></tr>`).join('')}</tbody></table></div>
+      <p class="muted" style="margin:0;font-size:.8rem">Khối lượng nguyên tử: H = 1, C = 12, N = 14, O = 16, Cl = 35,5 (amu).</p>
+      ${submitRow(ctx.practice)}`
+  });
+  const info = () => { $('#mtg', el).textContent = cur < T.length ? MOL[T[cur]].f : 'Xong!'; const o = {}; plate.forEach(a => o[a] = (o[a] || 0) + 1); $('#mpl', el).textContent = fmt(o); $('#mdn', el).textContent = `${built.size}/${T.length}`; };
+  $('#lsub', el).onclick = () => {
+    if (!built.size) return lerr(el, 'Em chưa ghép phân tử nào.'); lerr(el); let s = 0; const notes = [];
+    T.forEach(k => { const ty = ($(`[data-mt="${k}"]`, el) || {}).value, w = pnum(($(`[data-mw="${k}"]`, el) || {}).value), f = MOL[k].f;
+      if (built.has(k)) s += 0.5; else notes.push(`Em chưa ghép phân tử ${f}.`);
+      if (ty === (MOL[k].el ? 'el' : 'cp')) s += 1; else notes.push(`${f} là ${MOL[k].el ? 'đơn chất (tạo từ một nguyên tố)' : 'hợp chất (tạo từ hai nguyên tố trở lên)'}.`);
+      if (Math.abs(w - mw(k)) < 0.01) s += 1; else notes.push(`KLPT của ${f} = ${Object.entries(cnt(k)).map(([a, n]) => `${n} × ${vn(AT[a].m, AT[a].m % 1 ? 1 : 0)}`).join(' + ')} = ${vn(mw(k), mw(k) % 1 ? 1 : 0)} amu.`); });
+    if (!notes.length) notes.push('Em ghép, xếp loại và tính khối lượng phân tử đúng tất cả các chất.');
+    finishLab(el, ctx, {score: Math.min(10, s*10/(T.length*2.5)), detail:{T, built:[...built]}, notes});
+  };
+  info();
+  mount3D(el, {target:[0, 0.04, 0], r:0.8, th:0, ph:0.95, rMin:0.25, views:[{t:'Nhìn gần khay ghép', r:0.38, th:0, ph:1.15, target:[0, 0.07, 0.02]}], label:'Bàn ghép mô hình phân tử', studio:true, shadowSize:0.6}, S3 => {
+    const {THREE, M, box, mesh, cyl, group, label, table: tbl} = S3, scene = S3.scene;
+    tbl(1.0, 0.6);
+    const sphere = (a, parent, x = 0, y = 0, z = 0) => { const m = mesh(new THREE.SphereGeometry(AT[a].r, 24, 16), M(AT[a].c, {roughness:.35, metalness:.05}), x, y, z, parent); m.castShadow = true; return m; };
+    const bins = Object.keys(AT).map((a, i) => { const g = group(-0.28 + i*0.14, 0, 0.2); cyl(0.05, 0.045, 0.02, M('#1f2a44', {roughness:.6}), 0, 0.01, 0, g, 32);
+      for (let j = 0; j < 7; j++){ const an = j*2.4, rr = j ? 0.022 : 0; sphere(a, g, rr*Math.cos(an), 0.02 + AT[a].r + (j ? 0 : 0.012), rr*Math.sin(an)); }
+      const lb = label(`${a} · ${AT[a].n}`, 0.016); lb.position.set(0, 0.085, 0); g.add(lb); S3.click(g, () => add(a)); return g; });
+    const pl = group(0, 0, 0.02); cyl(0.11, 0.11, 0.012, M('#e8edf5', {roughness:.4}), 0, 0.006, 0, pl, 48); const plb = label('Khay ghép', 0.018); plb.position.set(0.17, 0.02, 0); pl.add(plb);
+    const shelf = group(0, 0, -0.2); box(0.8, 0.012, 0.09, M('#2a3550'), 0, 0.006, 0, shelf); const shl = label('Kệ phân tử đã ghép', 0.017); shl.position.set(0.36, 0.03, 0); shelf.add(shl);
+    let pGrp = null; const spin = [];
+    const drawPlate = () => { if (pGrp) scene.remove(pGrp); pGrp = group(0, 0.012, 0.02); const n = plate.length;
+      plate.forEach((a, i) => { const ang = i/Math.max(1, n)*Math.PI*2, rr = n > 1 ? 0.055 : 0; sphere(a, pGrp, rr*Math.cos(ang), AT[a].r, rr*Math.sin(ang)); }); info(); };
+    const add = a => { if (cur >= T.length) return say(el, 'Em đã ghép xong tất cả các phân tử.'); if (plate.length >= 6) return say(el, 'Khay ghép đầy rồi. Bấm "Xóa khay ghép" để làm lại.'); plate.push(a); drawPlate(); say(el, `Đã thêm 1 nguyên tử ${AT[a].n} (${a}).`); };
+    const model = (k, parent, x, y, z) => { const g = group(x, y, z, parent), d = MOL[k];
+      d.g.forEach(([a, px, py, pz]) => sphere(a, g, px, py, pz));
+      d.b.forEach(([i, j]) => { const A = new THREE.Vector3(...d.g[i].slice(1)), Bv = new THREE.Vector3(...d.g[j].slice(1)), L = A.distanceTo(Bv), c = cyl(0.0035, 0.0035, L, M('#cfd6e4', {metalness:.3}), 0, 0, 0, g, 10);
+        c.position.copy(A).add(Bv).multiplyScalar(.5); c.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), Bv.clone().sub(A).normalize()); });
+      const lb = label(d.f, 0.02); lb.position.set(0, 0.06, 0); g.add(lb); return g; };
+    $$('[data-at]', el).forEach(b => b.onclick = () => add(b.dataset.at));
+    $('#mclr', el).onclick = () => { plate.length = 0; drawPlate(); say(el, 'Đã xóa khay ghép.'); };
+    $('#mgo', el).onclick = () => { if (cur >= T.length) return; const k = T[cur], need = cnt(k), have = {}; plate.forEach(a => have[a] = (have[a] || 0) + 1);
+      const ok = Object.keys({...need, ...have}).every(a => (need[a] || 0) === (have[a] || 0));
+      if (!plate.length) return say(el, 'Khay ghép đang trống.');
+      if (!ok) return say(el, `Chưa đúng: phân tử ${MOL[k].f} gồm ${fmt(need)}; trên khay đang có ${fmt(have)}.`);
+      plate.length = 0; drawPlate(); built.add(k); const mk = model(k, scene, 0, 0.09, 0.02); spin.push(mk); const idx = built.size - 1;
+      const gl = {v:0};
+      S3.frame(dt => { if (gl.v >= 1) return; gl.v = Math.min(1, gl.v + dt/1.6); if (gl.v > 0.55){ const e = (gl.v - 0.55)/0.45, tx = -0.3 + idx*0.2; mk.position.set(tx*e, 0.09 - 0.02*e, 0.02 + (-0.2 - 0.02)*e); mk.scale.setScalar(1 - 0.25*e); } });
+      $(`#mok_${k}`, el).textContent = '· đã ghép ✔'; $(`#mok_${k}`, el).className = 'kl-okt';
+      say(el, `Đúng rồi! Phân tử ${MOL[k].f} gồm ${fmt(need)}. ${MOL[k].el ? 'Chỉ có một nguyên tố.' : 'Có nhiều nguyên tố khác nhau.'}`); cur++; info(); };
+    S3.frame(dt => spin.forEach(m => m.rotation.y += dt*0.8));
+    S3.shadows(); drawPlate(); say(el, `Bắt đầu: ghép phân tử ${MOL[T[0]].f}.`);
+  });
+};
+
+/* ---------- Dụng cụ thí nghiệm và an toàn (khối 6) ---------- */
+LAB_IMPL.tools = (el, ctx) => {
+  const TL = [['tube','Ống nghiệm','Đựng một lượng nhỏ hóa chất để làm thí nghiệm; khi đun phải dùng kẹp.'],['beaker','Cốc thủy tinh','Đựng, pha hoặc đun dung dịch với lượng lớn hơn ống nghiệm.'],['cyl','Ống đong','Đo thể tích chất lỏng; đọc vạch ngang tầm mắt với mặt chất lỏng.'],['flask','Bình tam giác','Đựng, pha, lắc dung dịch mà ít bị bắn ra ngoài.'],['lamp','Đèn cồn','Dùng để đun nóng; tắt bằng cách đậy nắp, không thổi.'],['pip','Ống hút nhỏ giọt','Lấy và nhỏ từng giọt hóa chất lỏng.'],['clamp','Kẹp ống nghiệm','Kẹp ống nghiệm khi đun, kẹp ở khoảng 1/3 từ miệng ống.']];
+  const names = TL.map(t => t[1]).sort((a, b) => hash(ctx.sid + a) - hash(ctx.sid + b));
+  const st = Object.fromEntries(TL.map(([k]) => [k, {ok:false, miss:0}])); let sel = null;
+  labShell(el, {
+    how:['Bấm vào một dụng cụ trên giá, dụng cụ được nâng lên và phát sáng.','Chọn tên đúng của dụng cụ đó trong khay bên trái.','Đọc công dụng của dụng cụ hiện ở thanh trạng thái bên dưới.','Gọi tên đủ 7 dụng cụ rồi trả lời các câu hỏi an toàn ở bước Quan sát.'],
+    svg:V3,
+    meters:`<div class="lcd"><small>Đang chọn</small><span id="tsl">—</span></div><div class="lcd"><small>Đã gọi tên</small><span id="tdn">0/${TL.length}</span></div>`,
+    controls:names.map(n => `<button class="btn ghost small" data-tn="${h(n)}">${h(n)}</button>`).join(''),
+    panel:`<div class="goal"><b>Mục tiêu:</b> Nhận biết tên và công dụng của các dụng cụ thí nghiệm thường dùng, nắm các quy tắc an toàn trong phòng thực hành.</div>
+      <div class="tbl-wrap"><table><thead><tr><th>Dụng cụ</th><th>Kết quả</th></tr></thead><tbody id="ttb"></tbody></table></div>
+      ${mcHTML('tq1', 'Khi muốn tắt đèn cồn đang cháy, em làm thế nào?', ['Thổi mạnh vào ngọn lửa.', 'Dùng tay dập lửa.', 'Đậy nắp đèn lại.', 'Đổ nước vào đèn.'])}
+      ${mcHTML('tq2', 'Khi đun chất lỏng trong ống nghiệm, cách làm đúng là:', ['Kẹp ống nghiệm bằng kẹp, hướng miệng ống ra xa người.', 'Cầm ống nghiệm bằng tay cho chắc.', 'Hướng miệng ống về phía bạn để cùng quan sát.', 'Đổ đầy chất lỏng tới miệng ống rồi mới đun.'])}
+      ${submitRow(ctx.practice)}`
+  });
+  const done = () => TL.filter(([k]) => st[k].ok).length;
+  const table = () => { $('#ttb', el).innerHTML = TL.map(([k, n]) => `<tr><td>${st[k].ok ? h(n) : '?'}</td><td>${st[k].ok ? (st[k].miss ? `đúng sau ${st[k].miss} lần sai` : '✔ đúng ngay') : '<span class="muted">chưa gọi tên</span>'}</td></tr>`).join(''); $('#tdn', el).textContent = `${done()}/${TL.length}`; };
+  $('#lsub', el).onclick = () => { const q1 = mcVal(el, 'tq1'), q2 = mcVal(el, 'tq2');
+    if (done() < TL.length) return lerr(el, `Em mới gọi tên ${done()}/${TL.length} dụng cụ.`); if (q1 < 0 || q2 < 0) return lerr(el, 'Em trả lời cả hai câu hỏi an toàn.'); lerr(el);
+    const first = TL.filter(([k]) => !st[k].miss).length, notes = [`Em gọi đúng ngay lần đầu ${first}/${TL.length} dụng cụ.`];
+    if (q1 !== 2) notes.push('Tắt đèn cồn bằng cách đậy nắp; thổi có thể làm lửa bùng vào trong đèn.');
+    if (q2 !== 0) notes.push('Đun ống nghiệm: dùng kẹp, chất lỏng không quá 1/3 ống, hướng miệng ống ra xa người.');
+    finishLab(el, ctx, {score: 6*first/TL.length + (q1 === 2 ? 2 : 0) + (q2 === 0 ? 2 : 0), detail:{st, q1, q2}, notes}); };
+  table();
+  $$('[data-tn]', el).forEach(b => b.onclick = () => { if (!sel) return say(el, 'Em bấm chọn một dụng cụ trên giá trước.'); const t = TL.find(x => x[0] === sel), s = st[sel];
+    if (s.ok) return say(el, `Đây là ${t[1].toLowerCase()}. ${t[2]}`);
+    if (b.dataset.tn === t[1]){ s.ok = true; if (el.__tOk) el.__tOk(sel); say(el, `Đúng: ${t[1]}. ${t[2]}`); table(); if (done() === TL.length) setTimeout(() => say(el, 'Em đã gọi tên đủ 7 dụng cụ. Sang bước Quan sát để trả lời câu hỏi an toàn.'), 1800); }
+    else { s.miss++; say(el, `Chưa đúng, đây không phải ${b.dataset.tn.toLowerCase()}. Quan sát hình dạng và thử lại.`); } });
+  mount3D(el, {target:[0, 0.09, 0], r:0.95, th:0, ph:1.2, rMin:0.3, views:[{t:'Nhìn gần đèn cồn', r:0.4, th:0.1, ph:1.25, target:[0.12, 0.08, 0.05]}], label:'Giá dụng cụ thí nghiệm', studio:true, shadowSize:0.7}, S3 => {
+    const {THREE, M, box, mesh, cyl, group, label, table: tbl, glass} = S3;
+    tbl(1.1, 0.5); box(1.0, 0.01, 0.16, M('#2a3550'), 0, 0.005, 0.05);
+    const G = {}, X = i => -0.42 + i*0.14;
+    const gls = () => glass({opacity:.35});
+    TL.forEach(([k], i) => { const g = group(X(i), 0.01, 0.05); G[k] = g;
+      if (k === 'tube'){ const r = group(0, 0, 0, g); box(0.05, 0.006, 0.03, M('#8a5a2b'), 0, 0.003, 0, r); cyl(0.011, 0.011, 0.13, gls(), 0, 0.085, 0, g, 24, true); mesh(new THREE.SphereGeometry(0.011, 20, 10, 0, Math.PI*2, Math.PI/2, Math.PI/2), gls(), 0, 0.02, 0, g); cyl(0.0105, 0.0105, 0.035, new THREE.MeshStandardMaterial({color:'#7cc4ff', transparent:true, opacity:.6}), 0, 0.035, 0, g, 20); }
+      if (k === 'beaker'){ cyl(0.038, 0.036, 0.09, gls(), 0, 0.045, 0, g, 32, true); cyl(0.036, 0.036, 0.002, gls(), 0, 0.001, 0, g, 32); cyl(0.034, 0.034, 0.04, new THREE.MeshStandardMaterial({color:'#ffd27a', transparent:true, opacity:.55}), 0, 0.022, 0, g, 32);
+        for (let v = 1; v <= 3; v++) box(0.012, 0.001, 0.001, M('#ffffff'), -0.012, 0.02*v, 0.038, g); }
+      if (k === 'cyl'){ cyl(0.03, 0.03, 0.008, gls(), 0, 0.004, 0, g, 6); cyl(0.012, 0.012, 0.17, gls(), 0, 0.093, 0, g, 24, true); cyl(0.011, 0.011, 0.08, new THREE.MeshStandardMaterial({color:'#8fe3b0', transparent:true, opacity:.55}), 0, 0.048, 0, g, 20);
+        for (let v = 0; v < 8; v++) box(0.008, 0.001, 0.001, M('#ffffff'), -0.004, 0.03 + v*0.018, 0.0125, g); }
+      if (k === 'flask'){ cyl(0.012, 0.042, 0.08, gls(), 0, 0.04, 0, g, 32, true); cyl(0.042, 0.042, 0.002, gls(), 0, 0.001, 0, g, 32); cyl(0.012, 0.012, 0.04, gls(), 0, 0.1, 0, g, 20, true); cyl(0.012, 0.04, 0.035, new THREE.MeshStandardMaterial({color:'#e58cff', transparent:true, opacity:.55}), 0, 0.019, 0, g, 32); }
+      if (k === 'lamp'){ cyl(0.035, 0.04, 0.05, glass({opacity:.5}), 0, 0.025, 0, g, 32); cyl(0.034, 0.038, 0.03, new THREE.MeshStandardMaterial({color:'#d9f0ff', transparent:true, opacity:.5}), 0, 0.016, 0, g, 32); cyl(0.012, 0.016, 0.015, M('#c9cdd2', {metalness:.7}), 0, 0.057, 0, g, 20); cyl(0.003, 0.003, 0.012, M('#f3ecd6'), 0, 0.07, 0, g, 8);
+        const fl = mesh(new THREE.ConeGeometry(0.009, 0.04, 16), new THREE.MeshBasicMaterial({color:'#ffb347', transparent:true, opacity:.85}), 0, 0.095, 0, g); const fi = mesh(new THREE.ConeGeometry(0.004, 0.02, 12), new THREE.MeshBasicMaterial({color:'#6fb6ff', transparent:true, opacity:.8}), 0, 0.085, 0, g);
+        S3.frame((dt, t) => { const s = 1 + 0.12*Math.sin(t*17) + 0.06*Math.sin(t*31); fl.scale.set(1/s, s, 1/s); fi.scale.set(1, s, 1); }); }
+      if (k === 'pip'){ const p = group(0, 0, 0, g); p.rotation.z = 0.15; cyl(0.005, 0.0015, 0.13, gls(), 0, 0.075, 0, p, 16, true); mesh(new THREE.SphereGeometry(0.012, 20, 14), M('#d9433b', {roughness:.6}), 0, 0.15, 0, p).scale.set(1, 1.5, 1); cyl(0.004, 0.0015, 0.04, new THREE.MeshStandardMaterial({color:'#7cc4ff', transparent:true, opacity:.7}), 0, 0.032, 0, p, 12); }
+      if (k === 'clamp'){ const p = group(0, 0, 0, g); p.rotation.z = 0.35; box(0.012, 0.16, 0.008, M('#c69155', {roughness:.8}), 0, 0.085, 0, p); box(0.012, 0.03, 0.01, M('#b07a3d'), 0.012, 0.155, 0, p); cyl(0.004, 0.004, 0.012, M('#9aa3ad', {metalness:.8}), 0.006, 0.12, 0, p, 12).rotation.x = Math.PI/2; }
+      const hb = S3.hitbox(0.11, 0.2, 0.1, 0, 0.1, 0, g); hb.userData.noFit = true;
+      const lb = label(TL[i][1], 0.017); lb.position.set(0, 0.215, 0); lb.visible = false; g.add(lb); g.userData.lb = lb;
+      const q = label('?', 0.02); q.position.set(0, 0.215, 0); g.add(q); g.userData.q = q;
+      S3.click(g, () => pick(k)); });
+    const ring = mesh(new THREE.TorusGeometry(0.055, 0.003, 8, 48), new THREE.MeshBasicMaterial({color:'#22d3ee'}), 0, 0.012, 0); ring.rotation.x = Math.PI/2; ring.visible = false;
+    const pick = k => { sel = k; Object.entries(G).forEach(([kk, g]) => { g.position.y = kk === k ? 0.03 : 0.01; klGlow(g, kk === k ? '#123a4a' : '#000000'); });
+      ring.visible = true; ring.position.x = G[k].position.x; ring.position.z = G[k].position.z; $('#tsl', el).textContent = st[k].ok ? TL.find(x => x[0] === k)[1] : 'Dụng cụ ?';
+      say(el, st[k].ok ? `${TL.find(x => x[0] === k)[1]}: ${TL.find(x => x[0] === k)[2]}` : 'Dụng cụ này tên là gì? Chọn tên trong khay bên trái.'); };
+    el.__tOk = k => { G[k].userData.lb.visible = true; G[k].userData.q.visible = false; $('#tsl', el).textContent = TL.find(x => x[0] === k)[1]; };
+    S3.shadows(); say(el, 'Bắt đầu: bấm vào một dụng cụ trên giá.');
+  });
+};
+
+/* ---------- Tế bào 3D: động vật · thực vật · nhân sơ (khối 6) ---------- */
+LAB_IMPL.cell3d = (el, ctx) => {
+  const CT = {an:{n:'Tế bào động vật', find:['Màng tế bào','Nhân tế bào','Ti thể']}, pl:{n:'Tế bào thực vật', find:['Thành tế bào','Lục lạp','Không bào','Nhân tế bào']}, pk:{n:'Tế bào nhân sơ (vi khuẩn)', find:['Thành tế bào','Vùng nhân','Roi']}};
+  const fs = {}; Object.keys(CT).forEach(k => fs[k] = {i:0, miss:{}, ok:[]}); let ty = 'an';
+  labShell(el, {
+    how:['Chọn loại tế bào ở khay bên trái: động vật, thực vật hoặc nhân sơ.','Mô hình 3D đã được cắt đôi để nhìn thấy bên trong. Kéo để xoay, lăn chuột để phóng to.','Đọc yêu cầu "Hãy tìm" và bấm vào đúng thành phần đó. Bấm sai sẽ biết em vừa bấm vào phần nào.','Tìm đủ các thành phần của cả 3 loại tế bào rồi trả lời câu hỏi so sánh.'],
+    svg:V3,
+    meters:`<div class="lcd"><small>Hãy tìm</small><span id="cfd">—</span></div><div class="lcd"><small>Đã tìm được</small><span id="cdn">0/10</span></div>`,
+    controls:`<div class="seg" role="group" aria-label="Loại tế bào" style="flex-direction:column;display:flex">${Object.entries(CT).map(([k, c]) => `<button type="button" data-ct="${k}" aria-pressed="${k === 'an'}">${h(c.n.replace(' (vi khuẩn)', ''))}</button>`).join('')}</div>`,
+    panel:`<div class="goal"><b>Mục tiêu:</b> Nhận biết các thành phần chính của tế bào động vật, tế bào thực vật, tế bào nhân sơ và so sánh chúng.</div>
+      <div class="tbl-wrap"><table><thead><tr><th>Tế bào</th><th>Thành phần đã tìm</th></tr></thead><tbody id="ctb"></tbody></table></div>
+      ${mcHTML('cq1', 'Thành phần nào có ở tế bào thực vật nhưng KHÔNG có ở tế bào động vật?', ['Ti thể', 'Lục lạp', 'Nhân tế bào', 'Màng tế bào'])}
+      ${mcHTML('cq2', 'Điểm khác biệt chính giữa tế bào nhân sơ và tế bào nhân thực là:', ['Tế bào nhân sơ có kích thước lớn hơn.', 'Tế bào nhân sơ không có màng tế bào.', 'Tế bào nhân sơ chưa có nhân hoàn chỉnh (không có màng nhân), vật chất di truyền nằm ở vùng nhân.', 'Tế bào nhân sơ có nhiều lục lạp.'])}
+      ${submitRow(ctx.practice)}`
+  });
+  const total = () => Object.values(fs).reduce((s, f) => s + f.ok.length, 0);
+  const info = () => { const f = fs[ty], c = CT[ty]; $('#cfd', el).textContent = f.i < c.find.length ? c.find[f.i] : 'Xong ✔'; $('#cdn', el).textContent = `${total()}/10`;
+    $('#ctb', el).innerHTML = Object.entries(CT).map(([k, c]) => `<tr><td>${h(c.n)}</td><td>${fs[k].ok.length ? fs[k].ok.map(h).join(', ') : '<span class="muted">chưa tìm</span>'} <span class="muted">(${fs[k].ok.length}/${c.find.length})</span></td></tr>`).join(''); };
+  $('#lsub', el).onclick = () => { const q1 = mcVal(el, 'cq1'), q2 = mcVal(el, 'cq2');
+    if (total() < 10) return lerr(el, `Em mới tìm được ${total()}/10 thành phần. Hãy làm cả 3 loại tế bào.`); if (q1 < 0 || q2 < 0) return lerr(el, 'Em trả lời cả hai câu hỏi.'); lerr(el);
+    const miss = Object.values(fs).reduce((s, f) => s + Object.keys(f.miss).length, 0), first = 10 - miss, notes = [`Em tìm đúng ngay lần đầu ${first}/10 thành phần.`];
+    if (q1 !== 1) notes.push('Lục lạp (và thành tế bào, không bào lớn) chỉ có ở tế bào thực vật.');
+    if (q2 !== 2) notes.push('Tế bào nhân sơ chưa có màng nhân; vật chất di truyền nằm ở vùng nhân.');
+    finishLab(el, ctx, {score: 6*first/10 + (q1 === 1 ? 2 : 0) + (q2 === 2 ? 2 : 0), detail:{fs}, notes}); };
+  info();
+  mount3D(el, {target:[0, 0.17, 0], r:0.75, th:0.35, ph:1.25, rMin:0.25, noFit:true, adapt:true, views:[{t:'Nhìn thẳng', r:0.62, th:0, ph:1.5}], label:'Mô hình tế bào 3D cắt đôi'}, S3 => {
+    const {THREE, M, mesh, cyl, group, label} = S3, D = THREE.DoubleSide;
+    const pedestal = cyl(0.12, 0.14, 0.03, M('#26324d', {roughness:.5}), 0, 0.015, 0, undefined, 48); pedestal.userData.noFit = true;
+    const R = {}, tags = {}, Y = 0.19;
+    const part = (ty, name, m) => { (R[ty].parts[name] = R[ty].parts[name] || []).push(m); S3.click(m, () => hit(ty, name)); return m; };
+    const mkTag = (ty, name, from, to) => { tags[ty + name] = klTag(S3, R[ty].g, name, from, to, 0.026); tags[ty + name].show(false); };
+    const capsule = (len, r, mat, parent, x, y, z, rz = 0) => { const g = group(x, y, z, parent); g.rotation.z = rz; const c = cyl(r, r, len, mat, 0, 0, 0, g, 16); c.rotation.z = Math.PI/2; mesh(new THREE.SphereGeometry(r, 16, 10), mat, len/2, 0, 0, g); mesh(new THREE.SphereGeometry(r, 16, 10), mat, -len/2, 0, 0, g); return g; };
+    // động vật
+    R.an = {g:group(0, Y, 0), parts:{}}; { const g = R.an.g;
+      part('an', 'Màng tế bào', mesh(new THREE.SphereGeometry(0.15, 48, 32, Math.PI, Math.PI), M('#f2a7b8', {side:D, roughness:.6}), 0, 0, 0, g));
+      part('an', 'Màng tế bào', mesh(new THREE.TorusGeometry(0.15, 0.004, 8, 64), M('#ff7fa0'), 0, 0, 0, g));
+      part('an', 'Chất tế bào', mesh(new THREE.CircleGeometry(0.146, 48), M('#ffd9e2', {side:D, transparent:true, opacity:.35, depthWrite:false}), 0, 0, -0.001, g));
+      const nu = part('an', 'Nhân tế bào', mesh(new THREE.SphereGeometry(0.045, 32, 20), M('#7b4fc9', {roughness:.4}), -0.01, 0.015, -0.04, g)); mesh(new THREE.SphereGeometry(0.016, 16, 10), M('#3d1f7a'), 0.012, 0.012, 0.035, nu);
+      [[0.075, 0.05, -0.05, .6], [-0.07, -0.06, -0.06, -.4], [0.06, -0.07, -0.03, .2], [-0.08, 0.06, -0.07, 1]].forEach(([x, y, z, r]) => part('an', 'Ti thể', capsule(0.03, 0.011, M('#f08a24', {roughness:.5}), g, x, y, z, r)));
+      for (let i = 0; i < 26; i++){ const a = i*2.39, rr = 0.06 + (i % 5)*0.015; mesh(new THREE.SphereGeometry(0.0025, 6, 4), M('#5b3b8f'), rr*Math.cos(a), rr*Math.sin(a)*0.9, -0.02 - (i % 4)*0.02, g); }
+      mkTag('an', 'Màng tế bào', [0.106, 0.106, 0], [0.2, 0.17, 0.05]); mkTag('an', 'Nhân tế bào', [-0.01, 0.06, -0.02], [-0.16, 0.17, 0.05]); mkTag('an', 'Ti thể', [0.075, 0.05, -0.04], [0.21, 0.02, 0.05]); }
+    // thực vật
+    R.pl = {g:group(0, Y, 0), parts:{}}; { const g = R.pl.g, W = 0.3, H = 0.22, Dp = 0.18, t = 0.012, wm = M('#7fae4a', {roughness:.7});
+      [[W, H, t, 0, 0, -Dp/2], [t, H, Dp, -W/2, 0, 0], [t, H, Dp, W/2, 0, 0], [W, t, Dp, 0, -H/2, 0], [W, t, Dp, 0, H/2, 0]].forEach(([a, b, c, x, y, z]) => part('pl', 'Thành tế bào', mesh(new THREE.BoxGeometry(a, b, c), wm, x, y, z, g)));
+      part('pl', 'Chất tế bào', mesh(new THREE.PlaneGeometry(W - 0.03, H - 0.03), M('#e6f6c8', {transparent:true, opacity:.3, depthWrite:false, side:D}), 0, 0, -Dp/2 + 0.008, g));
+      part('pl', 'Không bào', mesh(new THREE.SphereGeometry(0.07, 32, 20), M('#8fd3ff', {transparent:true, opacity:.55, roughness:.1}), 0.03, -0.005, -0.02, g)).scale.set(1.35, 1.05, 0.85);
+      const nu = part('pl', 'Nhân tế bào', mesh(new THREE.SphereGeometry(0.032, 28, 18), M('#7b4fc9', {roughness:.4}), -0.1, 0.055, -0.04, g)); mesh(new THREE.SphereGeometry(0.011, 12, 8), M('#3d1f7a'), 0.01, 0.008, 0.025, nu);
+      [[-0.11, -0.07, -0.05], [-0.12, 0.0, 0.02], [0.115, 0.075, -0.05], [0.12, -0.06, 0.0], [-0.02, 0.085, -0.06], [0.03, -0.088, -0.05], [-0.06, -0.085, 0.03]].forEach(([x, y, z], i) => { const c = part('pl', 'Lục lạp', mesh(new THREE.SphereGeometry(0.014, 16, 10), M('#2f9e44', {roughness:.5}), x, y, z, g)); c.scale.set(1.7, 0.75, 1); c.rotation.z = i; });
+      mkTag('pl', 'Thành tế bào', [0.15, 0.1, 0.02], [0.24, 0.17, 0.06]); mkTag('pl', 'Nhân tế bào', [-0.1, 0.085, -0.03], [-0.22, 0.17, 0.06]); mkTag('pl', 'Lục lạp', [0.12, -0.06, 0.01], [0.24, -0.04, 0.06]); mkTag('pl', 'Không bào', [0.03, -0.0, 0.035], [0.05, -0.17, 0.08]); }
+    // nhân sơ
+    R.pk = {g:group(0, Y, 0), parts:{}}; { const g = R.pk.g, L = 0.24, r = 0.07, wm = M('#c08a3e', {side:D, roughness:.6});
+      const body = cyl(r, r, L, wm, 0, 0, 0, g, 40, true); body.geometry = new THREE.CylinderGeometry(r, r, L, 40, 1, true, Math.PI/2, Math.PI); body.rotation.z = Math.PI/2; part('pk', 'Thành tế bào', body);
+      part('pk', 'Thành tế bào', mesh(new THREE.SphereGeometry(r, 24, 16, Math.PI, Math.PI/2), wm, L/2, 0, 0, g)); part('pk', 'Thành tế bào', mesh(new THREE.SphereGeometry(r, 24, 16, Math.PI*1.5, Math.PI/2), wm, -L/2, 0, 0, g));
+      part('pk', 'Chất tế bào', mesh(new THREE.PlaneGeometry(L, 2*r - 0.01), M('#f3e2b8', {transparent:true, opacity:.3, depthWrite:false, side:D}), 0, 0, -0.002, g));
+      const pts = []; for (let i = 0; i < 14; i++){ const a = i/14*Math.PI*2; pts.push(new THREE.Vector3(0.06*Math.cos(a) + 0.015*Math.sin(a*3), 0.03*Math.sin(a) + 0.012*Math.cos(a*4), -0.025 + 0.012*Math.sin(a*5))); }
+      part('pk', 'Vùng nhân', mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts, true), 120, 0.004, 8, true), M('#5b6ef0', {roughness:.4}), 0, 0, 0, g));
+      part('pk', 'Plasmid', mesh(new THREE.TorusGeometry(0.012, 0.003, 8, 24), M('#a855f7'), 0.08, -0.03, -0.03, g));
+      const fp = []; for (let i = 0; i <= 20; i++) fp.push(new THREE.Vector3(L/2 + r - 0.01 + i*0.012, 0.012*Math.sin(i*0.9), -0.01));
+      const fl = part('pk', 'Roi', mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(fp), 60, 0.003, 6), M('#f0d48a'), 0, 0, 0, g)); S3.frame((dt, t) => { fl.rotation.x = 0.25*Math.sin(t*6); });
+      for (let i = 0; i < 30; i++){ const a = i*2.39, rr = 0.02 + (i % 6)*0.008; mesh(new THREE.SphereGeometry(0.0028, 6, 4), M('#8b5a2b'), -0.09 + (i % 10)*0.02, rr*Math.sin(a)*0.8, -0.03 - (i % 3)*0.012, g); }
+      mkTag('pk', 'Thành tế bào', [0, 0.07, -0.005], [-0.06, 0.16, 0.05]); mkTag('pk', 'Vùng nhân', [0.0, 0.03, -0.02], [0.1, 0.15, 0.06]); mkTag('pk', 'Roi', [L/2 + r + 0.12, 0.01, -0.01], [0.3, 0.12, 0.05]); }
+    const hit = (t, name) => { if (t !== ty) return; const f = fs[ty], c = CT[ty];
+      if (f.i >= c.find.length){ return say(el, `Đây là: ${name}.`); }
+      const want = c.find[f.i];
+      if (name === want){ f.ok.push(name); f.i++; tags[ty + name] && tags[ty + name].show(true); (R[ty].parts[name] || []).forEach(m => klGlow(m, '#1a3a2a'));
+        say(el, f.i < c.find.length ? `Đúng: ${name}. Tiếp theo, hãy tìm: ${c.find[f.i]}.` : `Tuyệt! Em đã tìm đủ thành phần của ${c.n.toLowerCase()}.${total() < 10 ? ' Chọn loại tế bào khác trong khay.' : ''}`); }
+      else { f.miss[want] = 1; say(el, `Em vừa bấm vào: ${name}. Đó chưa phải ${want.toLowerCase()}, thử lại nhé.`); }
+      info(); };
+    const show = k => { ty = k; Object.entries(R).forEach(([kk, r]) => r.g.visible = kk === k); $$('[data-ct]', el).forEach(b => b.setAttribute('aria-pressed', String(b.dataset.ct === k))); info(); say(el, `${CT[k].n}. Hãy tìm: ${fs[k].i < CT[k].find.length ? CT[k].find[fs[k].i] : '(đã xong)'}.`); };
+    $$('[data-ct]', el).forEach(b => b.onclick = () => show(b.dataset.ct));
+    S3.frame(dt => { Object.values(R).forEach(r => { if (r.g.visible) r.g.position.y = Y + 0.004*Math.sin(performance.now()/900); }); });
+    show('an');
+  });
+};
+
+/* ---------- Tim, vòng tuần hoàn và nhóm máu (khối 8) ---------- */
+LAB_IMPL.heart = (el, ctx) => {
+  const SEQ = {nho:['Tâm thất phải','Động mạch phổi','Phổi','Tĩnh mạch phổi','Tâm nhĩ trái'], lon:['Tâm thất trái','Động mạch chủ','Các cơ quan','Tĩnh mạch chủ','Tâm nhĩ phải']};
+  const LN = {nho:'Vòng tuần hoàn nhỏ', lon:'Vòng tuần hoàn lớn'};
+  const pr = {nho:{i:0, err:0}, lon:{i:0, err:0}}; let mode = 'nho';
+  labShell(el, {
+    how:['Chọn vòng tuần hoàn ở khay bên trái.','Bấm lần lượt vào các bộ phận theo đúng đường đi của máu, bắt đầu từ tâm thất.','Theo dõi dòng máu: màu đỏ là máu giàu O₂, màu xanh là máu nghèo O₂. Dùng ⏸ và 0,25× để quan sát nhịp tim chậm lại.','Hoàn thành cả hai vòng rồi trả lời câu hỏi về nhóm máu.'],
+    svg:V3,
+    meters:`<div class="lcd"><small>Nhịp tim mô phỏng</small><span id="hbp">75 lần/phút</span></div><div class="lcd"><small>Bước tiếp theo</small><span id="hnx">—</span></div>`,
+    controls:`<div class="seg" role="group" aria-label="Chọn vòng tuần hoàn" style="flex-direction:column;display:flex">${Object.entries(LN).map(([k, n]) => `<button type="button" data-hm="${k}" aria-pressed="${k === 'nho'}">${n}</button>`).join('')}</div><button class="btn ghost small" id="hrs">↺ Làm lại vòng này</button>`,
+    panel:`<div class="goal"><b>Mục tiêu:</b> Xác định đường đi của máu trong vòng tuần hoàn nhỏ và vòng tuần hoàn lớn, hiểu nguyên tắc truyền máu.</div>
+      <div class="tbl-wrap"><table><thead><tr><th>Vòng</th><th>Đường đi em đã xác định</th></tr></thead><tbody id="htb"></tbody></table></div>
+      ${mcHTML('hq1', 'Vòng tuần hoàn nhỏ có chức năng:', ['Đưa máu giàu O₂ đi nuôi các cơ quan.', 'Đưa máu lên phổi để trao đổi khí: thải CO₂, nhận O₂.', 'Đưa chất dinh dưỡng từ ruột về gan.', 'Lọc máu và tạo nước tiểu.'])}
+      ${mcHTML('hq2', 'Theo sơ đồ truyền máu trong SGK, người có nhóm máu O có thể truyền cho người có nhóm máu:', ['Chỉ nhóm O.', 'Chỉ nhóm AB.', 'Nhóm O, A, B và AB.', 'Không truyền được cho nhóm nào.'])}
+      ${submitRow(ctx.practice)}`
+  });
+  const info = () => { const p = pr[mode], s = SEQ[mode]; $('#hnx', el).textContent = p.i < s.length ? `${p.i + 1}/${s.length}` : 'Xong ✔';
+    $('#htb', el).innerHTML = Object.keys(SEQ).map(k => `<tr><td>${LN[k]}</td><td>${pr[k].i ? SEQ[k].slice(0, pr[k].i).map(h).join(' → ') : '<span class="muted">chưa làm</span>'}${pr[k].err ? ` <span class="muted">(${pr[k].err} lần sai)</span>` : ''}</td></tr>`).join(''); };
+  $('#lsub', el).onclick = () => { const q1 = mcVal(el, 'hq1'), q2 = mcVal(el, 'hq2'), dn = k => pr[k].i >= SEQ[k].length;
+    if (!dn('nho') || !dn('lon')) return lerr(el, 'Em hoàn thành cả hai vòng tuần hoàn trước nhé.'); if (q1 < 0 || q2 < 0) return lerr(el, 'Em trả lời cả hai câu hỏi.'); lerr(el);
+    const pt = k => Math.max(0, 3 - pr[k].err*0.75), notes = [];
+    Object.keys(SEQ).forEach(k => notes.push(`${LN[k]}: ${SEQ[k].join(' → ')}${pr[k].err ? ` (em sai ${pr[k].err} lần)` : ' — em làm đúng ngay.'}`));
+    if (q1 !== 1) notes.push('Vòng tuần hoàn nhỏ đưa máu lên phổi để trao đổi khí.'); if (q2 !== 2) notes.push('Theo sơ đồ truyền máu, nhóm O có thể truyền cho cả 4 nhóm (truyền ít và chậm); thực tế nên truyền cùng nhóm.');
+    finishLab(el, ctx, {score: pt('nho') + pt('lon') + (q1 === 1 ? 2 : 0) + (q2 === 2 ? 2 : 0), detail:{pr, q1, q2}, notes}); };
+  info();
+  mount3D(el, {target:[0, 0.23, 0], r:1.2, th:0, ph:1.45, rMin:0.3, noFit:true, adapt:true, views:[{t:'Nhìn gần tim', r:0.45, th:0, ph:1.45, target:[0, 0.21, 0]}], label:'Mô hình tim và hai vòng tuần hoàn'}, S3 => {
+    const {THREE, M, mesh, group, label} = S3, sc = S3.scene, RED = '#e0303a', BLUE = '#3b6fe0';
+    const root = group(0, 0.2, 0); const hg = group(0, 0, 0, root); const parts = {}, mats = [];
+    const reg = (name, m) => { (parts[name] = parts[name] || []).push(m); S3.click(m, () => hit(name)); return m; };
+    const ch = (name, c, x, y, sx, sy) => { const m = reg(name, mesh(new THREE.SphereGeometry(0.05, 32, 20), M(c, {roughness:.45}), x, y, 0, hg)); m.scale.set(sx, sy, 0.8); return m; };
+    ch('Tâm nhĩ phải', '#4f78d9', -0.048, 0.06, 0.8, 0.7); ch('Tâm nhĩ trái', '#e8505a', 0.048, 0.06, 0.8, 0.7);
+    ch('Tâm thất phải', '#3157b8', -0.042, -0.035, 0.95, 1.15); ch('Tâm thất trái', '#c2242e', 0.045, -0.035, 1.0, 1.2);
+    mesh(new THREE.BoxGeometry(0.006, 0.17, 0.07), M('#f2d0c0'), 0, 0.01, 0, hg);
+    const tube = (name, c, pts, r = 0.011) => { const cv = new THREE.CatmullRomCurve3(pts.map(p => new THREE.Vector3(...p))); reg(name, mesh(new THREE.TubeGeometry(cv, 64, r, 10), M(c, {roughness:.5}), 0, 0, 0, root)); return cv; };
+    const lungs = group(0, 0.27, -0.05, root); [-1, 1].forEach(s => { const l = reg('Phổi', mesh(new THREE.SphereGeometry(0.07, 28, 18), M('#f4a7b3', {roughness:.7}), s*0.09, 0, 0, lungs)); l.scale.set(0.8, 1.15, 0.6); });
+    const org = reg('Các cơ quan', mesh(new THREE.SphereGeometry(0.08, 28, 18), M('#e9b48c', {roughness:.7}), 0, -0.29, -0.02, root)); org.scale.set(1.6, 0.6, 0.7);
+    const C = {pa:tube('Động mạch phổi', BLUE, [[-0.04, -0.02, 0.04], [-0.02, 0.09, 0.05], [-0.06, 0.16, 0.0], [-0.09, 0.24, -0.05]]),
+      pv:tube('Tĩnh mạch phổi', RED, [[0.09, 0.24, -0.05], [0.08, 0.16, -0.02], [0.05, 0.08, -0.01]]),
+      ao:tube('Động mạch chủ', RED, [[0.045, -0.03, 0.04], [0.02, 0.1, 0.04], [0.08, 0.15, 0.0], [0.15, 0.06, -0.02], [0.14, -0.15, -0.02], [0.06, -0.27, -0.02]], 0.013),
+      vc:tube('Tĩnh mạch chủ', BLUE, [[-0.06, -0.27, -0.02], [-0.15, -0.16, -0.02], [-0.16, 0.02, -0.02], [-0.11, 0.1, -0.01], [-0.06, 0.07, 0]], 0.013)};
+    const LB = {'Tâm nhĩ phải':[-0.06, 0.09, 0.05, -0.2, 0.13], 'Tâm nhĩ trái':[0.06, 0.09, 0.05, 0.23, 0.17], 'Tâm thất phải':[-0.05, -0.06, 0.05, -0.24, -0.05], 'Tâm thất trái':[0.05, -0.07, 0.05, 0.24, -0.1],
+      'Động mạch phổi':[-0.03, 0.11, 0.05, -0.24, 0.24], 'Tĩnh mạch phổi':[0.08, 0.17, -0.02, 0.26, 0.29], 'Động mạch chủ':[0.15, 0.0, 0, 0.29, 0.03], 'Tĩnh mạch chủ':[-0.16, -0.05, 0, -0.29, -0.13], 'Phổi':[0, 0.33, -0.03, 0.0, 0.43], 'Các cơ quan':[0, -0.29, 0.04, 0.0, -0.39]};
+    const tags = {}; Object.entries(LB).forEach(([n, [x, y, z, tx, tyy]]) => { tags[n] = klTag(S3, root, n, [x, y, z], [tx, tyy, 0.08], 0.03); tags[n].show(false); });
+    const flows = Object.entries(C).map(([k, cv]) => { const red = k === 'pv' || k === 'ao'; return {cv, k, dots:Array.from({length:10}, (_, i) => ({u:i/10, m:mesh(new THREE.SphereGeometry(0.0055, 8, 6), new THREE.MeshBasicMaterial({color:red ? '#ff5a63' : '#6f9bff'}), 0, 0, 0, root)}))}; });
+    let ph = 0; S3.frame(dt => { ph += dt*1.25; const b = Math.max(0, Math.sin(ph*Math.PI*2)); hg.scale.setScalar(1 + 0.05*b*b);
+      flows.forEach(f => { const on = f.k === 'pa' || f.k === 'pv' ? mode === 'nho' || pr.nho.i >= 5 : mode === 'lon' || pr.lon.i >= 5; f.dots.forEach(d => { d.m.visible = on; if (!on) return; d.u = (d.u + dt*(0.18 + 0.25*b)) % 1; d.m.position.copy(f.cv.getPointAt(d.u)); }); });
+      $('#hbp', el).textContent = (LABCLK.p ? 0 : Math.round(75*LABCLK.k)) + ' lần/phút'; });
+    const hit = name => { const p = pr[mode], s = SEQ[mode];
+      if (p.i >= s.length) return say(el, `Đây là: ${name}. Em đã hoàn thành ${LN[mode].toLowerCase()}.`);
+      if (name === s[p.i]){ tags[name].show(true); p.i++; (parts[name] || []).forEach(m => klGlow(m, '#2a2a10'));
+        say(el, p.i < s.length ? `Đúng: ${name}. Máu đi tiếp tới đâu?` : `Hoàn thành ${LN[mode].toLowerCase()}: ${s.join(' → ')}.`); }
+      else { p.err++; say(el, p.i === 0 ? `${LN[mode]} bắt đầu từ một tâm thất. Em vừa bấm: ${name}.` : `Chưa đúng: từ ${s[p.i - 1].toLowerCase()}, máu không đi tới ${name.toLowerCase()}.`); }
+      info(); };
+    const setMode = k => { mode = k; $$('[data-hm]', el).forEach(b => b.setAttribute('aria-pressed', String(b.dataset.hm === k)));
+      Object.values(tags).forEach(t => t.show(false)); Object.values(parts).flat().forEach(m => klGlow(m, '#000000'));
+      SEQ[k].slice(0, pr[k].i).forEach(n => { tags[n].show(true); (parts[n] || []).forEach(m => klGlow(m, '#2a2a10')); }); info(); say(el, `${LN[k]}: bấm bộ phận đầu tiên mà máu xuất phát.`); };
+    $$('[data-hm]', el).forEach(b => b.onclick = () => setMode(b.dataset.hm));
+    $('#hrs', el).onclick = () => { pr[mode].i = 0; setMode(mode); };
+    setMode('nho');
+  });
+};
+
 LAB_IMPL.heat = (el, ctx) => {
   const ROOMT = 24 + hash(ctx.sid+'heat') % 7, RATE = [7, 8, 9, 10][hash(ctx.sid+'ht') % 4];
   const SPEED = 0.25; // phút mô phỏng / giây thật
