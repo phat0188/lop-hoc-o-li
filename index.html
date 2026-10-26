@@ -2009,6 +2009,12 @@ html body .sc-dlg .btn.ghost{background:#fff!important;color:var(--ink)!importan
 html body .sc-act{background:var(--red)!important;border:3px solid #fff!important;box-shadow:0 6px 18px rgba(20,20,50,.3)!important}
 html body .sc-joy span{background:#fff!important;border:2px solid var(--ink)}
 html body .sc-tr .hub-ic{background:#fff!important}
+
+.sc-rot{display:contents}.sc-rot[hidden]{display:none}
+.sc-stage.is3d #scCv{cursor:grab}.sc-stage.is3d #scCv:active{cursor:grabbing}
+
+.sc-stage.is3d .sc-btns{grid-template-columns:repeat(2,44px)}
+@media (max-width:760px){.sc-stage .sc-btns{display:flex!important;flex-wrap:wrap;justify-content:flex-end;max-width:calc(100vw - 48px)}.sc-stage .sc-btns .hub-ic{width:40px;height:40px}}
 </style>
 
 <header class="top"><div class="wrap">
@@ -3707,8 +3713,9 @@ async function school3D(stage, below){
   const kids = new Map();
   const kidFor = (id, L) => { const key = JSON.stringify(L); let k = kids.get(id); if (k && k.userData.key !== key){ scene.remove(k); k = null; } if (!k){ k = makeKid(L); kids.set(id, k); } k.userData.seen = true; return k; };
   const DIR = {down:0, up:Math.PI, left:-Math.PI/2, right:Math.PI/2};
-  const poseKid = (k, x, y, dir, t, moving, dt) => { const u = k.userData; k.position.set(X(x), 0, Z(y));
-    let want = DIR[dir] ?? 0, d = want - u.ang; while (d > Math.PI) d -= Math.PI*2; while (d < -Math.PI) d += Math.PI*2; u.ang += d*Math.min(1, dt*12); k.rotation.y = u.ang;
+  const poseKid = (k, x, y, dir, t, moving, dt) => { const u = k.userData; const mx = x - (u.px ?? x), my = y - (u.py ?? y); u.px = x; u.py = y; k.position.set(X(x), 0, Z(y));
+    if (Math.hypot(mx, my) > 0.3) u.face = Math.atan2(mx, my); else if (u.face === undefined) u.face = DIR[dir] ?? 0;
+    let want = u.face, d = want - u.ang; while (d > Math.PI) d -= Math.PI*2; while (d < -Math.PI) d += Math.PI*2; u.ang += d*Math.min(1, dt*12); k.rotation.y = u.ang;
     const sw = moving ? Math.sin(t*11)*0.55 : 0; u.lp.rotation.x = sw; u.rp.rotation.x = -sw; u.la.rotation.x = -sw*0.8; u.ra.rotation.x = sw*0.8; u.r.position.y = moving ? Math.abs(Math.sin(t*11))*0.018 : 0; };
   /* ---- nhãn tên, bong bóng chat ---- */
   const tagCache = new Map();
@@ -3735,17 +3742,31 @@ async function school3D(stage, below){
   const arrow = ink(mesh(new THREE.ConeGeometry(0.09, 0.18, 4), M('#f2c14e'), 0, 0, 0, scene, false)); arrow.rotation.x = Math.PI;
   /* ---- camera, kích thước, chọn điểm ---- */
   const look = new THREE.Vector3(), camPos = new THREE.Vector3(); let first = true, cw = 1, ch = 1;
+  const PITCH = [0.93, 0.6, 1.3], view = {yaw:0.1, yawT:0.1, pitch:0.93, pitchT:0.93, pi:0};
+  try { const sv = JSON.parse(store('oli.sc3cam') || 'null'); if (sv){ view.yaw = view.yawT = +sv.yaw || 0.1; view.pitch = view.pitchT = clamp(+sv.pitch || 0.93, 0.35, 1.45); } } catch(_){}
+  const saveView = () => store('oli.sc3cam', JSON.stringify({yaw:+view.yawT.toFixed(3), pitch:+view.pitchT.toFixed(3)}));
   const resize = () => { const r = stage.getBoundingClientRect(); cw = Math.max(280, r.width); ch = Math.max(300, r.height); renderer.setSize(cw, ch, false); canvas.style.width = cw + 'px'; canvas.style.height = ch + 'px'; camera.aspect = cw/ch; camera.updateProjectionMatrix(); };
   const ro = new ResizeObserver(resize); ro.observe(stage); resize();
   const ray = new THREE.Raycaster(), ndc = new THREE.Vector2(), gp = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0), hit = new THREE.Vector3(), v = new THREE.Vector3();
   const api = {canvas, THREE,
+    yaw(){ return view.yaw; },
+    yawT(){ return view.yawT; },
+    rotate(d){ view.yawT += d; saveView(); },
+    setYaw(v){ view.yawT = v; },
+    tilt(d){ view.pitchT = clamp(view.pitchT + d, 0.35, 1.45); },
+    nextPitch(){ view.pi = (view.pi + 1) % PITCH.length; view.pitchT = PITCH[view.pi]; saveView(); return view.pi; },
+    resetView(){ view.yawT = Math.round((view.yawT - 0.1)/(Math.PI*2))*Math.PI*2 + 0.1; view.pitchT = 0.93; view.pi = 0; saveView(); },
+    commit: saveView,
     pick(cx, cy){ const r = canvas.getBoundingClientRect(); ndc.set((cx - r.left)/r.width*2 - 1, -((cy - r.top)/r.height)*2 + 1); ray.setFromCamera(ndc, camera); return ray.ray.intersectPlane(gp, hit) ? {x:hit.x/s + W/2, y:hit.z/s + H/2} : null; },
     project(x, y, hy = 0.3){ v.set(X(x), hy, Z(y)).project(camera); if (v.z > 1) return null; const r = canvas.getBoundingClientRect(); return {x:r.left + (v.x + 1)/2*r.width, y:r.top + (1 - v.y)/2*r.height}; },
     draw(st){ const {P, dt, T} = st; spI = 0; kids.forEach(k => k.userData.seen = false);
       // camera bám theo, hơi chéo từ phía nam
       const zk = 1/clamp(st.zoomMul || 1, 0.6, 1.8), dist = (cw < 700 ? 9.5 : 8.6)*zk;
-      look.set(clamp(X(P.x), X(0) + 2.2, X(W) - 2.2), 0.35, clamp(Z(P.y), Z(0) + 1.2, Z(H) - 2.6)); camPos.set(look.x + dist*0.07, look.y + dist*0.8, look.z + dist*0.6);
-      if (first){ camera.position.copy(camPos); first = false; } else camera.position.lerp(camPos, Math.min(1, dt*5)); camera.lookAt(camera.position.x - dist*0.07, look.y, camera.position.z - dist*0.6);
+      const kk = Math.min(1, dt*8); view.yaw += (view.yawT - view.yaw)*kk; view.pitch += (view.pitchT - view.pitch)*kk;
+      const ox = Math.sin(view.yaw)*Math.cos(view.pitch), oz = Math.cos(view.yaw)*Math.cos(view.pitch), oy = Math.sin(view.pitch);
+      const tgt = new THREE.Vector3(clamp(X(P.x), X(0) + 2.2, X(W) - 2.2), 0.35, clamp(Z(P.y), Z(0) + 1.2, Z(H) - 1.6));
+      if (first){ look.copy(tgt); first = false; } else look.lerp(tgt, Math.min(1, dt*5));
+      camera.position.set(look.x + ox*dist, look.y + oy*dist, look.z + oz*dist); camera.lookAt(look);
       sun.position.set(look.x + 4, 9, look.z + 5); sun.target.position.copy(look);
       const night = st.night; hemi.intensity = night ? 0.42 : 0.7; sun.intensity = night ? 0.25 : 0.75; scene.background.set(night ? '#c9cbe0' : '#f3f2ea'); scene.fog.color.copy(scene.background);
       // cờ bay
@@ -3779,7 +3800,7 @@ function vSchool(app){
     <div class="sc-stage" id="scStage">
       <canvas id="scCv" aria-label="Bản đồ sân trường. Dùng phím mũi tên hoặc chạm để di chuyển nhân vật."></canvas>
       <div class="sc-hud"><span class="sc-ava"><canvas id="scAva" width="88" height="88"></canvas></span><span class="sc-hudt"><b>${h(m ? m.name : S.canEdit ? 'Giáo viên' : 'Khách tham quan')}</b><span><i style="color:${tier[2]}">${tier[1]}</i> · Lv. ${d.lv}${m ? ' · Lớp ' + h(m.cls) : ''}</span><span class="hub-bar"><i style="width:${d.inLv}%"></i></span></span></div>
-      <div class="sc-tr"><canvas id="scMini" width="344" height="200" role="button" aria-label="Bản đồ nhỏ, chạm để mở bản đồ lớn"></canvas><div class="sc-btns"><button class="hub-ic" id="scLook" aria-label="Tùy chỉnh nhân vật">${HUB_ICON.user}</button><button class="hub-ic" id="scSet" aria-label="Cài đặt điều khiển">${HUB_ICON.gear}</button><button class="hub-ic" id="scFull" aria-label="Toàn màn hình"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>${isHall ? '' : `<button class="hub-ic sc-dim" id="scDim" aria-label="Đổi góc nhìn 2D hoặc 3D" title="Đổi góc nhìn 2D / 3D">${SC3.on() ? '2D' : '3D'}</button>`}<button class="hub-ic" id="scTut" aria-label="Hướng dẫn">?</button><button class="hub-ic sc-chatb" id="scChat" aria-label="Trò chuyện">💬<i id="scChatN" hidden></i></button></div></div>
+      <div class="sc-tr"><canvas id="scMini" width="344" height="200" role="button" aria-label="Bản đồ nhỏ, chạm để mở bản đồ lớn"></canvas><div class="sc-btns"><button class="hub-ic" id="scLook" aria-label="Tùy chỉnh nhân vật">${HUB_ICON.user}</button><button class="hub-ic" id="scSet" aria-label="Cài đặt điều khiển">${HUB_ICON.gear}</button><button class="hub-ic" id="scFull" aria-label="Toàn màn hình"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>${isHall ? '' : `<span class="sc-rot" id="scRot" hidden><button class="hub-ic" id="scRotL" aria-label="Xoay góc nhìn sang trái" title="Xoay trái (Q)">⟲</button><button class="hub-ic" id="scRotR" aria-label="Xoay góc nhìn sang phải" title="Xoay phải (E)">⟳</button><button class="hub-ic" id="scTilt" aria-label="Đổi độ nghiêng góc nhìn" title="Nhìn từ trên cao / nhìn ngang"><svg viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="3" fill="currentColor"/></svg></button><button class="hub-ic" id="scNorth" aria-label="Về góc nhìn ban đầu" title="Góc nhìn ban đầu">N</button></span><button class="hub-ic sc-dim" id="scDim" aria-label="Đổi góc nhìn 2D hoặc 3D" title="Đổi góc nhìn 2D / 3D">${SC3.on() ? '2D' : '3D'}</button>`}<button class="hub-ic" id="scTut" aria-label="Hướng dẫn">?</button><button class="hub-ic sc-chatb" id="scChat" aria-label="Trò chuyện">💬<i id="scChatN" hidden></i></button></div></div>
       <div class="sc-joy" id="scJoy" aria-hidden="true"><span id="scKnob"></span></div>
       <p class="sc-hint" id="scHint">Chạm để đi tới · Giữ và kéo để điều khiển</p>
       <button class="sc-act" id="scAct" hidden><span class="sc-act-ic" aria-hidden="true"></span><span class="sc-act-t"></span></button>
@@ -3897,6 +3918,7 @@ function vSchool(app){
   const kd = e => { if (!document.body.contains(cv)) return; if (/input|select|textarea/i.test(e.target.tagName)) return; const k = e.key.toLowerCase();
     if (['arrowup','arrowdown','arrowleft','arrowright','w','a','s','d'].includes(k)){ keys[k] = true; target = null; e.preventDefault(); }
     if (k === 'shift') keys.shift = true; if (k === '+' || k === '=') setZoom(zoomMul*1.1); if (k === '-') setZoom(zoomMul/1.1);
+    if (R3 && (k === 'q' || k === 'e')){ R3.rotate(k === 'q' ? 0.5 : -0.5); } if (R3 && (k === 'r' || k === 'f')){ R3.tilt(k === 'r' ? 0.12 : -0.12); R3.commit(); } if (R3 && k === 'home') R3.resetView();
     if ((k === 'e' || k === 'enter' || k === ' ') && !dlgOpen && !game && cur){ e.preventDefault(); doAct(cur); }
     if (game && /^[1-4abcd]$/.test(k) && !/input/i.test(e.target.tagName)){ rcvPickKey(k); return; }
     if (k === 'escape'){ if (dlgOpen) closeDlg(); else if (stage.classList.contains('map-big')) stage.classList.remove('map-big'); else if (stage.classList.contains('sc-max')) setMax(false); } };
@@ -3928,17 +3950,21 @@ function vSchool(app){
     joy = {x:dx/rad, y:dy/rad}; knob.style.transform = `translate(calc(-50% + ${dx.toFixed(1)}px), calc(-50% + ${dy.toFixed(1)}px))`; joyEl.classList.toggle('run', L/rad > 0.92); };
   const endJoy = () => { joyId = null; joy = {x:0, y:0}; joyEl.classList.remove('on', 'run'); joyEl.style.left = ''; joyEl.style.top = ''; knob.style.transform = ''; };
   const setZoom = v => { zoomMul = clamp(v, 0.7, 1.7); updZoom(); };
+  let rot = null;
   cv.addEventListener('pointerdown', e => { if (dlgOpen || busy || game || lobbyOn) return; e.preventDefault(); try { cv.setPointerCapture(e.pointerId); } catch(_){}
+    if (R3 && e.pointerType === 'mouse'){ rot = {id:e.pointerId, x:e.clientX, y:e.clientY, moved:false, btn:e.button}; return; }
     ptrs.set(e.pointerId, {x:e.clientX, y:e.clientY});
-    if (ptrs.size === 2){ endJoy(); tapStart = null; const [a, b] = [...ptrs.values()]; pinch = {d0:Math.hypot(a.x - b.x, a.y - b.y) || 1, z0:zoomMul}; return; }
+    if (ptrs.size === 2){ endJoy(); tapStart = null; const [a, b] = [...ptrs.values()]; pinch = {d0:Math.hypot(a.x - b.x, a.y - b.y) || 1, z0:zoomMul, a0:Math.atan2(b.y - a.y, b.x - a.x), y0:R3 ? R3.yawT() : 0, my0:(a.y + b.y)/2}; return; }
     if (ptrs.size > 2) return;
     tapStart = {id:e.pointerId, x:e.clientX, y:e.clientY}; });
-  cv.addEventListener('pointermove', e => { if (!ptrs.has(e.pointerId)) return; ptrs.set(e.pointerId, {x:e.clientX, y:e.clientY});
-    if (pinch && ptrs.size >= 2){ const [a, b] = [...ptrs.values()]; setZoom(pinch.z0*Math.hypot(a.x - b.x, a.y - b.y)/pinch.d0); return; }
+  cv.addEventListener('pointermove', e => { if (rot && rot.id === e.pointerId){ const dx = e.clientX - rot.x, dy = e.clientY - rot.y; if (Math.hypot(dx, dy) > 4) rot.moved = true; if (rot.moved && R3){ R3.setYaw(R3.yawT() - dx*0.008); R3.tilt(dy*0.005); rot.x = e.clientX; rot.y = e.clientY; hideHint(); } return; }
+    if (!ptrs.has(e.pointerId)) return; ptrs.set(e.pointerId, {x:e.clientX, y:e.clientY});
+    if (pinch && ptrs.size >= 2){ const [a, b] = [...ptrs.values()]; setZoom(pinch.z0*Math.hypot(a.x - b.x, a.y - b.y)/pinch.d0); if (R3){ let da = Math.atan2(b.y - a.y, b.x - a.x) - pinch.a0; while (da > Math.PI) da -= Math.PI*2; while (da < -Math.PI) da += Math.PI*2; R3.setYaw(pinch.y0 - da); const my = (a.y + b.y)/2; R3.tilt((my - pinch.my0)*0.004); pinch.my0 = my; } return; }
     if (tapStart && tapStart.id === e.pointerId && joyId === null && Math.hypot(e.clientX - tapStart.x, e.clientY - tapStart.y) > 12) startJoy(tapStart.x, tapStart.y, e.pointerId);
     if (joyId === e.pointerId) moveJoy(e.clientX, e.clientY); });
-  const ptrUp = e => { const had = ptrs.delete(e.pointerId);
-    if (pinch){ if (ptrs.size < 2) pinch = null; tapStart = null; return; }
+  const ptrUp = e => { if (rot && rot.id === e.pointerId){ const r0 = rot; rot = null; if (R3) R3.commit(); if (!r0.moved && r0.btn === 0 && e.type === 'pointerup' && !dlgOpen && !busy) tap(e.clientX, e.clientY); return; }
+    const had = ptrs.delete(e.pointerId);
+    if (pinch){ if (ptrs.size < 2){ pinch = null; if (R3) R3.commit(); } tapStart = null; return; }
     if (joyId === e.pointerId){ endJoy(); tapStart = null; return; }
     if (had && tapStart && tapStart.id === e.pointerId && e.type === 'pointerup' && !dlgOpen && !busy) tap(tapStart.x, tapStart.y);
     tapStart = null; };
@@ -4214,7 +4240,9 @@ function vSchool(app){
 
   // sân trường 3D (mô hình giấy trên trang vở), tự lùi về 2D nếu máy không hỗ trợ
   let R3 = null;
-  if (!isHall && SC3.on()) school3D(stage, cv).then(r => { if (!document.body.contains(cv)){ r.dispose(); return; } R3 = r; stage.classList.add('is3d'); ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, cv.width, cv.height); }).catch(err => { console.warn('3D', err); });
+  if (!isHall && SC3.on()) school3D(stage, cv).then(r => { if (!document.body.contains(cv)){ r.dispose(); return; } R3 = r; stage.classList.add('is3d'); $('#scRot', app).hidden = false;
+    $('#scRotL', app).onclick = () => R3 && R3.rotate(Math.PI/4); $('#scRotR', app).onclick = () => R3 && R3.rotate(-Math.PI/4); $('#scTilt', app).onclick = () => { if (R3){ const i = R3.nextPitch(); toast(['Góc nhìn vừa', 'Nhìn ngang', 'Nhìn từ trên cao'][i]); } }; $('#scNorth', app).onclick = () => R3 && R3.resetView();
+    if (!store('oli.sc3tip')){ store('oli.sc3tip', '1'); setTimeout(() => toast(matchMedia('(pointer: coarse)').matches ? 'Mẹo: xoay hai ngón tay để xoay góc nhìn, hoặc bấm ⟲ ⟳' : 'Mẹo: kéo chuột để xoay góc nhìn, phím Q / E để xoay, R / F để nghiêng'), 900); } ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, cv.width, cv.height); }).catch(err => { console.warn('3D', err); });
   if (!isHall) $('#scDim', app).onclick = () => { SC3.set(!SC3.on()); savePos(); delete app.dataset.view; render(); };
   // vòng lặp
   let last = performance.now(), T = 0, miniT = 0;
@@ -4228,6 +4256,7 @@ function vSchool(app){
     if (!dlgOpen && !busy && !paused && !game && !lobbyOn){
       if (keys.arrowleft || keys.a) vx -= 1; if (keys.arrowright || keys.d) vx += 1; if (keys.arrowup || keys.w) vy -= 1; if (keys.arrowdown || keys.s) vy += 1;
       if (Math.hypot(joy.x, joy.y) > 0.15){ vx = joy.x; vy = joy.y; }
+      if (R3 && (vx || vy)){ const ya = R3.yaw(), c = Math.cos(ya), sn = Math.sin(ya); const ix = vx, iy = vy; vx = c*ix + sn*iy; vy = -sn*ix + c*iy; }
       if (!vx && !vy && target){ const dx = target.x - P.x, dy = target.y - P.y, L = Math.hypot(dx, dy); if (L < 4){ target = null; if (pendingAct){ const a = pendingAct; pendingAct = null; doAct(a.kind === 'mate' ? {kind:'mate', mt:a.mt} : a); } } else { vx = dx/L; vy = dy/L; } }
     }
     const L = Math.hypot(vx, vy); moving = L > 0.01; if (moving && hint && !hint.hidden && (keys.arrowup || keys.arrowdown || keys.arrowleft || keys.arrowright || keys.w || keys.a || keys.s || keys.d)) hideHint();
