@@ -14,7 +14,7 @@
 <style>html,body{margin:0;padding:0}</style>
 </head>
 <body>
-<title>Lớp học Ô Li</title>
+<title>Trường học Ô Li</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Patrick+Hand&display=swap&subset=vietnamese">
 <style>
@@ -2129,14 +2129,97 @@ html body .ai-grades button i{color:#0e6a7a!important}
 html body .rot-hint{background-color:#ffffff!important;color:var(--ink,#1f2140)!important;border:2px solid var(--ink,#1f2140)!important}
 html body .rot-hint span{color:var(--ink,#1f2140)!important}
 html body .rot-hint button:last-child{color:var(--ink,#1f2140)!important}
+/* ===== phòng tin học ===== */
+.tin-lead{margin:0;max-width:80ch}
+.tin-tracks{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:14px}
+.tin-tr{background:#fff;border:1px solid #c9c7bd;border-top:5px solid var(--tc);padding:14px;display:flex;flex-direction:column;gap:10px}
+.tin-tr header{display:flex;gap:12px;align-items:center}
+.tin-tr h2{margin:0;font-size:1.2rem}.tin-tr header p{margin:2px 0 0;font-size:.88rem;color:#4a4c66}
+.tin-ic{flex:0 0 44px;height:44px;display:grid;place-items:center;background:var(--tc);color:#fff;font:800 1.4rem/1 "Be Vietnam Pro",system-ui;border-radius:4px}
+.tin-tr ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.tin-tr li button{width:100%;display:grid;grid-template-columns:30px 1fr auto;gap:10px;align-items:center;text-align:left;background:#fbfaf4;border:1px solid #d8d6cc;padding:10px;cursor:pointer;font:inherit;color:inherit;min-height:48px}
+.tin-tr li button:hover{border-color:var(--tc)}
+.tin-n{width:28px;height:28px;display:grid;place-items:center;border:2px solid var(--tc);color:var(--tc);font-weight:700;border-radius:50%}
+.tin-go{font-size:.85rem;font-weight:700;color:#fff;background:var(--tc);padding:6px 10px;border-radius:4px}
+.tin-top{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.tin-crumb{color:#4a4c66;font-size:.9rem}
+.tin-h{margin:0;font-size:clamp(1.4rem,3vw,2rem)}
+.tin-cols{display:grid;grid-template-columns:minmax(260px,340px) minmax(0,1fr);gap:14px;align-items:start}
+.tin-side{display:flex;flex-direction:column;gap:12px}
+.tin-guide,.tin-task{background:#fff;border:1px solid #c9c7bd;padding:12px 14px}
+.tin-guide summary{font-weight:700;cursor:pointer}
+.tin-guide ol{margin:8px 0 0;padding-left:1.2em;display:flex;flex-direction:column;gap:8px;font-size:.93rem;line-height:1.5}
+.tin-guide code{background:#eef0f7;padding:0 4px;border-radius:3px;font-size:.88em}
+.tin-lab kbd{display:inline-block;border:1px solid #9a96b8;border-bottom-width:2px;border-radius:3px;padding:0 5px;font:600 .8em/1.5 system-ui;background:#fff}
+.tin-task{border-left:4px solid var(--tc)}.tin-task h3{margin:0 0 4px}.tin-task p{margin:0 0 8px}
+.tin-ck{list-style:none;margin:0 0 8px;padding:0;display:flex;flex-direction:column;gap:6px}
+.tin-ck li{display:flex;gap:8px;align-items:flex-start;font-size:.93rem}.tin-ck li span:first-child{flex:0 0 20px;font-weight:700;color:#8a88a0}
+.tin-ck li.ok{color:#1e6b34}.tin-ck li.ok span:first-child{color:#1e6b34}
+.tin-st{font-size:.93rem}
+.tin-sim{background:#fff;border:1px solid #c9c7bd;min-width:0}
+/* soạn thảo */
+.td-bar,.tp-bar,.tx-bar{display:flex;flex-wrap:wrap;gap:4px;align-items:center;padding:6px;background:#f1f3f8;border-bottom:1px solid #c9c7bd}
+.td-bar button,.tp-bar button,.tx-bar button{min-width:36px;min-height:36px;padding:4px 8px;border:1px solid #b9bccb;background:#fff;cursor:pointer;font:inherit;font-size:.95rem;color:#1f2140}
+.td-bar button:hover,.tp-bar button:hover,.tx-bar button:hover{border-color:var(--tc)}
+.td-bar select,.tp-bar select{min-height:36px;border:1px solid #b9bccb;background:#fff;font:inherit;font-size:.9rem;padding:0 6px}
+.td-col{display:inline-flex;gap:3px;padding:0 4px}.td-col button{min-width:26px;width:26px;min-height:26px;height:26px;padding:0;background:var(--c)!important;border:2px solid #fff;outline:1px solid #b9bccb}
+.td-desk{background:#e7e9ef;padding:18px;max-height:min(70vh,640px);overflow:auto}
+.td-page{background:#fff;min-height:420px;max-width:720px;margin:0 auto;padding:40px 48px;border:1px solid #c9c7bd;font:16px/1.6 "Times New Roman",Times,serif;color:#1f2140;outline:none}
+.td-page p{margin:0 0 .5em}.td-page:focus{border-color:var(--tc)}
+/* trình chiếu */
+.tp-bar label{display:inline-flex;gap:4px;align-items:center;font-size:.88rem}
+.tp-th{display:inline-flex;gap:3px}.tp-th button{min-width:30px;width:30px;min-height:30px;height:30px;padding:0;border:3px solid;font-size:.8rem;font-weight:800;color:#888}
+.tp-bar .tp-go{background:var(--tc);color:#fff;border-color:var(--tc);font-weight:700}
+.tp-main{display:grid;grid-template-columns:150px minmax(0,1fr);gap:10px;padding:10px;background:#e7e9ef}
+.tp-th-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;max-height:520px;overflow:auto}
+.tp-th-list button{width:100%;display:flex;gap:4px;align-items:flex-start;background:none;border:2px solid transparent;padding:2px;cursor:pointer}
+.tp-th-list button[aria-current=true]{border-color:var(--tc)}
+.tp-th-list i{font-style:normal;font-size:.75rem;color:#4a4c66;width:14px}
+.tp-sl{flex:1;aspect-ratio:16/9;background:var(--bg);color:var(--fg);border:1px solid #b9bccb;display:flex;flex-direction:column;justify-content:center;gap:2%;padding:4% 6%;overflow:hidden;font-size:6px;text-align:left;container-type:inline-size}
+.tp-sl .tp-t{font-size:9cqw;line-height:1.15;color:var(--ac);font-weight:700}
+.tp-sl.lay-title{align-items:center;text-align:center}.tp-sl.lay-title .tp-t{font-size:11cqw}
+.tp-sl .tp-sub{font-size:5.5cqw}.tp-sl ul{margin:0;padding-left:1.2em;font-size:5cqw;line-height:1.35}
+.tp-sl.lay-content,.tp-sl.lay-pic{justify-content:flex-start}
+.tp-sl .tp-pic{font-size:30cqw;line-height:1;text-align:center}
+.tp-ph{opacity:.4}
+.tp-ed{display:flex;flex-direction:column;gap:8px;min-width:0}
+.tp-prev .tp-sl{box-shadow:0 2px 8px rgba(0,0,0,.15)!important}
+.tp-ed label{display:flex;flex-direction:column;gap:4px;font-size:.88rem;font-weight:600}
+.tp-pics{display:flex;flex-wrap:wrap;gap:6px}.tp-pics button{font-size:1.6rem;width:48px;height:48px;border:2px solid #c9c7bd;background:#fff;cursor:pointer}.tp-pics button[aria-pressed=true]{border-color:var(--tc);background:#fff3c4}
+.tp-show{position:fixed;inset:0;z-index:80;background:#000;display:grid;place-items:center;cursor:pointer}
+.tp-stage{width:min(96vw,calc(88vh*16/9))}.tp-stage .tp-sl{border:0}
+.tp-stage.tr-fade{animation:tpFade .6s ease}.tp-stage.tr-push{animation:tpPush .5s ease}.tp-stage.tr-push.back{animation:tpPushB .5s ease}.tp-stage.tr-zoom{animation:tpZoom .5s ease}
+@keyframes tpFade{from{opacity:0}}@keyframes tpPush{from{transform:translateX(60%);opacity:0}}@keyframes tpPushB{from{transform:translateX(-60%);opacity:0}}@keyframes tpZoom{from{transform:scale(.6);opacity:0}}
+.tp-ctl{position:fixed;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:8px;align-items:center;color:#fff}
+.tp-ctl button{min-width:44px;min-height:44px;background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.5);font-size:1.1rem;cursor:pointer}
+/* bảng tính */
+.tx-nm{min-width:64px;padding:6px 8px;border:1px solid #b9bccb;background:#fff;font-weight:700;font-size:.9rem;text-align:center}
+.tx-fx{font-style:italic;font-weight:700;color:#4a4c66;padding:0 4px}
+.tx-f{flex:1 1 200px;min-height:36px;border:1px solid #b9bccb;padding:0 8px;font:15px/1 ui-monospace,Consolas,monospace}
+.tx-wrap{overflow:auto;max-height:min(60vh,520px)}
+.tx-grid{border-collapse:collapse;font-size:.92rem;min-width:100%}
+.tx-grid th{background:#eef0f4;color:#4a4c66;font-weight:600;border:1px solid #c9ccd6;padding:0;min-width:34px;height:30px;position:sticky;top:0}
+.tx-grid tbody th{position:sticky;left:0;top:auto;z-index:1}
+.tx-grid th button{width:100%;height:30px;border:0;background:none;font:inherit;color:inherit;cursor:pointer}
+.tx-grid td{border:1px solid #d6d8e0;padding:0;min-width:96px}
+.tx-grid input{width:100%;min-width:96px;height:30px;border:0;padding:0 6px;font:inherit;background:#fff;color:#1f2140;outline:none}
+.tx-grid input.num{text-align:right}.tx-grid input.err{color:#c62828;font-weight:700}
+.tx-grid input.sel,.tx-grid input:focus{box-shadow:inset 0 0 0 2px var(--tc)!important;background:#f3fbf6}
+.tx-chart{padding:12px;border-top:1px solid #c9c7bd}
+.tx-bars{display:flex;align-items:flex-end;gap:12px;height:180px;padding:8px 4px 0;border-bottom:2px solid #1f2140;margin-top:8px}
+.tx-b{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;position:relative;min-width:0}
+.tx-b i{display:block;width:70%;max-width:48px;background:var(--tc)}
+.tx-bv{font-size:.8rem;font-weight:700}.tx-bl{position:absolute;bottom:-22px;font-size:.78rem;white-space:nowrap}
+.tx-chart{padding-bottom:30px}
+.tx-tip{font-size:.85rem;margin:8px 10px}
+@media (max-width:860px){.tin-cols{grid-template-columns:1fr}.tin-side{order:0}.td-page{padding:20px 18px;min-height:320px}.td-desk{padding:8px}.tp-main{grid-template-columns:1fr}.tp-th-list{flex-direction:row;overflow-x:auto;max-height:none}.tp-th-list li{flex:0 0 120px}}
 </style>
 
 <header class="top"><div class="wrap">
-  <button class="brand" data-go="home" aria-label="Về trang chủ"><span class="brand-mark">Ô</span><span>Lớp học Ô Li</span></button>
+  <button class="brand" data-go="home" aria-label="Về trang chủ"><span class="brand-mark">Ô</span><span>Trường học Ô Li</span></button>
   <nav class="nav" id="nav"></nav>
 </div></header>
 <main id="app"></main>
-<footer class="foot"><div class="wrap">Lớp học Ô Li · Trường THCS và THPT Lương Thế Vinh · Chương trình GDPT 2018</div></footer>
+<footer class="foot"><div class="wrap">Trường học Ô Li · Trường THCS và THPT Lương Thế Vinh · Chương trình GDPT 2018</div></footer>
 
 <script>
 /* ===================== helpers ===================== */
@@ -2445,7 +2528,7 @@ function wlScene(){
   const waves = [[300, 420], [470, 560], [820, 430], [880, 790], [1120, 450], [1500, 690], [560, 820], [1080, 820], [1360, 440], [420, 760]].map(([x, y], i) => `<path class="wl-wave" style="animation-delay:${i*0.4}s" d="M${x} ${y} q8 -6 16 0 q8 6 16 0" stroke="#fff" stroke-width="3" fill="none" opacity=".55" stroke-linecap="round"/>`).join('');
   const boat = (x, y, c, d) => `<g class="wl-boat" style="animation-delay:${d}s"><g transform="translate(${x} ${y})"><path d="M-28 0 h56 l-10 14 h-36z" fill="#9a6230" stroke="#5c3714" stroke-width="3"/><path d="M0 0 v-46" stroke="#5c3714" stroke-width="3"/><path d="M2 -44 l26 38 h-26z" fill="#fff" stroke="#ccc" stroke-width="1.5"/><path d="M-2 -38 l-20 32 h20z" fill="${c}"/></g></g>`;
   const cloud = (x, y, s, d) => `<g class="wl-cloud" style="animation-delay:-${d}s"><g transform="translate(${x} ${y}) scale(${s})"><ellipse cx="0" cy="0" rx="60" ry="22" fill="#fff"/><circle cx="-24" cy="-12" r="24" fill="#fff"/><circle cx="12" cy="-20" r="30" fill="#fff"/><circle cx="40" cy="-6" r="18" fill="#fff"/></g></g>`;
-  return `<svg class="wl-svg" viewBox="0 0 1600 860" role="img" aria-label="Bản đồ các hòn đảo học tập của Lớp học Ô Li">
+  return `<svg class="wl-svg" viewBox="0 0 1600 860" role="img" aria-label="Bản đồ các hòn đảo học tập của Trường học Ô Li">
   <defs>
     <linearGradient id="wlSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6ec3f2"/><stop offset="1" stop-color="#d4f1ff"/></linearGradient>
     <linearGradient id="wlSea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6fd3ef"/><stop offset=".5" stop-color="#3cb4e0"/><stop offset="1" stop-color="#2394c9"/></linearGradient>
@@ -2493,7 +2576,7 @@ function vWelcome(app, loginInner){
   app.innerHTML = `<div class="vo-cv">
   <section class="vo-cover">
     <div class="vo-cw">
-      <div class="vo-ct"><p class="vo-brand">Lớp học<br>Ô Li</p>
+      <div class="vo-ct"><p class="vo-brand">Trường học<br>Ô Li</p>
         <p class="vo-tag">Vở học tập trực tuyến cho học sinh THCS và THPT, khối 6 đến 12: bài giảng có giọng đọc, thí nghiệm 3D, lớp học AI và trò chơi ôn bài, theo chương trình GDPT 2018.</p>
         <p class="vo-sch">Trường THCS và THPT Lương Thế Vinh · Cần Thơ</p></div>
       <div class="vo-label" role="group" aria-labelledby="voLt">
@@ -2507,7 +2590,7 @@ function vWelcome(app, loginInner){
     </div>
   </section>
   <section class="vo-toc wrap"><h2>Trong vở có gì</h2><ul>${toc}</ul></section>
-  <footer class="vo-cfoot wrap"><span>Lớp học Ô Li · Trường THCS và THPT Lương Thế Vinh, xã Hòa An, thành phố Cần Thơ</span><span>Chương trình GDPT 2018 · Bộ sách Kết nối tri thức</span></footer>
+  <footer class="vo-cfoot wrap"><span>Trường học Ô Li · Trường THCS và THPT Lương Thế Vinh, xã Hòa An, thành phố Cần Thơ</span><span>Chương trình GDPT 2018 · Bộ sách Kết nối tri thức</span></footer>
 </div>`;
   $$('[data-wl]', app).forEach(b => b.onclick = () => { const a = b.dataset.wl; if (a === 'play'){ S.loginTab = 'hs'; go('login'); } else if (a === 'gv'){ S.loginTab = 'gv'; go('login'); } });
   const code = $('#lcode', app), cls = $('#voCls', app);
@@ -2519,7 +2602,7 @@ function wlLogin(app, inner){ vWelcome(app, inner); }
 /* --- màn hình đăng nhập (bản web) --- */
 function vLoginSB(app){
   const p = S.profile, tab = S.loginTab || 'hs';
-  const head = pageHead('Đăng nhập', 'Lớp học Ô Li', 'Học sinh đăng nhập bằng mã học sinh và mật khẩu thầy cô phát');
+  const head = pageHead('Đăng nhập', 'Trường học Ô Li', 'Học sinh đăng nhập bằng mã học sinh và mật khẩu thầy cô phát');
   const card = inner => `<div class="wrap"><section class="section">${head}<div class="login-card"><div class="hs-left"><div class="hub-bubble hs-bubble"><span class="hub-bulb">${HUB_ICON.bulb}</span><p>Chào em! Đăng nhập để vào lớp học, nhận nhiệm vụ và tích lũy XP nhé.</p></div><div class="hs-robot">${ROBOT}</div></div><div class="panel stack">${inner}</div></div></section></div>`;
   if (S.sbError){ wlLogin(app, `<p class="notice">${h(S.sbError)}</p>`); return; }
   if (S.authUid){
@@ -2722,17 +2805,17 @@ function render(){
   renderNav();
   const app = $('#app');
   app.classList.add('labhub');
-  if (SB_ON && !S.authKnown && !S.sbError){ app.dataset.view = ''; app.innerHTML = '<div class="wl-splash"><span class="wl-mark">Ô</span><p>Đang mở Lớp học Ô Li…</p></div>'; return; }
+  if (SB_ON && !S.authKnown && !S.sbError){ app.dataset.view = ''; app.innerHTML = '<div class="wl-splash"><span class="wl-mark">Ô</span><p>Đang mở Trường học Ô Li…</p></div>'; return; }
   if (SB_ON && S.authUid && !S.loaded && ['student','task','class','teacher','live','preview','school'].includes(S.view)){ app.dataset.view = ''; app.dataset.lock = ''; app.innerHTML = '<div class="wrap"><section class="section"><p class="notice">Đang tải dữ liệu lớp học…</p></section></div>'; return; }
   // keep running labs alive: don't re-render a lab view on data updates
-  if (app.dataset.view === S.view + ':' + S.arg && (S.view === 'welcome' || S.view === 'lab' || S.view === 'stemlab' || S.view === 'ailesson' || S.view === 'race' || S.view === 'cleanup' || S.view === 'task' || S.view === 'preview' || S.view === 'school' || S.view === 'hallin' || S.view === 'live' || S.view === 'chess' || S.view === 'gallery') && app.dataset.lock === '1') return;
+  if (app.dataset.view === S.view + ':' + S.arg && (S.view === 'welcome' || S.view === 'lab' || S.view === 'stemlab' || S.view === 'ailesson' || S.view === 'race' || S.view === 'cleanup' || S.view === 'task' || S.view === 'preview' || S.view === 'school' || S.view === 'hallin' || S.view === 'live' || S.view === 'chess' || S.view === 'gallery' || S.view === 'tinlab') && app.dataset.lock === '1') return;
   const ae = document.activeElement;
   if (app.dataset.view === S.view + ':' + S.arg && ae && app.contains(ae) && /^(INPUT|TEXTAREA|SELECT)$/.test(ae.tagName) && ae.type !== 'radio' && ae.type !== 'checkbox'){
     if (!S._deferR){ S._deferR = true; ae.addEventListener('blur', () => setTimeout(() => { S._deferR = false; render(); }, 150), {once:true}); } return; }
   app.dataset.view = S.view + ':' + S.arg; app.dataset.lock = '';
   if (S.loaded && !['task','lab','live','preview'].includes(S.view)) setTimeout(() => { try { checkNudge(); } catch(e){ console.warn(e); } }, 400);
   updImm(); try { socStart(); } catch(e){}
-  const V = {welcome:vWelcome, board:vHome, race:vRace, ai:vAi, ailesson:vAiLesson, aibook:vAiBook, cleanup:vCleanup, stem:vStem, stemlab:vStemLab, chess:vChess, gallery:vGallery, live:vLive, school:vSchool, hallin:vSchool, hall:vHall, labs:vLabs, room:vRoom, lab:vLab, login:SB_ON ? vLoginSB : vLogin, student:vStudent, task:vTask, teacher:vTeacher, 'class':vClass, preview:vPreview}[S.view] || vHome;
+  const V = {welcome:vWelcome, board:vHome, race:vRace, ai:vAi, ailesson:vAiLesson, aibook:vAiBook, cleanup:vCleanup, stem:vStem, stemlab:vStemLab, chess:vChess, gallery:vGallery, tin:vTin, tinlab:vTinLab, live:vLive, school:vSchool, hallin:vSchool, hall:vHall, labs:vLabs, room:vRoom, lab:vLab, login:SB_ON ? vLoginSB : vLogin, student:vStudent, task:vTask, teacher:vTeacher, 'class':vClass, preview:vPreview}[S.view] || vHome;
   V(app);
 }
 
@@ -3004,6 +3087,7 @@ const VO_GO = [
   ['stem', 'Phòng STEM', 'Ráp mạch Arduino, lắp xe robot, điều khiển cánh tay robot bằng khối lệnh.'],
   ['race', 'Đường đua tiếng Anh', 'Mỗi chướng ngại vật là một câu hỏi. Trả lời đúng để chạy tiếp.'],
   ['hallin', 'Hội trường', 'Rung chuông vàng, an toàn giao thông, pháp luật, an ninh mạng.'],
+  ['tin', 'Phòng Tin học', 'Học soạn thảo văn bản, làm bài trình chiếu, bảng tính trên phần mềm mô phỏng.'],
   ['gallery', 'Phòng tranh 3D', 'Mỗi tháng một chủ đề vẽ tranh: gửi tranh của em, ngắm tranh các bạn treo trong phòng 3D.'],
   ['chess', 'Câu lạc bộ cờ vua', 'Đấu với máy hoặc với bạn cùng trường.']];
 function vHome(app){
@@ -3017,7 +3101,7 @@ function vHome(app){
   const lessonsN = k => Object.values(S.tasks).filter(t => t.kind === 'lesson' && t.subject === k && (!m || forMe(t, m))).length;
   const todo = m ? myTasks(m).filter(t => !S.subs[`${m.id}__${t.id}`]) : [];
   const bm = board ? board.month.split('-') : null;
-  const hello = m ? `Chào ${h(m.name.split(' ').slice(-1)[0])}` : S.canEdit ? 'Chào thầy cô' : 'Lớp học Ô Li';
+  const hello = m ? `Chào ${h(m.name.split(' ').slice(-1)[0])}` : S.canEdit ? 'Chào thầy cô' : 'Trường học Ô Li';
   const sub = m ? `${h(m.name)} · Lớp ${h(m.cls)} · Cấp ${d.lv}, ${d.inLv}/100 điểm kinh nghiệm` : S.canEdit ? 'Trang giáo viên đang mở. Học sinh thấy trang này với nhiệm vụ của riêng mình.' : 'Vở học tập trực tuyến cho học sinh THCS khối 6 đến 9.';
   const goTo = k => k === 'class' ? (m || S.canEdit ? 'class' : 'login') : k;
   app.innerHTML = `<div class="wrap vo-home">
@@ -3081,7 +3165,7 @@ const SCH = (() => {
     {id:'c10', b:'b1', x:790, label:'Khối 10', kind:'class', grade:10, color:'#0e7490'},
     {id:'c11', b:'b1', x:990, label:'Khối 11', kind:'class', grade:11, color:'#b0305a'},
     {id:'c12', b:'b2', x:1420, label:'Khối 12', kind:'class', grade:12, color:'#c2410c'},
-    {id:'ct', b:'b2', x:1640, label:'Căng tin', kind:'canteen', color:'#c2662a'},
+    {id:'tin', b:'b2', x:1640, label:'Phòng Tin học', kind:'it', color:'#2b579a'},
     {id:'tv', b:'c', y:540, label:'Thư viện', kind:'library', color:'#2f5fa8'},
     {id:'pt', b:'c', y:730, label:'Phòng tranh 3D', kind:'gallery', color:'#d97706'},
     {id:'cv', b:'c', y:920, label:'Cờ vua', kind:'chess', color:'#1c2a5a'},
@@ -3686,6 +3770,247 @@ function vGallery(app){
   S.hooks.art = () => { if (!alive()) return; if (lb.hidden && !document.activeElement?.closest?.('.gal-f')){ app.dataset.lock = ''; render(); } };
 }
 
+/* ===================== PHÒNG TIN HỌC ===================== */
+/* Ba mảng theo chương trình Tin học GDPT 2018: soạn thảo văn bản, bài trình chiếu, bảng tính.
+   Mỗi bài: đọc hướng dẫn ngắn → thực hành trên phần mềm mô phỏng → máy tự kiểm tra từng yêu cầu. */
+const TIN_TRACK = {
+  doc:{name:'Soạn thảo văn bản', sub:'Gõ chữ Việt, định dạng chữ, căn lề, danh sách', icon:'W', c:'#2b579a', grade:'Tin học 6, 8'},
+  ppt:{name:'Bài trình chiếu', sub:'Tạo trang, bố cục, hình ảnh, hiệu ứng, trình chiếu', icon:'P', c:'#c43e1c', grade:'Tin học 7'},
+  xls:{name:'Bảng tính', sub:'Nhập dữ liệu, công thức, hàm, biểu đồ', icon:'X', c:'#217346', grade:'Tin học 7'}
+};
+const TIN_DOC2 = '<p>NỘI QUY PHÒNG TIN HỌC</p><p>Phòng tin học là nơi các em học tập và thực hành với máy tính. Để giữ gìn thiết bị chung và học tập hiệu quả, mỗi học sinh cần thực hiện đúng các điều dưới đây.</p><p>Không mang đồ ăn, nước uống vào phòng máy.</p><p>Không tự ý tháo lắp, di chuyển thiết bị.</p><p>Tắt máy đúng cách sau khi sử dụng.</p><p>Giữ trật tự, giúp đỡ bạn khi bạn gặp khó khăn.</p><p>Cảm ơn các em đã cùng giữ gìn phòng máy!</p>';
+const TIN_DOC4 = '<p>NỘI QUY PHÒNG TIN HỌC</p><p>Các điều cần thực hiện:</p><p>Không mang đồ ăn, nước uống vào phòng máy.</p><p>Không tự ý tháo lắp, di chuyển thiết bị.</p><p>Tắt máy đúng cách sau khi sử dụng.</p><p>Giữ trật tự, giúp đỡ bạn khi bạn gặp khó khăn.</p><p>Trước khi ra về, em nhớ:</p><p>Đẩy ghế vào bàn</p><p>Kiểm tra đã lưu bài</p><p>Nhặt rác quanh chỗ ngồi</p>';
+const TIN_XLS_DATA = [['Họ tên', 'Toán', 'Văn', 'Anh', 'Tổng', 'Trung bình'], ['An', '8', '7', '9'], ['Bình', '6', '8', '7'], ['Chi', '9', '9', '8'], ['Dũng', '7', '6', '8'], ['Hà', '10', '8', '9']];
+const TIN_LESSONS = [
+  {id:'d1', tr:'doc', name:'Gõ văn bản tiếng Việt', guide:[
+    'Văn bản gồm các <b>kí tự</b>, <b>từ</b>, <b>dòng</b> và <b>đoạn văn</b>. Nhấn <kbd>Enter</kbd> để kết thúc một đoạn và sang đoạn mới.',
+    'Gõ tiếng Việt kiểu <b>Telex</b> (Unikey trên máy tính, bàn phím tiếng Việt trên điện thoại): <code>aa</code>→â, <code>aw</code>→ă, <code>ee</code>→ê, <code>oo</code>→ô, <code>ow</code>→ơ, <code>uw</code>→ư, <code>dd</code>→đ; dấu: <code>s</code> sắc, <code>f</code> huyền, <code>r</code> hỏi, <code>x</code> ngã, <code>j</code> nặng. Ví dụ: <code>Truwowfng</code> → Trường.',
+    'Sửa lỗi: <kbd>Backspace</kbd> xóa kí tự bên trái con trỏ, <kbd>Delete</kbd> xóa bên phải. Hoàn tác bằng <kbd>Ctrl</kbd>+<kbd>Z</kbd>.'],
+    task:'Gõ một bài văn ngắn giới thiệu trường em: dòng đầu là tiêu đề “Trường em”, sau đó ít nhất <b>2 đoạn</b> với tổng cộng từ <b>30 từ</b> trở lên.', sim:'doc', init:'<p><br></p>',
+    checks:[['Có tiêu đề “Trường em” ở dòng đầu', d => /^trường em\b/i.test(d.blocks()[0] || '')], ['Có ít nhất 2 đoạn nội dung sau tiêu đề', d => d.blocks().slice(1).filter(b => b.split(/\s+/).length >= 4).length >= 2], ['Tổng cộng từ 30 từ trở lên', d => d.words() >= 30], ['Viết có dấu tiếng Việt', d => /[ăâêôơưđáàảãạ]/i.test(d.text())]]},
+  {id:'d2', tr:'doc', name:'Định dạng kí tự', guide:[
+    '<b>Bôi đen</b> (chọn) chữ cần định dạng bằng cách kéo chuột hoặc giữ <kbd>Shift</kbd> + phím mũi tên. Trên điện thoại: chạm giữ vào chữ rồi kéo hai đầu chọn.',
+    'Nút <b>B</b> in đậm (<kbd>Ctrl</kbd>+<kbd>B</kbd>), <i>I</i> in nghiêng (<kbd>Ctrl</kbd>+<kbd>I</kbd>), <u>U</u> gạch chân (<kbd>Ctrl</kbd>+<kbd>U</kbd>). Ô <b>Cỡ chữ</b> làm chữ to nhỏ, ô <b>Màu chữ</b> đổi màu.',
+    'Tiêu đề thường in đậm, cỡ lớn hơn nội dung để người đọc nhận ra ngay.'],
+    task:'Định dạng văn bản “Nội quy phòng tin học”: tiêu đề <b>in đậm</b>, cỡ chữ <b>Rất lớn</b> trở lên và có <b>màu</b>; câu cuối cùng <b>in nghiêng</b>.', sim:'doc', init:TIN_DOC2,
+    checks:[['Tiêu đề in đậm', d => d.all(0, s => +s.fontWeight >= 600)], ['Tiêu đề cỡ chữ từ “Rất lớn” (24) trở lên', d => d.all(0, s => parseFloat(s.fontSize) >= 23)], ['Tiêu đề có màu', d => d.all(0, s => !/^rgb\((31, 33, 64|0, 0, 0)\)$/.test(s.color))], ['Câu cuối in nghiêng', d => d.all(d.blocks().length - 1, s => s.fontStyle === 'italic')]]},
+  {id:'d3', tr:'doc', name:'Căn lề đoạn văn', guide:[
+    'Định dạng đoạn văn áp dụng cho <b>cả đoạn</b>: chỉ cần đặt con trỏ vào đoạn (không cần bôi đen hết).',
+    'Bốn kiểu căn lề: <b>trái</b> (<kbd>Ctrl</kbd>+<kbd>L</kbd>), <b>giữa</b> (<kbd>Ctrl</kbd>+<kbd>E</kbd>), <b>phải</b> (<kbd>Ctrl</kbd>+<kbd>R</kbd>), <b>đều hai bên</b> (<kbd>Ctrl</kbd>+<kbd>J</kbd>).',
+    'Tiêu đề thường căn giữa; đoạn văn dài nên căn đều hai bên cho gọn mép.'],
+    task:'Căn <b>giữa</b> tiêu đề, căn <b>đều hai bên</b> đoạn văn thứ hai (đoạn dài), căn <b>phải</b> câu cảm ơn ở cuối.', sim:'doc', init:TIN_DOC2,
+    checks:[['Tiêu đề căn giữa', d => d.align(0) === 'center'], ['Đoạn văn dài căn đều hai bên', d => d.align(1) === 'justify'], ['Câu cảm ơn cuối căn phải', d => /right|end/.test(d.align(d.blocks().length - 1))]]},
+  {id:'d4', tr:'doc', name:'Danh sách liệt kê', guide:[
+    'Danh sách giúp các ý rõ ràng: <b>danh sách số thứ tự</b> (1, 2, 3…) dùng khi các ý có thứ tự; <b>danh sách dấu đầu dòng</b> (•) dùng khi các ý ngang nhau.',
+    'Bôi đen các dòng cần đưa vào danh sách rồi bấm nút <b>1.</b> hoặc <b>•</b> trên thanh công cụ. Bấm lại lần nữa để bỏ danh sách.'],
+    task:'Đưa <b>4 điều nội quy</b> thành <b>danh sách số thứ tự</b>, và <b>3 việc trước khi ra về</b> thành <b>danh sách dấu đầu dòng</b>.', sim:'doc', init:TIN_DOC4,
+    checks:[['Có danh sách số thứ tự gồm ít nhất 4 mục', d => [...d.page.querySelectorAll('ol')].some(o => o.querySelectorAll('li').length >= 4)], ['Có danh sách dấu đầu dòng gồm ít nhất 3 mục', d => [...d.page.querySelectorAll('ul')].some(o => o.querySelectorAll('li').length >= 3)], ['Tiêu đề không nằm trong danh sách', d => !d.page.querySelector('li') || !/NỘI QUY/.test([...d.page.querySelectorAll('li')].map(x => x.textContent).join(' '))]]},
+  {id:'p1', tr:'ppt', name:'Tạo bài trình chiếu', guide:[
+    'Bài trình chiếu gồm nhiều <b>trang chiếu</b>. Trang đầu là <b>trang tiêu đề</b>: tên bài và tên người trình bày.',
+    'Bấm <b>+ Trang mới</b> để thêm trang. Chọn trang ở cột bên trái để sửa. Mỗi trang nên có một <b>tiêu đề</b> ngắn.'],
+    task:'Tạo bài trình chiếu “Giới thiệu trường em” có <b>ít nhất 3 trang</b>: trang 1 là trang tiêu đề có tên bài và tên em; các trang sau đều có tiêu đề.', sim:'ppt', init:{slides:[{lay:'title', t:'', b:''}]},
+    checks:[['Có ít nhất 3 trang chiếu', p => p.slides.length >= 3], ['Trang 1 là trang tiêu đề, có tên bài', p => p.slides[0].lay === 'title' && p.slides[0].t.trim().length >= 3], ['Trang 1 có tên người trình bày', p => p.slides[0].lay === 'title' && p.slides[0].b.trim().length >= 2], ['Mọi trang đều có tiêu đề', p => p.slides.every(s => s.t.trim())]]},
+  {id:'p2', tr:'ppt', name:'Nội dung và hình ảnh', guide:[
+    'Bố cục <b>Tiêu đề và nội dung</b>: mỗi dòng nội dung là một ý, ngắn gọn (không chép nguyên đoạn văn).',
+    'Bố cục <b>Tiêu đề và hình ảnh</b>: chọn hình minh họa phù hợp với tiêu đề. Hình ảnh làm bài trình chiếu sinh động hơn.'],
+    task:'Thêm một trang bố cục <b>Tiêu đề và nội dung</b> có <b>ít nhất 3 ý</b>, và một trang bố cục <b>Tiêu đề và hình ảnh</b> đã chọn hình.', sim:'ppt', init:{slides:[{lay:'title', t:'Giới thiệu trường em', b:'Học sinh lớp …'}]},
+    checks:[['Có trang “Tiêu đề và nội dung” với ít nhất 3 ý', p => p.slides.some(s => s.lay === 'content' && s.t.trim() && s.b.split('\n').filter(x => x.trim()).length >= 3)], ['Có trang “Tiêu đề và hình ảnh” đã chọn hình', p => p.slides.some(s => s.lay === 'pic' && s.pic && s.t.trim())]]},
+  {id:'p3', tr:'ppt', name:'Màu nền, hiệu ứng và trình chiếu', guide:[
+    'Chọn <b>chủ đề màu</b> cho cả bài để các trang thống nhất. Chữ và nền phải tương phản để dễ đọc.',
+    '<b>Hiệu ứng chuyển trang</b> làm bài sinh động nhưng chỉ nên dùng một kiểu nhẹ nhàng.',
+    'Bấm <b>▶ Trình chiếu</b> (phím <kbd>F5</kbd> trong phần mềm thật) và dùng phím mũi tên để chuyển trang tới hết bài.'],
+    task:'Đổi <b>chủ đề màu</b> khác mặc định, chọn một <b>hiệu ứng chuyển trang</b>, rồi <b>trình chiếu</b> đến trang cuối cùng.', sim:'ppt', init:{slides:[{lay:'title', t:'Giới thiệu trường em', b:'Học sinh lớp …'}, {lay:'content', t:'Trường em', b:'Có 4 dãy nhà quanh sân\nCó phòng thí nghiệm, thư viện\nCó phòng tranh 3D'}, {lay:'pic', t:'Sân trường', b:'', pic:'🌳'}]},
+    checks:[['Đã đổi chủ đề màu', p => p.theme > 0], ['Đã chọn hiệu ứng chuyển trang', p => p.tr !== 'none'], ['Đã trình chiếu đến trang cuối', p => !!p.ended]]},
+  {id:'x1', tr:'xls', name:'Nhập dữ liệu vào bảng tính', guide:[
+    'Bảng tính gồm các <b>ô</b> nằm ở giao của <b>cột</b> (A, B, C…) và <b>hàng</b> (1, 2, 3…). Ô ở cột B hàng 2 có <b>địa chỉ</b> là <b>B2</b>.',
+    'Chọn ô rồi gõ dữ liệu, nhấn <kbd>Enter</kbd> để xuống ô dưới, <kbd>Tab</kbd> để sang ô bên phải. Dữ liệu số tự căn phải, chữ căn trái.'],
+    task:'Lập bảng điểm: ô <b>A1, B1, C1</b> là “Họ tên”, “Toán”, “Văn”; nhập ít nhất <b>3 bạn</b> (hàng 2 đến 4) gồm tên và điểm số.', sim:'xls', init:{},
+    checks:[['A1, B1, C1 có tiêu đề cột', x => ['A1', 'B1', 'C1'].every(c => x.raw(c).trim() && isNaN(+x.raw(c)))], ['Cột A hàng 2–4 có tên học sinh', x => [2, 3, 4].every(r => x.raw('A' + r).trim() && isNaN(+x.raw('A' + r)))], ['Cột B, C hàng 2–4 là điểm số (0–10)', x => [2, 3, 4].every(r => ['B', 'C'].every(c => { const v = x.val(c + r); return typeof v === 'number' && v >= 0 && v <= 10; }))]]},
+  {id:'x2', tr:'xls', name:'Công thức và hàm SUM, AVERAGE', guide:[
+    'Công thức luôn bắt đầu bằng dấu <b>=</b>. Ví dụ <code>=B2+C2+D2</code> cộng ba ô. Dùng địa chỉ ô thay vì gõ số để khi số thay đổi, kết quả tự cập nhật.',
+    'Hàm <code>=SUM(B2:D2)</code> tính tổng các ô từ B2 đến D2; <code>=AVERAGE(B2:D2)</code> tính trung bình cộng.',
+    'Sao chép công thức xuống các hàng dưới: chọn ô có công thức rồi bấm <b>Sao chép xuống ↓</b> (trong Excel là kéo dấu + ở góc ô). Địa chỉ ô tự đổi theo hàng.'],
+    task:'Ở cột <b>E (Tổng)</b> dùng hàm <b>SUM</b> tính tổng điểm của từng bạn (hàng 2–6); ở cột <b>F</b> dùng hàm <b>AVERAGE</b> tính điểm trung bình.', sim:'xls', init:{data:TIN_XLS_DATA},
+    checks:[['E2 dùng hàm SUM và đúng kết quả', x => /SUM\(/i.test(x.raw('E2')) && x.val('E2') === x.val('B2') + x.val('C2') + x.val('D2')], ['E2 đến E6 đều đúng tổng', x => [2, 3, 4, 5, 6].every(r => /^=/.test(x.raw('E' + r)) && x.val('E' + r) === x.val('B' + r) + x.val('C' + r) + x.val('D' + r))], ['F2 đến F6 dùng AVERAGE và đúng kết quả', x => [2, 3, 4, 5, 6].every(r => /AVERAGE\(/i.test(x.raw('F' + r)) && Math.abs(x.val('F' + r) - (x.val('B' + r) + x.val('C' + r) + x.val('D' + r))/3) < 1e-9)]]},
+  {id:'x3', tr:'xls', name:'Hàm MAX, MIN và biểu đồ', guide:[
+    '<code>=MAX(B2:B6)</code> cho số lớn nhất, <code>=MIN(B2:B6)</code> cho số nhỏ nhất trong vùng ô.',
+    '<b>Biểu đồ cột</b> giúp so sánh số liệu bằng hình. Bấm vào <b>tên cột</b> (chữ B, C…) để chọn cột số liệu rồi bấm <b>Vẽ biểu đồ</b>.'],
+    task:'Ô <b>B8</b> tìm điểm Toán <b>cao nhất</b> bằng MAX, ô <b>B9</b> tìm điểm Toán <b>thấp nhất</b> bằng MIN, rồi <b>vẽ biểu đồ cột</b> cho cột Toán.', sim:'xls', init:{data:TIN_XLS_DATA.map(r => r.slice(0, 4)).concat([[], ['Cao nhất'], ['Thấp nhất']])},
+    checks:[['B8 dùng MAX và đúng kết quả', x => /MAX\(/i.test(x.raw('B8')) && x.val('B8') === 10], ['B9 dùng MIN và đúng kết quả', x => /MIN\(/i.test(x.raw('B9')) && x.val('B9') === 6], ['Đã vẽ biểu đồ cột cho cột Toán', x => x.chart === 'B']]}
+];
+const tinDone = id => { const m = me(); return !!(m && S.subs[`${m.id}__tin_${id}`]); };
+
+/* ---- bảng tính: tính công thức ---- */
+const XCOLS = 'ABCDEF', XROWS = 12;
+function xlsEval(cells){
+  const cache = {}, busy = {};
+  const val = ref => { ref = ref.toUpperCase().replace(/\$/g, ''); if (ref in cache) return cache[ref]; if (busy[ref]) return '#VÒNG'; busy[ref] = true; const r = calc(cells[ref] || ''); busy[ref] = false; return cache[ref] = r; };
+  const range = (a, b) => { a = a.toUpperCase().replace(/\$/g, ''); b = b.toUpperCase().replace(/\$/g, ''); const c1 = XCOLS.indexOf(a[0]), c2 = XCOLS.indexOf(b[0]), r1 = +a.slice(1), r2 = +b.slice(1); const out = [];
+    for (let c = Math.min(c1, c2); c <= Math.max(c1, c2); c++) for (let r = Math.min(r1, r2); r <= Math.max(r1, r2); r++) out.push(val(XCOLS[c] + r)); return out; };
+  const FN = {SUM:a => a.filter(x => typeof x === 'number').reduce((s, x) => s + x, 0), AVERAGE:a => { const n = a.filter(x => typeof x === 'number'); if (!n.length) throw 0; return n.reduce((s, x) => s + x, 0)/n.length; },
+    MAX:a => Math.max(...a.filter(x => typeof x === 'number')), MIN:a => Math.min(...a.filter(x => typeof x === 'number')), COUNT:a => a.filter(x => typeof x === 'number').length, ROUND:a => { const p = 10**(a[1] || 0); return Math.round(a[0]*p)/p; }};
+  function calc(raw){ raw = String(raw).trim(); if (!raw.startsWith('=')){ if (raw !== '' && !isNaN(+raw.replace(',', '.'))) return +raw.replace(',', '.'); return raw; }
+    const s = raw.slice(1).replace(/\s+/g, ''); let i = 0;
+    const peek = () => s[i], eat = c => { if (s[i] === c){ i++; return true; } return false; };
+    const expr = () => { let v = term(); for (;;){ if (eat('+')) v = num(v) + num(term()); else if (eat('-')) v = num(v) - num(term()); else return v; } };
+    const term = () => { let v = fac(); for (;;){ if (eat('*')) v = num(v)*num(fac()); else if (eat('/')){ const d = num(fac()); if (!d) throw 0; v = num(v)/d; } else return v; } };
+    const num = v => { if (Array.isArray(v)) throw 0; if (v === '') return 0; if (typeof v !== 'number') throw 0; return v; };
+    const fac = () => { if (eat('-')) return -num(fac()); if (eat('(')){ const v = expr(); if (!eat(')')) throw 0; return v; }
+      const m = s.slice(i).match(/^(\d+(?:[.,]\d+)?)/); if (m){ i += m[0].length; return +m[1].replace(',', '.'); }
+      const f = s.slice(i).match(/^([A-Za-z]+)\(/); if (f && FN[f[1].toUpperCase()]){ i += f[0].length; const args = []; if (!eat(')')){ do { const r = s.slice(i).match(/^(\$?[A-Fa-f]\$?\d{1,2}):(\$?[A-Fa-f]\$?\d{1,2})/); if (r){ i += r[0].length; args.push(...range(r[1], r[2])); } else args.push(expr()); } while (eat(';') || eat(',')); if (!eat(')')) throw 0; } const v = FN[f[1].toUpperCase()](args); if (!isFinite(v)) throw 0; return v; }
+      const r = s.slice(i).match(/^\$?([A-Fa-f])\$?(\d{1,2})/); if (r){ i += r[0].length; const v = val(r[1] + r[2]); if (typeof v === 'string' && v.startsWith('#')) throw 0; return v === '' ? 0 : v; }
+      throw 0; };
+    try { const v = expr(); if (i < s.length) throw 0; return typeof v === 'number' ? Math.round(v*1e9)/1e9 : v; } catch(e){ return '#LỖI'; } }
+  return val;
+}
+const xlsShift = (f, dr) => f.replace(/(\$?)([A-Fa-f])(\$?)(\d{1,2})/g, (m, a, c, b, r) => a + c + b + (b ? r : Math.min(XROWS, Math.max(1, +r + dr))));
+
+function tinDocSim(box, L, onChange){
+  const COLORS = ['#1f2140', '#c62828', '#2b579a', '#217346', '#c43e1c', '#7a3cff'];
+  box.innerHTML = `<div class="td-bar" role="toolbar" aria-label="Thanh định dạng">
+    <button data-c="bold" title="In đậm (Ctrl+B)"><b>B</b></button><button data-c="italic" title="In nghiêng (Ctrl+I)"><i>I</i></button><button data-c="underline" title="Gạch chân (Ctrl+U)"><u>U</u></button>
+    <select id="tdSz" aria-label="Cỡ chữ"><option value="">Cỡ chữ</option><option value="2">Nhỏ (13)</option><option value="3">Vừa (16)</option><option value="4">Lớn (18)</option><option value="5">Rất lớn (24)</option><option value="6">Cực lớn (32)</option></select>
+    <span class="td-col" aria-label="Màu chữ">${COLORS.map(c => `<button data-col="${c}" style="--c:${c}" title="Màu chữ"></button>`).join('')}</span>
+    <button data-c="justifyLeft" title="Căn trái (Ctrl+L)">⯇≡</button><button data-c="justifyCenter" title="Căn giữa (Ctrl+E)">≡</button><button data-c="justifyRight" title="Căn phải (Ctrl+R)">≡⯈</button><button data-c="justifyFull" title="Căn đều (Ctrl+J)">☰</button>
+    <button data-c="insertOrderedList" title="Danh sách số thứ tự">1.</button><button data-c="insertUnorderedList" title="Danh sách dấu đầu dòng">•</button>
+    <button data-c="undo" title="Hoàn tác (Ctrl+Z)">↶</button><button data-c="redo" title="Làm lại (Ctrl+Y)">↷</button></div>
+    <div class="td-desk"><div class="td-page" contenteditable="true" spellcheck="false" aria-label="Trang soạn thảo">${L.init}</div></div>`;
+  const page = $('.td-page', box); let rng = null;
+  try { document.execCommand('styleWithCSS', false, true); document.execCommand('defaultParagraphSeparator', false, 'p'); } catch(e){}
+  const save = () => { const s = getSelection(); if (s.rangeCount && page.contains(s.anchorNode)) rng = s.getRangeAt(0).cloneRange(); };
+  const restore = () => { page.focus(); if (rng){ const s = getSelection(); s.removeAllRanges(); s.addRange(rng); } };
+  document.addEventListener('selectionchange', save);
+  const exec = (c, v) => { restore(); try { document.execCommand('styleWithCSS', false, true); document.execCommand(c, false, v); } catch(e){} save(); onChange(); };
+  $$('[data-c]', box).forEach(b => { b.onmousedown = e => e.preventDefault(); b.onclick = () => exec(b.dataset.c); });
+  $$('[data-col]', box).forEach(b => { b.onmousedown = e => e.preventDefault(); b.onclick = () => exec('foreColor', b.dataset.col); });
+  $('#tdSz', box).onchange = e => { if (e.target.value) exec('fontSize', e.target.value); e.target.value = ''; };
+  page.addEventListener('input', onChange); page.addEventListener('keyup', onChange);
+  page.addEventListener('keydown', e => { if ((e.ctrlKey || e.metaKey) && /^[lejr]$/i.test(e.key)){ e.preventDefault(); exec({l:'justifyLeft', e:'justifyCenter', r:'justifyRight', j:'justifyFull'}[e.key.toLowerCase()]); } });
+  const blockEls = () => { const out = []; page.childNodes.forEach(n => { if (n.nodeType === 1 && /^(UL|OL)$/.test(n.tagName)) n.querySelectorAll('li').forEach(li => out.push(li)); else if ((n.textContent || '').trim()) out.push(n.nodeType === 1 ? n : n.parentElement); }); return out; };
+  const tnodes = el => { const w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT), out = []; let n; while ((n = w.nextNode())) if (n.textContent.trim()) out.push(n); return out; };
+  const api = {page, text:() => page.innerText, words:() => page.innerText.trim().split(/\s+/).filter(Boolean).length,
+    blocks:() => blockEls().map(b => b.innerText.trim()),
+    all:(i, f) => { const b = blockEls()[i]; if (!b) return false; const ns = tnodes(b); return ns.length > 0 && ns.every(n => f(getComputedStyle(n.parentElement))); },
+    align:i => { const b = blockEls()[i]; if (!b) return ''; let e = b; while (e && e !== page && getComputedStyle(e).display === 'inline') e = e.parentElement; return getComputedStyle(e).textAlign; },
+    dispose:() => document.removeEventListener('selectionchange', save)};
+  return api;
+}
+
+function tinPptSim(box, L, onChange){
+  const TH = [{n:'Trắng', bg:'#ffffff', fg:'#1f2140', ac:'#2b579a'}, {n:'Biển', bg:'#0e4d75', fg:'#ffffff', ac:'#ffd54a'}, {n:'Lá', bg:'#e8f3e1', fg:'#1e4620', ac:'#2e7d32'}, {n:'Hoàng hôn', bg:'#fff1e0', fg:'#5a2a0a', ac:'#c43e1c'}, {n:'Đêm', bg:'#1f2140', fg:'#f3f2ea', ac:'#7fd3ff'}];
+  const PICS = ['🏫', '🌳', '📚', '🔬', '🎨', '⚽', '🤖', '🌏', '🏆', '🎵', '💻', '🌻'];
+  const LAY = {title:'Trang tiêu đề', content:'Tiêu đề và nội dung', pic:'Tiêu đề và hình ảnh'};
+  const P = {slides:JSON.parse(JSON.stringify(L.init.slides)), theme:0, tr:'none', ended:false}; let cur = 0;
+  const slideHTML = (s, big) => { const t = TH[P.theme]; return `<div class="tp-sl lay-${s.lay}${big ? ' big' : ''}" style="--bg:${t.bg};--fg:${t.fg};--ac:${t.ac}"><b class="tp-t">${h(s.t) || (big ? '' : '<span class="tp-ph">Tiêu đề</span>')}</b>${s.lay === 'title' ? `<span class="tp-sub">${h(s.b)}</span>` : s.lay === 'content' ? `<ul>${s.b.split('\n').filter(x => x.trim()).map(x => `<li>${h(x)}</li>`).join('')}</ul>` : `<span class="tp-pic">${s.pic || ''}</span>`}</div>`; };
+  const draw = () => { const s = P.slides[cur];
+    box.innerHTML = `<div class="tp-bar"><button id="tpAdd">+ Trang mới</button><button id="tpDel" ${P.slides.length < 2 ? 'disabled' : ''}>Xóa trang</button><button id="tpUp" ${cur ? '' : 'disabled'} aria-label="Đưa trang lên">↑</button><button id="tpDn" ${cur < P.slides.length - 1 ? '' : 'disabled'} aria-label="Đưa trang xuống">↓</button>
+      <label>Bố cục <select id="tpLay">${Object.entries(LAY).map(([k, v]) => `<option value="${k}" ${s.lay === k ? 'selected' : ''}>${v}</option>`).join('')}</select></label>
+      <label>Hiệu ứng <select id="tpTr">${[['none', 'Không'], ['fade', 'Mờ dần'], ['push', 'Đẩy sang'], ['zoom', 'Phóng to']].map(([k, v]) => `<option value="${k}" ${P.tr === k ? 'selected' : ''}>${v}</option>`).join('')}</select></label>
+      <span class="tp-th" aria-label="Chủ đề màu">${TH.map((t, i) => `<button data-th="${i}" title="Chủ đề ${t.n}" aria-pressed="${P.theme === i}" style="background:${t.bg};border-color:${t.ac}">${i === P.theme ? '✓' : ''}</button>`).join('')}</span>
+      <button id="tpShow" class="tp-go">▶ Trình chiếu</button></div>
+      <div class="tp-main"><ol class="tp-th-list">${P.slides.map((x, i) => `<li><button data-s="${i}" aria-current="${i === cur}"><i>${i + 1}</i>${slideHTML(x)}</button></li>`).join('')}</ol>
+        <div class="tp-ed"><div class="tp-prev">${slideHTML(s, true)}</div>
+          <label>Tiêu đề<input class="inp" id="tpT" maxlength="60" value="${h(s.t)}"></label>
+          ${s.lay === 'title' ? `<label>Dòng phụ (tên người trình bày)<input class="inp" id="tpB" maxlength="80" value="${h(s.b)}"></label>` : s.lay === 'content' ? `<label>Nội dung (mỗi dòng một ý)<textarea class="inp" id="tpB" rows="4" maxlength="400">${h(s.b)}</textarea></label>` : `<div class="tp-pics" role="group" aria-label="Chọn hình">${PICS.map(p => `<button data-pic="${p}" aria-pressed="${s.pic === p}">${p}</button>`).join('')}</div>`}
+        </div></div>`;
+    const prev = () => { $('.tp-prev', box).innerHTML = slideHTML(P.slides[cur], true); const th = $$('[data-s]', box)[cur]; if (th) th.innerHTML = `<i>${cur + 1}</i>${slideHTML(P.slides[cur])}`; onChange(); };
+    $('#tpT', box).oninput = e => { P.slides[cur].t = e.target.value; prev(); };
+    const b = $('#tpB', box); if (b) b.oninput = e => { P.slides[cur].b = e.target.value; prev(); };
+    $$('[data-pic]', box).forEach(x => x.onclick = () => { P.slides[cur].pic = x.dataset.pic; draw(); onChange(); });
+    $$('[data-s]', box).forEach(x => x.onclick = () => { cur = +x.dataset.s; draw(); });
+    $$('[data-th]', box).forEach(x => x.onclick = () => { P.theme = +x.dataset.th; draw(); onChange(); });
+    $('#tpLay', box).onchange = e => { P.slides[cur].lay = e.target.value; draw(); onChange(); };
+    $('#tpTr', box).onchange = e => { P.tr = e.target.value; onChange(); };
+    $('#tpAdd', box).onclick = () => { P.slides.splice(cur + 1, 0, {lay:'content', t:'', b:''}); cur++; draw(); onChange(); };
+    $('#tpDel', box).onclick = () => { P.slides.splice(cur, 1); cur = Math.max(0, cur - 1); draw(); onChange(); };
+    $('#tpUp', box).onclick = () => { const x = P.slides.splice(cur, 1)[0]; P.slides.splice(--cur, 0, x); draw(); onChange(); };
+    $('#tpDn', box).onclick = () => { const x = P.slides.splice(cur, 1)[0]; P.slides.splice(++cur, 0, x); draw(); onChange(); };
+    $('#tpShow', box).onclick = show; };
+  const show = () => { let i = 0; const ov = document.createElement('div'); ov.className = 'tp-show'; ov.setAttribute('role', 'dialog'); ov.setAttribute('aria-label', 'Trình chiếu'); document.body.appendChild(ov);
+    const go = d => { const n = i + d; if (n < 0) return; if (n >= P.slides.length){ close(); return; } i = n; if (i === P.slides.length - 1){ P.ended = true; onChange(); } paint(d); };
+    const paint = d => { ov.innerHTML = `<div class="tp-stage tr-${P.tr}${d < 0 ? ' back' : ''}">${slideHTML(P.slides[i], true)}</div><div class="tp-ctl"><button data-g="-1" aria-label="Trang trước">◀</button><span>${i + 1} / ${P.slides.length}</span><button data-g="1" aria-label="Trang sau">▶</button><button data-x aria-label="Kết thúc trình chiếu">✕</button></div>`;
+      $$('[data-g]', ov).forEach(b => b.onclick = e => { e.stopPropagation(); go(+b.dataset.g); }); $('[data-x]', ov).onclick = e => { e.stopPropagation(); close(); }; };
+    const key = e => { if (/ArrowRight|ArrowDown|PageDown| |Enter/.test(e.key)){ e.preventDefault(); go(1); } else if (/ArrowLeft|ArrowUp|PageUp/.test(e.key)){ e.preventDefault(); go(-1); } else if (e.key === 'Escape') close(); };
+    const close = () => { document.removeEventListener('keydown', key, true); ov.remove(); draw(); };
+    document.addEventListener('keydown', key, true); ov.onclick = () => go(1); if (P.slides.length === 1){ P.ended = true; onChange(); } paint(1); };
+  draw();
+  return {get slides(){ return P.slides; }, get theme(){ return P.theme; }, get tr(){ return P.tr; }, get ended(){ return P.ended; }, show, dispose(){}};
+}
+
+function tinXlsSim(box, L, onChange){
+  const cells = {}; (L.init.data || []).forEach((row, r) => row.forEach((v, c) => { if (v !== undefined && v !== '') cells[XCOLS[c] + (r + 1)] = String(v); }));
+  let sel = 'A1', chart = null, val = xlsEval(cells);
+  const fmt = v => typeof v === 'number' ? (Number.isInteger(v) ? String(v) : v.toFixed(2).replace(/0+$/, '').replace('.', ',')) : String(v);
+  box.innerHTML = `<div class="tx-bar"><span class="tx-nm" id="txNm">A1</span><span class="tx-fx">fx</span><input class="tx-f" id="txF" aria-label="Thanh công thức" autocomplete="off" spellcheck="false"><button id="txFill" title="Sao chép công thức của ô đang chọn xuống các hàng dưới">Sao chép xuống ↓</button><button id="txChart">Vẽ biểu đồ</button></div>
+    <div class="tx-wrap"><table class="tx-grid" role="grid"><thead><tr><th></th>${[...XCOLS].map(c => `<th><button data-col="${c}" aria-label="Chọn cột ${c}">${c}</button></th>`).join('')}</tr></thead>
+    <tbody>${Array.from({length:XROWS}, (_, r) => `<tr><th>${r + 1}</th>${[...XCOLS].map(c => `<td><input data-cell="${c}${r + 1}" aria-label="Ô ${c}${r + 1}" autocomplete="off" spellcheck="false"></td>`).join('')}</tr>`).join('')}</tbody></table></div>
+    <div class="tx-chart" id="txC" hidden></div><p class="tx-tip muted">Chọn ô để gõ. Công thức bắt đầu bằng dấu <b>=</b>. Nhấn <kbd>Enter</kbd> để xuống ô dưới. Bấm chữ tên cột (A, B…) để chọn cả cột.</p>`;
+  const F = $('#txF', box), inputs = Object.fromEntries($$('[data-cell]', box).map(i => [i.dataset.cell, i])); let colSel = null;
+  const paint = () => { val = xlsEval(cells); Object.entries(inputs).forEach(([k, inp]) => { if (document.activeElement === inp) return; const v = cells[k] ? val(k) : ''; inp.value = fmt(v); inp.classList.toggle('num', typeof v === 'number'); inp.classList.toggle('err', typeof v === 'string' && v.startsWith('#')); inp.classList.toggle('sel', k === sel || (colSel && k[0] === colSel)); });
+    $('#txNm', box).textContent = colSel ? 'Cột ' + colSel : sel; if (document.activeElement !== F) F.value = cells[sel] || ''; drawChart(); };
+  const commit = (k, raw) => { raw = String(raw); if (raw.trim()) cells[k] = raw.trim(); else delete cells[k]; paint(); onChange(); };
+  Object.entries(inputs).forEach(([k, inp]) => {
+    inp.onfocus = () => { sel = k; colSel = null; inp.value = cells[k] || ''; paint(); F.value = cells[k] || ''; };
+    inp.oninput = () => { F.value = inp.value; };
+    inp.onblur = () => commit(k, inp.value);
+    inp.onkeydown = e => { const c = XCOLS.indexOf(k[0]), r = +k.slice(1); let n = null;
+      if (e.key === 'Enter' || (e.key === 'ArrowDown' && !inp.value.startsWith('='))) n = XCOLS[c] + Math.min(XROWS, r + 1); else if (e.key === 'ArrowUp' && !inp.value.startsWith('=')) n = XCOLS[c] + Math.max(1, r - 1); else if (e.key === 'Tab') n = XCOLS[Math.min(XCOLS.length - 1, c + (e.shiftKey ? -1 : 1))] + r; else if (e.key === 'Escape'){ inp.value = cells[k] || ''; inp.blur(); return; }
+      if (n){ e.preventDefault(); inputs[n].focus(); } }; });
+  F.oninput = () => { if (inputs[sel]) inputs[sel].value = F.value; };
+  F.onkeydown = e => { if (e.key === 'Enter'){ e.preventDefault(); commit(sel, F.value); const r = +sel.slice(1); inputs[sel[0] + Math.min(XROWS, r + 1)].focus(); } };
+  F.onchange = () => commit(sel, F.value);
+  $$('[data-col]', box).forEach(b => b.onclick = () => { colSel = b.dataset.col; paint(); });
+  $('#txFill', box).onclick = () => { const f = cells[sel]; if (!f){ toast('Em chọn ô có công thức trước nhé.'); return; } const c = sel[0], r0 = +sel.slice(1); let last = r0;
+    for (let r = r0 + 1; r <= XROWS; r++){ if (!['A', 'B'].some(cc => cells[cc + r] && cc !== c)) break; last = r; }
+    if (last === r0){ toast('Không có hàng dữ liệu nào bên dưới để sao chép.'); return; }
+    for (let r = r0 + 1; r <= last; r++) cells[c + r] = f.startsWith('=') ? xlsShift(f, r - r0) : f; paint(); onChange(); toast(`Đã sao chép xuống ${c}${r0 + 1}:${c}${last}`); };
+  $('#txChart', box).onclick = () => { const c = colSel || sel[0]; const rows = []; for (let r = 2; r <= XROWS; r++){ const v = val(c + r), lb = val('A' + r); if (typeof v === 'number' && lb && typeof lb === 'string' && !/cao nhất|thấp nhất|tổng/i.test(lb)) rows.push([lb, v]); }
+    if (rows.length < 2){ toast('Cột này chưa đủ số liệu để vẽ biểu đồ. Bấm vào chữ tên cột số liệu (ví dụ B) trước.'); return; } chart = c; paint(); onChange(); };
+  function drawChart(){ const box2 = $('#txC', box); if (!chart){ box2.hidden = true; return; } const rows = []; for (let r = 2; r <= XROWS; r++){ const v = val(chart + r), lb = val('A' + r); if (typeof v === 'number' && lb && typeof lb === 'string' && !/cao nhất|thấp nhất|tổng/i.test(lb)) rows.push([lb, v]); }
+    const mx = Math.max(10, ...rows.map(x => x[1])), title = val(chart + '1') || 'Cột ' + chart; box2.hidden = false;
+    box2.innerHTML = `<b>Biểu đồ cột: ${h(String(title))}</b><div class="tx-bars">${rows.map(([lb, v]) => `<div class="tx-b"><span class="tx-bv">${fmt(v)}</span><i style="height:${Math.max(2, v/mx*100)}%"></i><span class="tx-bl">${h(lb)}</span></div>`).join('')}</div>`; }
+  paint();
+  return {raw:k => cells[k] || '', val:k => { const v = val(k); return v; }, get chart(){ return chart; }, dispose(){}};
+}
+
+function vTin(app){
+  const m = me();
+  const nDone = TIN_LESSONS.filter(l => tinDone(l.id)).length;
+  app.innerHTML = `<div class="wrap"><section class="section" style="gap:14px">
+    ${pageHead('Phòng Tin học', `${nDone}/${TIN_LESSONS.length} bài`, 'Soạn thảo văn bản · Bài trình chiếu · Bảng tính · Thực hành ngay trên phần mềm mô phỏng')}
+    <p class="tin-lead">Mỗi bài có <b>hướng dẫn ngắn</b> và một phần <b>thực hành</b> trên phần mềm mô phỏng giống Word, PowerPoint và Excel. Máy tự kiểm tra từng yêu cầu; làm đủ sẽ được <b>+5 điểm thưởng</b>.${m ? '' : ' <a href="#" data-go="login">Đăng nhập</a> để được ghi điểm.'}</p>
+    <div class="tin-tracks">${Object.entries(TIN_TRACK).map(([k, t]) => { const ls = TIN_LESSONS.filter(l => l.tr === k);
+      return `<section class="tin-tr" style="--tc:${t.c}"><header><span class="tin-ic" aria-hidden="true">${t.icon}</span><div><h2>${h(t.name)}</h2><p>${h(t.sub)} · <span class="muted">${h(t.grade)}</span></p></div></header>
+        <ol>${ls.map((l, i) => `<li><button data-go="tinlab" data-arg="${l.id}"><span class="tin-n">${tinDone(l.id) ? '✓' : i + 1}</span><b>${h(l.name)}</b><span class="tin-go">${tinDone(l.id) ? 'Làm lại' : 'Vào học'}</span></button></li>`).join('')}</ol></section>`; }).join('')}</div>
+  </section></div>`;
+}
+
+function vTinLab(app){
+  const L = TIN_LESSONS.find(l => l.id === S.arg) || TIN_LESSONS[0], T = TIN_TRACK[L.tr], m = me();
+  const ls = TIN_LESSONS.filter(l => l.tr === L.tr), idx = ls.indexOf(L), nxt = ls[idx + 1];
+  app.dataset.lock = '1';
+  app.innerHTML = `<div class="wrap tin-lab" style="--tc:${T.c}"><section class="section" style="gap:12px">
+    <div class="tin-top"><button class="btn ghost" data-go="tin">← Phòng Tin học</button><span class="tin-crumb">${h(T.name)} · Bài ${idx + 1}/${ls.length}</span></div>
+    <h1 class="tin-h">${h(L.name)}</h1>
+    <div class="tin-cols"><aside class="tin-side">
+      <details class="tin-guide" open><summary>Hướng dẫn</summary><ol>${L.guide.map(g => `<li>${g}</li>`).join('')}</ol></details>
+      <div class="tin-task"><h3>Nhiệm vụ</h3><p>${L.task}</p><ul class="tin-ck" id="tinCk"></ul><p class="tin-st" id="tinSt" role="status"></p>
+        <div class="row" style="gap:8px;flex-wrap:wrap"><button class="btn ghost" id="tinReset">Làm lại từ đầu</button>${nxt ? `<button class="btn" data-go="tinlab" data-arg="${nxt.id}" id="tinNext" hidden>Bài tiếp: ${h(nxt.name)} →</button>` : ''}</div></div>
+    </aside><div class="tin-sim" id="tinSim"></div></div>
+  </section></div>`;
+  const box = $('#tinSim', app); let sim = null, awarded = tinDone(L.id), tmr = 0;
+  const check = () => { clearTimeout(tmr); tmr = setTimeout(() => { if (!document.body.contains(box)) return;
+    const res = L.checks.map(([t, f]) => { let ok = false; try { ok = !!f(sim); } catch(e){} return [t, ok]; });
+    $('#tinCk', app).innerHTML = res.map(([t, ok]) => `<li class="${ok ? 'ok' : ''}"><span aria-hidden="true">${ok ? '✓' : '○'}</span>${h(t)}<span class="sr-only">${ok ? ': đã xong' : ': chưa xong'}</span></li>`).join('');
+    const all = res.every(x => x[1]); $('#tinSt', app).innerHTML = all ? '🎉 <b>Hoàn thành!</b> Em đã làm đúng tất cả yêu cầu.' : `Đã xong ${res.filter(x => x[1]).length}/${res.length} yêu cầu.`;
+    const nb = $('#tinNext', app); if (nb) nb.hidden = !all;
+    if (all && !awarded){ awarded = true; try { SFX.bell(); } catch(e){} if (m) awardPts('tin_' + L.id, 5, 10, 'Phòng Tin học: ' + L.name); else toast('Hoàn thành! Đăng nhập để được cộng điểm.'); } }, 250); };
+  const start = () => { if (sim && sim.dispose) sim.dispose(); sim = (L.sim === 'doc' ? tinDocSim : L.sim === 'ppt' ? tinPptSim : tinXlsSim)(box, L, check); check(); };
+  $('#tinReset', app).onclick = () => { start(); toast('Đã đặt lại bài thực hành'); };
+  start();
+  if (window.__OLI_TEST) window.__tin = () => sim;
+}
+
 function vChess(app){
   const m = me(), sid = m ? m.id : null;
   app.dataset.lock = '1';
@@ -4273,7 +4598,7 @@ function vSchool(app){
     ...M.BOARDS.map(b => ({...b, ax:b.x, ay:b.y + 26, r:36, verb:'Xem ' + b.label.toLowerCase()})),
     {id:'bot', kind:'bot', label:'Robot Ô Li · MC', ax:M.ROBOT_AT.x + 30, ay:M.ROBOT_AT.y + 10, r:36, verb:'Nói chuyện'}
   ] : [
-    ...SCH.DOORS.map(dd => ({...dd, ax:dd.tx, ay:dd.ty, r:36, verb:dd.kind === 'hall' ? 'Vào hội trường' : dd.kind === 'class' ? 'Vào lớp' : dd.kind === 'lab' ? 'Vào phòng' : dd.kind === 'teacher' ? 'Vào phòng GV' : dd.kind === 'library' ? 'Vào thư viện' : dd.kind === 'chess' ? 'Vào CLB cờ vua' : dd.kind === 'stem' ? 'Vào phòng STEM' : dd.kind === 'ai' ? 'Vào Lớp học AI' : dd.kind === 'gallery' ? 'Vào phòng tranh' : 'Vào căng tin'})),
+    ...SCH.DOORS.map(dd => ({...dd, ax:dd.tx, ay:dd.ty, r:36, verb:dd.kind === 'hall' ? 'Vào hội trường' : dd.kind === 'class' ? 'Vào lớp' : dd.kind === 'lab' ? 'Vào phòng' : dd.kind === 'teacher' ? 'Vào phòng GV' : dd.kind === 'library' ? 'Vào thư viện' : dd.kind === 'chess' ? 'Vào CLB cờ vua' : dd.kind === 'stem' ? 'Vào phòng STEM' : dd.kind === 'ai' ? 'Vào Lớp học AI' : dd.kind === 'gallery' ? 'Vào phòng tranh' : dd.kind === 'it' ? 'Vào phòng Tin học' : 'Vào phòng'})),
     ...SCH.BOARDS.map(b => ({...b, ax:b.x, ay:b.y + 26, r:36, verb:'Xem ' + b.label.toLowerCase()})),
     {id:'bot', kind:'bot', label:'Robot Ô Li', ax:SCH.ROBOT_AT.x, ay:SCH.ROBOT_AT.y + 4, r:40, verb:'Nói chuyện'},
     {id:'gate', kind:'cleanup', label:'Cổng trường · nhặt rác', ax:SCH.GATE.x, ay:SCH.H - 40, r:34, verb:'Ra cổng nhặt rác'},
@@ -4295,6 +4620,7 @@ function vSchool(app){
   const doAct = a => {
     if (!a) return;
     if (a.kind === 'gallery'){ outAt(a); return enter('Đang vào phòng tranh 3D…', () => go('gallery')); }
+    if (a.kind === 'it'){ outAt(a); return enter('Đang vào phòng Tin học…', () => go('tin')); }
     if (a.kind === 'class'){
       if (!m && !S.canEdit) return dlg('Robot Ô Li', `Đây là dãy lớp <b>khối ${a.grade}</b>. Em đăng nhập để vào lớp của mình nhé.`, [{label:'Đăng nhập', fn:() => go('login')}]);
       if (m && String(m.grade) !== String(a.grade)) return dlg('Robot Ô Li', `Đây là lớp của <b>khối ${a.grade}</b>. Lớp của em là <b>${h(m.cls)}</b> ở cửa <b>Khối ${h(m.grade)}</b> nhé!`);
@@ -4309,7 +4635,6 @@ function vSchool(app){
     if (a.kind === 'stem'){ outAt(a); return enter('Đang vào phòng STEM…', () => go('stem')); }
     if (a.kind === 'ai'){ outAt(a); return enter('Đang vào Lớp học AI…', () => go('ai')); }
     if (a.kind === 'race'){ P.y = a.ay + 40; P.dir = 'down'; return enter('Đang ra đường đua tiếng Anh…', () => go('race')); }
-    if (a.kind === 'canteen') return dlg('Cô căng tin', 'Căng tin đang sửa sang lại. Muốn có <b>kiểu tóc, mũ, kính, áo mới</b> thì em sang <b>Hội trường</b> ở phía đông sân trường tham gia sự kiện nhé!', [], {...defaultLook('canteen'), hair:'bob', bottom:'skirt', scarf:false});
     if (a.kind === 'honor'){ const bd = Object.values(S.boards).filter(b => b.published).sort((x, y) => y.month.localeCompare(x.month))[0];
       if (!bd) return dlg('Bảng vàng', 'Chưa có tháng nào được công bố.'); const [yy, mm] = bd.month.split('-');
       return dlg(`Bảng vàng tháng ${+mm}/${yy}`, `<ol class="sc-list">${(bd.top || []).slice(0, 5).map(p => `<li><b>${h(p.name)}</b> <span class="muted">· Lớp ${h(p.cls)}</span> <span class="num">${p.points} điểm</span></li>`).join('')}</ol>`, [{label:'Xem bảng xếp hạng', fn:() => { savePos(); go('board'); }}]); }
@@ -4335,7 +4660,7 @@ function vSchool(app){
   const TUT = [
     `Chào ${m ? '<b>' + h(m.name.split(' ').slice(-1)[0]) + '</b>' : 'em'}! Mình là <b>Ô Li</b>, robot hướng dẫn của trường. Chào mừng em đến <b>Trường THCS và THPT Lương Thế Vinh</b>!`,
     'Trên điện thoại: <b>chạm nhanh</b> vào chỗ muốn đến, hoặc <b>giữ và kéo</b> ở bất kì đâu để hiện cần điều khiển, kéo hết cỡ để <b>chạy</b>. Trên máy tính: phím <b>mũi tên / W A S D</b>, giữ <b>Shift</b> để chạy. Nút <b>toàn màn hình</b> ở góc phải giúp em chơi dễ hơn.',
-    `Trường mình có <b>4 dãy nhà</b> bao quanh sân như một khu tứ hợp viện. <b>Dãy A</b> phía trên là lớp <b>THCS khối 6–9</b>, <b>dãy B</b> phía dưới (hai bên cổng) là lớp <b>THPT khối 10–12</b>, mỗi cửa một khối.${m ? ` Lớp của em ở cửa <b>Khối ${h(m.grade)}</b>.` : S.canEdit ? ' Thầy cô đi tới cửa <b>Phòng GV</b> ở cuối dãy (có mũi tên vàng) để vào làm việc: giao nhiệm vụ, soạn bài, chấm bài, quản lí tài khoản.' : ''} Đi tới cửa rồi bấm <b>Vào lớp</b> để học lý thuyết.`,
+    `Trường mình có <b>4 dãy nhà</b> bao quanh sân như một khu tứ hợp viện. <b>Dãy A</b> phía trên là lớp <b>THCS khối 6–9</b>, <b>dãy B</b> phía dưới (hai bên cổng) là lớp <b>THPT khối 10–12</b> và <b>phòng Tin học</b>, mỗi cửa một khối.${m ? ` Lớp của em ở cửa <b>Khối ${h(m.grade)}</b>.` : S.canEdit ? ' Thầy cô đi tới cửa <b>Phòng GV</b> ở cuối dãy (có mũi tên vàng) để vào làm việc: giao nhiệm vụ, soạn bài, chấm bài, quản lí tài khoản.' : ''} Đi tới cửa rồi bấm <b>Vào lớp</b> để học lý thuyết.`,
     'Mọi khu học đều ở ngay trong sân trường: <b>dãy C</b> bên trái có <b>thư viện</b>, <b>Phòng tranh 3D</b> (mỗi tháng có phong trào vẽ tranh) và <b>câu lạc bộ cờ vua</b>; <b>dãy D</b> bên phải có phòng thí nghiệm Vật lí, Hóa học, Sinh học, <b>phòng STEM</b> và <b>Lớp học AI</b>; phía đông là <b>Hội trường</b> và <b>sân thể thao</b> với Đường đua tiếng Anh; ra <b>cổng trường</b> để nhặt rác. Giữa sân, <b>bảng tin</b> dán nhiệm vụ của em, <b>bảng vàng</b> có bảng xếp hạng.',
     'Học và thực hành để nhận <b>XP</b>, lên hạng từ <b>Tập sự</b> tới <b>Huyền thoại</b>. Chúc em học vui!'
   ];
@@ -6759,7 +7084,7 @@ AIW.prompt = (el, c, l, done) => {
     el.innerHTML = aiHead('Xưởng câu lệnh: hỏi AI để học', 'Mỗi tình huống: <b>1)</b> so sánh hai câu lệnh, <b>2)</b> tự viết câu lệnh của em, máy kiểm tra theo bảng kiểm. Đạt khi câu lệnh có đủ hầu hết các phần.') + `
     <div class="aw-modes">${c.sc.map((x, i) => `<button data-sc="${i}" aria-pressed="${i === cur}">${okSc(i) ? '✅' : '⭕'} ${i + 1}. ${h(x.subj)}</button>`).join('')}</div>
     <div class="aw-task"><span class="eyebrow">Tình huống ${cur + 1} · ${h(sc.subj)}</span><p>${h(sc.task)}</p></div>
-    <h3 class="aw-sub">1. So sánh hai cách hỏi chatbot <small>(câu trả lời minh họa do Lớp học Ô Li viết sẵn)</small></h3>
+    <h3 class="aw-sub">1. So sánh hai cách hỏi chatbot <small>(câu trả lời minh họa do Trường học Ô Li viết sẵn)</small></h3>
     <div class="aw-cmp"><div class="bad"><b>Câu lệnh xin đáp án</b><q>${h(sc.bad)}</q><div class="aw-bubble">${h(sc.badR)}</div><small>Em có đáp án nhưng không biết cách làm, gặp bài khác lại bí.</small></div>
       <div class="good"><b>Câu lệnh để học</b>${s.show ? `<q>${h(sc.good)}</q><div class="aw-bubble">${h(sc.goodR)}</div><small>Chatbot gợi ý, hỏi lại, em vẫn là người suy nghĩ.</small>` : `<p class="muted">Câu lệnh mẫu sẽ hiện sau khi em tự viết thử ít nhất một lần.</p>`}</div></div>
     <h3 class="aw-sub">2. Em tự viết câu lệnh cho tình huống này</h3>
@@ -10975,7 +11300,7 @@ const noDia = s => String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').repl
 /* ---------- giao nhiệm vụ bằng file Excel (mẫu → nhờ Claude điền → tải lên) ---------- */
 const XT_INFO = [['Tên nhiệm vụ', 'Ví dụ: Ôn tập phân số bằng nhau'], ['Khối (6, 7, 8 hoặc 9)', '6'], ['Môn', 'Toán'], ['Giao cho lớp (để trống = cả khối; nhiều lớp ghi: 6A, 6B)', ''], ['Ngày mở bài (dd/mm/yyyy, có thể để trống)', ''], ['Hạn nộp (dd/mm/yyyy)', ''], ['Khóa nộp khi quá hạn (Có/Không)', 'Không'], ['Điểm thưởng (1–50)', '10'], ['Lời dặn học sinh (có thể để trống)', '']];
 const XT_SUBJ = [['toan', 'Toán'], ['van', 'Ngữ văn'], ['anh', 'Tiếng Anh'], ['khtn', 'Khoa học tự nhiên'], ['ly', 'Vật lí'], ['hoa', 'Hóa học'], ['sinh', 'Sinh học'], ['sudia', 'Lịch sử và Địa lí']];
-const xtPrompt = o => `Mình gửi kèm file mẫu ra đề của phần mềm Lớp học Ô Li (file Excel). Bạn hãy soạn một đề trắc nghiệm rồi điền vào chính file này và gửi lại cho mình file .xlsx đã điền.
+const xtPrompt = o => `Mình gửi kèm file mẫu ra đề của phần mềm Trường học Ô Li (file Excel). Bạn hãy soạn một đề trắc nghiệm rồi điền vào chính file này và gửi lại cho mình file .xlsx đã điền.
 - Chủ đề: ${o.topic || '[chủ đề bài học]'}
 - Khối: ${o.grade || '[6 đến 12]'} · Môn: ${o.subj || '[môn học]'} · Số câu: ${o.n || 10}
 - Giao cho lớp: ${o.cls || '(để trống = cả khối)'} · Hạn nộp: ${o.due || '(để trống)'}
@@ -10987,7 +11312,7 @@ Yêu cầu:
 async function xtTemplate(){
   const H = XS.head, I = XS.input, C = XS.cell;
   return xlsxBuild([
-    {name:'Huong dan', widths:[110], rows:[[{v:'MẪU RA ĐỀ TRẮC NGHIỆM – LỚP HỌC Ô LI', s:XS.title}], [''],
+    {name:'Huong dan', widths:[110], rows:[[{v:'MẪU RA ĐỀ TRẮC NGHIỆM – TRƯỜNG HỌC Ô LI', s:XS.title}], [''],
       ['Cách dùng nhanh:'], ['1. Mở file này, hoặc gửi nguyên file cho Claude (hoặc ChatGPT, Gemini) kèm lời nhờ có sẵn trong phần mềm (nút "Chép lời nhờ Claude").'],
       ['2. Điền sheet "Thong tin" (tên nhiệm vụ, khối, môn, lớp, hạn nộp) và sheet "Cau hoi" (mỗi câu một dòng).'], ['3. Lưu file .xlsx, vào phần mềm: Giáo viên › Nhiệm vụ › "Giao nhiệm vụ bằng file Excel" › Đưa file lên › kiểm tra › Giao.'], [''],
       ['Quy ước:'], ['• Cột "Đáp án" chỉ ghi một chữ: A, B, C hoặc D.'], ['• Có thể chỉ có 2 hoặc 3 phương án (để trống ô D).'], ['• Ngày ghi dạng ngày/tháng/năm, ví dụ 30/10/2026.'],
@@ -11092,7 +11417,7 @@ function rpData(from, to){
   const log = Object.values(days).sort((a, b) => a.d.localeCompare(b.d)).map(x => { const hs = new Set(x.subs.map(sb => sb.sid)), gs = [...new Set([...hs].map(id => S.students[id].grade))].sort();
     const kc = {}; x.subs.forEach(sb => { const k = rpKind(sb); kc[k] = (kc[k] || 0) + 1; }); const avg = x.subs.length ? x.subs.reduce((a, sb) => a + (sb.score || 0), 0)/x.subs.length : null;
     const nd = [x.tasks.length ? `Giáo viên giao ${x.tasks.length} nhiệm vụ: ${x.tasks.map(t => '“' + t.title + '”').join('; ')}` : '', x.subs.length ? `Học sinh học và làm bài trên ứng dụng: ${Object.entries(kc).map(([k, n]) => `${n} lượt ${RP_KIND[k].replace(/^./, c => c.toLowerCase())}`).join(', ')}` : ''].filter(Boolean).join('. ');
-    return {d:x.d, nd, place:'Trực tuyến trên ứng dụng Lớp học Ô Li', who:[x.tasks.length ? 'Giáo viên' : '', hs.size ? `${hs.size} học sinh (khối ${gs.join(', ')})` : ''].filter(Boolean).join('; '),
+    return {d:x.d, nd, place:'Trực tuyến trên ứng dụng Trường học Ô Li', who:[x.tasks.length ? 'Giáo viên' : '', hs.size ? `${hs.size} học sinh (khối ${gs.join(', ')})` : ''].filter(Boolean).join('; '),
       kq:x.subs.length ? `${x.subs.length} lượt nộp bài, điểm TB ${vn(avg, 1)}; ${Math.round(x.subs.filter(sb => sb.score >= 5).length/x.subs.length*100)}% lượt đạt từ 5 điểm` : `Đã giao ${x.tasks.length} nhiệm vụ`, mc:'Dữ liệu xuất tự động từ hệ thống (sheet "Theo hoc sinh", "Theo ngay")'}; });
   const total = agg(P);
   return {from, to, code, per:P, grades, classes, kinds, log, total, ntasks:tasks.length, nsubs:subs.length, studs};
@@ -11131,7 +11456,7 @@ async function rpExcel(D){
   const hd = a => a.map(v => ({v, s:H})), n1 = v => v === null || v === undefined ? {v:'—', s:C} : {v:Math.round(v*100)/100, s:N}, pc = v => v === null || v === undefined ? {v:'—', s:C} : {v:Math.round(v*1000)/1000, s:P}, it = v => ({v, s:I}), tx = v => ({v:String(v), s:C});
   const T = D.total, gname = D.grades.map(x => 'Khối ' + x.g);
   const range = `Từ ngày ${ddmm(D.from)}/${D.from.slice(0, 4)} đến ngày ${ddmm(D.to)}/${D.to.slice(0, 4)}`;
-  const sum = [[{v:'BÁO CÁO SỐ LIỆU SỬ DỤNG ỨNG DỤNG LỚP HỌC Ô LI', s:XS.title}], [range], ['Thời điểm xuất: ' + new Date().toLocaleString('vi-VN')], [''],
+  const sum = [[{v:'BÁO CÁO SỐ LIỆU SỬ DỤNG ỨNG DỤNG TRƯỜNG HỌC Ô LI', s:XS.title}], [range], ['Thời điểm xuất: ' + new Date().toLocaleString('vi-VN')], [''],
     hd(['Khối', 'Số HS', 'HS tham gia', 'Tỉ lệ tham gia', 'Lượt học/nộp bài', 'Lượt TB/HS', 'Điểm TB (thang 10)', '% lượt đạt ≥5', '% lượt đạt ≥8', 'Chuyên đề Lớp học AI TB/HS', 'Tổng điểm rèn luyện']),
     ...D.grades.map(x => [tx('Khối ' + x.g), it(x.n), it(x.act), pc(x.rate), it(x.turns), n1(x.perHS), n1(x.avg), pc(x.p5), pc(x.p8), n1(x.ai), it(x.rl)]),
     [{v:'Toàn trường', s:B}, it(T.n), it(T.act), pc(T.rate), it(T.turns), n1(T.perHS), n1(T.avg), pc(T.p5), pc(T.p8), n1(T.ai), it(T.rl)], [''],
@@ -11146,7 +11471,7 @@ async function rpExcel(D){
     ...D.log.map((r, i) => [it(i + 1), tx(ddmm(r.d) + '/' + r.d.slice(0, 4)), tx(r.nd), tx(r.place), tx(r.who), tx(r.kq), tx(r.mc), tx('')])];
   const cm = curMonth(), gold = [[{v:'BẢNG VÀNG ' + monthLabel(cm).toUpperCase() + ' (mã hóa học sinh)', s:XS.title}], hd(['Phạm vi', 'Hạng', 'Mã HS', 'Lớp', 'Điểm thưởng', 'Số bài', 'Điểm TB'])];
   [['all', 'Toàn trường'], [6, 'Khối 6'], [7, 'Khối 7'], [8, 'Khối 8'], [9, 'Khối 9']].forEach(([g, n]) => ranking(cm, g).slice(0, 10).forEach((r, i) => gold.push([tx(n), it(i + 1), tx(D.code[r.sid] || ''), tx(r.cls), it(r.points), it(r.done), n1(r.done ? r.scoreSum/r.done : null)])));
-  const note = [[{v:'GHI CHÚ VỀ NGUỒN DỮ LIỆU', s:XS.title}], [''], ['• Số liệu được xuất tự động từ cơ sở dữ liệu của ứng dụng Lớp học Ô Li, không chỉnh sửa thủ công.'], ['• ' + range + '. Một lượt là một lần học sinh nộp bài hoặc hoàn thành một hoạt động; mỗi hoạt động tính theo lần nộp có điểm cao nhất.'],
+  const note = [[{v:'GHI CHÚ VỀ NGUỒN DỮ LIỆU', s:XS.title}], [''], ['• Số liệu được xuất tự động từ cơ sở dữ liệu của ứng dụng Trường học Ô Li, không chỉnh sửa thủ công.'], ['• ' + range + '. Một lượt là một lần học sinh nộp bài hoặc hoàn thành một hoạt động; mỗi hoạt động tính theo lần nộp có điểm cao nhất.'],
     ['• Học sinh được mã hóa (HS001, HS002…) theo thứ tự khối, lớp, tên; bảng đối chiếu mã – tên chỉ giáo viên giữ, không đưa vào hồ sơ.'], ['• Mức độ tham gia: Tích cực từ 10 lượt; Thường xuyên 5–9 lượt; Thỉnh thoảng 1–4 lượt.'], ['• Xếp loại theo điểm trung bình các lượt: Giỏi từ 8,0; Khá 6,5 – dưới 8,0; Trung bình 5,0 – dưới 6,5; Yếu dưới 5,0.'],
     ['• Số liệu khảo sát ý kiến và bài kiểm tra trước/sau được nhập riêng vào file 08_Bang-so-lieu-thu-nghiem.xlsx.'], ['• Khi đưa biểu đồ vẽ từ số liệu này vào báo cáo, ghi rõ công cụ tạo biểu đồ theo quy định khai báo sử dụng công nghệ số (Phụ lục VI).']];
   return xlsxBuild([{name:'Tong hop', rows:sum, widths:[30, 10, 12, 12, 14, 11, 12, 12, 12, 16, 14]}, {name:'Theo lop', rows:cls, widths:[10, 8, 9, 12, 12, 9, 11, 10, 12, 12], freeze:1},
