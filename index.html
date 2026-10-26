@@ -2212,6 +2212,47 @@ html body .rot-hint button:last-child{color:var(--ink,#1f2140)!important}
 .tx-chart{padding-bottom:30px}
 .tx-tip{font-size:.85rem;margin:8px 10px}
 @media (max-width:860px){.tin-cols{grid-template-columns:1fr}.tin-side{order:0}.td-page{padding:20px 18px;min-height:320px}.td-desk{padding:8px}.tp-main{grid-template-columns:1fr}.tp-th-list{flex-direction:row;overflow-x:auto;max-height:none}.tp-th-list li{flex:0 0 120px}}
+
+/* ===== tối ưu di động: thanh trên gọn 1 dòng, tự ẩn khi cuộn ===== */
+html body .top{transition:transform .22s ease;will-change:transform}
+html body.nav-hide .top{transform:translateY(calc(-100% - 4px))}
+.nl-s{display:none}
+@media (max-width:760px){
+  html body .top .wrap{min-height:0!important;padding:4px 10px!important;flex-wrap:nowrap!important;gap:6px!important}
+  html body .top .brand{font-size:.98rem!important;gap:7px!important;flex:0 1 auto;min-width:0;white-space:nowrap}
+  html body .top .brand > span:last-child{overflow:hidden;text-overflow:ellipsis}
+  html body .top .brand-mark{width:30px!important;height:30px!important;font-size:1rem!important;flex:0 0 auto}
+  html body .nav{width:auto!important;margin-left:auto!important;flex-wrap:nowrap!important;gap:2px!important;flex:0 0 auto;padding:0!important}
+  html body .nav button{white-space:nowrap;padding:8px 8px!important;font-size:.88rem!important;min-height:40px}
+  .nl-l{display:none}.nl-s{display:inline}
+  /* nền ô li nhẹ hơn khi cuộn: một ô ảnh nhỏ thay cho nhiều lớp màu chuyển */
+  html body{background-image:linear-gradient(90deg,transparent 0 7px,var(--margin) 7px 8px,transparent 8px),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Cpath d='M0 .5H32M.5 0V32' stroke='%23e3e1f3' stroke-width='1'/%3E%3C/svg%3E")!important;background-size:100% 100%,32px 32px!important}
+}
+@media (max-width:380px){html body .top .brand > span:last-child{display:none}}
+/* danh sách dài: chỉ vẽ những thẻ đang nằm trong màn hình */
+html body .lcard{content-visibility:auto;contain-intrinsic-size:auto 170px}
+html body .gal-mod li,html body .vo-labl li,html body .tin-tr li{content-visibility:auto;contain-intrinsic-size:auto 80px}
+html body button,html body a,html body input,html body select,html body textarea{touch-action:manipulation}
+
+@media (max-width:760px){
+  html body .hub-head{padding:6px 0 8px!important;gap:6px 10px!important;flex-wrap:wrap}
+  html body .hub-title{font-size:clamp(1.25rem,6vw,1.6rem)!important;line-height:1.2}
+  html body .hub-tagl{display:none}
+  html body .hub-user{display:flex!important;flex-wrap:nowrap!important;align-items:center;gap:8px!important;width:100%}
+  html body .hub-ava{width:34px!important;height:34px!important;font-size:.9rem!important;flex:0 0 auto}
+  html body .hub-who{flex:0 1 auto;min-width:0}html body .hub-who b{font-size:.92rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}html body .hub-who span{font-size:.8rem}
+  html body .hub-lv{flex:1 1 auto;min-width:90px;padding:2px 6px!important;width:auto!important}
+  html body .hub-badge{display:none!important}
+  html body .hub-user .hub-ic{width:38px!important;height:38px!important;flex:0 0 auto}
+  html body .lcard .lgo2{grid-template-columns:1fr 1fr!important;display:grid!important;gap:8px}
+  html body .lcard .lgo,html body .lcard .lgo2 .lgo{min-height:42px!important;padding:8px!important}
+}
+
+@media (max-width:760px){
+  html body .hub-xpt{white-space:nowrap;font-size:.76rem;gap:6px}html body .hub-lv{order:2}html body .hub-user .hub-ic{order:3}
+  html body .seg{flex-wrap:nowrap!important;overflow-x:auto;scrollbar-width:none;max-width:100%}html body .seg::-webkit-scrollbar{display:none}
+  html body .seg button{flex:0 0 auto;white-space:nowrap}
+}
 </style>
 
 <header class="top"><div class="wrap">
@@ -2785,10 +2826,12 @@ document.addEventListener('click', e => {
   const g = e.target.closest('[data-go]'); if (g){ e.preventDefault(); go(g.dataset.go, g.dataset.arg || null); }
 });
 
+(() => { let last = 0, tick = false; addEventListener('scroll', () => { if (tick) return; tick = true; requestAnimationFrame(() => { tick = false; const y = scrollY, b = document.body;
+  if (y < 60 || document.activeElement?.closest?.('.top')) b.classList.remove('nav-hide'); else if (y > last + 6) b.classList.add('nav-hide'); else if (y < last - 6) b.classList.remove('nav-hide'); last = y; }); }, {passive:true}); })();
 function renderNav(){
   const v = S.view, m = me();
   const inSchool = v === 'school';
-  const items = inSchool ? [] : [['school', '← Về sân trường']];
+  const items = inSchool ? [] : [['school', '← <span class="nl-l">Về sân trường</span><span class="nl-s">Sân trường</span>']];
   items.push(SB_ON && S.authUid ? ['login','Tài khoản'] : m ? ['logout','Đăng xuất'] : ['login','Đăng nhập']);
   $('#nav').innerHTML = items.map(([k,l]) => `<button data-go="${k}" ${v===k||(k==='school'&&(v==='hallin'||v==='hall'||v==='chess'||v==='cleanup'))||(k==='labs'&&(v==='room'||v==='lab'||v==='stem'||v==='stemlab'))||(k==='ai'&&(v==='ailesson'||v==='aibook'))||(k==='student'&&v==='task'&&S.tasks[S.arg]?.kind!=='lesson')||(k==='class'&&(v==='preview'||v==='live'||(v==='task'&&S.tasks[S.arg]?.kind==='lesson')))?'aria-current="page"':''}>${l}</button>`).join('');
 }
