@@ -2253,6 +2253,41 @@ html body button,html body a,html body input,html body select,html body textarea
   html body .seg{flex-wrap:nowrap!important;overflow-x:auto;scrollbar-width:none;max-width:100%}html body .seg::-webkit-scrollbar{display:none}
   html body .seg button{flex:0 0 auto;white-space:nowrap}
 }
+/* ===== hồ sơ tiến bộ ===== */
+.pg-tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.pg-t{background:#fff;border:1px solid #c9c7bd;padding:10px 12px;display:flex;flex-direction:column;gap:2px}
+.pg-t span{font-size:.85rem;color:#4a4c66}.pg-t b{font-size:1.7rem;line-height:1.1}.pg-t small{font-size:.8rem;color:#4a4c66}
+.pg em,.pg-tiles em{font-style:normal;font-weight:700}.pg .ok,.pg-tbl .ok,.pg-tiles .ok{color:#1e6b34}.pg .bad,.pg-tbl .bad,.pg-tiles .bad{color:#b3261e}
+.pg-sum{background:#fff;border:1px solid #c9c7bd;border-left:6px solid var(--tim,#3f3394);padding:12px 16px}
+.pg-sum.lv-ok{border-left-color:#2e7d32}.pg-sum.lv-low{border-left-color:#c62828}.pg-sum.lv-mid{border-left-color:#c9961f}
+.pg-sum h2{margin:0 0 6px;font-size:1.2rem}.pg-sum p{margin:0 0 4px;line-height:1.55}.pg-src{font-size:.82rem}
+.pg-note{background:#fff8e1;border:1px solid #e6cf8a;padding:12px 16px}.pg-note h3{margin:0 0 6px}.pg-note p{margin:0 0 4px;white-space:pre-line}
+.pg-nf{display:flex;flex-direction:column;gap:8px;margin-top:8px}.pg-nf .btn{align-self:flex-start}
+.pg-2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}
+.pg-box{background:#fff;border:1px solid #c9c7bd;padding:12px 16px}
+.pg-box h3{margin:0 0 8px;font-size:1.05rem}.pg-box ul,.pg-box ol{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:6px;line-height:1.5}
+.pg-box.good{border-top:4px solid #2e7d32}.pg-box.fix{border-top:4px solid #c62828}.pg-box.next{border-top:4px solid var(--tim,#3f3394)}
+.pg-go{display:inline!important;font-size:.95rem!important;color:var(--tim,#3f3394)!important;text-align:left;padding:2px 0!important}
+.pg-bars{display:flex;align-items:flex-end;gap:10px;height:150px;border-bottom:2px solid #1f2140;padding-top:18px;margin-bottom:22px}
+.pg-b{flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;position:relative}
+.pg-b i{display:block;width:60%;max-width:40px;background:var(--tim,#3f3394)}.pg-b:last-child i{background:#c62828}
+.pg-b .v{font-size:.8rem;font-weight:700}.pg-b .l{position:absolute;bottom:-20px;font-size:.78rem;color:#4a4c66}
+.pg-subj{list-style:none;padding:0!important}.pg-subj li{display:grid;grid-template-columns:minmax(110px,1.2fr) 2fr 44px;gap:8px;align-items:center}
+.pg-track{height:10px;background:#eceaf4;display:block}.pg-track i{display:block;height:100%;background:#c9961f}.pg-track i.ok{background:#2e7d32}.pg-track i.bad{background:#c62828}
+.pg-acts{display:flex;flex-wrap:wrap;gap:8px}.pg-acts span{display:flex;flex-direction:column;border:1px solid #d8d6cc;background:#fbfaf4;padding:6px 10px}.pg-acts small{color:#4a4c66}
+.pg-notes{list-style:none;padding:0!important}.pg-notes p{margin:2px 0 0;color:#2a2c4a}
+.pg-tasks{list-style:none;padding:0!important;gap:6px!important}
+.pg-tasks li > button,.pg-tasks li > span{width:100%;display:grid;grid-template-columns:24px 1fr auto;gap:10px;align-items:center;text-align:left;background:#fbfaf4;border:1px solid #d8d6cc;padding:8px 10px;font:inherit;color:inherit;cursor:pointer;min-height:44px}
+.pg-tasks li > span{cursor:default}
+.pg-tasks li.done .pg-st{color:#1e6b34}.pg-tasks li.od{}.pg-tasks li.od > *{border-color:#e7a29c;background:#fff4f3}.pg-tasks li.od .pg-st{color:#b3261e}
+.pg-st{font-weight:800;text-align:center}.pg-tt{display:flex;flex-direction:column;min-width:0}.pg-tt small{color:#4a4c66}.pg-sc{font-weight:700;white-space:nowrap}
+.pg-tbl tr.warn td{background:#fff4f3}.pg-why{font-size:.85rem}
+.pg-lv{font-size:.72rem;font-weight:700;padding:1px 6px;border:1px solid;white-space:nowrap}.pg-lv.lv-ok{color:#1e6b34}.pg-lv.lv-mid{color:#8a6100}.pg-lv.lv-low{color:#b3261e}
+.hub-me{display:flex;align-items:center;gap:10px;background:none;border:0;padding:0;font:inherit;color:inherit;cursor:pointer;text-align:left;min-width:0}
+.hub-me:hover .hub-who b{text-decoration:underline}
+.sc-hud{cursor:pointer}
+.pg-open{color:var(--ink)!important;font-size:inherit!important;padding:0!important}
+@media (max-width:760px){.pg-subj li{grid-template-columns:1fr 1fr 40px}.pg-t b{font-size:1.4rem}}
 </style>
 
 <header class="top"><div class="wrap">
@@ -2757,7 +2792,7 @@ function tAccounts(el, classes){
     const profs = pr.data || [], creds = Object.fromEntries((cr.data || []).map(r => [r.id, r.data]));
     const bySid = Object.fromEntries(profs.filter(x => x.sid).map(x => [x.sid, x]));
     const pend = profs.filter(x => x.role === 'pending'), teachers = profs.filter(x => x.role === 'teacher');
-    const list = Object.entries(S.students).filter(([, s]) => !S.tClass || s.cls === S.tClass).sort((a, b) => a[1].name.localeCompare(b[1].name, 'vi'));
+    const list = Object.entries(S.students).filter(([, s]) => inCls(s.cls)).sort((a, b) => a[1].name.localeCompare(b[1].name, 'vi'));
     el.innerHTML = `<div class="stack">
       ${pend.length ? `<div class="panel stack"><h2>Giáo viên chờ duyệt</h2>${pend.map(x => `<div class="row" style="gap:8px;align-items:center"><span style="flex:1 1 200px">${h(x.email)}</span><button class="btn small" data-ok="${h(x.id)}" style="flex:0 0 auto">Duyệt làm giáo viên</button><button class="btn ghost small" data-no="${h(x.id)}" style="flex:0 0 auto">Từ chối</button></div>`).join('')}</div>` : ''}
       <div class="panel acc-all" id="accAll"><details><summary id="accSum"></summary><div id="accBody" class="stack" style="margin-top:10px"></div></details></div>
@@ -2777,7 +2812,7 @@ function tAccounts(el, classes){
     $$('[data-iss]', el).forEach(b => b.onclick = () => { b.disabled = true; issue([b.dataset.iss]); });
     $('#issAll', el).onclick = () => { const ids = list.filter(([id]) => !bySid[id]).map(([id]) => id); if (!ids.length){ toast('Cả lớp đã có tài khoản'); return; } $('#issAll', el).disabled = true; issue(ids); };
     $('#prt', el).onclick = () => { const w = window.open('', '_blank'); if (!w){ toast('Trình duyệt chặn cửa sổ in'); return; }
-      w.document.write(`<!doctype html><meta charset="utf-8"><title>Phiếu đăng nhập lớp ${h(S.tClass || '')}</title><style>body{font-family:system-ui,sans-serif;margin:16px}.g{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.c{border:1.5px dashed #555;border-radius:10px;padding:12px;break-inside:avoid}.c b{font-size:1.1rem}code{font-size:1.25rem;font-weight:700}</style><h2>Trường THCS và THPT Lương Thế Vinh · Phiếu đăng nhập lớp ${h(S.tClass || '')}</h2><p>Địa chỉ: ${h(location.href.split('#')[0])}</p><div class="g">${list.map(([id, s]) => `<div class="c"><b>${h(s.name)}</b> · Lớp ${h(s.cls)}<br>Mã học sinh: <code>${h(s.code)}</code><br>Mật khẩu: <code>${h(creds[id]?.pw || '(chưa cấp)')}</code></div>`).join('')}</div><script>print()<\/script>`); w.document.close(); };
+      w.document.write(`<!doctype html><meta charset="utf-8"><title>Phiếu đăng nhập ${S.tClass === 'all' ? 'tất cả các lớp' : 'lớp ' + h(S.tClass || '')}</title><style>body{font-family:system-ui,sans-serif;margin:16px}.g{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.c{border:1.5px dashed #555;border-radius:10px;padding:12px;break-inside:avoid}.c b{font-size:1.1rem}code{font-size:1.25rem;font-weight:700}</style><h2>Trường THCS và THPT Lương Thế Vinh · Phiếu đăng nhập lớp ${h(S.tClass || '')}</h2><p>Địa chỉ: ${h(location.href.split('#')[0])}</p><div class="g">${list.map(([id, s]) => `<div class="c"><b>${h(s.name)}</b> · Lớp ${h(s.cls)}<br>Mã học sinh: <code>${h(s.code)}</code><br>Mật khẩu: <code>${h(creds[id]?.pw || '(chưa cấp)')}</code></div>`).join('')}</div><script>print()<\/script>`); w.document.close(); };
   }).catch(() => { el.innerHTML = '<p class="notice">Chưa tải được danh sách tài khoản.</p>'; });
 }
 
@@ -2858,7 +2893,7 @@ function render(){
   app.dataset.view = S.view + ':' + S.arg; app.dataset.lock = '';
   if (S.loaded && !['task','lab','live','preview'].includes(S.view)) setTimeout(() => { try { checkNudge(); } catch(e){ console.warn(e); } }, 400);
   updImm(); try { socStart(); } catch(e){}
-  const V = {welcome:vWelcome, board:vHome, race:vRace, ai:vAi, ailesson:vAiLesson, aibook:vAiBook, cleanup:vCleanup, stem:vStem, stemlab:vStemLab, chess:vChess, gallery:vGallery, tin:vTin, tinlab:vTinLab, live:vLive, school:vSchool, hallin:vSchool, hall:vHall, labs:vLabs, room:vRoom, lab:vLab, login:SB_ON ? vLoginSB : vLogin, student:vStudent, task:vTask, teacher:vTeacher, 'class':vClass, preview:vPreview}[S.view] || vHome;
+  const V = {welcome:vWelcome, board:vHome, race:vRace, ai:vAi, ailesson:vAiLesson, aibook:vAiBook, cleanup:vCleanup, stem:vStem, stemlab:vStemLab, chess:vChess, gallery:vGallery, tin:vTin, tinlab:vTinLab, progress:vProgress, live:vLive, school:vSchool, hallin:vSchool, hall:vHall, labs:vLabs, room:vRoom, lab:vLab, login:SB_ON ? vLoginSB : vLogin, student:vStudent, task:vTask, teacher:vTeacher, 'class':vClass, preview:vPreview}[S.view] || vHome;
   V(app);
 }
 
@@ -3051,9 +3086,9 @@ function hubScene(){
   </svg>`;
 }
 
-function hubUser(d){ return d.m ? `<span class="hub-ava">${h(initials(d.m.name))}</span><span class="hub-who"><b>${h(d.m.name)}</b><span>Lớp ${h(d.m.cls)}</span></span>
+function hubUser(d){ return d.m ? `<button class="hub-me" data-go="progress" title="Xem hồ sơ của em" aria-label="Hồ sơ của em: nhiệm vụ, nhận xét và tiến bộ"><span class="hub-ava">${h(initials(d.m.name))}</span><span class="hub-who"><b>${h(d.m.name)}</b><span>Lớp ${h(d.m.cls)}</span></span></button>
       <span class="hub-lv"><span class="hub-badge" aria-hidden="true">${d.lv}</span><span class="hub-xp"><span class="hub-xpt"><b>Lv. ${d.lv}</b><span class="num">${d.inLv} / 100 XP</span></span><span class="hub-bar"><i style="width:${d.inLv}%"></i></span></span></span>`
-    : S.canEdit ? `<span class="hub-ava">GV</span><span class="hub-who"><b>Giáo viên</b><span>Xem mọi phòng</span></span>` : `<span class="hub-ava">?</span><span class="hub-who"><b>Khách</b><span>Chưa đăng nhập</span></span><button class="hub-mini" data-go="login">Đăng nhập</button>`; }
+    : S.canEdit ? `<button class="hub-me" data-go="progress" title="Tiến bộ học sinh"><span class="hub-ava">GV</span><span class="hub-who"><b>Giáo viên</b><span>Tiến bộ học sinh</span></span></button>` : `<span class="hub-ava">?</span><span class="hub-who"><b>Khách</b><span>Chưa đăng nhập</span></span><button class="hub-mini" data-go="login">Đăng nhập</button>`; }
 function hubData(){
   const m = me();
   const xp = m ? Object.values(S.subs).filter(s => s.sid === m.id).reduce((a, s) => a + (s.points || 0), 0) : 0;
@@ -3263,29 +3298,35 @@ const LOOK_OPT = {
 };
 const lookKey = sid => 'oli.look.' + (sid || 'khach');
 const defaultLook = sid => { const x = hash(sid || 'khach'); return {hair:LOOK_OPT.hair[x % 4][0], hairC:LOOK_OPT.hairC[(x >> 3) % 4], skin:LOOK_OPT.skin[(x >> 5) % 4], bottom:LOOK_OPT.bottom[(x >> 7) % 2][0], bag:LOOK_OPT.bag[(x >> 9) % 5], scarf:true}; };
+const TEACHER_LOOK = {role:'teacher', hair:'short', hairC:'#1e2236', skin:'#eab894', bottom:'pants', bag:null, scarf:false, glasses:'rim'};
 const loadLook = sid => { let local = {}; try { local = JSON.parse(store(lookKey(sid)) || '{}') || {}; } catch(e){} const g = (typeof gearOf === 'function') ? gearOf(sid) : {}; return {...defaultLook(sid), ...(g.look || {}), ...local}; };
 
 /* nhân vật học sinh nhìn từ trên xuống 3/4 */
 function drawKid(g, x, y, L, dir, t, moving, k = 1){
-  g.save(); g.translate(x, y); g.scale(k, k);
+  const TCH = L.role === 'teacher';
+  g.save(); g.translate(x, y); g.scale(k*(TCH ? 1.15 : 1), k*(TCH ? 1.15 : 1));
   const rr = (X, Y, w, h, r) => { g.beginPath(); g.roundRect ? g.roundRect(X, Y, w, h, r) : g.rect(X, Y, w, h); };
   const bob = moving ? -Math.abs(Math.sin(t*11))*1.6 : 0, sw = moving ? Math.sin(t*11) : 0;
   g.fillStyle = 'rgba(0,0,0,.22)'; g.beginPath(); g.ellipse(0, 0, 11, 4, 0, 0, 7); g.fill();
   g.translate(0, bob);
   const side = dir === 'left' || dir === 'right', fl = dir === 'left' ? -1 : 1;
-  const shirt = L.shirt === 'pe' ? '#5ab0ff' : '#f4f6fb', shirtLine = L.shirt === 'pe' ? '#2f7fd0' : '#c4cde0';
+  const shirt = TCH ? '#d6e6f7' : L.shirt === 'pe' ? '#5ab0ff' : '#f4f6fb', shirtLine = TCH ? '#8fa9c9' : L.shirt === 'pe' ? '#2f7fd0' : '#c4cde0', pantC = TCH ? '#2a2d3a' : '#24346b';
   const leg = (ox, lift, col) => { g.fillStyle = col; g.fillRect(ox - 2.6, -12 - lift, 5.2, 12); g.fillStyle = '#1c1a2b'; g.fillRect(ox - 3, -2.5 - lift, 6.5, 3); };
-  const legC = L.bottom === 'skirt' ? L.skin : '#24346b';
+  const legC = L.bottom === 'skirt' ? L.skin : pantC;
   if (side){ leg(-1.5 + sw*3*fl, 0, legC); leg(1.5 - sw*3*fl, 0, legC); }
   else { leg(-4, sw > 0 ? sw*2 : 0, legC); leg(4, sw < 0 ? -sw*2 : 0, legC); }
   if (L.bottom === 'skirt'){ g.fillStyle = '#2b3f80'; g.beginPath(); g.moveTo(-8, -18); g.lineTo(8, -18); g.lineTo(10, -9); g.lineTo(-10, -9); g.closePath(); g.fill(); }
-  else { g.fillStyle = '#24346b'; g.fillRect(-7.5, -18, 15, 7); }
-  if (dir !== 'down'){ g.fillStyle = L.bag; const bx = side ? -fl*8 - 5 : -6; g.fillRect(bx, -28, side ? 7 : 12, 13); }
+  else { g.fillStyle = pantC; g.fillRect(-7.5, -18, 15, 7); }
+  if (dir !== 'down' && L.bag){ g.fillStyle = L.bag; const bx = side ? -fl*8 - 5 : -6; g.fillRect(bx, -28, side ? 7 : 12, 13); }
   g.fillStyle = shirt;
   if (side){ g.save(); g.translate(0, -24); g.rotate(sw*0.5*fl); g.fillRect(-2.5, 0, 5, 11); g.fillStyle = L.skin; g.fillRect(-2.2, 10, 4.4, 3); g.restore(); }
   else { [-1, 1].forEach(s => { g.save(); g.translate(s*9, -24); g.rotate(-s*0.08 + (moving ? s*sw*0.25 : 0)); g.fillStyle = shirt; g.fillRect(-2.4, 0, 4.8, 10); g.fillStyle = L.skin; g.fillRect(-2.2, 9.5, 4.4, 3); g.restore(); }); }
   g.fillStyle = shirt; g.strokeStyle = shirtLine; g.lineWidth = 1; rr(-8.5, -27, 17, 11, 4); g.fill(); g.stroke();
   if (L.shirt === 'pe'){ g.fillStyle = '#ffffff'; g.fillRect(-8.5, -21, 17, 1.8); }
+  if (TCH){ g.fillStyle = '#1f2140'; g.fillRect(-8.5, -18.5, 17, 1.6);
+    if (dir === 'down'){ g.fillStyle = '#ffffff'; g.beginPath(); g.moveTo(-4.5, -27); g.lineTo(0, -24); g.lineTo(-2, -22); g.closePath(); g.moveTo(4.5, -27); g.lineTo(0, -24); g.lineTo(2, -22); g.closePath(); g.fill();
+      g.fillStyle = '#b3261e'; g.beginPath(); g.moveTo(-1.3, -24.5); g.lineTo(1.3, -24.5); g.lineTo(1.8, -19); g.lineTo(0, -17.5); g.lineTo(-1.8, -19); g.closePath(); g.fill(); }
+    else if (side){ g.fillStyle = '#f2c14e'; g.save(); g.translate(fl*3, -22); g.rotate(fl*0.2); g.fillRect(-1, -4, 8*fl, 10); g.restore(); } }
   if (L.scarf){ g.fillStyle = '#e2322f';
     if (dir === 'down'){ g.beginPath(); g.moveTo(-5, -27); g.lineTo(5, -27); g.lineTo(1.5, -18); g.lineTo(0, -16); g.lineTo(-1.5, -18); g.closePath(); g.fill(); }
     else if (dir === 'up'){ g.beginPath(); g.moveTo(-6, -27); g.lineTo(6, -27); g.lineTo(0, -21); g.closePath(); g.fill(); }
@@ -3306,7 +3347,7 @@ function drawKid(g, x, y, L, dir, t, moving, k = 1){
   if (L.hair === 'spiky'){ for (let i = -2; i <= 2; i++){ g.beginPath(); g.moveTo(i*4.2 - 3.4, hy - 7); g.lineTo(i*4.2 + (side ? -fl*2 : 0), hy - 17 + Math.abs(i)*1.5); g.lineTo(i*4.2 + 3.4, hy - 7); g.closePath(); g.fill(); } }
   if (dir === 'down'){ g.fillStyle = '#1c1a2b'; g.beginPath(); g.arc(-3.6, hy + 1, 1.5, 0, 7); g.arc(3.6, hy + 1, 1.5, 0, 7); g.fill(); g.fillStyle = 'rgba(255,120,120,.45)'; g.beginPath(); g.arc(-6, hy + 4, 1.8, 0, 7); g.arc(6, hy + 4, 1.8, 0, 7); g.fill(); g.strokeStyle = '#8a3b2e'; g.lineWidth = 1.2; g.beginPath(); g.arc(0, hy + 4, 2.2, 0.2, Math.PI - 0.2); g.stroke(); }
   else if (side){ g.fillStyle = '#1c1a2b'; g.beginPath(); g.arc(fl*5, hy + 1, 1.5, 0, 7); g.fill(); }
-  if (L.glasses === 'neon' && dir !== 'up'){ g.strokeStyle = '#46e2ff'; g.lineWidth = 1.5;
+  if ((L.glasses === 'neon' || L.glasses === 'rim') && dir !== 'up'){ g.strokeStyle = L.glasses === 'rim' ? '#1f2140' : '#46e2ff'; g.lineWidth = L.glasses === 'rim' ? 1.1 : 1.5;
     if (dir === 'down'){ g.beginPath(); g.arc(-3.8, hy + 1, 3, 0, 7); g.moveTo(6.8, hy + 1); g.arc(3.8, hy + 1, 3, 0, 7); g.moveTo(-0.8, hy + 1); g.lineTo(0.8, hy + 1); g.stroke(); }
     else { g.beginPath(); g.arc(fl*5, hy + 1, 3, 0, 7); g.moveTo(fl*2, hy + 1); g.lineTo(-fl*8, hy - 1); g.stroke(); } }
   if (L.hat === 'helmet'){ g.fillStyle = '#2f7dff'; g.beginPath(); g.arc(0, hy - 1, 11.8, Math.PI, 0); g.fill(); g.fillStyle = '#1d4fa8'; g.fillRect(-12.2, hy - 2, 24.4, 3.4);
@@ -3636,7 +3677,7 @@ function artImg(id){
     if (artImgSub.ready) res(artImgCache[id] || null); else artImgSub.wait.push(() => res(artImgCache[id] || null));
   });
 }
-const artList = month => Object.entries(S.art || {}).filter(([id, a]) => a && a.kind !== 'theme' && a.month === month).map(([id, a]) => ({id, ...a}));
+const artList = month => Object.entries(S.art || {}).filter(([id, a]) => a && a.kind !== 'theme' && (month === 'all' || a.month === month)).map(([id, a]) => ({id, ...a}));
 const artTheme = month => (S.art || {})['theme-' + month] || null;
 const artMonths = () => { const s = new Set([curMonth()]); Object.values(S.art || {}).forEach(a => a && a.month && s.add(a.month)); return [...s].sort().reverse(); };
 // nén ảnh: cạnh dài ≤ 1024 px, JPEG, giảm dần chất lượng cho tới khi đủ nhẹ
@@ -3735,18 +3776,18 @@ async function galleryRoom(host, items, theme, on){
 function vGallery(app){
   const m = me(), teacher = !!S.canEdit, sid = m ? m.id : null;
   const G = S.gal = S.gal || {month:curMonth()};
-  if (!artMonths().includes(G.month)) G.month = curMonth();
-  const month = G.month, isCur = month === curMonth(), theme = artTheme(month);
+  if (G.month !== 'all' && !artMonths().includes(G.month)) G.month = curMonth();
+  const month = G.month, isAll = month === 'all', isCur = isAll || month === curMonth(), theme = isAll ? null : artTheme(month), mLabel = isAll ? 'tất cả các tháng' : monthLabel(month);
   const all = artList(month).sort((a, b) => (b.star ? 1 : 0) - (a.star ? 1 : 0) || (a.at || 0) - (b.at || 0));
   const shown = all.filter(a => a.approved && !a.hidden || (sid && a.sid === sid));
-  const mine = sid ? (S.art || {})[`${sid}_${month}`] : null;
+  const mine = sid ? (S.art || {})[`${sid}_${curMonth()}`] : null;
   const pend = all.filter(a => !a.approved && !a.hidden), hid = all.filter(a => a.hidden);
   app.dataset.lock = '1';
   app.innerHTML = `<div class="wrap"><section class="section gal" style="gap:12px">
-    ${pageHead('Phòng tranh 3D', monthLabel(month), 'Mỗi tháng một chủ đề vẽ tranh · Gửi tranh của em · Ngắm tranh các bạn')}
+    ${pageHead('Phòng tranh 3D', mLabel, 'Mỗi tháng một chủ đề vẽ tranh · Gửi tranh của em · Ngắm tranh các bạn')}
     <div class="gal-top">
-      <label class="gal-mo">Tháng <select id="gaM" class="inp">${artMonths().map(k => `<option value="${k}" ${k === month ? 'selected' : ''}>${h(monthLabel(k))}</option>`).join('')}</select></label>
-      <div class="gal-theme">${theme ? `<b>Chủ đề ${h(monthLabel(month))}: ${h(theme.title)}</b>${theme.desc ? `<span>${h(theme.desc)}</span>` : ''}` : `<b>Chủ đề ${h(monthLabel(month))}: tự do</b><span>${teacher ? 'Thầy cô đặt chủ đề tháng ở khung bên dưới.' : 'Thầy cô chưa đặt chủ đề, em vẽ theo ý thích nhé.'}</span>`}</div>
+      <label class="gal-mo">Tháng <select id="gaM" class="inp"><option value="all" ${isAll ? 'selected' : ''}>Tất cả các tháng</option>${artMonths().map(k => `<option value="${k}" ${k === month ? 'selected' : ''}>${h(monthLabel(k))}</option>`).join('')}</select></label>
+      <div class="gal-theme">${isAll ? `<b>Tất cả các tháng</b><span>Tranh đã treo của mọi tháng, tranh tiêu biểu xếp trước.</span>` : theme ? `<b>Chủ đề ${h(monthLabel(month))}: ${h(theme.title)}</b>${theme.desc ? `<span>${h(theme.desc)}</span>` : ''}` : `<b>Chủ đề ${h(monthLabel(month))}: tự do</b><span>${teacher ? 'Thầy cô đặt chủ đề tháng ở khung bên dưới.' : 'Thầy cô chưa đặt chủ đề, em vẽ theo ý thích nhé.'}</span>`}</div>
       <span class="gal-n">${shown.length} bức tranh đang treo</span>
     </div>
     <div class="gal-stage" id="gaSt"><p class="gal-load" id="gaLoad">Đang dựng phòng tranh…</p>
@@ -3763,8 +3804,8 @@ function vGallery(app){
           <textarea class="inp" id="gaD" maxlength="200" rows="2" placeholder="Vài dòng giới thiệu (không bắt buộc)">${h(mine ? mine.desc || '' : '')}</textarea>
           <button class="btn" id="gaSend">${mine ? 'Gửi lại tranh' : 'Gửi tranh'}</button><p class="gal-err" id="gaE" role="status"></p></form>` : `<p class="muted">Đang xem tranh ${h(monthLabel(month))}. Chọn tháng hiện tại để gửi tranh.</p>`}</div>`
       : !teacher ? `<div class="gal-card"><h3>Gửi tranh</h3><p class="muted">Em đăng nhập để gửi tranh và xem tranh của các bạn.</p><button class="btn" data-go="login">Đăng nhập</button></div>` : ''}
-      ${teacher ? `<div class="gal-card"><h3>Chủ đề ${h(monthLabel(month))}</h3><form id="gaTh" class="gal-f"><input class="inp" id="gaTt" maxlength="60" placeholder="Ví dụ: Quê hương em" value="${h(theme ? theme.title : '')}" required><textarea class="inp" id="gaTd" maxlength="200" rows="2" placeholder="Gợi ý cho học sinh">${h(theme ? theme.desc || '' : '')}</textarea><button class="btn">Lưu chủ đề</button></form></div>
-      <div class="gal-card"><h3>Duyệt tranh · ${pend.length} bức chờ</h3>${all.length ? `<ul class="gal-mod">${all.map(a => `<li data-id="${h(a.id)}"><img alt="" data-img="${h(a.id)}"><div><b>${h(a.title || 'Không tên')}</b><span>${h(a.name || '')} · ${h(a.cls || '')} · ${a.approved ? (a.star ? '★ tiêu biểu' : 'đang treo') : a.hidden ? 'đã ẩn' : 'chờ duyệt'}</span>
+      ${teacher && !isAll ? `<div class="gal-card"><h3>Chủ đề ${h(monthLabel(month))}</h3><form id="gaTh" class="gal-f"><input class="inp" id="gaTt" maxlength="60" placeholder="Ví dụ: Quê hương em" value="${h(theme ? theme.title : '')}" required><textarea class="inp" id="gaTd" maxlength="200" rows="2" placeholder="Gợi ý cho học sinh">${h(theme ? theme.desc || '' : '')}</textarea><button class="btn">Lưu chủ đề</button></form></div>` : ''}
+      ${teacher ? `<div class="gal-card"><h3>Duyệt tranh · ${pend.length} bức chờ</h3>${all.length ? `<ul class="gal-mod">${all.map(a => `<li data-id="${h(a.id)}"><img alt="" data-img="${h(a.id)}"><div><b>${h(a.title || 'Không tên')}</b><span>${h(a.name || '')} · ${h(a.cls || '')} · ${a.approved ? (a.star ? '★ tiêu biểu' : 'đang treo') : a.hidden ? 'đã ẩn' : 'chờ duyệt'}</span>
         <p class="row">${a.approved ? '' : `<button class="btn" data-ok="${h(a.id)}">Duyệt</button>`}${a.approved ? `<button class="btn ghost" data-star="${h(a.id)}">${a.star ? 'Bỏ tiêu biểu' : '★ Tiêu biểu'}</button>` : ''}${a.hidden ? '' : `<button class="btn ghost" data-hide="${h(a.id)}">Ẩn</button>`}<button class="btn ghost" data-del="${h(a.id)}">Xóa</button></p></div></li>`).join('')}</ul>` : '<p class="muted">Chưa có học sinh nào gửi tranh tháng này.</p>'}</div>` : ''}
     </div></section></div>`;
   const alive = () => document.body.contains(app.querySelector('.gal'));
@@ -3778,7 +3819,7 @@ function vGallery(app){
   const fallback = () => { $('#gaLoad', app).textContent = ''; st.classList.add('flat'); st.insertAdjacentHTML('afterbegin', `<div class="gal-flat">${shown.length ? shown.map((a, i) => `<button data-li="${i}"><img alt="" data-img="${h(a.id)}"><b>${h(a.title || '')}</b><span>${h(a.name || '')}</span></button>`).join('') : '<p class="muted">Chưa có tranh nào được treo tháng này.</p>'}</div>`);
     $$('[data-li]', st).forEach(b => b.onclick = () => openLb(+b.dataset.li)); loadThumbs(st); };
   const loadThumbs = el => $$('img[data-img]', el).forEach(im => artImg(im.dataset.img).then(u => { if (u) im.src = u; }));
-  galleryRoom(st, shown, theme, {month:monthLabel(month), open:openLb, sel:i => { G.sel = i; }}).then(r => { if (!alive()){ r.dispose(); return; } R = r; $('#gaLoad', app).remove();
+  galleryRoom(st, shown, theme, {month:mLabel, open:openLb, sel:i => { G.sel = i; }}).then(r => { if (!alive()){ r.dispose(); return; } R = r; $('#gaLoad', app).remove();
     shown.forEach(a => artImg(a.id).then(u => { if (u && alive()) R.setImg(a.id, u); }));
     if (G.sel >= 0 && G.sel < shown.length) R.show(G.sel); }).catch(e => { console.warn(e); if (alive()) fallback(); });
   $('#gaPrev', app).onclick = () => R && R.next(-1); $('#gaNext', app).onclick = () => R && R.next(1); $('#gaAll', app).onclick = () => R && R.show(-1);
@@ -3923,7 +3964,7 @@ function tinDocSim(box, L, onChange){
   const save = () => { const s = getSelection(); if (s.rangeCount && page.contains(s.anchorNode)) rng = s.getRangeAt(0).cloneRange(); };
   const restore = () => { page.focus(); if (rng){ const s = getSelection(); s.removeAllRanges(); s.addRange(rng); } };
   document.addEventListener('selectionchange', save);
-  const exec = (c, v) => { restore(); try { document.execCommand('styleWithCSS', false, true); document.execCommand(c, false, v); } catch(e){} save(); onChange(); };
+  const exec = (c, v) => { save(); restore(); try { document.execCommand('styleWithCSS', false, true); document.execCommand(c, false, v); } catch(e){} save(); onChange(); };
   $$('[data-c]', box).forEach(b => { b.onmousedown = e => e.preventDefault(); b.onclick = () => exec(b.dataset.c); });
   $$('[data-col]', box).forEach(b => { b.onmousedown = e => e.preventDefault(); b.onclick = () => exec('foreColor', b.dataset.col); });
   $('#tdSz', box).onchange = e => { if (e.target.value) exec('fontSize', e.target.value); e.target.value = ''; };
@@ -4052,6 +4093,145 @@ function vTinLab(app){
   $('#tinReset', app).onclick = () => { start(); toast('Đã đặt lại bài thực hành'); };
   start();
   if (window.__OLI_TEST) window.__tin = () => sim;
+}
+
+/* ===================== HỒ SƠ TIẾN BỘ ===================== */
+/* Mọi nhận xét ở đây do hệ thống tự tính từ kết quả thật của học sinh (bài nộp, điểm, hoạt động),
+   không dùng AI, không tự giao bài. Giáo viên xem được của cả lớp và viết thêm lời nhắn. */
+const PG_ACT = [['lab_', 'Thí nghiệm ảo', '🔬'], ['tin_', 'Phòng Tin học', '💻'], ['ai_', 'Lớp học AI', '🤖'], ['stem_', 'Phòng STEM', '⚙️'], ['race_', 'Đường đua tiếng Anh', '🏃'],
+  ['chess_', 'Cờ vua', '♟'], ['art_', 'Phòng tranh', '🎨'], ['clean_', 'Nhặt rác cổng trường', '🧹'], ['ask_', 'Hỏi bài', '✋']];
+const pgCat = tid => { const t = S.tasks[tid]; if (t) return {kind:'task', subj:t.subject, name:t.title, t};
+  const a = PG_ACT.find(([p]) => tid.startsWith(p)); return {kind:'act', key:a ? a[0] : 'other', name:a ? a[1] : 'Hoạt động khác', icon:a ? a[2] : '⭐'}; };
+const pgAvg = a => a.length ? a.reduce((s, x) => s + x, 0)/a.length : null;
+const pgMonths = n => { const out = [], d = new Date(); for (let i = n - 1; i >= 0; i--){ const x = new Date(d.getFullYear(), d.getMonth() - i, 15); out.push(monthKey(x.getTime())); } return out; };
+
+function progressOf(sid){
+  const st = S.students[sid]; if (!st) return null;
+  const m = {id:sid, ...st}, today = dayKey(), now = Date.now();
+  const tasks = myTasks(m), subs = Object.values(S.subs).filter(x => x && x.sid === sid);
+  const taskSubs = subs.filter(x => S.tasks[x.tid]).sort((a, b) => (a.at || 0) - (b.at || 0));
+  const done = tasks.filter(t => S.subs[`${sid}__${t.id}`]), todo = tasks.filter(t => !S.subs[`${sid}__${t.id}`]);
+  const overdue = todo.filter(t => t.due && t.due < today), soon = todo.filter(t => t.due && t.due >= today && t.due <= dayKey(new Date(now + 3*864e5)));
+  // theo môn (chỉ tính nhiệm vụ thầy cô giao và bài giảng)
+  const bySubj = {}; taskSubs.forEach(x => { const s = S.tasks[x.tid].subject; (bySubj[s] = bySubj[s] || []).push(x.score || 0); });
+  const subj = Object.entries(bySubj).map(([k, a]) => ({k, name:SUBJ[k]?.name || k, n:a.length, avg:pgAvg(a)})).sort((a, b) => b.avg - a.avg);
+  // hoạt động thực hành
+  const acts = {}; subs.filter(x => !S.tasks[x.tid]).forEach(x => { const c = pgCat(x.tid); const o = acts[c.key] = acts[c.key] || {name:c.name, icon:c.icon, n:0, pts:0, sc:[]}; o.n++; o.pts += x.points || 0; o.sc.push(x.score || 0); });
+  // xu hướng: 5 bài gần nhất so với 5 bài trước đó
+  const sc = taskSubs.map(x => x.score || 0), recent = sc.slice(-5), before = sc.slice(-10, -5);
+  const trend = recent.length >= 3 && before.length >= 3 ? pgAvg(recent) - pgAvg(before) : null;
+  // điểm thưởng theo tháng
+  const months = pgMonths(6), ptsBy = Object.fromEntries(months.map(k => [k, 0])); subs.forEach(x => { if (x.month in ptsBy) ptsBy[x.month] += x.points || 0; });
+  const cm = curMonth(), pm = months[months.length - 2];
+  const days14 = new Set(subs.filter(x => x.at && now - x.at < 14*864e5).map(x => dayKey(new Date(x.at)))).size;
+  const lastAt = Math.max(0, ...subs.map(x => x.at || 0));
+  const low = taskSubs.filter(x => (x.score || 0) < 5).map(x => ({tid:x.tid, title:S.tasks[x.tid].title, score:x.score}));
+  const notes = subs.filter(x => x.teacherNote).sort((a, b) => (b.at || 0) - (a.at || 0)).slice(0, 3).map(x => ({title:(S.tasks[x.tid] || {}).title || pgCat(x.tid).name, note:x.teacherNote}));
+  const asked = Object.values(S.qna || {}).filter(q => q.sid === sid).length;
+  const expect = done.length + overdue.length, avg = pgAvg(sc), compl = expect ? done.length/expect : null;
+  const rk = ranking(cm, st.grade), pos = rk.findIndex(r => r.sid === sid);
+  const hands = (acts.lab_?.n || 0) + (acts.tin_?.n || 0) + (acts.stem_?.n || 0);
+  // ---- nhận xét tự động ----
+  const good = [], fix = [], todoNext = [];
+  subj.filter(s => s.n >= 2 && s.avg >= 8).slice(0, 2).forEach(s => good.push(`Học tốt môn <b>${h(s.name)}</b>: trung bình <b>${vn(s.avg)}</b> qua ${s.n} bài.`));
+  if (trend !== null && trend >= 0.5) good.push(`Điểm đang <b>tiến bộ</b>: 5 bài gần nhất cao hơn 5 bài trước <b>${vn(trend)}</b> điểm.`);
+  if (done.length >= 2 && !overdue.length) good.push(`Nộp bài <b>đúng hạn</b>: đã làm ${done.length} nhiệm vụ, không có bài nào quá hạn.`);
+  if (days14 >= 6) good.push(`Học <b>đều đặn</b>: có hoạt động học tập trong <b>${days14}</b> ngày của 2 tuần qua.`);
+  if (hands >= 3) good.push(`Tích cực <b>thực hành</b> (thí nghiệm ảo, Tin học, STEM): ${hands} lần.`);
+  if (asked >= 2) good.push(`Chủ động <b>đặt câu hỏi</b> khi chưa hiểu bài (${asked} câu hỏi).`);
+  if (pos >= 0 && pos < 10 && rk[pos].points > 0) good.push(`Đang đứng <b>hạng ${pos + 1}</b> của khối ${h(st.grade)} trong ${monthLabel(cm)}.`);
+  if (overdue.length) fix.push(`Còn <b>${overdue.length}</b> nhiệm vụ <b>quá hạn</b> chưa nộp: ${overdue.slice(0, 3).map(t => '“' + h(t.title) + '”').join(', ')}${overdue.length > 3 ? '…' : ''}.`);
+  subj.filter(s => s.n >= 2 && s.avg < 6.5).slice(0, 2).forEach(s => fix.push(`Môn <b>${h(s.name)}</b> còn yếu: trung bình <b>${vn(s.avg)}</b>. Nên xem lại bài giảng và làm lại các bài điểm thấp.`));
+  if (low.length) fix.push(`Có <b>${low.length}</b> bài dưới 5 điểm (ví dụ “${h(low[0].title)}”: ${vn(low[0].score)}). Làm lại để hiểu chắc hơn, hệ thống giữ điểm cao nhất.`);
+  if (trend !== null && trend <= -0.5) fix.push(`Điểm gần đây <b>giảm</b> ${vn(-trend)} điểm so với trước. Cần ôn lại kiến thức mới học.`);
+  if (compl !== null && expect >= 3 && compl < 0.6) fix.push(`Trong ${expect} nhiệm vụ đã đến hạn, mới nộp <b>${done.length}</b>. Cần sắp xếp thời gian làm bài đầy đủ hơn.`);
+  if (subs.length && days14 <= 2) fix.push(`Ít vào học trong 2 tuần qua (${days14} ngày). Mỗi ngày dành 15–20 phút sẽ giúp nhớ bài lâu hơn.`);
+  if (!hands && subs.length >= 3) fix.push('Chưa thực hành ở <b>phòng thí nghiệm</b> hay <b>phòng Tin học</b>. Thử vài bài thực hành để hiểu bài sâu hơn.');
+  if (!subs.length) fix.push('Chưa có bài làm nào được ghi nhận. Hãy bắt đầu từ một nhiệm vụ hoặc một bài giảng trong lớp học.');
+  overdue.concat(soon).slice(0, 2).forEach(t => todoNext.push({label:`Nộp “${t.title}”${t.due ? ' (hạn ' + t.due.split('-').reverse().slice(0, 2).join('/') + ')' : ''}`, go:'task', arg:t.id}));
+  low.slice(0, 2).forEach(x => todoNext.push({label:`Làm lại “${x.title}” để nâng điểm`, go:'task', arg:x.tid}));
+  if (todoNext.length < 3) todo.filter(t => !overdue.includes(t) && !soon.includes(t)).slice(0, 3 - todoNext.length).forEach(t => todoNext.push({label:`Làm nhiệm vụ “${t.title}”`, go:'task', arg:t.id}));
+  if (todoNext.length < 3 && !hands) todoNext.push({label:'Vào phòng Tin học hoặc phòng thí nghiệm thực hành một bài', go:'tin'});
+  // mức hiện tại (chỉ dựa trên số liệu đã có)
+  let level = null;
+  if (avg !== null && sc.length >= 3){ const c = compl === null ? 1 : compl; level = avg >= 8 && c >= 0.8 ? ['Tốt', 'ok'] : avg >= 6.5 && c >= 0.6 ? ['Khá', 'mid'] : avg >= 5 ? ['Đạt', 'mid'] : ['Cần cố gắng', 'low']; }
+  return {sid, st, tasks, done, todo, overdue, soon, subj, acts, trend, months, ptsBy, cm, pm, days14, lastAt, low, notes, asked, avg, compl, pos, rk, good, fix, todoNext, level, nSubs:subs.length, hands};
+}
+
+function pgSummaryText(p){
+  const fn = p.st.name.split(' ').slice(-1)[0];
+  if (!p.nSubs) return `${h(fn)} chưa có kết quả học tập nào được ghi nhận. Khi em làm nhiệm vụ, bài giảng hay bài thực hành, hệ thống sẽ tự tổng hợp nhận xét ở đây.`;
+  const parts = [];
+  parts.push(p.level ? `Mức hiện tại của ${h(fn)}: <b>${p.level[0]}</b>` : `${h(fn)} đã có ${p.nSubs} kết quả được ghi nhận`);
+  if (p.avg !== null) parts.push(`điểm trung bình các nhiệm vụ <b>${vn(p.avg)}</b>`);
+  if (p.tasks.length) parts.push(`đã làm <b>${p.done.length}/${p.tasks.length}</b> nhiệm vụ đang mở${p.overdue.length ? ` (<b>${p.overdue.length}</b> bài quá hạn)` : ''}`);
+  let s = parts.join(', ') + '.';
+  if (p.trend !== null) s += p.trend >= 0.5 ? ' Kết quả gần đây đang đi lên, hãy giữ nhịp học này.' : p.trend <= -0.5 ? ' Kết quả gần đây giảm, cần chú ý ôn tập lại.' : ' Kết quả gần đây ổn định.';
+  if (p.good.length && p.fix.length) s += ' Em có điểm mạnh để phát huy và vài điểm cần khắc phục bên dưới.';
+  else if (p.good.length) s += ' Em đang làm rất tốt, tiếp tục phát huy nhé!';
+  return s;
+}
+
+function vProgress(app){
+  const m = me(), teacher = S.canEdit && !m;
+  if (!m && !teacher) return go('login');
+  if (teacher && !S.arg){ app.innerHTML = `<div class="wrap"><section class="section">${pageHead('Tiến bộ học sinh', 'giáo viên', 'Theo dõi kết quả, xu hướng và những em cần quan tâm')}<div id="tbody"></div></section></div>`;
+    const classes = [...new Set(Object.values(S.students).map(s => s.cls))].sort(); if (!S.tClass || (S.tClass !== 'all' && !classes.includes(S.tClass))) S.tClass = 'all'; tProgress($('#tbody', app), classes); return; }
+  const sid = teacher ? S.arg : m.id, p = progressOf(sid);
+  if (!p){ app.innerHTML = `<div class="wrap"><section class="section"><p class="notice">Không tìm thấy học sinh này.</p><button class="btn ghost" data-go="progress">← Danh sách</button></section></div>`; return; }
+  const st = p.st, maxPts = Math.max(10, ...Object.values(p.ptsBy)), d = Math.max(1, ...p.subj.map(s => s.n));
+  const fmtD = t => t ? new Date(t).toLocaleDateString('vi-VN') : 'chưa có';
+  const tnote = st.tnote && st.tnote.text ? st.tnote : null;
+  app.innerHTML = `<div class="wrap pg"><section class="section" style="gap:14px">
+    ${teacher ? `<div class="row" style="gap:8px"><button class="btn ghost" data-go="progress" style="flex:0 0 auto">← Tiến bộ cả lớp</button></div>` : ''}
+    ${pageHead(teacher ? 'Hồ sơ tiến bộ' : 'Hồ sơ của em', `${h(st.name)} · lớp ${h(st.cls)}`, 'Nhiệm vụ · Nhận xét · Điểm mạnh và điểm cần khắc phục')}
+    <div class="pg-tiles">
+      <div class="pg-t"><span>Nhiệm vụ đã làm</span><b class="num">${p.done.length}/${p.tasks.length}</b><small>${p.todo.length ? `còn ${p.todo.length} bài${p.overdue.length ? `, <em class="bad">${p.overdue.length} quá hạn</em>` : ''}` : 'đã làm hết'}</small></div>
+      <div class="pg-t"><span>Điểm trung bình</span><b class="num">${p.avg === null ? '—' : vn(p.avg)}</b><small>${p.trend === null ? 'chưa đủ bài để so sánh' : p.trend >= 0.5 ? `<em class="ok">↑ tăng ${vn(p.trend)}</em>` : p.trend <= -0.5 ? `<em class="bad">↓ giảm ${vn(-p.trend)}</em>` : '→ ổn định'}</small></div>
+      <div class="pg-t"><span>Điểm thưởng ${h(monthLabel(p.cm))}</span><b class="num">${p.ptsBy[p.cm]}</b><small>tháng trước ${p.ptsBy[p.pm]}${p.pos >= 0 ? ` · hạng ${p.pos + 1} khối ${h(st.grade)}` : ''}</small></div>
+      <div class="pg-t"><span>Ngày học (14 ngày qua)</span><b class="num">${p.days14}</b><small>lần gần nhất: ${fmtD(p.lastAt)}</small></div>
+    </div>
+    <div class="pg-sum ${p.level ? 'lv-' + p.level[1] : ''}"><h2>Nhận xét của hệ thống</h2><p>${pgSummaryText(p)}</p><p class="muted pg-src">Nhận xét được tính tự động từ bài nộp, điểm số và hoạt động thực hành của em trong phần mềm.</p></div>
+    ${tnote || teacher ? `<div class="pg-note"><h3>Lời nhắn của thầy cô</h3>${tnote ? `<p>${h(tnote.text)}</p><p class="muted" style="font-size:.82rem;margin:0">${fmtD(tnote.at)}</p>` : '<p class="muted">Chưa có lời nhắn.</p>'}
+      ${teacher ? `<form id="pgNf" class="pg-nf"><textarea class="inp" id="pgN" rows="3" maxlength="500" placeholder="Viết nhận xét, động viên hoặc lời khuyên cho em…">${h(tnote ? tnote.text : '')}</textarea><button class="btn">Lưu lời nhắn</button></form>` : ''}</div>` : ''}
+    <div class="pg-2">
+      <div class="pg-box good"><h3>Cần phát huy</h3>${p.good.length ? `<ul>${p.good.map(x => `<li>${x}</li>`).join('')}</ul>` : '<p class="muted">Chưa đủ số liệu để chỉ ra điểm mạnh. Làm thêm nhiệm vụ để hệ thống nhận xét chính xác hơn.</p>'}</div>
+      <div class="pg-box fix"><h3>Cần khắc phục</h3>${p.fix.length ? `<ul>${p.fix.map(x => `<li>${x}</li>`).join('')}</ul>` : '<p class="muted">Chưa thấy điểm nào cần khắc phục. Rất tốt!</p>'}</div>
+    </div>
+    ${p.todoNext.length ? `<div class="pg-box next"><h3>${teacher ? 'Gợi ý cho em tuần này' : 'Em nên làm tiếp'}</h3><ol>${p.todoNext.map(x => `<li>${teacher ? h(x.label) : `<button class="lnk pg-go" data-go="${x.go}" ${x.arg ? `data-arg="${h(x.arg)}"` : ''}>${h(x.label)} →</button>`}</li>`).join('')}</ol></div>` : ''}
+    <div class="pg-2">
+      <div class="pg-box"><h3>Điểm thưởng 6 tháng gần đây</h3><div class="pg-bars" role="img" aria-label="Biểu đồ điểm thưởng theo tháng">${p.months.map(k => `<div class="pg-b"><span class="v">${p.ptsBy[k]}</span><i style="height:${Math.max(2, p.ptsBy[k]/maxPts*100)}%"></i><span class="l">${+k.slice(5)}/${k.slice(2, 4)}</span></div>`).join('')}</div></div>
+      <div class="pg-box"><h3>Kết quả theo môn</h3>${p.subj.length ? `<ul class="pg-subj">${p.subj.map(s => `<li><span>${h(s.name)} <small class="muted">${s.n} bài</small></span><span class="pg-track"><i class="${s.avg >= 8 ? 'ok' : s.avg < 6.5 ? 'bad' : ''}" style="width:${s.avg*10}%"></i></span><b class="num">${vn(s.avg)}</b></li>`).join('')}</ul>` : '<p class="muted">Chưa có bài nộp nào để tính theo môn.</p>'}</div>
+    </div>
+    ${Object.keys(p.acts).length ? `<div class="pg-box"><h3>Hoạt động thực hành và rèn luyện</h3><div class="pg-acts">${Object.values(p.acts).map(a => `<span><b>${a.icon} ${h(a.name)}</b><small>${a.n} lần · ${a.pts} điểm thưởng</small></span>`).join('')}</div></div>` : ''}
+    ${p.notes.length ? `<div class="pg-box"><h3>Nhận xét gần đây trên bài làm</h3><ul class="pg-notes">${p.notes.map(x => `<li><b>${h(x.title)}</b><p>${h(x.note)}</p></li>`).join('')}</ul></div>` : ''}
+    <div class="pg-box"><h3>${teacher ? 'Nhiệm vụ của học sinh' : 'Nhiệm vụ của em'}</h3>
+      ${p.tasks.length ? `<ul class="pg-tasks">${p.todo.concat(p.done).map(t => { const s = S.subs[`${sid}__${t.id}`], od = !s && t.due && t.due < dayKey();
+        return `<li class="${s ? 'done' : od ? 'od' : ''}">${teacher ? '<span>' : `<button data-go="task" data-arg="${h(t.id)}">`}<span class="pg-st">${s ? '✓' : od ? '!' : '○'}</span><span class="pg-tt"><b>${h(t.title)}</b><small>${h(SUBJ[t.subject]?.name || '')}${t.due ? ' · hạn ' + t.due.split('-').reverse().slice(0, 2).join('/') : ''}${od ? ' · quá hạn' : ''}</small></span><span class="pg-sc">${s ? vn(s.score) : teacher ? 'chưa nộp' : 'Làm bài'}</span>${teacher ? '</span>' : '</button>'}</li>`; }).join('')}</ul>` : '<p class="muted">Thầy cô chưa giao nhiệm vụ nào đang mở.</p>'}
+    </div>
+  </section></div>`;
+  const nf = $('#pgNf', app);
+  if (nf) nf.onsubmit = async e => { e.preventDefault(); const text = $('#pgN', app).value.trim().slice(0, 500);
+    try { await S.db.doc('students/' + sid).update({tnote:{text, at:Date.now()}}); S.students[sid] = {...S.students[sid], tnote:{text, at:Date.now()}}; toast(text ? 'Đã lưu lời nhắn cho em' : 'Đã xóa lời nhắn'); render(); } catch(err){ toast('Chưa lưu được lời nhắn.'); } };
+}
+
+function tProgress(el, classes){
+  if (!classes.length){ el.innerHTML = '<p class="notice">Chưa có học sinh. Thêm học sinh ở thẻ "Học sinh".</p>'; return; }
+  const sort = S.pgSort || 'need';
+  const rows = Object.keys(S.students).filter(id => inCls(S.students[id].cls)).map(id => progressOf(id)).filter(Boolean);
+  const need = p => p.overdue.length*3 + (p.trend !== null && p.trend <= -0.5 ? 2 : 0) + (p.avg !== null && p.avg < 6.5 ? 2 : 0) + (p.days14 <= 2 ? 1 : 0) + (p.compl !== null && p.compl < 0.6 ? 1 : 0);
+  rows.sort(sort === 'name' ? (a, b) => a.st.name.localeCompare(b.st.name, 'vi') : sort === 'avg' ? (a, b) => (b.avg ?? -1) - (a.avg ?? -1) : (a, b) => need(b) - need(a) || a.st.name.localeCompare(b.st.name, 'vi'));
+  const nNeed = rows.filter(p => need(p) >= 3).length, nUp = rows.filter(p => p.trend !== null && p.trend >= 0.5).length;
+  el.innerHTML = `<div class="stack">
+    <div class="row" style="gap:12px;align-items:end;flex-wrap:wrap">${classSel(classes)}<label class="field" style="max-width:220px">Sắp xếp<select id="pgS"><option value="need" ${sort === 'need' ? 'selected' : ''}>Cần quan tâm trước</option><option value="avg" ${sort === 'avg' ? 'selected' : ''}>Điểm trung bình cao trước</option><option value="name" ${sort === 'name' ? 'selected' : ''}>Theo tên</option></select></label></div>
+    <div class="pg-tiles"><div class="pg-t"><span>Học sinh</span><b class="num">${rows.length}</b></div><div class="pg-t"><span>Đang tiến bộ</span><b class="num">${nUp}</b><small>điểm gần đây tăng</small></div><div class="pg-t"><span>Cần quan tâm</span><b class="num">${nNeed}</b><small>quá hạn, điểm thấp hoặc giảm</small></div></div>
+    <div class="panel"><div class="tbl-wrap"><table class="pg-tbl"><thead><tr><th>Học sinh</th><th>Lớp</th><th class="num">Nhiệm vụ</th><th class="num">Điểm TB</th><th>Xu hướng</th><th class="num">Ngày học/14</th><th>Cần chú ý</th><th></th></tr></thead><tbody>
+      ${rows.map(p => `<tr class="${need(p) >= 3 ? 'warn' : ''}"><td><b>${h(p.st.name)}</b>${p.level ? ` <span class="pg-lv lv-${p.level[1]}">${p.level[0]}</span>` : ''}</td><td>${h(p.st.cls)}</td><td class="num">${p.done.length}/${p.tasks.length}</td><td class="num">${p.avg === null ? '—' : vn(p.avg)}</td>
+        <td>${p.trend === null ? '<span class="muted">chưa đủ bài</span>' : p.trend >= 0.5 ? `<span class="ok">↑ ${vn(p.trend)}</span>` : p.trend <= -0.5 ? `<span class="bad">↓ ${vn(-p.trend)}</span>` : '→ ổn định'}</td><td class="num">${p.days14}</td>
+        <td class="pg-why">${[p.overdue.length ? `${p.overdue.length} bài quá hạn` : '', p.low.length ? `${p.low.length} bài dưới 5` : '', p.nSubs && p.days14 <= 2 ? 'ít vào học' : '', !p.nSubs ? 'chưa làm bài nào' : ''].filter(Boolean).join(' · ') || '<span class="muted">—</span>'}</td>
+        <td><button class="btn small" data-go="progress" data-arg="${h(p.sid)}">Xem hồ sơ</button></td></tr>`).join('')}
+    </tbody></table></div><p class="muted" style="font-size:.84rem;margin:8px 0 0">Mức (Tốt, Khá, Đạt, Cần cố gắng) và xu hướng do hệ thống tự tính từ bài nộp: xu hướng so sánh 5 bài gần nhất với 5 bài trước đó. Bấm "Xem hồ sơ" để đọc nhận xét chi tiết và viết lời nhắn cho em.</p></div></div>`;
+  bindClassSel(); $('#pgS', el).onchange = e => { S.pgSort = e.target.value; render(); };
 }
 
 function vChess(app){
@@ -4403,7 +4583,7 @@ async function school3D(stage, below, kind = 'school', ext = {}){
   const kidGeo = {leg:new THREE.BoxGeometry(0.055, 0.16, 0.06), body:new THREE.BoxGeometry(0.18, 0.15, 0.11), arm:new THREE.BoxGeometry(0.045, 0.14, 0.05), head:new THREE.SphereGeometry(0.1, 16, 12), hair:new THREE.SphereGeometry(0.106, 16, 10, 0, Math.PI*2, 0, Math.PI*0.55), small:new THREE.SphereGeometry(0.035, 8, 6), skirt:new THREE.CylinderGeometry(0.08, 0.12, 0.1, 10), scarf:new THREE.ConeGeometry(0.035, 0.08, 4), bag:new THREE.BoxGeometry(0.14, 0.15, 0.06), hand:new THREE.BoxGeometry(0.045, 0.035, 0.05)};
   const shadowGeo = new THREE.CircleGeometry(0.13, 18), shadowM = new THREE.MeshBasicMaterial({color:0x1f2140, transparent:true, opacity:.16, depthWrite:false});
   const makeKid = L => { const mesh = (geo, mat, x = 0, y = 0, z = 0, p = scene) => { const m = new THREE.Mesh(geo, mat); m.position.set(x, y, z); p.add(m); return m; }; const g = new THREE.Group(); scene.add(g); const sh = new THREE.Mesh(shadowGeo, shadowM); sh.rotation.x = -Math.PI/2; sh.position.y = 0.004; g.add(sh);
-    const r = new THREE.Group(); g.add(r); const shirtC = L.shirt === 'pe' ? '#5ab0ff' : '#f6f7fb', pant = '#2b3f80', legC = L.bottom === 'skirt' ? L.skin : pant;
+    const r = new THREE.Group(); g.add(r); const TCH = L.role === 'teacher'; if (TCH) r.scale.setScalar(1.16); const shirtC = TCH ? '#d6e6f7' : L.shirt === 'pe' ? '#5ab0ff' : '#f6f7fb', pant = TCH ? '#2a2d3a' : '#2b3f80', legC = L.bottom === 'skirt' ? L.skin : pant;
     const lp = new THREE.Group(), rp = new THREE.Group(); lp.position.set(-0.045, 0.16, 0); rp.position.set(0.045, 0.16, 0); r.add(lp, rp);
     mesh(kidGeo.leg, M(legC), 0, -0.08, 0, lp); mesh(kidGeo.leg, M(legC), 0, -0.08, 0, rp); mesh(kidGeo.hand, M('#1f2140'), 0, -0.155, 0.01, lp, false); mesh(kidGeo.hand, M('#1f2140'), 0, -0.155, 0.01, rp, false);
     if (L.bottom === 'skirt') mesh(kidGeo.skirt, M(pant), 0, 0.17, 0, r); else mesh(new THREE.BoxGeometry(0.18, 0.06, 0.11), M(pant), 0, 0.18, 0, r);
@@ -4411,6 +4591,7 @@ async function school3D(stage, below, kind = 'school', ext = {}){
     const la = new THREE.Group(), ra = new THREE.Group(); la.position.set(-0.115, 0.35, 0); ra.position.set(0.115, 0.35, 0); r.add(la, ra);
     [la, ra].forEach(a => { mesh(kidGeo.arm, M(shirtC), 0, -0.06, 0, a); mesh(kidGeo.hand, M(L.skin), 0, -0.14, 0, a, false); });
     if (L.scarf){ const sc = mesh(kidGeo.scarf, M('#d92b25'), 0, 0.31, 0.065, r, false); sc.rotation.x = Math.PI; }
+    if (TCH){ mesh(new THREE.BoxGeometry(0.03, 0.12, 0.012), M('#b3261e'), 0, 0.3, 0.066, r, false); mesh(new THREE.BoxGeometry(0.19, 0.018, 0.125), M('#1f2140'), 0, 0.215, 0, r, false); const bk = mesh(new THREE.BoxGeometry(0.03, 0.12, 0.09), M('#c9961f'), 0.02, -0.1, 0.02, ra); bk.rotation.z = 0.1; }
     if (L.bag) mesh(kidGeo.bag, M(L.bag), 0, 0.29, -0.085, r);
     const hd = new THREE.Group(); hd.position.y = 0.46; r.add(hd);
     mesh(kidGeo.head, M(L.skin), 0, 0, 0, hd);
@@ -4424,7 +4605,7 @@ async function school3D(stage, below, kind = 'school', ext = {}){
     if (L.hair === 'spiky'){ for (let i = -2; i <= 2; i++){ const c = mesh(new THREE.ConeGeometry(0.03, 0.08, 5), hm, i*0.035, 0.11, -0.01, hd); c.rotation.z = -i*0.25; } }
     if (L.hat === 'helmet'){ mesh(new THREE.SphereGeometry(0.118, 16, 10, 0, Math.PI*2, 0, Math.PI*0.5), M('#2f7dff'), 0, 0.01, 0, hd); }
     if (L.hat === 'cap'){ mesh(new THREE.SphereGeometry(0.112, 16, 10, 0, Math.PI*2, 0, Math.PI*0.5), M('#d92b25'), 0, 0.01, 0, hd); mesh(new THREE.BoxGeometry(0.14, 0.012, 0.09), M('#b8241f'), 0, 0.02, 0.1, hd); }
-    if (L.glasses === 'neon'){ [-0.038, 0.038].forEach(ex => mesh(new THREE.TorusGeometry(0.024, 0.006, 6, 14), M('#46e2ff'), ex, 0.005, 0.095, hd, false)); }
+    if (L.glasses === 'neon' || L.glasses === 'rim'){ [-0.038, 0.038].forEach(ex => mesh(new THREE.TorusGeometry(0.024, L.glasses === 'rim' ? 0.004 : 0.006, 6, 14), M(L.glasses === 'rim' ? '#1f2140' : '#46e2ff'), ex, 0.005, 0.095, hd, false)); }
     g.userData = {r, lp, rp, la, ra, ang:0, key:JSON.stringify(L)}; return g; };
   const kids = new Map();
   const kidFor = (id, L) => { const key = JSON.stringify(L); let k = kids.get(id); if (k && k.userData.key !== key){ scene.remove(k); k = null; } if (!k){ k = makeKid(L); kids.set(id, k); } k.userData.seen = true; return k; };
@@ -4603,7 +4784,7 @@ async function school3D(stage, below, kind = 'school', ext = {}){
 
 function vSchool(app){
   const m = me(), sid = m ? m.id : null, d = hubData(), tier = rankOf(d.lv);
-  let look = loadLook(sid);
+  let look = !m && S.canEdit ? {...TEACHER_LOOK} : loadLook(sid);
   const M = S.view === 'hallin' ? HALLMAP : SCH, isHall = M === HALLMAP;
   app.dataset.lock = '1';
   app.innerHTML = `<section class="hub school"><div class="wrap hub-wrap" style="gap:10px">
@@ -4611,7 +4792,7 @@ function vSchool(app){
       <span class="muted sc-help" style="font-size:.82rem">${isHall ? 'Đi tới bục MC để thi <b>Rung chuông vàng</b>, tới các quầy để học và nhận quà' : 'Đi tới cửa phòng rồi bấm <b>Vào</b>'} · phím mũi tên / WASD · chạm vào nơi muốn đến</span></div>
     <div class="sc-stage" id="scStage">
       <canvas id="scCv" aria-label="Bản đồ sân trường. Dùng phím mũi tên hoặc chạm để di chuyển nhân vật."></canvas>
-      <div class="sc-hud"><span class="sc-ava"><canvas id="scAva" width="88" height="88"></canvas></span><span class="sc-hudt"><b>${h(m ? m.name : S.canEdit ? 'Giáo viên' : 'Khách tham quan')}</b><span><i style="color:${tier[2]}">${tier[1]}</i> · Lv. ${d.lv}${m ? ' · Lớp ' + h(m.cls) : ''}</span><span class="hub-bar"><i style="width:${d.inLv}%"></i></span></span></div>
+      <div class="sc-hud" id="scHud" role="button" tabindex="0" aria-label="Mở hồ sơ: nhiệm vụ, nhận xét và tiến bộ" title="Bấm để xem hồ sơ của em"><span class="sc-ava"><canvas id="scAva" width="88" height="88"></canvas></span><span class="sc-hudt"><b>${h(m ? m.name : S.canEdit ? 'Giáo viên' : 'Khách tham quan')}</b>${!m && S.canEdit ? '<span>Thầy giáo · bấm để xem tiến bộ học sinh</span>' : `<span><i style="color:${tier[2]}">${tier[1]}</i> · Lv. ${d.lv}${m ? ' · Lớp ' + h(m.cls) : ''}</span><span class="hub-bar"><i style="width:${d.inLv}%"></i></span>`}</span></div>
       <div class="sc-tr"><canvas id="scMini" width="344" height="244" role="button" aria-label="Bản đồ nhỏ, chạm để mở bản đồ lớn"></canvas><div class="sc-btns"><button class="hub-ic" id="scLook" aria-label="Tùy chỉnh nhân vật">${HUB_ICON.user}</button><button class="hub-ic" id="scSet" aria-label="Cài đặt điều khiển">${HUB_ICON.gear}</button><button class="hub-ic" id="scFull" aria-label="Toàn màn hình"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>${`<span class="sc-rot" id="scRot" hidden><button class="hub-ic" id="scRotL" aria-label="Xoay góc nhìn sang trái" title="Xoay trái (Q)">⟲</button><button class="hub-ic" id="scRotR" aria-label="Xoay góc nhìn sang phải" title="Xoay phải (E)">⟳</button><button class="hub-ic" id="scTilt" aria-label="Đổi độ nghiêng góc nhìn" title="Nhìn từ trên cao / nhìn ngang"><svg viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="3" fill="currentColor"/></svg></button><button class="hub-ic" id="scNorth" aria-label="Về góc nhìn ban đầu" title="Góc nhìn ban đầu">N</button></span><button class="hub-ic sc-dim" id="scDim" aria-label="Đổi góc nhìn 2D hoặc 3D" title="Đổi góc nhìn 2D / 3D">${SC3.on() ? '2D' : '3D'}</button>`}<button class="hub-ic" id="scTut" aria-label="Hướng dẫn">?</button><button class="hub-ic sc-chatb" id="scChat" aria-label="Trò chuyện">💬<i id="scChatN" hidden></i></button></div></div>
       <div class="sc-joy" id="scJoy" aria-hidden="true"><span id="scKnob"></span></div>
       <p class="sc-hint" id="scHint">Chạm để đi tới · Giữ và kéo để điều khiển</p>
@@ -4652,6 +4833,8 @@ function vSchool(app){
     remotes().forEach(([id, r, pr]) => { const dd = Math.hypot(P.x - r.x, P.y - r.y); if (dd < 36 && dd < bd){ bd = dd; best = {kind:'friend', fsid:id, ax:r.x, ay:r.y + 18, label:(pr.name || '').split(' ').slice(-1)[0], verb:'Gặp ' + (pr.name || '').split(' ').slice(-1)[0]}; } }); return best; };
   const actBtn = $('#scAct', app); let cur = null;
   const savePos = () => { if (isHall) return; S.schoolPos = {x:Math.round(P.x), y:Math.round(P.y), dir:P.dir}; store(posKey, JSON.stringify(S.schoolPos)); };
+  { const hud = $('#scHud', app); if (hud){ const open = () => { if (busy) return; if (!m && !S.canEdit) return go('login'); savePos(); go('progress'); };
+    ['pointerdown', 'touchstart', 'mousedown'].forEach(ev => hud.addEventListener(ev, e => e.stopPropagation(), {passive:true})); hud.onclick = e => { e.stopPropagation(); open(); }; hud.onkeydown = e => { if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); open(); } }; } }
   // hộp thoại
   const dlg = (name, text, btns = [], portrait = 'bot') => { dlgOpen = true; $('#scDlg', app).hidden = false; $('#scDlgN', app).textContent = name; $('#scDlgT', app).innerHTML = text;
     const p = $('#scDlgP', app); p.innerHTML = portrait === 'bot' ? ROBOT : '<canvas width="96" height="96"></canvas>'; if (portrait !== 'bot'){ const pc = $('canvas', p).getContext('2d'); pc.translate(48, 92); drawKid(pc, 0, 0, portrait, 'down', 0, false, 1.9); }
@@ -4729,7 +4912,7 @@ function vSchool(app){
     if (stage.classList.contains('map-big')){ mctx.font = `700 ${7*k}px "Be Vietnam Pro", system-ui`; mctx.textAlign = 'center'; mctx.fillStyle = '#ffffff'; Object.values(SCH.B).forEach(b => mctx.fillText(b.name.split(' · ')[0], (b.x + b.w/2)*sx, (b.y + b.h/2)*sy, b.w*sx + 10)); mctx.fillText('SÂN TRƯỜNG', 1200*sx, 900*sy); mctx.fillText('CỔNG', SCH.GATE.x*sx, (SCH.H - 40)*sy); mctx.fillText('THỂ THAO', SCH.RACE.x*sx, SCH.RACE.y*sy, SCH.FIELD.w*sx); } }
     if (target){ mctx.fillStyle = '#46e2ff'; mctx.beginPath(); mctx.arc(target.x*sx, target.y*sy, 3*k, 0, 7); mctx.fill(); } mctx.fillStyle = '#ff3b55'; mctx.beginPath(); mctx.arc(P.x*sx, P.y*sy, 3.5*k, 0, 7); mctx.fill(); mctx.strokeStyle = '#fff'; mctx.lineWidth = 1.5*k; mctx.stroke(); };
   // ảnh đại diện HUD
-  const drawAva = () => { const a = $('#scAva', app).getContext('2d'); a.clearRect(0, 0, 88, 88); a.save(); a.translate(44, 128); drawKid(a, 0, 0, look, 'down', 0, false, 2.6); a.restore(); };
+  const drawAva = () => { const a = $('#scAva', app).getContext('2d'); a.clearRect(0, 0, 88, 88); a.save(); const tc = look.role === 'teacher'; a.translate(44, tc ? 124 : 128); drawKid(a, 0, 0, look, 'down', 0, false, tc ? 2.25 : 2.6); a.restore(); };
   drawAva();
   // nhập liệu
   const kd = e => { if (!document.body.contains(cv)) return; if (/input|select|textarea/i.test(e.target.tagName)) return; const k = e.key.toLowerCase();
@@ -4818,7 +5001,7 @@ function vSchool(app){
       $('#setOk', p).onclick = () => { p.hidden = true; dlgOpen = false; }; };
     draw(); p.hidden = false; };
   // tùy chỉnh nhân vật
-  $('#scLook', app).onclick = () => { dlgOpen = true; openLookEditor(sid, L => { look = L; drawAva(); }, () => { dlgOpen = false; }); };
+  $('#scLook', app).onclick = () => { if (!m && S.canEdit){ toast('Tài khoản giáo viên dùng nhân vật thầy giáo.'); return; } dlgOpen = true; openLookEditor(sid, L => { look = L; drawAva(); }, () => { dlgOpen = false; }); };
   // ===== Rung chuông vàng ngay trong hội trường =====
   const RCV_TIME = 15, MY_SEAT = 15, BOT_NAMES = ['An','Bình','Chi','Dũng','Giang','Hà','Hải','Hằng','Hiếu','Hoa','Huy','Khánh','Lan','Linh','Long','Mai','Minh','My','Nam','Ngọc','Nhi','Phúc','Quân','Sơn','Tâm','Thảo','Trang','Tú','Vy'];
   const hq = id => $('#' + id, app);
@@ -5106,7 +5289,7 @@ function vSchool(app){
             if (b.raised && !(b.leaving && b.leaveAt <= 0) && !b.moving) bd3.push({x:b.x, y:b.y, txt:rev ? ('ABCD'[b.ans] || '?') : ' ', state:rev ? (b.ok ? 'ok' : 'no') : null}); });
           const seat = M.SEATS[G.mySeat ?? MY_SEAT];
           if (G.phase !== 'end' && (G.alive || rev) && !G.pWalk && Math.hypot(P.x - seat.x, P.y - seat.y) < 3) bd3.push((G.phase === 'q' && G.raised) || rev ? {x:P.x, y:P.y, txt:G.myAns >= 0 ? 'ABCD'[G.myAns] : '?', state:rev ? (G.myAns === q.a ? 'ok' : 'no') : null} : {x:P.x, y:P.y, txt:'Em', state:null}); } }
-      try { R3.draw({P, dt, T, moving:moving || !!(game && game.pWalk), look, zoomMul, night, cur, tapMark, myDoor:md, myName:game && game.phase === 'q' ? '' : (m ? m.name.split(' ').slice(-1)[0] : 'Em') + (look.title ? ' · ' + look.title : ''), bubbles:bl,
+      try { R3.draw({P, dt, T, moving:moving || !!(game && game.pWalk), look, zoomMul, night, cur, tapMark, myDoor:md, myName:game && game.phase === 'q' ? '' : (m ? m.name.split(' ').slice(-1)[0] : S.canEdit ? 'Thầy giáo' : 'Em') + (look.title ? ' · ' + look.title : ''), bubbles:bl,
         extra:ex3, boards:bd3, screen:scr3, say:say3, ring:game ? game.ring : 0, focus:game ? (f0 => ({x:f0.x, y:f0.y - 70}))(game.focus || {x:600, y:470}) : null, dist:game ? (cssW < 700 ? 12 : 9.8) : 0, idleMe:!!game,
         mates:game ? [] : mates.filter(mt => !SOC.peers.has(mt.id)), remotes:RM3.map(([id, r, pr]) => ({id, x:r.x, y:r.y, dir:r.dir, walking:r.walking, look:{...defaultLook(id), ...(pr.look || {})}, name:String(pr.name || '').split(' ').slice(-1)[0]}))}); } catch(err){ console.warn('3D', err); R3.dispose(); R3 = null; stage.classList.remove('is3d'); }
     } else {
@@ -5138,7 +5321,7 @@ function vSchool(app){
     if (!game) mates.forEach(mt => { if (!SOC.peers.has(mt.id)) tag(mt.x, mt.y - 52, mt.first + (mt.look.title ? ' · ' + mt.look.title : ''), mt.look.title ? '#ffe27a' : '#dfe8ff'); });
     RM.forEach(([id, r, pr]) => tag(r.x, r.y - 52, '● ' + String(pr.name || '').split(' ').slice(-1)[0] + (pr.look && pr.look.title ? ' · ' + pr.look.title : ''), '#7dffb5', 'rgba(10,60,35,.85)'));
     bubbles.forEach((b, k3) => { let x, y; if (k3 === sid){ x = P.x; y = P.y - 68; } else { const gb = game && game.bots.find(o => o.human && o.sid === k3); const rr = SOC.remote.get(k3); if (gb){ x = gb.x; y = gb.y - 90; } else if (rr && rr.map === mapId){ x = rr.x; y = rr.y - 68; } } if (x !== undefined) bubble(x, y, b.text); });
-    if (!game || game.phase !== 'q') tag(P.x, P.y - 52, (m ? m.name.split(' ').slice(-1)[0] : 'Em') + (look.title ? ' · ' + look.title : ''), '#ffd54a');
+    if (!game || game.phase !== 'q') tag(P.x, P.y - 52, (m ? m.name.split(' ').slice(-1)[0] : S.canEdit ? 'Thầy giáo' : 'Em') + (look.title ? ' · ' + look.title : ''), '#ffd54a');
     tag(M.ROBOT_AT.x, M.ROBOT_AT.y - 52, isHall ? 'Ô Li · MC' : 'Ô Li · hướng dẫn', '#7ff3ff');
     if (m && !isHall){ const dd = SCH.DOORS.find(x => x.kind === 'class' && String(x.grade) === String(m.grade)); if (dd){ const ax = dd.face === 'e' || dd.face === 'w' ? dd.tx : dd.x, by = (dd.face === 's' ? dd.y - 100 : dd.y - 56) + Math.sin(T*4)*4; ctx.fillStyle = '#ffd54a'; ctx.beginPath(); ctx.moveTo(ax - 9, by); ctx.lineTo(ax + 9, by); ctx.lineTo(ax, by + 12); ctx.closePath(); ctx.fill(); tag(ax, by - 4, 'Lớp ' + m.cls, '#3a2600', '#ffd54a'); } }
     if (cur){ const lx = cur.kind === 'mate' ? cur.mt.x : cur.ax, ly = cur.kind === 'mate' ? cur.mt.y - 70 : (cur.b ? cur.y - 110 : cur.ay - 80); tag(lx, ly, cur.label + ' · bấm Vào', '#0a1434', '#7ff3ff'); }
@@ -7306,7 +7489,7 @@ function vLogin(app){
       <div><span class="eyebrow">Học sinh</span><h2 style="font-size:1.6rem">Đăng nhập vào lớp</h2></div>
       ${!S.live ? `<p class="notice">${S.loaded ? 'Chưa kết nối được dữ liệu lớp học nên chưa đăng nhập được. Em vẫn có thể vào Phòng thí nghiệm để thực hành tự do.' : 'Đang tải danh sách lớp…'}</p>` : classes.length ? `
       <form id="lf" class="stack">
-        <label class="field">Lớp<select id="lcls">${classes.map(c=>`<option>${h(c)}</option>`).join('')}</select></label>
+        <label class="field">Lớp<select id="lcls"><option value="all">Tất cả lớp</option>${classes.map((c,i)=>`<option ${i===0?'selected':''}>${h(c)}</option>`).join('')}</select></label>
         <label class="field">Họ và tên<select id="lname"></select></label>
         <label class="field">Mã học sinh<input id="lcode" autocomplete="off" placeholder="Ví dụ: 9A01"></label>
         <button class="btn" type="submit">Vào lớp</button>
@@ -7316,7 +7499,7 @@ function vLogin(app){
       ${S.canEdit ? `<p class="muted" style="font-size:.88rem">Bạn đang mở trang với quyền giáo viên. <button class="btn ghost small" data-go="teacher">Vào trang Giáo viên</button></p>` : ''}
     </div>`);
   const f = $('#lf'); if (!f) return;
-  const fill = () => { const c = $('#lcls').value; $('#lname').innerHTML = Object.entries(S.students).filter(([,s])=>s.cls===c).sort((a,b)=>a[1].name.localeCompare(b[1].name,'vi')).map(([id,s])=>`<option value="${h(id)}">${h(s.name)}</option>`).join(''); };
+  const fill = () => { const c = $('#lcls').value; $('#lname').innerHTML = Object.entries(S.students).filter(([,s])=>c==='all'||s.cls===c).sort((a,b)=>a[1].name.localeCompare(b[1].name,'vi')).map(([id,s])=>`<option value="${h(id)}">${h(s.name)}${c==='all'?' · '+h(s.cls):''}</option>`).join(''); };
   $('#lcls').onchange = fill; fill();
   f.onsubmit = e => { e.preventDefault();
     const id = $('#lname').value, st = S.students[id], code = $('#lcode').value.trim().toUpperCase();
@@ -10029,12 +10212,22 @@ function openAsk(task, idx, opt = {}){
 }
 
 /* lớp học: bảng xanh, cô giáo, bàn học sinh */
+/* gộp nhiều phòng trực tiếp (dạy nhiều lớp cùng lúc) thành một */
+async function multiRoom(ns, names){
+  const rooms = []; for (const n of names){ try { rooms.push(await ns.join(n)); } catch(e){} }
+  if (!rooms.length) throw new Error('no room');
+  const latest = rooms.map(r => { try { return r.peers() || []; } catch(e){ return []; } });
+  return {emit:(tp, d) => Promise.all(rooms.map(r => r.emit(tp, d))), on:(tp, f) => { const offs = rooms.map(r => r.on(tp, f)); return () => offs.forEach(o => { try { o(); } catch(e){} }); },
+    onPeers:f => { const offs = rooms.map((r, i) => r.onPeers(c => { latest[i] = (c && c.peers) || []; f({peers:latest.flat()}); })); return () => offs.forEach(o => { try { o(); } catch(e){} }); },
+    peers:() => latest.flat(), presence:p => Promise.all(rooms.map(r => r.presence(p))), leave:() => Promise.all(rooms.map(r => r.leave()))};
+}
+
 function lessonPlayer(app, task, practice, opt = {}){
-  const mode = opt.mode || 'self', follow = mode === 'follow', teach = mode === 'teach', cls = opt.cls;
+  const mode = opt.mode || 'self', follow = mode === 'follow', teach = mode === 'teach', cls = opt.cls, clsL = String(cls || '').split(',').filter(Boolean);
   const m = me(); const sid = m ? m.id : 'xem-truoc'; const segs = task.segs || []; const key = lpKey(sid, task.id);
   let st = (!practice && lpLoad(sid, task.id)) || {idx:0, ans:{}};
   if (st.idx > segs.length) st.idx = 0;
-  if (follow || teach){ const L = (S.liveC || {})[cls]; st.idx = clamp(L?.idx ?? 0, 0, segs.length); }
+  if (follow || teach){ const L = (S.liveC || {})[clsL[0]]; st.idx = clamp(L?.idx ?? 0, 0, segs.length); }
   let playing = false, auto = mode === 'self', rate = 1, sentI = -1, saved = null, curAudio = null, started = st.idx > 0 || follow, liveEnded = false, handUp = false;
   const maxPts = lessonMax(task);
   const earned = () => Object.values(st.ans).reduce((s, a) => s + (a.earned || 0), 0);
@@ -10045,7 +10238,7 @@ function lessonPlayer(app, task, practice, opt = {}){
   const subjName = SUBJ[task.subject]?.name || '';
   app.innerHTML = `<div class="wrap"><div class="cr ${teach ? 'teach' : ''}">
       <div class="ptop"><button class="btn ghost small" id="leave">${ICON.prev} Rời lớp</button>
-        <span class="cr-meta">${follow || teach ? `<span class="pill live-pill">● Trực tiếp · Lớp ${h(cls)}</span>` : ''}<span class="pts" id="pts"></span></span></div>
+        <span class="cr-meta">${follow || teach ? `<span class="pill live-pill">● Trực tiếp · ${clsL.length > 1 ? 'Các lớp ' : 'Lớp '}${h(clsL.join(', '))}</span>` : ''}<span class="pts" id="pts"></span></span></div>
       <div class="cr-head"><span class="eyebrow">${h(subjName)} · Khối ${h(task.grade)}${practice && !teach ? ' · Xem trước, không tính điểm' : ''}${teach ? ' · Màn hình giáo viên' : ''}</span><h1 class="ptitle">${h(task.title)}</h1></div>
       <div class="pbar" id="pbar" aria-hidden="true"></div>
       <div class="cr-room">
@@ -10097,7 +10290,7 @@ function lessonPlayer(app, task, practice, opt = {}){
       ${teach ? '' : ck(`<div class="cb-f">Câu đúng: ${right}/${qs.length} · Điểm thưởng: ${earned()}/${maxPts}</div>`, 9)}`; };
   // bàn học sinh
   const kidsCv = $('#crK', app); let online = new Set(), hands = new Set();
-  const mates = () => Object.entries(S.students).filter(([id, s]) => m ? s.cls === m.cls : cls ? s.cls === cls : false);
+  const mates = () => Object.entries(S.students).filter(([id, s]) => m ? s.cls === m.cls : clsL.length ? clsL.includes(s.cls) : false);
   const drawDesks = () => { if (!alive()) return; const w = kidsCv.clientWidth || 320, dpr = Math.min(2, window.devicePixelRatio || 1); kidsCv.width = Math.round(w*dpr); kidsCv.height = Math.round(110*dpr);
     const g = kidsCv.getContext('2d'); g.setTransform(dpr, 0, 0, dpr, 0, 0); g.clearRect(0, 0, w, 110);
     let list = mates(); if (m) list = list.filter(([id]) => id !== m.id); const n = clamp(Math.floor(w/64), 4, 12);
@@ -10203,7 +10396,7 @@ function lessonPlayer(app, task, practice, opt = {}){
   const watchT = setInterval(() => { if (!alive()){ stopAudio(); cleanup(); } }, 1500);
   window.addEventListener('resize', drawDesks);
   S.hooks.qna = () => { if (!alive()) return; notes(); if (teach) panel(); };
-  const pushLive = async () => { if (!S.db) return; try { await S.db.doc('live/' + cls).update({idx:st.idx, at:Date.now()}); } catch(e){ toast('Chưa đồng bộ được trang cho lớp.'); } };
+  const pushLive = async () => { if (!S.db) return; try { await Promise.all(clsL.map(c => S.db.doc('live/' + c).update({idx:st.idx, at:Date.now()}))); } catch(e){ toast('Chưa đồng bộ được trang cho lớp.'); } };
   if (follow){
     S.hooks.liveC = o => { if (!alive()) return; const L = o[cls]; if (!L || !L.on || L.tid !== task.id){ if (!liveEnded){ liveEnded = true; toast('Cô đã kết thúc buổi học trực tiếp'); go2(segs.length, false); } return; }
       if (L.idx !== st.idx && !liveEnded){ go2(L.idx, false); if (L.idx < segs.length && segs[L.idx].type === 'q') say(`Cô hỏi cả lớp: <b>${h(segs[L.idx].q)}</b> Em chọn đáp án nhé!`); } };
@@ -10211,7 +10404,7 @@ function lessonPlayer(app, task, practice, opt = {}){
   const nameOf = id => S.students[id]?.name || 'Bạn học';
   function panel(){ const el = $('#lvP', app); if (!el) return; const s = segs[st.idx], P = polls[st.idx] || {}, cnt = Object.keys(P).length;
     const studs = mates().map(([id]) => id), on = studs.filter(id => online.has(id));
-    const qq = Object.entries(S.qna || {}).filter(([, q]) => q.tid === task.id && q.cls === cls && Date.now() - q.at < 6*3600e3).sort((a, b) => b[1].at - a[1].at);
+    const qq = Object.entries(S.qna || {}).filter(([, q]) => q.tid === task.id && clsL.includes(q.cls) && Date.now() - q.at < 6*3600e3).sort((a, b) => b[1].at - a[1].at);
     el.innerHTML = `<div class="lv-grid"><section class="panel lv-box"><h3>Trong lớp · <b class="num">${on.length}</b>/${studs.length} em</h3>
         ${liveRoom ? '' : '<p class="muted" style="font-size:.82rem">Chưa kết nối được phòng học trực tiếp: học sinh vẫn theo trang của cô, nhưng chưa hiện danh sách và câu trả lời tức thời.</p>'}
         <div class="lv-chips">${studs.map(id => `<span class="lv-chip ${online.has(id) ? 'on' : ''} ${hands.has(id) ? 'hand' : ''}">${hands.has(id) ? '✋ ' : ''}${h(nameOf(id).split(' ').slice(-2).join(' '))}${online.has(id) ? `<button class="lv-b" data-call="${h(id)}" title="Mời em phát biểu">Mời</button><button class="lv-b" data-praise="${h(id)}" title="Khen em">Khen</button>` : ''}</span>`).join('')}</div></section>
@@ -10224,7 +10417,7 @@ function lessonPlayer(app, task, practice, opt = {}){
     $$('[data-lr]', el).forEach(b => b.onclick = async () => { const v = $('#lr_' + b.dataset.lr, el).value.trim(); if (!v) return; try { await S.db.doc('qna/' + b.dataset.lr).update({a:v, aAt:Date.now()}); toast('Đã trả lời'); } catch(e){ toast('Chưa lưu được câu trả lời'); } }); }
   if ((follow || teach) && cls){
     getRoomNs().then(async ns => { if (!ns || !alive()) { if (teach) panel(); return; }
-      try { liveRoom = await ns.join('lop-' + cls); } catch(e){ liveRoom = null; if (teach) panel(); return; }
+      try { liveRoom = clsL.length > 1 ? await multiRoom(ns, clsL.map(c => 'lop-' + c)) : await ns.join('lop-' + cls); } catch(e){ liveRoom = null; if (teach) panel(); return; }
       if (!alive()){ liveRoom.leave().catch(() => {}); return; }
       const syncPeers = peers => { online = new Set(peers.map(p => p.presence && p.presence.sid).filter(Boolean)); hands = new Set(peers.filter(p => p.presence && p.presence.hand).map(p => p.presence.sid)); drawDesks(); if (teach) panel(); };
       offs.push(liveRoom.onPeers(c => syncPeers(c.peers)));
@@ -10236,14 +10429,14 @@ function lessonPlayer(app, task, practice, opt = {}){
       syncPeers(liveRoom.peers()); });
   }
   if (teach){ $('#bend', app).onclick = async () => { const b = $('#bend', app); if (b.dataset.armed !== '1'){ b.dataset.armed = '1'; b.textContent = 'Bấm lần nữa để kết thúc'; return; }
-    try { await S.db.doc('live/' + cls).update({on:false, endAt:Date.now()}); toast('Đã kết thúc buổi học trực tiếp'); } catch(e){ toast('Chưa kết thúc được, thử lại'); return; } cleanup(); go('class'); }; }
+    try { await Promise.all(clsL.map(c => S.db.doc('live/' + c).update({on:false, endAt:Date.now()}))); toast('Đã kết thúc buổi học trực tiếp'); } catch(e){ toast('Chưa kết thúc được, thử lại'); return; } cleanup(); go('class'); }; }
   draw(); drawDesks();
   if (follow){ const L = (S.liveC || {})[cls]; if (L && L.idx < segs.length && segs[L.idx]?.type === 'q') say(`Cô đang hỏi cả lớp: <b>${h(segs[L.idx].q)}</b>`); }
 }
 
 /* màn hình học trực tiếp */
 function vLive(app){
-  const cls = S.arg, L = liveOf(cls), m = me(), teacher = S.canEdit && !m;
+  const cls = S.arg, L = liveOf(String(cls || '').split(',')[0]), m = me(), teacher = S.canEdit && !m;
   if (!L){ app.dataset.lock = ''; app.innerHTML = `<div class="wrap"><section class="section">${pageHead('Lớp học trực tiếp', 'lớp ' + h(cls || ''), 'Học cùng cô theo thời gian thực')}<p class="notice">${teacher ? 'Buổi học này đã kết thúc.' : 'Cô chưa mở buổi học trực tiếp cho lớp em, hoặc buổi học đã kết thúc. Màn hình này sẽ tự vào lớp khi cô bắt đầu.'}</p><button class="btn" data-go="class" style="justify-self:start">Về Lớp học</button></section></div>`; return; }
   const task = {id:L.tid, ...S.tasks[L.tid]};
   if (teacher) return lessonPlayer(app, task, true, {mode:'teach', cls});
@@ -10257,11 +10450,11 @@ async function startLive(tid){
   const ov = document.createElement('div'); ov.className = 'lk-overlay'; document.body.appendChild(ov); const close = () => ov.remove();
   ov.innerHTML = `<div class="lk-card" role="dialog" aria-modal="true" aria-label="Dạy trực tiếp"><h2>Dạy trực tiếp: ${h(t.title)}</h2>
     <p class="muted" style="margin:0">Học sinh của lớp được chọn sẽ thấy nút <b>Vào lớp học trực tiếp</b>. Cô chuyển trang nào, bảng của các em đổi theo trang đó; các em trả lời câu hỏi, giơ tay hỏi và cô thấy ngay.</p>
-    ${classes.length ? `<label class="field">Lớp<select id="lvC">${classes.map(c => `<option>${h(c)}</option>`).join('')}</select></label>` : '<p class="notice">Khối này chưa có lớp nào có học sinh.</p>'}
+    ${classes.length ? `<label class="field">Lớp<select id="lvC">${classes.length > 1 ? `<option value="${h(classes.join(','))}">Tất cả các lớp (${h(classes.join(', '))})</option>` : ''}${classes.map(c => `<option>${h(c)}</option>`).join('')}</select></label>` : '<p class="notice">Khối này chưa có lớp nào có học sinh.</p>'}
     <div class="row" style="justify-content:flex-end;gap:8px"><button class="btn ghost small" id="lvNo" style="flex:0 0 auto">Hủy</button>${classes.length ? '<button class="btn small" id="lvGo" style="flex:0 0 auto">Bắt đầu buổi học</button>' : ''}</div></div>`;
   $('#lvNo', ov).onclick = close;
   const g = $('#lvGo', ov); if (g) g.onclick = async () => { const c = $('#lvC', ov).value; g.disabled = true;
-    try { const doc = {tid, idx:0, on:true, at:Date.now(), startAt:Date.now()}; await S.db.doc('live/' + c).set(doc); S.liveC = {...(S.liveC || {}), [c]:doc}; close(); go('live', c); }
+    try { const doc = {tid, idx:0, on:true, at:Date.now(), startAt:Date.now()}, cs = c.split(','); await Promise.all(cs.map(x => S.db.doc('live/' + x).set(doc))); S.liveC = {...(S.liveC || {}), ...Object.fromEntries(cs.map(x => [x, doc]))}; close(); go('live', c); }
     catch(e){ g.disabled = false; toast('Chưa mở được buổi học. Kiểm tra quyền chỉnh sửa rồi thử lại.'); } };
 }
 
@@ -11090,29 +11283,30 @@ LAB_IMPL.heat = (el, ctx) => {
 /* ===================== TEACHER ===================== */
 function vTeacher(app){
   const classes = [...new Set(Object.values(S.students).map(s=>s.cls))].sort();
-  if (!S.tClass || !classes.includes(S.tClass)) S.tClass = classes[0] || null;
+  if (!S.tClass || (S.tClass !== 'all' && !classes.includes(S.tClass))) S.tClass = classes[0] || null;
   const qOpen = Object.values(S.qna || {}).filter(q => !q.a).length;
-  const tabs = [['overview','Tiến độ lớp'],['tasks','Nhiệm vụ'],['qna', 'Hỏi đáp' + (qOpen ? ` (${qOpen})` : '')],['subs','Bài nộp & nhận xét'],['publish','Công bố tháng'],['report','Thống kê & báo cáo'],['students','Học sinh'], ...(SB_ON ? [['acc','Tài khoản']] : [])];
+  const tabs = [['overview','Tiến độ lớp'],['tasks','Nhiệm vụ'],['qna', 'Hỏi đáp' + (qOpen ? ` (${qOpen})` : '')],['subs','Bài nộp & nhận xét'],['publish','Công bố tháng'],['report','Thống kê & báo cáo'],['progress','Tiến bộ học sinh'],['students','Học sinh'], ...(SB_ON ? [['acc','Tài khoản']] : [])];
   app.innerHTML = `<div class="wrap"><section class="section">
     ${pageHead('Trang giáo viên', 'quản lí lớp học', 'Giao nhiệm vụ · Soạn bài giảng · Nhận xét bài nộp · Công bố bảng vàng')}
     ${!S.live ? `<p class="notice">Chưa kết nối dữ liệu.</p>` : ''}
     <div class="tabs" role="tablist">${tabs.map(([k,l])=>`<button role="tab" data-tt="${k}" aria-selected="${S.tTab===k}">${l}</button>`).join('')}</div>
     <div id="tbody"></div></section></div>`;
   $$('[data-tt]', app).forEach(b => b.onclick = () => { S.tTab = b.dataset.tt; render(); });
-  ({overview:tOverview, acc:tAccounts, tasks:tTasks, qna:tQna, subs:tSubs, publish:tPublish, report:tReport, students:tStudents})[S.tTab]($('#tbody'), classes);
+  ({overview:tOverview, acc:tAccounts, tasks:tTasks, qna:tQna, subs:tSubs, publish:tPublish, report:tReport, students:tStudents, progress:tProgress})[S.tTab]($('#tbody'), classes);
 }
-function classSel(classes){ return `<label class="field" style="max-width:200px">Lớp<select id="tcls">${classes.map(c=>`<option ${c===S.tClass?'selected':''}>${h(c)}</option>`).join('')}</select></label>`; }
+function classSel(classes){ return `<label class="field" style="max-width:220px">Lớp<select id="tcls"><option value="all" ${S.tClass==='all'?'selected':''}>Tất cả lớp (${classes.length})</option>${classes.map(c=>`<option ${c===S.tClass?'selected':''}>${h(c)}</option>`).join('')}</select></label>`; }
+const inCls = c => !S.tClass || S.tClass === 'all' || c === S.tClass;
 function bindClassSel(){ const s = $('#tcls'); if (s) s.onchange = e => { S.tClass = e.target.value; render(); }; }
 
 function tOverview(el, classes){
   if (!S.tClass){ el.innerHTML = '<p class="notice">Chưa có học sinh. Thêm học sinh ở thẻ "Học sinh".</p>'; return; }
-  const studs = Object.entries(S.students).filter(([,s])=>s.cls===S.tClass).sort((a,b)=>a[1].name.localeCompare(b[1].name,'vi'));
-  const grade = studs[0]?.[1].grade;
-  const tasks = Object.entries(S.tasks).filter(([,t])=>String(t.grade)===String(grade));
+  const studs = Object.entries(S.students).filter(([,s])=>inCls(s.cls)).sort((a,b)=>(S.tClass==='all'?String(a[1].cls).localeCompare(String(b[1].cls),'vi',{numeric:true}):0)||a[1].name.localeCompare(b[1].name,'vi'));
+  const grades = new Set(studs.map(([,s])=>String(s.grade)));
+  const tasks = Object.entries(S.tasks).filter(([,t])=>grades.has(String(t.grade)));
   const cm = curMonth();
   el.innerHTML = `<div class="stack">${classSel(classes)}
     <div class="panel"><div class="tbl-wrap"><table class="matrix"><thead><tr><th>Học sinh</th>${tasks.map(([,t])=>`<th title="${h(t.title)}">${h(SUBJ[t.subject]?.name.replace('KHTN · ','')||t.subject)}${t.kind==='lab'?' · TN':t.kind==='lesson'?' · BG':''}</th>`).join('')}<th>Điểm ${h(cm.slice(5))}/${h(cm.slice(0,4))}</th><th title="Điểm rèn luyện (nhặt, phân loại rác)">Rèn luyện</th><th title="Số chuyên đề Lớp học AI đã hoàn thành (6 chuyên đề, 12 tiết/năm)">Lớp AI</th></tr></thead>
-    <tbody>${studs.map(([id,s])=>{ let pts=0; const cells = tasks.map(([tid])=>{ const sb=S.subs[`${id}__${tid}`]; if (sb && sb.month===cm) pts+=sb.points||0; return `<td>${sb?`<span class="pen">${vn(sb.score)}</span>`:taskHits(S.tasks[tid], s, id)?'<span class="muted">—</span>':'<span class="muted" title="Không giao cho em này">·</span>'}</td>`; }).join(''); return `<tr><td><b>${h(s.name)}</b></td>${cells}<td class="num"><b>${pts}</b></td><td class="num">${(S.gear && S.gear[id] && S.gear[id].rl && S.gear[id].rl.pts) || 0}</td><td>${(() => { const ai = (S.gear && S.gear[id] && S.gear[id].ai) || {}, L = (AI_GRADES[+s.grade] || AI_GRADES[6]).lessons; const n = L.filter(l => aiDone(ai[l.id])).length, r = L.filter(l => ai[l.id] && ai[l.id].r).length; return `<button class="ai-cellb" data-aiv="${id}" title="${r} bài có suy ngẫm · bấm để xem">${n}/6</button>`; })()}</td></tr>`; }).join('')}</tbody></table></div></div>
+    <tbody>${studs.map(([id,s])=>{ let pts=0; const cells = tasks.map(([tid])=>{ const sb=S.subs[`${id}__${tid}`]; if (sb && sb.month===cm) pts+=sb.points||0; return `<td>${sb?`<span class="pen">${vn(sb.score)}</span>`:taskHits(S.tasks[tid], s, id)?'<span class="muted">—</span>':'<span class="muted" title="Không giao cho em này">·</span>'}</td>`; }).join(''); return `<tr><td><button class="lnk pg-open" data-go="progress" data-arg="${h(id)}" title="Xem hồ sơ tiến bộ"><b>${h(s.name)}</b></button>${S.tClass==='all'?` <span class="muted">${h(s.cls)}</span>`:''}</td>${cells}<td class="num"><b>${pts}</b></td><td class="num">${(S.gear && S.gear[id] && S.gear[id].rl && S.gear[id].rl.pts) || 0}</td><td>${(() => { const ai = (S.gear && S.gear[id] && S.gear[id].ai) || {}, L = (AI_GRADES[+s.grade] || AI_GRADES[6]).lessons; const n = L.filter(l => aiDone(ai[l.id])).length, r = L.filter(l => ai[l.id] && ai[l.id].r).length; return `<button class="ai-cellb" data-aiv="${id}" title="${r} bài có suy ngẫm · bấm để xem">${n}/6</button>`; })()}</td></tr>`; }).join('')}</tbody></table></div></div>
     <p class="muted" style="font-size:.85rem">Điểm đỏ là điểm cao nhất của mỗi học sinh cho từng nhiệm vụ (thang 10). "TN" là thí nghiệm ảo. "—" là chưa nộp, "·" là nhiệm vụ không giao cho em đó. Cột "Lớp AI": bấm để xem tiến độ và suy ngẫm Lớp học AI của từng em.</p><div id="aiDet"></div></div>`;
   $$('[data-aiv]', el).forEach(b => b.onclick = () => { const id = b.dataset.aiv, st = S.students[id], ai = (S.gear && S.gear[id] && S.gear[id].ai) || {}, L = [...(AI_GRADES[+st.grade] || AI_GRADES[6]).lessons, ...(AI_EXT[+st.grade] || [])];
     $('#aiDet', el).innerHTML = `<div class="panel ai-det"><h3>Lớp học AI · ${h(st.name)} (lớp ${h(st.cls)})</h3><div class="tbl-wrap"><table><thead><tr><th>Chuyên đề</th><th>Thực hành</th><th>Câu hỏi</th><th>Suy ngẫm / phiếu dự án</th></tr></thead><tbody>${L.map(l => { const p = ai[l.id] || {};
@@ -11700,7 +11894,7 @@ function tTasks(el){
 }
 
 function tQna(el, classes){
-  const all = Object.entries(S.qna || {}).filter(([, q]) => !S.tClass || q.cls === S.tClass).sort((a, b) => (!!a[1].a - !!b[1].a) || b[1].at - a[1].at);
+  const all = Object.entries(S.qna || {}).filter(([, q]) => inCls(q.cls)).sort((a, b) => (!!a[1].a - !!b[1].a) || b[1].at - a[1].at);
   el.innerHTML = `<div class="stack">${classSel(classes)}
     <p class="muted" style="font-size:.88rem;margin:0">Câu hỏi học sinh gửi khi bấm <b>Giơ tay hỏi cô</b> trong lớp học. Câu trả lời của thầy cô hiện ngay trên bảng, đúng trang em đã hỏi.</p>
     ${all.length ? all.map(([id, q]) => { const st = S.students[q.sid], t = S.tasks[q.tid]; return `<div class="panel qna-item ${q.a ? 'done' : ''}">
@@ -11720,7 +11914,7 @@ function tQna(el, classes){
 }
 
 function tSubs(el, classes){
-  const list = Object.entries(S.subs).filter(([,s])=>S.students[s.sid]?.cls===S.tClass && S.tasks[s.tid]).sort((a,b)=>b[1].at-a[1].at);
+  const list = Object.entries(S.subs).filter(([,s])=>S.students[s.sid] && inCls(S.students[s.sid].cls) && S.tasks[s.tid]).sort((a,b)=>b[1].at-a[1].at);
   el.innerHTML = `<div class="stack">${classSel(classes)}
     ${list.length ? list.map(([id,s])=>{ const st=S.students[s.sid], t=S.tasks[s.tid]; return `<div class="panel" style="display:grid;grid-template-columns:auto minmax(0,1fr);gap:16px;align-items:start">
       <span class="pen" style="font-size:2.4rem">${vn(s.score)}</span>
@@ -11881,7 +12075,7 @@ function rosterPanel(el){
 }
 
 function tStudents(el, classes){
-  const list = Object.entries(S.students).filter(([,s])=>s.cls===S.tClass).sort((a,b)=>a[1].name.localeCompare(b[1].name,'vi'));
+  const list = Object.entries(S.students).filter(([,s])=>inCls(s.cls)).sort((a,b)=>(S.tClass==='all'?String(a[1].cls).localeCompare(String(b[1].cls),'vi',{numeric:true}):0)||a[1].name.localeCompare(b[1].name,'vi'));
   el.innerHTML = `<div class="panel stack" id="rosterBox" style="margin-bottom:16px"><div class="row" style="justify-content:space-between;align-items:center;gap:8px"><h2 style="margin:0">Nhập danh sách từ Excel</h2><button type="button" class="btn ghost small" id="rsTpl" style="flex:0 0 auto">Tải file mẫu</button></div>
       <p class="muted" style="margin:0;font-size:.88rem">File Excel (.xlsx) hoặc .csv có cột <b>Họ và tên</b> và <b>Lớp</b>. Cột <b>Mã học sinh</b> không bắt buộc: để trống thì app tự tạo mã theo lớp (ví dụ 6A01, 6A02…). Có thể dùng luôn danh sách lớp xuất từ phần mềm quản lí của trường.</p>
       <div class="row" style="gap:10px;align-items:end"><label class="field" style="flex:1 1 260px">Chọn file danh sách<input type="file" class="inp" id="rsFile" accept=".xlsx,.csv,.txt,.xls,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/csv"></label><label class="field" style="flex:0 1 220px">Lớp (nếu file không có cột Lớp)<input class="inp" id="rsCls" placeholder="Ví dụ: 6A" value=""></label></div>
@@ -11892,7 +12086,7 @@ function tStudents(el, classes){
     </div>
     <form class="panel stack" id="sf"><h2>Thêm học sinh</h2>
       <label class="field">Họ và tên<input id="sn" required></label>
-      <div class="row"><label class="field">Lớp<input id="sc" required placeholder="Ví dụ: 7B" value="${h(S.tClass||'')}"></label><label class="field">Mã đăng nhập<input id="sk" required placeholder="Ví dụ: 7B05"></label></div>
+      <div class="row"><label class="field">Lớp<input id="sc" required placeholder="Ví dụ: 7B" value="${h(S.tClass==='all'?'':S.tClass||'')}"></label><label class="field">Mã đăng nhập<input id="sk" required placeholder="Ví dụ: 7B05"></label></div>
       <button class="btn" type="submit">Thêm vào lớp</button><p id="serr" class="pen" role="alert" style="font-size:1.05rem"></p>
       <label class="field" style="margin-top:8px">Gợi ý đăng nhập thử ở trang Đăng nhập<input id="dh" value="${h(S.config.school?.demoHint||'')}" placeholder="Để trống để ẩn"></label>
       <button class="btn ghost small" type="button" id="dhs" style="justify-self:start">Lưu gợi ý</button>
