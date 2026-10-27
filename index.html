@@ -2288,6 +2288,27 @@ html body button,html body a,html body input,html body select,html body textarea
 .sc-hud{cursor:pointer}
 .pg-open{color:var(--ink)!important;font-size:inherit!important;padding:0!important}
 @media (max-width:760px){.pg-subj li{grid-template-columns:1fr 1fr 40px}.pg-t b{font-size:1.4rem}}
+/* ===== bảng tin ===== */
+.nw-quick{display:flex;flex-wrap:wrap;gap:8px}.nw-quick .btn{flex:0 0 auto}
+.nw-h{margin:6px 0 0;font-size:1.2rem}
+.nw-card{display:grid;grid-template-columns:52px minmax(0,1fr);gap:12px;background:#fff;border:1px solid #c9c7bd;border-left:6px solid #9a96b8;padding:12px 14px}
+.nw-card.st-on{border-left-color:#c62828}.nw-card.st-soon{border-left-color:#c9961f}.nw-card.st-past{opacity:.78}
+.nw-card.pin{box-shadow:0 0 0 2px #f2c14e inset!important}
+.nw-ic{font-size:1.9rem;width:52px;height:52px;display:grid;place-items:center;background:#fbfaf4;border:1px solid #d8d6cc}
+.nw-main{display:flex;flex-direction:column;gap:6px;min-width:0}
+.nw-meta{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:.84rem;color:#4a4c66}
+.nw-st{font-weight:700;color:#1f2140}.st-on .nw-st{color:#c62828}.st-soon .nw-st{color:#8a6100}
+.nw-card h3{margin:0;font-size:1.12rem}.nw-body{margin:0;white-space:pre-line;line-height:1.55}
+.nw-rw{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center}
+.nw-x{background:#c62828;color:#fff;font-weight:800;padding:3px 10px}.nw-gift{background:#fff3c4;border:1px solid #e6cf8a;padding:3px 10px;font-weight:600}
+.nw-rw small{color:#4a4c66}.nw-done{margin:0;color:#1e6b34;font-weight:700}
+.nw-act{display:flex;flex-wrap:wrap;gap:8px;align-items:center}.nw-act .btn{flex:0 0 auto}
+.nw-parts summary{cursor:pointer;font-size:.88rem;font-weight:600}.nw-parts p{margin:4px 0 0;font-size:.88rem}
+.nw-form{background:#fff;border:1px solid #c9c7bd;padding:10px 14px}.nw-form summary{font-weight:700;cursor:pointer;color:var(--tim,#3f3394)}
+.nw-f{display:flex;flex-direction:column;gap:10px;margin-top:10px}.nw-f .row{gap:10px;flex-wrap:wrap}.nw-f .row .field{flex:1 1 200px}
+.nw-pin{display:flex;gap:8px;align-items:center;font-weight:600}
+.nw-past summary{cursor:pointer;font-weight:700;margin:6px 0}.nw-past .nw-card{margin-top:8px}
+@media (max-width:600px){.nw-card{grid-template-columns:40px minmax(0,1fr);padding:10px}.nw-ic{width:40px;height:40px;font-size:1.4rem}}
 </style>
 
 <header class="top"><div class="wrap">
@@ -2322,7 +2343,7 @@ const chip = s => `<span class="chip s-${h(s)}">${h(SUBJ[s]?.name || s)}</span>`
 /* ===================== state ===================== */
 const S = {
   db:null, user:null, canEdit:false, live:false, loaded:false,
-  students:{}, tasks:{}, subs:{}, boards:{}, config:{}, gear:{}, qna:{}, liveC:{}, msgs:{}, chess:{}, art:{}, hooks:{},
+  students:{}, tasks:{}, subs:{}, boards:{}, config:{}, gear:{}, qna:{}, liveC:{}, msgs:{}, chess:{}, art:{}, news:{}, hooks:{},
   session: store('oli.session') || null,     // student id or null
   view:'home', arg:null, homeGrade:'all', tTab:'overview', tClass:null, subjFilter:'all'
 };
@@ -2440,15 +2461,15 @@ async function applySession0(session, seq){
   S.authKnown = true;
   sbUnsubs.forEach(f => f()); sbUnsubs = [];
   S.authUid = session?.user?.id || null; S.authEmail = session?.user?.email || ''; S.profile = null; S.canEdit = false; S.session = null;
-  ['students','tasks','subs','boards','config','gear','qna','liveC','msgs','chess','art','bank'].forEach(k => S[k] = {}); dmSeen = null; bankOn = false;
+  ['students','tasks','subs','boards','config','gear','qna','liveC','msgs','chess','art','news','bank'].forEach(k => S[k] = {}); dmSeen = null; bankOn = false;
   if (S.authUid){ const {data, error} = await sb.from('profiles').select('*').eq('id', S.authUid).maybeSingle(); if (error) console.warn(error); S.profile = data || null;
     if (seq !== authSeq) return;
     if (data){ S.canEdit = data.role === 'teacher'; S.session = data.role === 'student' ? data.sid : null; } }
   S.db = sbDb(); S.live = true; S.assets = S.canEdit ? sbAssets : null; S.loaded = false;
-  let pending = 11; const done = () => { if (pending > 0 && --pending === 0) S.loaded = true; render(); };
+  let pending = 12; const done = () => { if (pending > 0 && --pending === 0) S.loaded = true; render(); };
   const sub = (col, key) => { let first = true; const fin = () => { if (first){ first = false; done(); } else render(); };
     S.db.collection(col).onSnapshot(snap => { if (seq !== authSeq) return; const o = {}; snap.docs.forEach(d => o[d.id] = d.data()); S[key] = o; try { S.hooks && S.hooks[key] && S.hooks[key](o); } catch(e){ console.warn(e); } fin(); }, err => { console.warn(col, err); fin(); }); };
-  sub('students','students'); sub('tasks','tasks'); sub('subs','subs'); sub('boards','boards'); sub('config','config'); sub('gear','gear'); sub('qna','qna'); sub('live','liveC'); sub('msgs','msgs'); sub('chess','chess'); sub('art','art');
+  sub('students','students'); sub('tasks','tasks'); sub('subs','subs'); sub('boards','boards'); sub('config','config'); sub('gear','gear'); sub('qna','qna'); sub('live','liveC'); sub('msgs','msgs'); sub('chess','chess'); sub('art','art'); sub('news','news');
   setTimeout(() => { if (!S.loaded){ S.loaded = true; render(); } }, 9000);
   render();
 }
@@ -2827,12 +2848,12 @@ async function initData(){
   if (user){ try { S.canEdit = !!(await user.canEdit()); } catch(e){} }
   if (!db){ S.loaded = true; render(); return; }
   S.db = db; S.live = true;
-  let pending = 11;
+  let pending = 12;
   const done = () => { if (pending > 0 && --pending === 0){ S.loaded = true; } render(); };
   const sub = (col, key) => db.collection(col).onSnapshot(snap => {
     const o = {}; snap.docs.forEach(d => o[d.id] = d.data()); S[key] = o; try { S.hooks && S.hooks[key] && S.hooks[key](o); } catch(e){ console.warn(e); } done();
   }, err => { console.warn(col, err); done(); });
-  sub('students','students'); sub('tasks','tasks'); sub('subs','subs'); sub('boards','boards'); sub('config','config'); sub('gear','gear'); sub('qna','qna'); sub('live','liveC'); sub('msgs','msgs'); sub('chess','chess'); sub('art','art');
+  sub('students','students'); sub('tasks','tasks'); sub('subs','subs'); sub('boards','boards'); sub('config','config'); sub('gear','gear'); sub('qna','qna'); sub('live','liveC'); sub('msgs','msgs'); sub('chess','chess'); sub('art','art'); sub('news','news');
 }
 setTimeout(()=>{ if (!S.loaded){ S.loaded = true; render(); } }, 11000);
 
@@ -2851,6 +2872,7 @@ async function saveSubmission(task, result){
   } : {...prev, attempts:(prev.attempts||0)+1, lastTry:{score:result.score, at:now}};
   try { await S.db.doc('subs/'+id).set(doc); }
   catch(e){ toast(e.code === 'quota_exceeded' ? 'Kho dữ liệu đã đầy, hãy báo giáo viên.' : 'Chưa lưu được bài, hãy thử lại.'); return null; }
+  if (!S.tasks[task.id] && typeof newsBonus === 'function') newsBonus(task.id, points).catch(() => {});
   return {...doc, improved: better, newScore: result.score};
 }
 
@@ -2893,7 +2915,7 @@ function render(){
   app.dataset.view = S.view + ':' + S.arg; app.dataset.lock = '';
   if (S.loaded && !['task','lab','live','preview'].includes(S.view)) setTimeout(() => { try { checkNudge(); } catch(e){ console.warn(e); } }, 400);
   updImm(); try { socStart(); } catch(e){}
-  const V = {welcome:vWelcome, board:vHome, race:vRace, ai:vAi, ailesson:vAiLesson, aibook:vAiBook, cleanup:vCleanup, stem:vStem, stemlab:vStemLab, chess:vChess, gallery:vGallery, tin:vTin, tinlab:vTinLab, progress:vProgress, live:vLive, school:vSchool, hallin:vSchool, hall:vHall, labs:vLabs, room:vRoom, lab:vLab, login:SB_ON ? vLoginSB : vLogin, student:vStudent, task:vTask, teacher:vTeacher, 'class':vClass, preview:vPreview}[S.view] || vHome;
+  const V = {welcome:vWelcome, board:vHome, race:vRace, ai:vAi, ailesson:vAiLesson, aibook:vAiBook, cleanup:vCleanup, stem:vStem, stemlab:vStemLab, chess:vChess, gallery:vGallery, tin:vTin, tinlab:vTinLab, progress:vProgress, news:vNews, live:vLive, school:vSchool, hallin:vSchool, hall:vHall, labs:vLabs, room:vRoom, lab:vLab, login:SB_ON ? vLoginSB : vLogin, student:vStudent, task:vTask, teacher:vTeacher, 'class':vClass, preview:vPreview}[S.view] || vHome;
   V(app);
 }
 
@@ -4098,7 +4120,7 @@ function vTinLab(app){
 /* ===================== HỒ SƠ TIẾN BỘ ===================== */
 /* Mọi nhận xét ở đây do hệ thống tự tính từ kết quả thật của học sinh (bài nộp, điểm, hoạt động),
    không dùng AI, không tự giao bài. Giáo viên xem được của cả lớp và viết thêm lời nhắn. */
-const PG_ACT = [['lab_', 'Thí nghiệm ảo', '🔬'], ['tin_', 'Phòng Tin học', '💻'], ['ai_', 'Lớp học AI', '🤖'], ['stem_', 'Phòng STEM', '⚙️'], ['race_', 'Đường đua tiếng Anh', '🏃'],
+const PG_ACT = [['nw_', 'Sự kiện ở Bảng tin', '📣'], ['lab_', 'Thí nghiệm ảo', '🔬'], ['tin_', 'Phòng Tin học', '💻'], ['ai_', 'Lớp học AI', '🤖'], ['stem_', 'Phòng STEM', '⚙️'], ['race_', 'Đường đua tiếng Anh', '🏃'],
   ['chess_', 'Cờ vua', '♟'], ['art_', 'Phòng tranh', '🎨'], ['clean_', 'Nhặt rác cổng trường', '🧹'], ['ask_', 'Hỏi bài', '✋']];
 const pgCat = tid => { const t = S.tasks[tid]; if (t) return {kind:'task', subj:t.subject, name:t.title, t};
   const a = PG_ACT.find(([p]) => tid.startsWith(p)); return {kind:'act', key:a ? a[0] : 'other', name:a ? a[1] : 'Hoạt động khác', icon:a ? a[2] : '⭐'}; };
@@ -4232,6 +4254,107 @@ function tProgress(el, classes){
         <td><button class="btn small" data-go="progress" data-arg="${h(p.sid)}">Xem hồ sơ</button></td></tr>`).join('')}
     </tbody></table></div><p class="muted" style="font-size:.84rem;margin:8px 0 0">Mức (Tốt, Khá, Đạt, Cần cố gắng) và xu hướng do hệ thống tự tính từ bài nộp: xu hướng so sánh 5 bài gần nhất với 5 bài trước đó. Bấm "Xem hồ sơ" để đọc nhận xét chi tiết và viết lời nhắn cho em.</p></div></div>`;
   bindClassSel(); $('#pgS', el).onchange = e => { S.pgSort = e.target.value; render(); };
+}
+
+/* ===================== BẢNG TIN TRƯỜNG ===================== */
+/* Thầy cô đăng tin phong trào, ngày hội. Trong thời gian sự kiện, học sinh làm đúng hoạt động được
+   cộng thêm điểm thưởng (x2, x3) và/hoặc ghi tên nhận quà. Thưởng thêm lưu thành bản ghi riêng 'nw_<id>'. */
+const NEWS_KIND = {
+  art:{n:'Phong trào vẽ tranh', ic:'🎨', go:'gallery', pre:['art_'], act:'gửi tranh ở Phòng tranh 3D'},
+  rcv:{n:'Rung chuông vàng', ic:'🔔', go:'hallin', pre:['ev_bell'], act:'thi Rung chuông vàng ở Hội trường'},
+  hall:{n:'Sân chơi Hội trường', ic:'🎤', go:'hallin', pre:['ev_'], act:'tham gia các sân chơi ở Hội trường'},
+  race:{n:'Đường đua tiếng Anh', ic:'🏃', go:'race', pre:['race_'], act:'chạy Đường đua tiếng Anh'},
+  chess:{n:'Giải cờ vua', ic:'♟', go:'chess', pre:['chess_'], act:'thắng ván cờ ở CLB cờ vua'},
+  clean:{n:'Ngày chủ nhật xanh', ic:'🧹', go:'cleanup', pre:['clean_'], act:'nhặt rác ở cổng trường'},
+  tin:{n:'Tin học', ic:'💻', go:'tin', pre:['tin_'], act:'hoàn thành bài ở Phòng Tin học'},
+  lab:{n:'Thí nghiệm', ic:'🔬', go:'labs', pre:['lab_'], act:'làm thí nghiệm ảo'},
+  stem:{n:'STEM', ic:'⚙️', go:'stem', pre:['stem_'], act:'hoàn thành thử thách Phòng STEM'},
+  ai:{n:'Lớp học AI', ic:'🤖', go:'ai', pre:['ai_'], act:'hoàn thành chuyên đề Lớp học AI'},
+  other:{n:'Thông báo', ic:'📣', go:null, pre:[], act:''}
+};
+const fmtDM = d => d ? d.split('-').reverse().slice(0, 2).map(x => +x).join('/') : '';
+const newsStatus = n => { const t = dayKey(); return !n.start || !n.end ? 'on' : t < n.start ? 'soon' : t > n.end ? 'past' : 'on'; };
+const newsFor = (n, m) => !n.grades || n.grades === 'all' || !m || (Array.isArray(n.grades) ? n.grades.map(String).includes(String(m.grade)) : String(n.grades) === String(m.grade));
+const newsDays = n => { const a = new Date(n.start + 'T00:00:00'), b = new Date(dayKey() + 'T00:00:00'); return Math.round((a - b)/864e5); };
+function newsList(m){
+  const out = Object.entries(S.news || {}).map(([id, n]) => ({id, ...n})).filter(n => n && n.title && newsFor(n, m));
+  // chủ đề vẽ tranh tháng này tự lên bảng tin nếu thầy cô chưa đăng tin riêng
+  const cm = curMonth(), th = (S.art || {})['theme-' + cm];
+  if (th && th.title && !out.some(n => n.kind === 'art' && n.start <= dayKey() && n.end >= dayKey())){
+    const [y, mo] = cm.split('-').map(Number), last = new Date(y, mo, 0).getDate();
+    out.push({id:'auto-art-' + cm, auto:true, kind:'art', title:`Phong trào vẽ tranh ${monthLabel(cm)}: ${th.title}`, body:(th.desc ? th.desc + '\n' : '') + 'Mỗi bạn gửi 1 bức tranh ở Phòng tranh 3D. Tranh được thầy cô duyệt sẽ treo trong phòng tranh.', start:cm + '-01', end:`${cm}-${String(last).padStart(2, '0')}`, mul:1, gift:''});
+  }
+  const rank = {on:0, soon:1, past:2};
+  return out.sort((a, b) => rank[newsStatus(a)] - rank[newsStatus(b)] || (b.pin ? 1 : 0) - (a.pin ? 1 : 0) || (newsStatus(a) === 'past' ? (b.end || '').localeCompare(a.end || '') : (a.start || '').localeCompare(b.start || '')));
+}
+const newsMatch = (n, tid) => (NEWS_KIND[n.kind] || NEWS_KIND.other).pre.some(p => p.endsWith('_') ? tid.startsWith(p) : tid === p);
+async function newsBonus(tid, pts){
+  const m = me(); if (!m || !S.db || !tid || tid.startsWith('nw_')) return;
+  for (const n of newsList(m)){ if (n.auto || newsStatus(n) !== 'on' || !newsMatch(n, tid)) continue;
+    const mul = Math.max(1, +n.mul || 1), extra = Math.round((pts || 0)*(mul - 1)); if (mul <= 1 && !n.gift) continue;
+    const key = `${m.id}__nw_${n.id}`, prev = S.subs[key]; if (prev && (prev.points || 0) >= extra) continue;
+    try { await S.db.doc('subs/' + key).set({sid:m.id, tid:'nw_' + n.id, score:10, points:extra, month:monthKey(Date.now()), at:Date.now(), attempts:(prev?.attempts || 0) + 1, detail:{news:n.id, act:tid}, feedback:`Tham gia sự kiện “${n.title}”${extra ? `: thưởng thêm ${extra} điểm (x${mul})` : ''}${n.gift ? '. Phần quà: ' + n.gift : ''}.`, teacherNote:prev?.teacherNote || ''});
+      setTimeout(() => toast(`🎉 ${n.title}: ${extra ? `+${extra} điểm thưởng (x${mul})` : 'em đã được ghi tên nhận quà'}`), 1400); } catch(e){ console.warn(e); } }
+}
+function newsCard(n, m, teacher){
+  const K = NEWS_KIND[n.kind] || NEWS_KIND.other, s = newsStatus(n), mul = +n.mul || 1, dd = newsDays(n);
+  const mine = m ? S.subs[`${m.id}__nw_${n.id}`] : null;
+  const when = n.start === n.end ? `Ngày ${fmtDM(n.start)}` : `Từ ${fmtDM(n.start)} đến hết ${fmtDM(n.end)}`;
+  const parts = teacher && !n.auto ? Object.values(S.subs).filter(x => x.tid === 'nw_' + n.id) : [];
+  return `<article class="nw-card st-${s}${n.pin ? ' pin' : ''}"><div class="nw-ic" aria-hidden="true">${K.ic}</div><div class="nw-main">
+    <div class="nw-meta"><span class="nw-st">${s === 'on' ? '● Đang diễn ra' : s === 'soon' ? (dd === 1 ? 'Ngày mai' : `Còn ${dd} ngày`) : 'Đã kết thúc'}</span><span>${h(K.n)}</span><span>${when}</span>${n.grades && n.grades !== 'all' ? `<span>Khối ${h([].concat(n.grades).join(', '))}</span>` : ''}</div>
+    <h3>${n.pin ? '📌 ' : ''}${h(n.title)}</h3>${n.body ? `<p class="nw-body">${h(n.body)}</p>` : ''}
+    ${mul > 1 || n.gift ? `<div class="nw-rw">${mul > 1 ? `<span class="nw-x">x${mul} điểm thưởng</span>` : ''}${n.gift ? `<span class="nw-gift">🎁 ${h(n.gift)}</span>` : ''}${K.act ? `<small>khi em ${h(K.act)} trong thời gian sự kiện</small>` : ''}</div>` : ''}
+    ${mine ? `<p class="nw-done">✓ Em đã tham gia${mine.points ? ` · +${mine.points} điểm thưởng` : ''}${n.gift ? ' · đã ghi tên nhận quà' : ''}</p>` : ''}
+    <div class="nw-act">${K.go && s === 'on' && !teacher ? `<button class="btn" data-go="${K.go}">Tham gia ngay →</button>` : K.go && s === 'soon' && !teacher ? `<span class="muted">Mở vào ${fmtDM(n.start)}</span>` : ''}
+      ${teacher && !n.auto ? `<button class="btn ghost small" data-nwe="${h(n.id)}">Sửa</button><button class="btn ghost small" data-nwd="${h(n.id)}">Xóa</button>${parts.length ? `<details class="nw-parts"><summary>${parts.length} em đã tham gia</summary><p>${parts.map(x => h((S.students[x.sid] || {}).name || x.sid) + ' (' + h((S.students[x.sid] || {}).cls || '') + ')').join(', ')}</p></details>` : '<span class="muted">Chưa có em nào tham gia</span>'}` : ''}${teacher && n.auto ? '<span class="muted">Tự đăng từ chủ đề tháng ở Phòng tranh 3D</span>' : ''}</div>
+  </div></article>`;
+}
+function vNews(app){
+  const m = me(), teacher = S.canEdit && !m;
+  if (!m && !teacher){ app.innerHTML = `<div class="wrap"><section class="section">${pageHead('Bảng tin', 'trường học Ô Li', 'Phong trào, ngày hội và thông báo của trường')}<p class="notice">Em đăng nhập để xem bảng tin và tham gia các phong trào nhé.</p><button class="btn" data-go="login" style="align-self:flex-start">Đăng nhập</button></section></div>`; return; }
+  const list = newsList(m), on = list.filter(n => newsStatus(n) === 'on'), soon = list.filter(n => newsStatus(n) === 'soon'), past = list.filter(n => newsStatus(n) === 'past');
+  const E = S.nwEdit ? {id:S.nwEdit, ...(S.news || {})[S.nwEdit]} : null, today = dayKey();
+  const todo = m ? myTasks(m).filter(t => !S.subs[`${m.id}__${t.id}`]).length : 0;
+  app.innerHTML = `<div class="wrap"><section class="section nw" style="gap:14px">
+    ${pageHead('Bảng tin', 'trường học Ô Li', 'Phong trào hằng tháng · Ngày hội · Giải đấu · Thông báo')}
+    ${m ? `<div class="nw-quick"><button class="btn ghost" data-go="student">📋 Nhiệm vụ của em${todo ? ` (${todo} chưa làm)` : ''}</button><button class="btn ghost" data-go="progress">📈 Hồ sơ tiến bộ</button></div>` : ''}
+    ${teacher ? `<details class="nw-form" ${E ? 'open' : ''}><summary>${E ? 'Sửa tin' : '+ Đăng tin mới'}</summary><form id="nwF" class="nw-f">
+      <div class="row"><label class="field">Loại tin<select id="nwK">${Object.entries(NEWS_KIND).map(([k, v]) => `<option value="${k}" ${(E ? E.kind : 'art') === k ? 'selected' : ''}>${v.ic} ${v.n}</option>`).join('')}</select></label>
+        <label class="field">Dành cho<select id="nwG"><option value="all">Tất cả các khối</option>${GR_ALL.map(g => `<option value="${g}" ${E && String(E.grades) === String(g) ? 'selected' : ''}>Khối ${g}</option>`).join('')}</select></label></div>
+      <label class="field">Tiêu đề<input class="inp" id="nwT" maxlength="100" required placeholder="Ví dụ: Ngày hội Rung chuông vàng tháng 11" value="${h(E ? E.title : '')}"></label>
+      <label class="field">Nội dung<textarea class="inp" id="nwB" rows="4" maxlength="800" placeholder="Thể lệ, cách tham gia, hạn nộp…">${h(E ? E.body || '' : '')}</textarea></label>
+      <div class="row"><label class="field">Bắt đầu<input type="date" class="inp" id="nwS" required value="${h(E ? E.start : today)}"></label><label class="field">Kết thúc (hạn chót)<input type="date" class="inp" id="nwE" required value="${h(E ? E.end : today)}"></label></div>
+      <div class="row"><label class="field">Thưởng điểm khi tham gia<select id="nwM">${[[1, 'Không nhân điểm'], [2, 'Gấp đôi (x2)'], [3, 'Gấp ba (x3)']].map(([v, l]) => `<option value="${v}" ${(E ? +E.mul || 1 : 2) === v ? 'selected' : ''}>${l}</option>`).join('')}</select></label>
+        <label class="field">Phần quà khác (không bắt buộc)<input class="inp" id="nwQ" maxlength="120" placeholder="Ví dụ: Huy hiệu, sổ tay cho 3 bạn cao điểm nhất" value="${h(E ? E.gift || '' : '')}"></label></div>
+      <label class="nw-pin"><input type="checkbox" id="nwP" ${E && E.pin ? 'checked' : ''}> Ghim lên đầu bảng tin</label>
+      <div class="row" style="gap:8px"><button class="btn">${E ? 'Lưu thay đổi' : 'Đăng tin'}</button>${E ? '<button type="button" class="btn ghost" id="nwX">Hủy sửa</button>' : ''}</div>
+      <p class="muted" style="font-size:.84rem;margin:0">Trong thời gian sự kiện, học sinh làm đúng hoạt động của loại tin (ví dụ thi Rung chuông vàng) sẽ được cộng thêm điểm bằng điểm của lượt tốt nhất nhân với mức thưởng, và được ghi tên vào danh sách nhận quà.</p>
+    </form></details>` : ''}
+    <h2 class="nw-h">Đang diễn ra <span class="muted">(${on.length})</span></h2>
+    ${on.length ? on.map(n => newsCard(n, m, teacher)).join('') : '<p class="muted">Hiện chưa có phong trào nào đang diễn ra.</p>'}
+    ${soon.length ? `<h2 class="nw-h">Sắp diễn ra</h2>${soon.map(n => newsCard(n, m, teacher)).join('')}` : ''}
+    ${past.length ? `<details class="nw-past"><summary>Đã kết thúc (${past.length})</summary>${past.slice(0, 20).map(n => newsCard(n, m, teacher)).join('')}</details>` : ''}
+  </section></div>`;
+  const f = $('#nwF', app);
+  if (f){ $('#nwK', app).onchange = e => { const k = e.target.value, t = $('#nwT', app); if (!t.value.trim()) t.placeholder = (NEWS_KIND[k] || {}).n + ' tháng ' + (+curMonth().slice(5)); };
+    f.onsubmit = async e => { e.preventDefault(); const s = $('#nwS', app).value, en = $('#nwE', app).value;
+      if (!s || !en || en < s){ toast('Ngày kết thúc phải sau hoặc bằng ngày bắt đầu.'); return; }
+      const g = $('#nwG', app).value, doc = {kind:$('#nwK', app).value, title:$('#nwT', app).value.trim().slice(0, 100), body:$('#nwB', app).value.trim().slice(0, 800), start:s, end:en, mul:+$('#nwM', app).value || 1, gift:$('#nwQ', app).value.trim().slice(0, 120), grades:g === 'all' ? 'all' : +g, pin:$('#nwP', app).checked, at:E ? (E.at || Date.now()) : Date.now()};
+      try { const id = E ? E.id : uid('n'); await S.db.doc('news/' + id).set(doc); S.news = {...(S.news || {}), [id]:doc}; S.nwEdit = null; toast(E ? 'Đã lưu tin' : 'Đã đăng tin lên bảng tin'); render(); } catch(err){ toast('Chưa đăng được tin.'); } };
+    const x = $('#nwX', app); if (x) x.onclick = () => { S.nwEdit = null; render(); }; }
+  $$('[data-nwe]', app).forEach(b => b.onclick = () => { S.nwEdit = b.dataset.nwe; render(); window.scrollTo({top:0, behavior:'smooth'}); });
+  $$('[data-nwd]', app).forEach(b => b.onclick = async () => { if (b.dataset.armed !== '1'){ b.dataset.armed = '1'; b.textContent = 'Bấm lần nữa để xóa'; return; }
+    try { await S.db.doc('news/' + b.dataset.nwd).delete(); const o = {...S.news}; delete o[b.dataset.nwd]; S.news = o; toast('Đã xóa tin'); render(); } catch(e){ toast('Chưa xóa được.'); } });
+}
+// nhắc sự kiện có thưởng khi vào sân trường (mỗi tin một lần mỗi ngày)
+const newsLive = () => { try { return newsList(me()).filter(n => newsStatus(n) === 'on').length; } catch(e){ return 0; } };
+function newsNudge(){
+  const m = me(); if (!m) return; const on = newsList(m).filter(n => !n.auto && newsStatus(n) === 'on' && ((+n.mul || 1) > 1 || n.gift)); if (!on.length) return;
+  const key = 'oli.nwseen.' + m.id + '.' + dayKey(); let seen = []; try { seen = JSON.parse(store(key) || '[]'); } catch(e){}
+  const fresh = on.filter(n => !seen.includes(n.id)); if (!fresh.length) return; const n = fresh[0];
+  setTimeout(() => toast(`📣 ${n.title}${(+n.mul || 1) > 1 ? ` · nhận x${n.mul} điểm thưởng` : ''}${n.gift ? ' · có quà' : ''}. Xem ở Bảng tin!`), 1500);
+  try { store(key, JSON.stringify(seen.concat(fresh.map(x => x.id)))); } catch(e){}
 }
 
 function vChess(app){
@@ -4832,6 +4955,8 @@ function vSchool(app){
     mates.forEach(mt => { if (SOC.peers.has(mt.id)) return; const dd = Math.hypot(P.x - mt.x, P.y - mt.y); if (dd < 34 && dd < bd){ bd = dd; best = {kind:'mate', mt, label:mt.first, verb:'Chào ' + mt.first}; } });
     remotes().forEach(([id, r, pr]) => { const dd = Math.hypot(P.x - r.x, P.y - r.y); if (dd < 36 && dd < bd){ bd = dd; best = {kind:'friend', fsid:id, ax:r.x, ay:r.y + 18, label:(pr.name || '').split(' ').slice(-1)[0], verb:'Gặp ' + (pr.name || '').split(' ').slice(-1)[0]}; } }); return best; };
   const actBtn = $('#scAct', app); let cur = null;
+  let nlT = 0, nlV = 0; const nLive = () => { const n = performance.now(); if (n - nlT > 3000){ nlT = n; nlV = newsLive(); } return nlV; };
+  if (!isHall) setTimeout(() => { try { newsNudge(); } catch(e){} }, 800);
   const savePos = () => { if (isHall) return; S.schoolPos = {x:Math.round(P.x), y:Math.round(P.y), dir:P.dir}; store(posKey, JSON.stringify(S.schoolPos)); };
   { const hud = $('#scHud', app); if (hud){ const open = () => { if (busy) return; if (!m && !S.canEdit) return go('login'); savePos(); go('progress'); };
     ['pointerdown', 'touchstart', 'mousedown'].forEach(ev => hud.addEventListener(ev, e => e.stopPropagation(), {passive:true})); hud.onclick = e => { e.stopPropagation(); open(); }; hud.onkeydown = e => { if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); open(); } }; } }
@@ -4864,9 +4989,7 @@ function vSchool(app){
     if (a.kind === 'honor'){ const bd = Object.values(S.boards).filter(b => b.published).sort((x, y) => y.month.localeCompare(x.month))[0];
       if (!bd) return dlg('Bảng vàng', 'Chưa có tháng nào được công bố.'); const [yy, mm] = bd.month.split('-');
       return dlg(`Bảng vàng tháng ${+mm}/${yy}`, `<ol class="sc-list">${(bd.top || []).slice(0, 5).map(p => `<li><b>${h(p.name)}</b> <span class="muted">· Lớp ${h(p.cls)}</span> <span class="num">${p.points} điểm</span></li>`).join('')}</ol>`, [{label:'Xem bảng xếp hạng', fn:() => { savePos(); go('board'); }}]); }
-    if (a.kind === 'notice'){ if (!m) return dlg('Bảng tin', 'Bảng tin dán nhiệm vụ của từng lớp. Đăng nhập để xem nhiệm vụ của em.', [{label:'Đăng nhập', fn:() => go('login')}]);
-      const pend = myTasks(m).filter(t => !S.subs[`${m.id}__${t.id}`]);
-      return dlg(`Bảng tin lớp ${m.cls}`, pend.length ? `Em còn <b>${pend.length} nhiệm vụ</b>:<ul class="sc-list">${pend.slice(0, 4).map(t => `<li>${h(t.title)}${t.due ? ` <span class="muted">· hạn ${h(t.due.split('-').reverse().slice(0,2).join('/'))}</span>` : ''}</li>`).join('')}</ul>` : 'Em đã làm xong mọi nhiệm vụ. Tuyệt vời!', [{label:pend.length ? 'Mở nhiệm vụ của em' : 'Xem kết quả của em', fn:() => { savePos(); go('student'); }}], 'bot'); }
+    if (a.kind === 'notice'){ if (!m && !S.canEdit) return dlg('Bảng tin', 'Bảng tin đăng các phong trào, ngày hội và giải đấu của trường. Đăng nhập để xem và tham gia nhé!', [{label:'Đăng nhập', fn:() => go('login')}]); return enter('Đang mở bảng tin…', () => go('news')); }
     if (a.kind === 'bot') return tutorial(0);
     if (a.kind === 'rcv') return SOC.lobby ? lobbyShow() : rcvAsk();
     if (a.kind === 'friend'){ const pr = SOC.peers.get(a.fsid); if (!pr) return dlg('Robot Ô Li', 'Bạn này vừa rời khỏi trường rồi.'); const first = (pr.name || '').split(' ').slice(-1)[0];
@@ -5282,6 +5405,7 @@ function vSchool(app){
       const RM3 = remotes(), bl = []; bubbles.forEach((b, k3) => { if (k3 === sid) bl.push({x:P.x, y:P.y, text:b.text}); else { const rr = SOC.remote.get(k3); if (rr && rr.map === mapId) bl.push({x:rr.x, y:rr.y, text:b.text}); } });
       const md0 = isHall ? null : m ? SCH.DOORS.find(x => x.kind === 'class' && String(x.grade) === String(m.grade)) : S.canEdit ? SCH.DOORS.find(x => x.kind === 'teacher') : null, md = md0 ? {x:md0.x, y:md0.y, face:md0.face, label:m ? 'Lớp của em' : 'Phòng giáo viên'} : null;
       let ex3 = [], bd3 = [], scr3 = null, say3 = '';
+      if (!isHall){ const nl = nLive(); if (nl){ const nb = SCH.BOARDS.find(b => b.kind === 'notice'); bd3.push({x:nb.x, y:nb.y - 14, txt:`📣 ${nl} sự kiện mới`, state:'ok'}); } }
       if (isHall){ ex3 = M.BOOTHS.map(b => ({id:'n' + b.id, x:b.ax, y:b.y + 48, dir:'down', moving:false, look:b.look || (b.look = {...defaultLook('booth' + b.id), ...b.npc, scarf:false})}));
         scr3 = game ? [game.phase === 'end' && game.win ? 'Chuông vàng!' : game.phase === 'gather' ? 'Mời thí sinh' : `Câu ${game.qi + 1}/15`, `Còn ${rcvLeft()} / 30 thí sinh`] : ['Rung chuông vàng', 'Đăng kí tại bục MC'];
         if (game){ const G = game, q = G.Qs[G.qi], rev = G.phase === 'rev'; say3 = G.sayT > 0 ? G.say : '';
@@ -5323,6 +5447,7 @@ function vSchool(app){
     bubbles.forEach((b, k3) => { let x, y; if (k3 === sid){ x = P.x; y = P.y - 68; } else { const gb = game && game.bots.find(o => o.human && o.sid === k3); const rr = SOC.remote.get(k3); if (gb){ x = gb.x; y = gb.y - 90; } else if (rr && rr.map === mapId){ x = rr.x; y = rr.y - 68; } } if (x !== undefined) bubble(x, y, b.text); });
     if (!game || game.phase !== 'q') tag(P.x, P.y - 52, (m ? m.name.split(' ').slice(-1)[0] : S.canEdit ? 'Thầy giáo' : 'Em') + (look.title ? ' · ' + look.title : ''), '#ffd54a');
     tag(M.ROBOT_AT.x, M.ROBOT_AT.y - 52, isHall ? 'Ô Li · MC' : 'Ô Li · hướng dẫn', '#7ff3ff');
+    if (!isHall){ const nl = nLive(); if (nl){ const nb = SCH.BOARDS.find(b => b.kind === 'notice'); tag(nb.x, nb.y - 62 + Math.sin(T*3)*2, `📣 ${nl} sự kiện mới`, '#ffffff', '#2e7d32'); } }
     if (m && !isHall){ const dd = SCH.DOORS.find(x => x.kind === 'class' && String(x.grade) === String(m.grade)); if (dd){ const ax = dd.face === 'e' || dd.face === 'w' ? dd.tx : dd.x, by = (dd.face === 's' ? dd.y - 100 : dd.y - 56) + Math.sin(T*4)*4; ctx.fillStyle = '#ffd54a'; ctx.beginPath(); ctx.moveTo(ax - 9, by); ctx.lineTo(ax + 9, by); ctx.lineTo(ax, by + 12); ctx.closePath(); ctx.fill(); tag(ax, by - 4, 'Lớp ' + m.cls, '#3a2600', '#ffd54a'); } }
     if (cur){ const lx = cur.kind === 'mate' ? cur.mt.x : cur.ax, ly = cur.kind === 'mate' ? cur.mt.y - 70 : (cur.b ? cur.y - 110 : cur.ay - 80); tag(lx, ly, cur.label + ' · bấm Vào', '#0a1434', '#7ff3ff'); }
     ctx.restore();
@@ -11717,7 +11842,7 @@ async function rpExcel(D){
 }
 /* điểm thưởng vào bảng vàng: Lớp học AI và Phòng STEM */
 /* BẢNG ĐIỂM THƯỞNG: mọi hoạt động học tập đều cộng điểm vào bảng vàng (giữ lần cao nhất của mỗi hoạt động) */
-const PTS_RULES = [['📚', 'Nhiệm vụ thầy cô giao (bài giảng, trắc nghiệm, thí nghiệm)', 'theo điểm thầy cô đặt, thường 10–20'], ['📖', 'Bài giảng thư viện (tự học)', '12–16 / bài'], ['🧪', 'Thí nghiệm 3D tự luyện', 'tối đa 5 / thí nghiệm'],
+const PTS_RULES = [['📣', 'Ngày hội, phong trào trên Bảng tin', 'thưởng thêm x2 hoặc x3 khi tham gia đúng thời gian'], ['📚', 'Nhiệm vụ thầy cô giao (bài giảng, trắc nghiệm, thí nghiệm)', 'theo điểm thầy cô đặt, thường 10–20'], ['📖', 'Bài giảng thư viện (tự học)', '12–16 / bài'], ['🧪', 'Thí nghiệm 3D tự luyện', 'tối đa 5 / thí nghiệm'],
   ['🤖', 'Chuyên đề Lớp học AI hoàn thành', 'tối đa 10 / chuyên đề'], ['🔧', 'Thử thách Phòng STEM', '10 / thử thách'], ['🔔', 'Hội trường: Rung chuông vàng, chuyên đề', 'tối đa 10 / sự kiện'],
   ['♻️', 'Nhặt và phân loại rác cổng trường', 'tối đa 3 / ngày (kèm điểm rèn luyện)'], ['♟️', 'Thắng cờ ở Câu lạc bộ cờ vua', 'tối đa 5 / ngày'], ['✋', 'Giơ tay hỏi thầy cô khi học', '2 / ngày'], ['🏃', 'Đường đua tiếng Anh (vượt chướng ngại vật)', 'tối đa 10 / ngày']];
 async function awardPts(id, max, score, note, quiet){ const m = me(); if (!m || !S.db) return null; score = Math.max(0, Math.min(10, score)); const prev = S.subs[`${m.id}__${id}`]; if (prev && prev.score >= score) return null;
