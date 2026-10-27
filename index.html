@@ -2309,6 +2309,8 @@ html body button,html body a,html body input,html body select,html body textarea
 .nw-pin{display:flex;gap:8px;align-items:center;font-weight:600}
 .nw-past summary{cursor:pointer;font-weight:700;margin:6px 0}.nw-past .nw-card{margin-top:8px}
 @media (max-width:600px){.nw-card{grid-template-columns:40px minmax(0,1fr);padding:10px}.nw-ic{width:40px;height:40px;font-size:1.4rem}}
+
+.acc-msg{color:#b3261e;font-size:.9rem;line-height:1.5}.acc-msg:empty{display:none}
 </style>
 
 <header class="top"><div class="wrap">
@@ -2744,15 +2746,30 @@ function vLoginSB(app){
 
 /* --- trang giáo viên: tài khoản --- */
 const genPw = () => { const a = 'abcdefghjkmnpqrstuvwxyz', d = '23456789'; let s = ''; for (let i = 0; i < 3; i++) s += a[Math.floor(Math.random()*a.length)]; for (let i = 0; i < 4; i++) s += d[Math.floor(Math.random()*d.length)]; return s; };
-async function issueAccount(sid, st0){
+async function acctRpc(sid, pw){
+  const {data, error} = await sb.rpc('oli_student_account', {p_sid:sid, p_pw:pw});
+  if (error) return {err:/oli_student_account|PGRST202|not find|does not exist/i.test(error.message + ' ' + (error.code || '')) ? 'need_sql' : /not_teacher/.test(error.message) ? 'Tài khoản của thầy cô chưa được duyệt là giáo viên.' : error.message};
+  return {res:data};
+}
+async function issueAccount(sid, st0, reset){
   const st = st0 || S.students[sid]; if (!st) return {err:'Không tìm thấy học sinh'};
-  const pw = genPw(); const tmp = sbLib.createClient(SB_CFG.url, SB_CFG.key, {auth:{persistSession:false, autoRefreshToken:false, detectSessionInUrl:false, storageKey:'oli-tmp-' + sid}});
-  const {data, error} = await tmp.auth.signUp({email:codeEmail(st.code), password:pw});
-  if (error) return {err:/already|registered/i.test(error.message) ? 'Mã này đã có tài khoản' : error.message};
-  if (!data.user || (data.user.identities && data.user.identities.length === 0)) return {err:'Mã này đã có tài khoản'};
-  try { await tmp.auth.signOut(); } catch(e){}
-  try { await S.db.doc('cred/' + sid).set({code:st.code, pw, at:Date.now()}); } catch(e){}
-  return {pw};
+  const code = String(st.code || '').trim().toLowerCase(); if (!code) return {err:'Học sinh chưa có mã đăng nhập'};
+  const dup = Object.entries(S.students).find(([id, x]) => id !== sid && String(x.code || '').trim().toLowerCase() === code);
+  if (dup) return {err:`Trùng mã ${st.code} với ${dup[1].name} (lớp ${dup[1].cls}). Hãy đổi mã một trong hai em rồi cấp lại.`};
+  const pw = genPw(), done = async () => { try { await S.db.doc('cred/' + sid).set({code:st.code, pw, at:Date.now()}); } catch(e){} return {pw}; };
+  const viaRpc = async () => { const r = await acctRpc(sid, pw); if (r.err === 'need_sql') return {err:'Mã này đã có tài khoản cũ (thường do học sinh từng bị xóa rồi thêm lại). Chạy tệp supabase_captaikhoan.sql một lần trong Supabase để phần mềm tự cấp lại.'}; if (r.err) return {err:r.err}; return r.res === 'ok' ? done() : null; };
+  if (reset){ const r = await viaRpc(); return r || {err:'Em này chưa có tài khoản, hãy bấm Cấp tài khoản.'}; }
+  for (let tries = 0; tries < 3; tries++){
+    const tmp = sbLib.createClient(SB_CFG.url, SB_CFG.key, {auth:{persistSession:false, autoRefreshToken:false, detectSessionInUrl:false, storageKey:'oli-tmp-' + sid + tries}});
+    const {data, error} = await tmp.auth.signUp({email:codeEmail(st.code), password:pw});
+    const exists = (error && /already|registered|exists/i.test(error.message)) || (!error && (!data.user || (data.user.identities && data.user.identities.length === 0)));
+    if (exists){ const r = await viaRpc(); return r || {err:'Mã này đã có tài khoản.'}; }
+    if (error && /rate|security purposes|too many|429/i.test(error.message + ' ' + (error.status || ''))){ if (tries < 2){ S.accWait && S.accWait(`Supabase đang giới hạn tốc độ tạo tài khoản, đợi ${tries ? 60 : 30} giây rồi tự thử lại…`); await new Promise(r => setTimeout(r, tries ? 60000 : 30000)); continue; } return {err:'Supabase đang giới hạn số tài khoản tạo mỗi phút. Đợi vài phút rồi bấm Cấp tài khoản lại.'}; }
+    if (error) return {err:/invalid.*email|email address/i.test(error.message) ? `Mã “${st.code}” không dùng làm tên đăng nhập được (chỉ dùng chữ không dấu và số).` : error.message};
+    try { await tmp.auth.signOut(); } catch(e){}
+    return done();
+  }
+  return {err:'Chưa cấp được, thử lại sau.'};
 }
 /* ---- theo dõi online cho giáo viên ---- */
 const GVW = {room:null, joining:null, on:new Map(), hs:new Set()};
@@ -2790,7 +2807,7 @@ function accAllPanel(el, bySid, creds, issueFn){
         <div class="seg" role="group" aria-label="Lọc">${[['all','Tất cả'],['on','Online'],['off','Offline'],['none','Chưa cấp']].map(([k, t]) => `<button class="btn small ${st.f === k ? '' : 'ghost'}" data-af="${k}" aria-pressed="${st.f === k}">${t}</button>`).join('')}<button class="btn small ghost" id="accPw" aria-pressed="${st.pw !== false}">${st.pw !== false ? 'Ẩn mật khẩu' : 'Hiện mật khẩu'}</button></div></div>
       ${order.length ? order.map(c => { const g = groups[c], on = g.filter(([id]) => gvOnline(id)).length; return `<div class="acc-grp"><div class="acc-gh"><b>Lớp ${h(c)}</b><span class="muted">${g.length} học sinh · <span style="color:var(--good)">${on} online</span></span></div>
         ${g.map(([id, s]) => { const o = gvOnline(id), pr = GVW.on.get(id) || SOC.peers.get(id) || {}; return `<div class="acc-it${o ? ' is-on' : ''}"><i class="odot${o ? ' on' : ''}" title="${o ? 'Đang online' : 'Offline'}"></i><span class="acc-nm">${h(s.name)}</span><code>${h(s.code)}</code><span class="acc-pw" title="Mật khẩu ban đầu">${creds[id]?.pw ? (st.pw !== false ? `<code data-cpw="${h(creds[id].pw)}">${h(creds[id].pw)}</code>` : '<code>••••••</code>') : '<span class="muted">—</span>'}</span><span class="acc-st muted">${o ? `<b style="color:var(--good)">Đang online</b>${pr.map ? ' · đang ở ' + h(MAP_NAME(pr.map)) : ''}` : 'Hoạt động: ' + agoTxt(accLast(id))}</span>${bySid[id] ? '<span class="pill done">Đã có TK</span>' : `<button class="btn small acc-iss" data-iss2="${h(id)}">＋ Cấp tài khoản</button>`}</div>`; }).join('')}</div>`; }).join('') : '<p class="muted" style="margin:6px 0">Không có tài khoản phù hợp.</p>'}
-      ${(() => { const n = rows.filter(([id]) => !bySid[id]).length; return n ? `<div class="row acc-bulk" style="gap:10px;align-items:center;flex-wrap:wrap"><button class="btn small" id="accIssAll" style="flex:0 0 auto">＋ Cấp tài khoản cho ${n} em chưa có${st.cls ? ' (lớp ' + h(st.cls) + ')' : ''}</button><span class="muted" style="font-size:.84rem">Mật khẩu ban đầu sẽ hiện ngay trong danh sách.</span></div>` : ''; })()}<p id="accSt2" class="muted" role="status" style="margin:0;font-weight:600"></p><p class="muted" style="font-size:.8rem;margin:4px 0 0">Chấm xanh = học sinh đang mở ứng dụng (cập nhật trực tiếp). 🔑 là mật khẩu ban đầu do thầy cô cấp (bấm để chép); nếu em đã tự đổi mật khẩu thì mật khẩu mới không hiện ở đây. ${GVW.room ? '' : 'Đang kết nối theo dõi…'}</p>`;
+      ${(() => { const n = rows.filter(([id]) => !bySid[id]).length; return n ? `<div class="row acc-bulk" style="gap:10px;align-items:center;flex-wrap:wrap"><button class="btn small" id="accIssAll" style="flex:0 0 auto">＋ Cấp tài khoản cho ${n} em chưa có${st.cls ? ' (lớp ' + h(st.cls) + ')' : ''}</button><span class="muted" style="font-size:.84rem">Mật khẩu ban đầu sẽ hiện ngay trong danh sách.</span></div>` : ''; })()}<p id="accSt2" class="acc-msg" role="status" style="margin:0;font-weight:600">${h(S.accMsg || '')}</p><p class="muted" style="font-size:.8rem;margin:4px 0 0">Chấm xanh = học sinh đang mở ứng dụng (cập nhật trực tiếp). 🔑 là mật khẩu ban đầu do thầy cô cấp (bấm để chép); nếu em đã tự đổi mật khẩu thì mật khẩu mới không hiện ở đây. ${GVW.room ? '' : 'Đang kết nối theo dõi…'}</p>`;
     const qi = $('#accQ', box); qi.oninput = () => { st.q = qi.value; const pos = qi.selectionStart; body(); const q2 = $('#accQ', box); q2.focus(); try { q2.setSelectionRange(pos, pos); } catch(e){} };
     $('#accC', box).onchange = e => { st.cls = e.target.value; body(); };
     $$('[data-af]', box).forEach(b => b.onclick = () => { st.f = b.dataset.af; body(); });
@@ -2821,15 +2838,18 @@ function tAccounts(el, classes){
         <p class="muted" style="font-size:.88rem;margin:0">Học sinh đăng nhập bằng <b>mã học sinh</b> và <b>mật khẩu</b>. Bấm <b>Cấp tài khoản</b> để tạo mật khẩu ban đầu, rồi <b>In phiếu</b> phát cho các em. Các em nên tự đổi mật khẩu sau khi đăng nhập.</p>
         <div class="row" style="gap:8px;flex-wrap:wrap"><button class="btn small" id="issAll" style="flex:0 0 auto">Cấp tài khoản cho cả lớp</button><button class="btn ghost small" id="prt" style="flex:0 0 auto">In phiếu đăng nhập</button></div>
         <div class="tbl-wrap"><table><thead><tr><th>Họ và tên</th><th>Mã</th><th>Tài khoản</th><th>Mật khẩu ban đầu</th><th></th></tr></thead><tbody>
-        ${list.map(([id, s]) => `<tr><td><i class="odot${gvOnline(id) ? ' on' : ''}" data-odot="${h(id)}"></i> ${h(s.name)}</td><td><code>${h(s.code)}</code></td><td>${bySid[id] ? '<span class="pill done">Đã có</span>' : '<span class="pill todo">Chưa có</span>'}</td><td><code>${h(creds[id]?.pw || '')}</code></td><td>${bySid[id] ? '' : `<button class="btn small" data-iss="${h(id)}">Cấp tài khoản</button>`}</td></tr>`).join('') || '<tr><td colspan="5" class="muted">Lớp này chưa có học sinh.</td></tr>'}
-        </tbody></table></div><p id="accSt" class="muted" role="status" style="margin:0"></p>
-        <p class="muted" style="font-size:.82rem;margin:0">Nếu em quên mật khẩu: hiện tại thầy cô xóa tài khoản trong Supabase (Authentication › Users) rồi bấm Cấp tài khoản lại. Chức năng đặt lại mật khẩu ngay trong app sẽ có ở bản sau.</p></div>
+        ${list.map(([id, s]) => `<tr><td><i class="odot${gvOnline(id) ? ' on' : ''}" data-odot="${h(id)}"></i> ${h(s.name)}</td><td><code>${h(s.code)}</code></td><td>${bySid[id] ? '<span class="pill done">Đã có</span>' : '<span class="pill todo">Chưa có</span>'}</td><td><code>${h(creds[id]?.pw || '')}</code></td><td>${bySid[id] ? `<button class="btn ghost small" data-rst="${h(id)}" title="Tạo mật khẩu mới khi em quên mật khẩu">Đặt lại mật khẩu</button>` : `<button class="btn small" data-iss="${h(id)}">Cấp tài khoản</button>`}</td></tr>`).join('') || '<tr><td colspan="5" class="muted">Lớp này chưa có học sinh.</td></tr>'}
+        </tbody></table></div><p id="accSt" class="acc-msg" role="status" style="margin:0">${h(S.accMsg || '')}</p>
+        <p class="muted" style="font-size:.82rem;margin:0">Nếu em quên mật khẩu: bấm <b>Đặt lại mật khẩu</b>, mật khẩu mới hiện ngay ở cột Mật khẩu ban đầu (cần chạy tệp supabase_captaikhoan.sql một lần).</p></div>
       <div class="panel stack"><h2>Giáo viên</h2>${teachers.map(x => `<div>${h(x.email)}${x.id === S.authUid ? ' <span class="muted">(thầy cô)</span>' : ''}</div>`).join('')}</div></div>`;
     bindClassSel(); accAllPanel(el, bySid, creds, ids => issue(ids));
     $$('[data-ok]', el).forEach(b => b.onclick = async () => { const {error} = await sb.from('profiles').update({role:'teacher'}).eq('id', b.dataset.ok); toast(error ? 'Chưa duyệt được' : 'Đã duyệt'); tAccounts(el, classes); });
     $$('[data-no]', el).forEach(b => b.onclick = async () => { const {error} = await sb.from('profiles').update({role:'blocked'}).eq('id', b.dataset.no); toast(error ? 'Chưa cập nhật được' : 'Đã từ chối'); tAccounts(el, classes); });
-    const issue = async ids => { let ok = 0, bad = []; const say = t => ['#accSt', '#accSt2'].forEach(k => { const x = $(k, el); if (x) x.textContent = t; }); for (const id of ids){ say(`Đang cấp tài khoản ${ok + bad.length + 1}/${ids.length}: ${S.students[id]?.name || ''}…`); const r = await issueAccount(id); if (r.pw) ok++; else bad.push(`${S.students[id]?.name}: ${r.err}`); await new Promise(r => setTimeout(r, 400)); }
-      toast(`Đã cấp ${ok} tài khoản`); tAccounts(el, classes); setTimeout(() => { if (bad.length) ['#accSt', '#accSt2'].forEach(k => { const x = $(k, el); if (x) x.textContent = 'Chưa cấp được: ' + bad.join('; '); }); }, 600); };
+    const issue = async (ids, reset) => { let ok = 0, bad = []; const say = t => ['#accSt', '#accSt2'].forEach(k => { const x = $(k, el); if (x) x.textContent = t; }); S.accWait = say; S.accMsg = '';
+      for (const id of ids){ say(`Đang ${reset ? 'đặt lại mật khẩu' : 'cấp tài khoản'} ${ok + bad.length + 1}/${ids.length}: ${S.students[id]?.name || ''}…`); const r = await issueAccount(id, null, reset); if (r.pw) ok++; else bad.push(`${S.students[id]?.name}: ${r.err}`); await new Promise(r => setTimeout(r, 700)); }
+      S.accWait = null; S.accMsg = bad.length ? `${reset ? 'Chưa đặt lại được' : 'Chưa cấp được'} ${bad.length} em: ` + bad.join(' · ') : '';
+      toast(bad.length ? `${reset ? 'Đã đặt lại' : 'Đã cấp'} ${ok} tài khoản, ${bad.length} em chưa được, xem lí do bên dưới` : reset ? 'Đã đặt lại mật khẩu, mật khẩu mới hiện trong danh sách' : `Đã cấp ${ok} tài khoản`); tAccounts(el, classes); };
+    $$('[data-rst]', el).forEach(b => b.onclick = () => { if (b.dataset.armed !== '1'){ b.dataset.armed = '1'; b.textContent = 'Bấm lần nữa để đặt lại'; return; } b.disabled = true; issue([b.dataset.rst], true); });
     $$('[data-iss]', el).forEach(b => b.onclick = () => { b.disabled = true; issue([b.dataset.iss]); });
     $('#issAll', el).onclick = () => { const ids = list.filter(([id]) => !bySid[id]).map(([id]) => id); if (!ids.length){ toast('Cả lớp đã có tài khoản'); return; } $('#issAll', el).disabled = true; issue(ids); };
     $('#prt', el).onclick = () => { const w = window.open('', '_blank'); if (!w){ toast('Trình duyệt chặn cửa sổ in'); return; }
