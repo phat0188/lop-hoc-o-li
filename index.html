@@ -2311,6 +2311,32 @@ html body button,html body a,html body input,html body select,html body textarea
 @media (max-width:600px){.nw-card{grid-template-columns:40px minmax(0,1fr);padding:10px}.nw-ic{width:40px;height:40px;font-size:1.4rem}}
 
 .acc-msg{color:#b3261e;font-size:.9rem;line-height:1.5}.acc-msg:empty{display:none}
+/* ===== sân cầu lông ===== */
+.bd-stage{height:clamp(300px,58vh,600px)!important;position:relative}
+.bd-stage canvas{display:block;width:100%;height:100%}
+.bd-score{position:absolute;top:8px;left:50%;transform:translateX(-50%);display:flex;gap:10px;align-items:center;background:#fff;border:2px solid var(--ink,#1f2140);padding:4px 14px;font-size:1.05rem;z-index:3;white-space:nowrap}
+.bd-score:empty{display:none}.bd-score b{font-size:1.35rem}.bd-score .srv::before{content:"🏸 ";}
+.bd-exit{position:absolute;top:8px;left:8px;z-index:3}
+.bd-lobby{position:absolute;inset:0;display:grid;place-items:center;overflow:auto;padding:12px;background:rgba(243,242,234,.9);z-index:4}
+.bd-lobby[hidden]{display:none}
+.bd-lob,.bd-end{max-width:620px;width:100%;display:flex;flex-direction:column;gap:10px}
+.bd-lob h2,.bd-end h2{margin:0}.bd-lob p{margin:0}
+.bd-set{display:flex;flex-direction:column;gap:6px}.bd-set > span{font-weight:700}
+.bd-final{font-size:1.3rem;margin:0}.bd-final b{font-size:1.6rem}
+.bd-words{list-style:none;padding:0;margin:6px 0 0;display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:4px 12px;font-size:.92rem}
+.bd-words b{margin-right:4px}.bd-words.miss b{color:#b3261e}
+.bd-end details summary{cursor:pointer;font-weight:700}
+.bd-type{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:#fff;border:2px solid var(--ink,#1f2140);padding:8px 10px}
+.bd-type label{font-weight:700;white-space:nowrap}
+.bd-type input{flex:1 1 220px;min-height:46px;font:700 1.3rem/1 ui-monospace,Consolas,monospace;padding:0 12px;border:2px solid #3f3394;letter-spacing:.06em;text-transform:lowercase}
+.bd-type input.bad{animation:bdShake .3s;border-color:#c62828}
+.bd-hint{font-size:.84rem;color:#4a4c66}
+@keyframes bdShake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+@media (max-width:760px){.bd-stage{height:clamp(220px,40vh,360px)!important}.bd-type{position:sticky;bottom:0;z-index:5}.bd-hint{display:none}.bd-type label{display:none}}
+
+html body .bd-lobby{place-items:start center}html body .bd-lobby .cu-card{max-width:100%!important;width:100%!important;min-width:0!important;box-sizing:border-box;margin:auto 0}
+html body .bd-lob .seg{flex-wrap:wrap!important;overflow:visible}
+@media (max-width:560px){html body .bd-score{left:auto;right:8px;transform:none;font-size:.9rem;padding:3px 8px}html body .bd-score b{font-size:1.1rem}html body .bd-lob p{font-size:.9rem}}
 </style>
 
 <header class="top"><div class="wrap">
@@ -2427,7 +2453,7 @@ const sbAssets = {
     return {id:path, url:data.publicUrl, sizeBytes:blob.size, contentType:t};
   }
 };
-const ROOM_TOPICS = ['ans', 'hand', 'call', 'praise', 'pos', 'chat', 'invite', 'rcv', 'chess'];
+const ROOM_TOPICS = ['ans', 'hand', 'call', 'praise', 'pos', 'chat', 'invite', 'rcv', 'chess', 'badm'];
 const sbRoom = {
   async join(name){
     const me = S.authUid || uid('p'); const hs = {}, peerHs = new Set(); let peers = [], pres = {};
@@ -2928,14 +2954,14 @@ function render(){
   if (SB_ON && !S.authKnown && !S.sbError){ app.dataset.view = ''; app.innerHTML = '<div class="wl-splash"><span class="wl-mark">Ô</span><p>Đang mở Trường học Ô Li…</p></div>'; return; }
   if (SB_ON && S.authUid && !S.loaded && ['student','task','class','teacher','live','preview','school'].includes(S.view)){ app.dataset.view = ''; app.dataset.lock = ''; app.innerHTML = '<div class="wrap"><section class="section"><p class="notice">Đang tải dữ liệu lớp học…</p></section></div>'; return; }
   // keep running labs alive: don't re-render a lab view on data updates
-  if (app.dataset.view === S.view + ':' + S.arg && (S.view === 'welcome' || S.view === 'lab' || S.view === 'stemlab' || S.view === 'ailesson' || S.view === 'race' || S.view === 'cleanup' || S.view === 'task' || S.view === 'preview' || S.view === 'school' || S.view === 'hallin' || S.view === 'live' || S.view === 'chess' || S.view === 'gallery' || S.view === 'tinlab') && app.dataset.lock === '1') return;
+  if (app.dataset.view === S.view + ':' + S.arg && (S.view === 'welcome' || S.view === 'lab' || S.view === 'stemlab' || S.view === 'ailesson' || S.view === 'race' || S.view === 'cleanup' || S.view === 'task' || S.view === 'preview' || S.view === 'school' || S.view === 'hallin' || S.view === 'live' || S.view === 'chess' || S.view === 'gallery' || S.view === 'tinlab' || S.view === 'badminton') && app.dataset.lock === '1') return;
   const ae = document.activeElement;
   if (app.dataset.view === S.view + ':' + S.arg && ae && app.contains(ae) && /^(INPUT|TEXTAREA|SELECT)$/.test(ae.tagName) && ae.type !== 'radio' && ae.type !== 'checkbox'){
     if (!S._deferR){ S._deferR = true; ae.addEventListener('blur', () => setTimeout(() => { S._deferR = false; render(); }, 150), {once:true}); } return; }
   app.dataset.view = S.view + ':' + S.arg; app.dataset.lock = '';
   if (S.loaded && !['task','lab','live','preview'].includes(S.view)) setTimeout(() => { try { checkNudge(); } catch(e){ console.warn(e); } }, 400);
   updImm(); try { socStart(); } catch(e){}
-  const V = {welcome:vWelcome, board:vHome, race:vRace, ai:vAi, ailesson:vAiLesson, aibook:vAiBook, cleanup:vCleanup, stem:vStem, stemlab:vStemLab, chess:vChess, gallery:vGallery, tin:vTin, tinlab:vTinLab, progress:vProgress, news:vNews, live:vLive, school:vSchool, hallin:vSchool, hall:vHall, labs:vLabs, room:vRoom, lab:vLab, login:SB_ON ? vLoginSB : vLogin, student:vStudent, task:vTask, teacher:vTeacher, 'class':vClass, preview:vPreview}[S.view] || vHome;
+  const V = {welcome:vWelcome, board:vHome, race:vRace, ai:vAi, ailesson:vAiLesson, aibook:vAiBook, cleanup:vCleanup, stem:vStem, stemlab:vStemLab, chess:vChess, gallery:vGallery, tin:vTin, tinlab:vTinLab, progress:vProgress, news:vNews, badminton:vBadminton, live:vLive, school:vSchool, hallin:vSchool, hall:vHall, labs:vLabs, room:vRoom, lab:vLab, login:SB_ON ? vLoginSB : vLogin, student:vStudent, task:vTask, teacher:vTeacher, 'class':vClass, preview:vPreview}[S.view] || vHome;
   V(app);
 }
 
@@ -3209,7 +3235,8 @@ const VO_GO = [
   ['hallin', 'Hội trường', 'Rung chuông vàng, an toàn giao thông, pháp luật, an ninh mạng.'],
   ['tin', 'Phòng Tin học', 'Học soạn thảo văn bản, làm bài trình chiếu, bảng tính trên phần mềm mô phỏng.'],
   ['gallery', 'Phòng tranh 3D', 'Mỗi tháng một chủ đề vẽ tranh: gửi tranh của em, ngắm tranh các bạn treo trong phòng 3D.'],
-  ['chess', 'Câu lạc bộ cờ vua', 'Đấu với máy hoặc với bạn cùng trường.']];
+  ['chess', 'Câu lạc bộ cờ vua', 'Đấu với máy hoặc với bạn cùng trường.'],
+  ['badminton', 'Sân cầu lông tiếng Anh', 'Gõ đúng từ tiếng Anh trên quả cầu để đánh trả, 21 điểm một trận.']];
 function vHome(app){
   const d = hubData(), m = d.m;
   const months = Object.values(S.boards).filter(b => b.published).sort((a, b) => b.month.localeCompare(a.month));
@@ -3303,12 +3330,13 @@ const SCH = (() => {
     else { d.x = b.x; d.tx = d.x - 26; d.ty = d.y; }
     d.face = f; });
   const GATE = {x:1200, w:120};
-  const PAVES = [[600, 350, 1200, 760], [1120, 1110, 160, 590], [400, 350, 240, 70], [1760, 350, 330, 70], [2000, 300, 150, 300], [600, 1330, 1200, 60], [1980, 640, 120, 60]];
+  const BADM = {x:80, y:1100, w:300, h:180};
+  const PAVES = [[370, 1060, 230, 40], [600, 350, 1200, 760], [1120, 1110, 160, 590], [400, 350, 240, 70], [1760, 350, 330, 70], [2000, 300, 150, 300], [600, 1330, 1200, 60], [1980, 640, 120, 60]];
   const FIELD = {x:2070, y:700, w:290, h:560};
   const BEDS = [[830, 360], [1030, 360], [1230, 360], [1450, 360], [830, 1088], [1490, 1088]];
   const BENCHES = [[780, 900], [1620, 900], [780, 520], [1620, 520]];
   const TREES = [[720,440,'p'],[1680,440,'p'],[720,1030,'p'],[1680,1030,'p'],[1000,990,'b'],[1400,990,'b'],
-    [150,300,'b'],[260,600,'p'],[150,900,'b'],[260,1200,'p'],[150,1500,'b'],[480,1480,'p'],[800,1520,'b'],[1600,1520,'b'],[1900,1460,'p'],[2240,1420,'p'],[2360,640,'b'],[320,160,'p'],[2000,1200,'b'],[480,1250,'b']];
+    [150,300,'b'],[260,600,'p'],[150,900,'b'],[230,1400,'p'],[150,1500,'b'],[480,1480,'p'],[800,1520,'b'],[1600,1520,'b'],[1900,1460,'p'],[2240,1420,'p'],[2360,640,'b'],[320,160,'p'],[2000,1200,'b'],[480,1250,'b']];
   const LAMPS = [[680,700],[1720,700],[1100,1070],[1300,1070],[680,420],[1720,420],[1160,1500],[1240,1500]];
   const FLAG = {x:1200, y:730};
   const BOARDS = [{id:'vang', x:960, y:560, label:'Bảng vàng', kind:'honor'}, {id:'tin', x:1440, y:560, label:'Bảng tin', kind:'notice'}];
@@ -3327,7 +3355,7 @@ const SCH = (() => {
     for (const c of circles) if ((x - c.x)**2 + (y - c.y)**2 < (c.r + R)**2) return true;
     return false;
   };
-  return {W, H, B, DOORS, TREES, LAMPS, FLAG, BOARDS, ROBOT_AT, SPAWN, YARD, GATE, PAVES, FIELD, BEDS, BENCHES, blocked, RACE:{x:FIELD.x + FIELD.w/2, y:FIELD.y + FIELD.h/2}};
+  return {BADM, W, H, B, DOORS, TREES, LAMPS, FLAG, BOARDS, ROBOT_AT, SPAWN, YARD, GATE, PAVES, FIELD, BEDS, BENCHES, blocked, RACE:{x:FIELD.x + FIELD.w/2, y:FIELD.y + FIELD.h/2}};
 })();
 const RANK_TIERS = [[1,'Tập sự','#4a5f9a'],[3,'Đồng','#9a5a22'],[6,'Bạc','#5f6b85'],[10,'Vàng','#a87400'],[15,'Bạch kim','#0e7a8a'],[20,'Kim cương','#5b3fd0'],[30,'Huyền thoại','#b8237f']];
 const rankOf = lv => RANK_TIERS.filter(t => lv >= t[0]).pop();
@@ -3413,6 +3441,10 @@ function drawBot(g, x, y, t){
   g.beginPath(); g.arc(0, 5, 3, 0, 7); g.fill(); g.restore();
 }
 
+function drawCourt(g){ const {x, y, w, h} = SCH.BADM; g.fillStyle = '#4f9a5c'; g.fillRect(x, y, w, h); g.strokeStyle = '#ffffff'; g.lineWidth = 3;
+  g.strokeRect(x + 10, y + 10, w - 20, h - 20); g.strokeRect(x + 10, y + 24, w - 20, h - 48); g.beginPath(); g.moveTo(x + w*0.36, y + 10); g.lineTo(x + w*0.36, y + h - 10); g.moveTo(x + w*0.64, y + 10); g.lineTo(x + w*0.64, y + h - 10);
+  g.moveTo(x + 10, y + h/2); g.lineTo(x + w*0.36, y + h/2); g.moveTo(x + w*0.64, y + h/2); g.lineTo(x + w - 10, y + h/2); g.stroke();
+  g.strokeStyle = '#1f2140'; g.lineWidth = 4; g.beginPath(); g.moveTo(x + w/2, y + 4); g.lineTo(x + w/2, y + h - 4); g.stroke(); }
 function schoolStatic(scale){
   const {W, H, B, DOORS, TREES, PAVES, FIELD, BEDS, BENCHES, GATE, FLAG} = SCH;
   const c = document.createElement('canvas'); c.width = Math.ceil(W*scale); c.height = Math.ceil(H*scale);
@@ -3423,6 +3455,7 @@ function schoolStatic(scale){
   g.lineWidth = 1; g.strokeStyle = 'rgba(110,100,200,.22)'; g.beginPath(); for (let a = 0; a <= W; a += 20){ g.moveTo(a, 0); g.lineTo(a, H); } for (let b = 0; b <= H; b += 20){ g.moveTo(0, b); g.lineTo(W, b); } g.stroke();
   g.strokeStyle = '#ffffff'; g.lineWidth = 4; g.strokeRect(FIELD.x + 14, FIELD.y + 14, FIELD.w - 28, FIELD.h - 28); g.beginPath(); g.moveTo(FIELD.x + 14, FIELD.y + FIELD.h/2); g.lineTo(FIELD.x + FIELD.w - 14, FIELD.y + FIELD.h/2); g.stroke(); g.beginPath(); g.arc(FIELD.x + FIELD.w/2, FIELD.y + FIELD.h/2, 40, 0, 7); g.stroke();
   g.fillStyle = '#3f3394'; g.font = '700 16px "Be Vietnam Pro", system-ui'; g.textAlign = 'center'; g.fillText('Đường đua tiếng Anh', FIELD.x + FIELD.w/2, FIELD.y - 8);
+  drawCourt(g); g.fillStyle = '#3f3394'; g.font = '700 16px "Be Vietnam Pro", system-ui'; g.textAlign = 'center'; g.fillText('Sân cầu lông', SCH.BADM.x + SCH.BADM.w/2, SCH.BADM.y - 8);
   BEDS.forEach(([x, y]) => { g.fillStyle = '#7fae4a'; g.fillRect(x, y, 70, 12); for (let i = 0; i < 10; i++){ g.fillStyle = ['#e8553a','#f2c14e','#ffffff','#e98ab0'][i % 4]; g.beginPath(); g.arc(x + 5 + i*6.5, y + 6, 2.6, 0, 7); g.fill(); } });
   TREES.forEach(([x, y]) => { g.fillStyle = 'rgba(31,33,64,.12)'; g.beginPath(); g.ellipse(x + 8, y + 4, 30, 12, 0, 0, 7); g.fill(); });
   BENCHES.forEach(([x, y]) => { g.fillStyle = '#9aa3ad'; g.fillRect(x - 20, y, 40, 9); g.fillStyle = '#7a838d'; g.fillRect(x - 20, y + 9, 40, 3); });
@@ -4141,7 +4174,7 @@ function vTinLab(app){
 /* Mọi nhận xét ở đây do hệ thống tự tính từ kết quả thật của học sinh (bài nộp, điểm, hoạt động),
    không dùng AI, không tự giao bài. Giáo viên xem được của cả lớp và viết thêm lời nhắn. */
 const PG_ACT = [['nw_', 'Sự kiện ở Bảng tin', '📣'], ['lab_', 'Thí nghiệm ảo', '🔬'], ['tin_', 'Phòng Tin học', '💻'], ['ai_', 'Lớp học AI', '🤖'], ['stem_', 'Phòng STEM', '⚙️'], ['race_', 'Đường đua tiếng Anh', '🏃'],
-  ['chess_', 'Cờ vua', '♟'], ['art_', 'Phòng tranh', '🎨'], ['clean_', 'Nhặt rác cổng trường', '🧹'], ['ask_', 'Hỏi bài', '✋']];
+  ['chess_', 'Cờ vua', '♟'], ['badm_', 'Cầu lông tiếng Anh', '🏸'], ['art_', 'Phòng tranh', '🎨'], ['clean_', 'Nhặt rác cổng trường', '🧹'], ['ask_', 'Hỏi bài', '✋']];
 const pgCat = tid => { const t = S.tasks[tid]; if (t) return {kind:'task', subj:t.subject, name:t.title, t};
   const a = PG_ACT.find(([p]) => tid.startsWith(p)); return {kind:'act', key:a ? a[0] : 'other', name:a ? a[1] : 'Hoạt động khác', icon:a ? a[2] : '⭐'}; };
 const pgAvg = a => a.length ? a.reduce((s, x) => s + x, 0)/a.length : null;
@@ -4285,6 +4318,7 @@ const NEWS_KIND = {
   hall:{n:'Sân chơi Hội trường', ic:'🎤', go:'hallin', pre:['ev_'], act:'tham gia các sân chơi ở Hội trường'},
   race:{n:'Đường đua tiếng Anh', ic:'🏃', go:'race', pre:['race_'], act:'chạy Đường đua tiếng Anh'},
   chess:{n:'Giải cờ vua', ic:'♟', go:'chess', pre:['chess_'], act:'thắng ván cờ ở CLB cờ vua'},
+  badm:{n:'Giải cầu lông tiếng Anh', ic:'🏸', go:'badminton', pre:['badm_'], act:'thi đấu ở Sân cầu lông tiếng Anh'},
   clean:{n:'Ngày chủ nhật xanh', ic:'🧹', go:'cleanup', pre:['clean_'], act:'nhặt rác ở cổng trường'},
   tin:{n:'Tin học', ic:'💻', go:'tin', pre:['tin_'], act:'hoàn thành bài ở Phòng Tin học'},
   lab:{n:'Thí nghiệm', ic:'🔬', go:'labs', pre:['lab_'], act:'làm thí nghiệm ảo'},
@@ -4375,6 +4409,210 @@ function newsNudge(){
   const fresh = on.filter(n => !seen.includes(n.id)); if (!fresh.length) return; const n = fresh[0];
   setTimeout(() => toast(`📣 ${n.title}${(+n.mul || 1) > 1 ? ` · nhận x${n.mul} điểm thưởng` : ''}${n.gift ? ' · có quà' : ''}. Xem ở Bảng tin!`), 1500);
   try { store(key, JSON.stringify(seen.concat(fresh.map(x => x.id)))); } catch(e){}
+}
+
+/* từ vựng sân cầu lông: bám chủ đề Tiếng Anh Global Success theo khối */
+const BADM_WORDS = {
+  6:[['school','trường học'],['teacher','giáo viên'],['friend','bạn bè'],['pencil','bút chì'],['rubber','cục tẩy'],['notebook','vở'],['uniform','đồng phục'],['lesson','bài học'],['homework','bài tập về nhà'],['classroom','lớp học'],
+    ['library','thư viện'],['house','ngôi nhà'],['kitchen','nhà bếp'],['bedroom','phòng ngủ'],['garden','khu vườn'],['sofa','ghế sofa'],['lamp','đèn bàn'],['family','gia đình'],['brother','anh/em trai'],['sister','chị/em gái'],
+    ['kind','tốt bụng'],['funny','vui tính'],['clever','thông minh'],['friendly','thân thiện'],['tall','cao'],['short','thấp, ngắn'],['market','chợ'],['museum','bảo tàng'],['street','đường phố'],['temple','đền, chùa'],
+    ['river','dòng sông'],['beach','bãi biển'],['mountain','ngọn núi'],['island','hòn đảo'],['desert','sa mạc'],['forest','khu rừng'],['festival','lễ hội'],['firework','pháo hoa'],['robot','người máy'],['planet','hành tinh'],
+    ['recycle','tái chế'],['reuse','tái sử dụng'],['reduce','giảm bớt'],['sport','thể thao'],['football','bóng đá'],['racket','cây vợt'],['badminton','cầu lông'],['healthy','khỏe mạnh'],['happy','vui vẻ'],['breakfast','bữa sáng']],
+  7:[['hobby','sở thích'],['gardening','làm vườn'],['collect','sưu tầm'],['healthy','lành mạnh'],['exercise','tập thể dục'],['sunburn','cháy nắng'],['vegetable','rau củ'],['community','cộng đồng'],['volunteer','tình nguyện viên'],['donate','quyên góp'],
+    ['music','âm nhạc'],['painting','bức tranh'],['concert','buổi hòa nhạc'],['artist','nghệ sĩ'],['school','trường học'],['subject','môn học'],['science','khoa học'],['history','lịch sử'],['geography','địa lí'],['project','dự án'],
+    ['food','thức ăn'],['noodle','sợi mì'],['omelette','trứng tráng'],['recipe','công thức nấu ăn'],['traffic','giao thông'],['helmet','mũ bảo hiểm'],['pedestrian','người đi bộ'],['signal','tín hiệu'],['safety','sự an toàn'],['vehicle','phương tiện'],
+    ['film','bộ phim'],['comedy','phim hài'],['horror','phim kinh dị'],['actor','diễn viên'],['festival','lễ hội'],['celebrate','tổ chức, ăn mừng'],['parade','cuộc diễu hành'],['energy','năng lượng'],['solar','thuộc mặt trời'],['electricity','điện'],
+    ['future','tương lai'],['transport','giao thông, vận chuyển'],['bamboo','cây tre'],['planet','hành tinh'],['pollution','sự ô nhiễm'],['island','hòn đảo'],['culture','văn hóa'],['custom','phong tục'],['tradition','truyền thống'],['friendly','thân thiện']],
+  8:[['leisure','thời gian rảnh'],['socialise','giao lưu'],['knit','đan len'],['countryside','nông thôn'],['harvest','thu hoạch'],['buffalo','con trâu'],['peaceful','yên bình'],['teenager','thanh thiếu niên'],['pressure','áp lực'],['forum','diễn đàn'],
+    ['ethnic','thuộc dân tộc'],['minority','thiểu số'],['heritage','di sản'],['costume','trang phục'],['custom','phong tục'],['tradition','truyền thống'],['lifestyle','lối sống'],['environment','môi trường'],['pollution','sự ô nhiễm'],['disaster','thảm họa'],
+    ['earthquake','động đất'],['flood','lũ lụt'],['volcano','núi lửa'],['shopping','mua sắm'],['discount','giảm giá'],['customer','khách hàng'],['bargain','mặc cả'],['science','khoa học'],['technology','công nghệ'],['invention','phát minh'],
+    ['robotics','ngành robot'],['experiment','thí nghiệm'],['communication','giao tiếp'],['message','tin nhắn'],['website','trang web'],['universe','vũ trụ'],['planet','hành tinh'],['galaxy','thiên hà'],['astronaut','phi hành gia'],['spaceship','tàu vũ trụ'],
+    ['culture','văn hóa'],['festival','lễ hội'],['natural','thuộc tự nhiên'],['generation','thế hệ'],['tolerant','khoan dung'],['independent','độc lập'],['responsible','có trách nhiệm'],['confident','tự tin'],['creative','sáng tạo'],['curious','tò mò']],
+  9:[['community','cộng đồng'],['craft','nghề thủ công'],['artisan','nghệ nhân'],['attraction','điểm thu hút'],['lifestyle','lối sống'],['balance','sự cân bằng'],['priority','sự ưu tiên'],['schedule','lịch trình'],['memory','kỉ niệm'],['generation','thế hệ'],
+    ['heritage','di sản'],['wonder','kì quan'],['landscape','phong cảnh'],['tourism','du lịch'],['tourist','khách du lịch'],['destination','điểm đến'],['language','ngôn ngữ'],['fluent','trôi chảy'],['pronunciation','cách phát âm'],['vocabulary','từ vựng'],
+    ['natural','thuộc tự nhiên'],['ecosystem','hệ sinh thái'],['biodiversity','đa dạng sinh học'],['endangered','có nguy cơ tuyệt chủng'],['conservation','sự bảo tồn'],['habitat','môi trường sống'],['career','nghề nghiệp'],['academic','học thuật'],['vocational','hướng nghiệp'],['interview','phỏng vấn'],
+    ['electronic','điện tử'],['device','thiết bị'],['application','ứng dụng'],['digital','kĩ thuật số'],['online','trực tuyến'],['planet','hành tinh'],['climate','khí hậu'],['renewable','tái tạo được'],['resource','tài nguyên'],['sustainable','bền vững'],
+    ['experience','trải nghiệm'],['achievement','thành tựu'],['independent','độc lập'],['volunteer','tình nguyện'],['responsibility','trách nhiệm'],['determined','quyết tâm'],['confident','tự tin'],['ambitious','có hoài bão'],['curious','tò mò'],['patient','kiên nhẫn']],
+  10:[['household','hộ gia đình'],['chore','việc nhà'],['breadwinner','trụ cột gia đình'],['homemaker','người nội trợ'],['entertainment','giải trí'],['talent','tài năng'],['contestant','thí sinh'],['audience','khán giả'],['charity','từ thiện'],['volunteer','tình nguyện viên'],
+    ['invention','phát minh'],['innovation','sự đổi mới'],['equality','sự bình đẳng'],['gender','giới tính'],['opportunity','cơ hội'],['international','quốc tế'],['organisation','tổ chức'],['ecotourism','du lịch sinh thái'],['environment','môi trường'],['carbon','các-bon'],
+    ['footprint','dấu chân, lượng phát thải'],['conservation','sự bảo tồn'],['species','loài'],['wildlife','động vật hoang dã'],['ecology','sinh thái học'],['artificial','nhân tạo'],['intelligence','trí tuệ'],['robotics','ngành robot'],['algorithm','thuật toán'],['software','phần mềm'],
+    ['hardware','phần cứng'],['database','cơ sở dữ liệu'],['network','mạng lưới'],['security','sự bảo mật'],['password','mật khẩu'],['device','thiết bị'],['healthy','lành mạnh'],['nutrition','dinh dưỡng'],['ancient','cổ đại'],['monument','di tích'],
+    ['sustainable','bền vững'],['renewable','tái tạo được'],['emission','sự phát thải'],['recycle','tái chế'],['responsible','có trách nhiệm'],['achievement','thành tựu'],['ambition','hoài bão'],['generation','thế hệ'],['independence','sự độc lập'],['community','cộng đồng']]
+};
+const badmBank = g => BADM_WORDS[Math.min(10, Math.max(6, +g || 6))] || BADM_WORDS[6];
+
+/* ===================== SÂN CẦU LÔNG TIẾNG ANH ===================== */
+/* Quả cầu bay qua lưới mang một từ tiếng Anh. Người nhận phải gõ đúng cả từ trước khi cầu rơi
+   thì mới đánh trả được; gõ xong hiện nghĩa tiếng Việt. Tính điểm như cầu lông thật: 21 điểm, hơn 2 điểm, tối đa 30. */
+const BADM_LV = {de:{n:'Dễ', base:3.0, per:0.36, hit:0.70}, vua:{n:'Vừa', base:2.4, per:0.3, hit:0.82}, kho:{n:'Khó', base:1.9, per:0.24, hit:0.91}};
+const BG = {join:null, inviteTo:null, pending:null, lv:'vua', g:null};
+const badmOver = (a, b) => (a >= 21 || b >= 21) && Math.abs(a - b) >= 2 || a >= 30 || b >= 30;
+function showBadmInvite(d){
+  const m = me(); if (!m || document.querySelector('.inv-ov')) return;
+  const ov = document.createElement('div'); ov.className = 'inv-ov'; ov.setAttribute('role', 'alertdialog');
+  ov.innerHTML = `<div class="inv-card"><span class="inv-ic">🏸</span><div><b>${h(d.name || 'Một bạn')}</b> rủ em chơi <b>cầu lông tiếng Anh</b>!</div><div class="row" style="gap:8px;justify-content:flex-end"><button class="btn ghost small" id="invNo" style="flex:0 0 auto">Để sau</button><button class="btn small" id="invOk" style="flex:0 0 auto">Vào sân</button></div></div>`;
+  document.body.appendChild(ov); try { navigator.vibrate && navigator.vibrate([80, 60, 80]); } catch(e){} SFX.tick();
+  const close = () => ov.remove(); const to = setTimeout(close, 45000);
+  $('#invNo', ov).onclick = () => { clearTimeout(to); close(); socSend('badm', {t:'dec', id:d.id, sid:m.id, name:m.name, to:d.sid}); };
+  $('#invOk', ov).onclick = () => { clearTimeout(to); close(); socSend('badm', {t:'acc', id:d.id, sid:m.id, name:m.name, look:lookLite(loadLook(m.id)), to:d.sid});
+    BG.join = {id:d.id, seed:d.seed, g:d.g, opp:{sid:d.sid, name:d.name, look:d.look || {}}}; go('badminton'); };
+}
+
+function vBadminton(app){
+  const m = me(), sid = m ? m.id : null, teacher = !m && S.canEdit;
+  const look = teacher ? {...TEACHER_LOOK} : loadLook(sid);
+  if (!BG.g) BG.g = m ? Math.min(10, Math.max(6, +m.grade || 6)) : 6;
+  app.dataset.lock = '1';
+  app.innerHTML = `<section class="hub school bd-page"><div class="wrap hub-wrap" style="gap:8px">
+    <div class="sc-bar"><h1 class="hub-title" style="font-size:clamp(1.1rem,2.6vw,1.6rem)">Sân cầu lông <span>· gõ từ tiếng Anh để đánh cầu</span></h1>
+      <span class="muted sc-help" style="font-size:.82rem">Cầu bay về phía em mang một từ tiếng Anh · gõ đúng cả từ trước khi cầu rơi để đánh trả · 21 điểm một trận</span></div>
+    <div class="sc-stage bd-stage" id="bdStage"><canvas id="bdCv" aria-label="Sân cầu lông"></canvas>
+      <div class="bd-score" id="bdScore" aria-live="polite"></div><button class="hub-mini bd-exit" id="bdExit">← Thoát</button>
+      <div class="cu-end bd-lobby" id="bdLobby"></div></div>
+    <div class="bd-type" id="bdType"><label for="bdIn">Gõ từ trên quả cầu</label><input id="bdIn" type="text" inputmode="latin" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="done" placeholder="Gõ từ tiếng Anh ở đây…"><span class="bd-hint" id="bdHint">Bấm vào ô này để mở bàn phím</span></div>
+  </div></section>`;
+  const stage = $('#bdStage', app), cv = $('#bdCv', app), g = cv.getContext('2d'), inp = $('#bdIn', app), lobbyEl = $('#bdLobby', app);
+  const alive = () => document.body.contains(cv);
+  let dpr = 1, W = 900, H = 480;
+  const fit = () => { const r = stage.getBoundingClientRect(); dpr = Math.min(2, window.devicePixelRatio || 1); W = Math.max(280, r.width); H = Math.max(220, r.height); cv.width = W*dpr; cv.height = H*dpr; cv.style.width = W + 'px'; cv.style.height = H + 'px'; };
+  fit(); const ro = new ResizeObserver(fit); ro.observe(stage);
+  let G = null, raf = 0, last = 0, T = 0;
+  const firstN = n => String(n || 'Bạn').split(' ').slice(-1)[0];
+  // ---------- trận đấu ----------
+  const newGame = (mode, o = {}) => {
+    const lv = BADM_LV[mode === 'pvp' ? 'vua' : (o.lv || BG.lv)], seed = o.seed || ((Date.now() ^ (Math.random()*1e9)) >>> 0), bank = badmBank(o.g || BG.g);
+    G = {mode, lv, lvK:mode === 'pvp' ? 'vua' : (o.lv || BG.lv), bank, seed, rnd:rngOf(seed ^ 0x9e3779b9), id:o.id || uid('bd'), opp:o.opp || {name:'Máy · ' + lv.n, look:{...defaultLook('badmbot'), hair:'spiky', hairC:'#1e2236'}, bot:true},
+      me:0, op:0, server:o.meFirst === false ? 'op' : 'me', n:0, shot:null, phase:'wait', wait:o.wait ?? 1.2, learned:[], missed:[], used:new Set(), fx:[], swing:{me:0, op:0}, lastHit:null, over:null, started:mode === 'bot'};
+    lobbyEl.hidden = true; inp.value = ''; score(); if (!touchDev()) setTimeout(() => inp.focus(), 50);
+    if (!raf){ last = performance.now(); raf = requestAnimationFrame(loop); } };
+  const wordOf = n => { const r = rngOf((G.seed + n*7919) >>> 0); let i = Math.floor(r()*G.bank.length), k = 0; while (G.used.has(i) && k++ < G.bank.length){ i = (i + 1) % G.bank.length; } G.used.add(i); if (G.used.size > G.bank.length*0.7) G.used.clear(); return G.bank[i]; };
+  const court = () => { const gy = H*0.84, netX = W/2, netTop = gy - H*0.3, k = Math.max(0.9, H/215); return {gy, netX, netTop, k, xMe:W*0.2, xOp:W*0.8, hitY:gy - 34*k}; };
+  const launch = from => { const C = court(), [en, vi] = wordOf(++G.n), to = from === 'me' ? 'op' : 'me', dur = G.lv.base + G.lv.per*en.length;
+    const p0 = G.shot && G.shot.pos ? {...G.shot.pos} : {x:from === 'me' ? C.xMe + 22*C.k : C.xOp - 22*C.k, y:C.hitY};
+    G.shot = {n:G.n, from, to, en, vi, dur, t:0, typed:0, done:false, p0, p1:{x:to === 'me' ? C.xMe + 18*C.k : C.xOp - 18*C.k, y:C.hitY}, pos:{...p0}, fall:0};
+    if (G.mode === 'bot' && to === 'op'){ const rally = G.n - (G.rallyStart || 0), pr = Math.max(0.35, G.lv.hit - Math.max(0, en.length - 7)*0.03 - rally*0.01); const ok = G.rnd() < pr;
+      G.shot.bot = {ok, at:dur*(ok ? 0.45 + G.rnd()*0.4 : 1.05), part:ok ? 1 : 0.25 + G.rnd()*0.5}; }
+    G.swing[from] = 0.35; G.phase = 'fly'; if (to === 'me'){ inp.value = ''; if (!touchDev() && document.activeElement !== inp) inp.focus(); } SFX.tick(); };
+  const hitBack = who => { const s = G.shot; s.done = true; G.swing[who] = 0.35; G.fx.push({who, en:s.en, vi:s.vi, t:2.2});
+    if (who === 'me'){ G.learned.push([s.en, s.vi]); } launch(who); };
+  const point = (win, why) => { if (G.phase !== 'fly') return; G[win]++; G.server = win; G.phase = 'pt'; G.wait = 1.5; G.rallyStart = G.n; const s = G.shot;
+    if (s && s.to === 'me' && win === 'op') G.missed.push([s.en, s.vi]);
+    G.flash = {txt:win === 'me' ? 'Điểm cho em!' : `Điểm cho ${G.opp.bot ? 'máy' : firstN(G.opp.name)}`, t:1.3, good:win === 'me'}; win === 'me' ? SFX.ok() : SFX.bad(); score();
+    if (badmOver(G.me, G.op)) { G.phase = 'over'; setTimeout(() => finish(), 900); } };
+  const score = () => { if (!G) { $('#bdScore', app).innerHTML = ''; return; } $('#bdScore', app).innerHTML = `<span class="${G.server === 'me' ? 'srv' : ''}">Em <b>${G.me}</b></span><i>–</i><span class="${G.server === 'op' ? 'srv' : ''}"><b>${G.op}</b> ${h(G.opp.bot ? 'Máy' : firstN(G.opp.name))}</span>`; };
+  // ---------- gõ phím ----------
+  const onType = () => { if (!G || G.phase !== 'fly' || !G.shot || G.shot.to !== 'me' || G.shot.done){ inp.value = ''; return; }
+    const s = G.shot, want = s.en.toLowerCase(), v = inp.value.toLowerCase().replace(/\s+/g, '');
+    if (want.startsWith(v)){ s.typed = v.length; if (G.mode === 'pvp') socSend('badm', {t:'prog', id:G.id, sid, to:G.opp.sid, n:s.n, k:s.typed});
+      if (v === want){ inp.value = ''; if (G.mode === 'pvp') socSend('badm', {t:'hit', id:G.id, sid, to:G.opp.sid, n:s.n}); hitBack('me'); } }
+    else { inp.value = s.en.slice(0, s.typed); s.err = 0.3; inp.classList.remove('bad'); void inp.offsetWidth; inp.classList.add('bad'); clearTimeout(inp._bt); inp._bt = setTimeout(() => inp.classList.remove('bad'), 450); } };
+  inp.addEventListener('input', onType);
+  inp.addEventListener('keydown', e => { if (e.key === 'Enter') e.preventDefault(); });
+  const keyH = e => { if (!alive()){ document.removeEventListener('keydown', keyH); return; } if (G && G.phase === 'fly' && document.activeElement !== inp && /^[a-z]$/i.test(e.key) && !e.ctrlKey && !e.metaKey){ inp.focus(); } };
+  document.addEventListener('keydown', keyH);
+  cv.addEventListener('pointerdown', () => { if (G && !G.over) inp.focus(); });
+  // ---------- vòng lặp ----------
+  function loop(now){ if (!alive()){ cancelAnimationFrame(raf); raf = 0; return; } const dt = Math.min(0.05, (now - last)/1000); last = now; T += dt;
+    if (G) step(dt); draw(); raf = requestAnimationFrame(loop); }
+  function step(dt){ ['me', 'op'].forEach(k => G.swing[k] = Math.max(0, G.swing[k] - dt)); G.fx.forEach(f => f.t -= dt); G.fx = G.fx.filter(f => f.t > 0); if (G.flash){ G.flash.t -= dt; if (G.flash.t <= 0) G.flash = null; }
+    const s = G.shot;
+    if (G.phase === 'wait'){ if (!G.started) return; G.wait -= dt; if (G.wait <= 0){ G.phase = 'serve'; G.wait = 1.0; G.shot = null; } return; }
+    if (G.phase === 'pt'){ if (s && s.fall < 1){ s.fall = Math.min(1, s.fall + dt*2.2); } G.wait -= dt; if (G.wait <= 0){ G.phase = 'serve'; G.wait = 0.9; G.shot = null; } return; }
+    if (G.phase === 'serve'){ G.wait -= dt; if (G.wait <= 0){ G.shot = null; launch(G.server); } return; }
+    if (G.phase !== 'fly' || !s) return;
+    s.t += dt; if (s.err) s.err = Math.max(0, s.err - dt);
+    const u = Math.min(1, s.t/s.dur), C = court(), peak = Math.min(C.netTop - H*0.32, Math.min(s.p0.y, s.p1.y) - H*0.28);
+    s.pos = {x:s.p0.x + (s.p1.x - s.p0.x)*u, y:(1 - u)*(1 - u)*s.p0.y + 2*(1 - u)*u*peak + u*u*s.p1.y};
+    if (s.to === 'op'){
+      if (G.mode === 'bot'){ s.typed = Math.floor(s.en.length*Math.min(s.bot.part, s.t/s.bot.at)); if (s.bot.ok && s.t >= s.bot.at){ hitBack('op'); return; } if (s.t >= s.dur) point('me'); }
+      else if (s.t >= s.dur + 5) point('me');   // bạn mất kết nối: tính điểm cho em
+    } else if (s.t >= s.dur){ if (G.mode === 'pvp') socSend('badm', {t:'miss', id:G.id, sid, to:G.opp.sid, n:s.n}); point('op'); }
+  }
+  // ---------- vẽ ----------
+  const rr = (x, y, w, hh, r) => { g.beginPath(); g.roundRect ? g.roundRect(x, y, w, hh, r) : g.rect(x, y, w, hh); };
+  function racket(x, y, k, dir, sw){ g.save(); g.translate(x, y); g.rotate((dir > 0 ? -1 : 1)*(0.9 - sw*4)); g.strokeStyle = '#1f2140'; g.lineWidth = 2*k; g.beginPath(); g.moveTo(0, 0); g.lineTo(0, -16*k); g.stroke();
+    g.fillStyle = 'rgba(255,255,255,.7)'; g.beginPath(); g.ellipse(0, -22*k, 5*k, 7*k, 0, 0, 7); g.fill(); g.stroke(); g.restore(); }
+  function shuttle(x, y, ang, k){ g.save(); g.translate(x, y); g.rotate(ang); g.fillStyle = '#ffffff'; g.strokeStyle = '#1f2140'; g.lineWidth = 1.2; g.beginPath(); g.moveTo(0, -3*k); g.lineTo(-12*k, -6*k); g.lineTo(-12*k, 6*k); g.lineTo(0, 3*k); g.closePath(); g.fill(); g.stroke();
+    g.fillStyle = '#c62828'; g.beginPath(); g.arc(2*k, 0, 3.4*k, 0, 7); g.fill(); g.restore(); }
+  function bubble(x, y, en, typed, opts = {}){ const fs = opts.big ? Math.max(20, Math.min(34, W/24)) : 15; g.font = `800 ${fs}px "Be Vietnam Pro", system-ui, sans-serif`;
+    const tw = g.measureText(en).width, pw = tw + 26, ph = fs + 16; let bx = Math.max(6, Math.min(W - pw - 6, x - pw/2)), by = Math.max(6, y - ph - 18);
+    g.globalAlpha = opts.fade ? 0.72 : 1; g.fillStyle = '#ffffff'; rr(bx, by, pw, ph, 6); g.fill(); g.strokeStyle = opts.err ? '#c62828' : '#1f2140'; g.lineWidth = opts.err ? 3 : 2; g.stroke();
+    g.textBaseline = 'middle'; g.textAlign = 'left'; const a = en.slice(0, typed), b = en.slice(typed); g.fillStyle = '#1e8a3c'; g.fillText(a, bx + 13, by + ph/2 + 1); g.fillStyle = '#1f2140'; g.fillText(b, bx + 13 + g.measureText(a).width, by + ph/2 + 1);
+    if (opts.time !== undefined){ g.fillStyle = '#eceaf4'; g.fillRect(bx, by + ph + 3, pw, 5); g.fillStyle = opts.time < 0.3 ? '#c62828' : '#3f3394'; g.fillRect(bx, by + ph + 3, pw*Math.max(0, opts.time), 5); }
+    g.globalAlpha = 1; }
+  function draw(){ g.setTransform(dpr, 0, 0, dpr, 0, 0); const C = court();
+    g.fillStyle = '#f3f2ea'; g.fillRect(0, 0, W, H); g.strokeStyle = 'rgba(120,110,200,.14)'; g.lineWidth = 1; g.beginPath(); for (let x = 0; x < W; x += 24){ g.moveTo(x + .5, 0); g.lineTo(x + .5, H); } for (let y = 0; y < H; y += 24){ g.moveTo(0, y + .5); g.lineTo(W, y + .5); } g.stroke();
+    // sàn sân
+    g.fillStyle = '#4f9a5c'; g.beginPath(); g.moveTo(W*0.04, C.gy); g.lineTo(W*0.96, C.gy); g.lineTo(W*0.99, H); g.lineTo(W*0.01, H); g.closePath(); g.fill();
+    g.strokeStyle = '#ffffff'; g.lineWidth = 3; g.beginPath(); g.moveTo(W*0.06, C.gy + 2); g.lineTo(W*0.94, C.gy + 2); g.moveTo(W*0.3, C.gy + 2); g.lineTo(W*0.28, H); g.moveTo(W*0.7, C.gy + 2); g.lineTo(W*0.72, H); g.stroke();
+    // lưới
+    g.fillStyle = '#6d4a2c'; g.fillRect(C.netX - 3, C.netTop - 4, 6, C.gy - C.netTop + 4); g.strokeStyle = 'rgba(31,33,64,.55)'; g.lineWidth = 1;
+    for (let y = C.netTop; y < C.netTop + (C.gy - C.netTop)*0.45; y += 6){ g.beginPath(); g.moveTo(C.netX - 9, y); g.lineTo(C.netX + 9, y); g.stroke(); } g.fillStyle = '#ffffff'; g.fillRect(C.netX - 10, C.netTop - 3, 20, 4);
+    // người chơi
+    const opLook = G ? G.opp.look : {...defaultLook('badmbot'), hair:'spiky'};
+    [['me', C.xMe, 1, look], ['op', C.xOp, -1, opLook]].forEach(([who, x, dir, L]) => { const sw = G ? G.swing[who] : 0, moving = G && G.phase === 'fly' && G.shot && G.shot.to === who && !G.shot.done;
+      drawKid(g, x, C.gy, L, dir > 0 ? 'right' : 'left', T*(moving ? 1 : 0.2), moving && Math.sin(T*8) > 0, C.k); racket(x + dir*9*C.k*(L.role === 'teacher' ? 1.15 : 1), C.gy - 24*C.k, C.k, dir, sw);
+      g.font = `700 ${Math.max(11, 12*C.k*0.8)}px "Be Vietnam Pro", system-ui`; g.textAlign = 'center'; g.textBaseline = 'alphabetic'; const nm = who === 'me' ? 'Em' : G ? (G.opp.bot ? 'Máy' : firstN(G.opp.name)) : 'Máy';
+      const tw = g.measureText(nm).width + 12; g.fillStyle = who === 'me' ? '#3f3394' : '#1f2140'; rr(x - tw/2, C.gy + 8, tw, 18, 3); g.fill(); g.fillStyle = '#fff'; g.fillText(nm, x, C.gy + 21); });
+    if (!G) return;
+    const s = G.shot;
+    if (s){ let x = s.pos.x, y = s.pos.y; if (G.phase === 'pt' || G.phase === 'over'){ const tx = s.to === 'me' ? C.xMe - 30*C.k : C.xOp + 30*C.k; x = s.pos.x + (tx - s.pos.x)*s.fall; y = s.pos.y + (C.gy - 4 - s.pos.y)*s.fall*s.fall; }
+      const ang = s.to === 'me' ? Math.PI : 0; shuttle(x, y, ang + (s.to === 'me' ? -1 : 1)*Math.min(0.6, (s.t/s.dur - 0.5)), C.k*0.9);
+      if (G.phase === 'fly' && !s.done) bubble(x, y - 8, s.en, s.typed, s.to === 'me' ? {big:true, time:1 - s.t/s.dur, err:s.err > 0} : {fade:true}); }
+    G.fx.forEach(f => { const x = f.who === 'me' ? C.xMe : C.xOp, y = C.gy - 64*C.k*(f.who === 'me' && look.role === 'teacher' ? 1.15 : 1); g.globalAlpha = Math.min(1, f.t/0.4); g.font = '700 15px "Be Vietnam Pro", system-ui'; const txt = `${f.en} = ${f.vi}`, tw = g.measureText(txt).width + 18;
+      const bx = Math.max(6, Math.min(W - tw - 6, x - tw/2)), by = y - 26 - (2.2 - f.t)*10; g.fillStyle = '#fff3c4'; rr(bx, by, tw, 26, 5); g.fill(); g.strokeStyle = '#c9961f'; g.lineWidth = 1.5; g.stroke(); g.fillStyle = '#1f2140'; g.textAlign = 'left'; g.textBaseline = 'middle'; g.fillText(txt, bx + 9, by + 13); g.globalAlpha = 1; });
+    if (G.phase === 'serve' || (G.phase === 'wait' && G.started)){ g.font = `800 ${Math.max(16, W/40)}px "Be Vietnam Pro", system-ui`; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillStyle = '#1f2140'; g.fillText(G.server === 'me' ? 'Em giao cầu…' : `${G.opp.bot ? 'Máy' : firstN(G.opp.name)} giao cầu…`, W/2, H*0.18); }
+    if (G.phase === 'wait' && !G.started){ g.font = `700 ${Math.max(15, W/46)}px "Be Vietnam Pro", system-ui`; g.textAlign = 'center'; g.fillStyle = '#1f2140'; g.fillText(`Chờ ${firstN(G.opp.name)} vào sân…`, W/2, H*0.18); }
+    if (G.flash){ g.globalAlpha = Math.min(1, G.flash.t/0.3); g.font = `800 ${Math.max(20, W/30)}px "Be Vietnam Pro", system-ui`; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillStyle = G.flash.good ? '#1e8a3c' : '#c62828'; g.fillText(G.flash.txt, W/2, H*0.3); g.globalAlpha = 1; }
+  }
+  // ---------- kết thúc ----------
+  async function finish(){ if (!G || G.over) return; const win = G.me > G.op; G.over = win ? 'w' : 'l'; let msg = '';
+    if (win) SFX.bell();
+    if (m){ const sc = win ? (G.mode === 'pvp' ? 10 : {de:6, vua:8, kho:10}[G.lvK]) : Math.round(G.me/21*50)/10;
+      const r = await awardPts('badm_' + dayKey(), 10, sc, `Sân cầu lông tiếng Anh: ${win ? 'thắng' : 'thua'} ${G.me}–${G.op} ${G.mode === 'pvp' ? 'với ' + G.opp.name : '(máy ' + G.lv.n + ')'}`, true);
+      msg = r && r.points ? `Điểm thưởng hôm nay: ${r.points}/10 (giữ trận tốt nhất trong ngày).` : 'Điểm thưởng hôm nay đã ghi nhận trận tốt hơn trước đó.'; }
+    else msg = 'Đăng nhập để được cộng điểm thưởng.';
+    const uniq = arr => [...new Map(arr.map(x => [x[0], x])).values()];
+    lobbyEl.hidden = false; lobbyEl.innerHTML = `<div class="cu-card bd-end"><h2>${win ? '🏆 Em thắng!' : 'Trận đấu kết thúc'}</h2><p class="bd-final">Em <b>${G.me}</b> – <b>${G.op}</b> ${h(G.opp.bot ? 'Máy (' + G.lv.n + ')' : G.opp.name)}</p><p class="muted">${h(msg)}</p>
+      ${G.learned.length ? `<details open><summary>Từ em đã gõ đúng (${uniq(G.learned).length})</summary><ul class="bd-words">${uniq(G.learned).map(([e, v]) => `<li><b>${h(e)}</b> ${h(v)}</li>`).join('')}</ul></details>` : ''}
+      ${G.missed.length ? `<details ${G.learned.length ? '' : 'open'}><summary>Từ cần ôn lại (${uniq(G.missed).length})</summary><ul class="bd-words miss">${uniq(G.missed).map(([e, v]) => `<li><b>${h(e)}</b> ${h(v)}</li>`).join('')}</ul></details>` : ''}
+      <div class="row" style="gap:8px;justify-content:center;flex-wrap:wrap">${G.mode === 'bot' ? '<button class="btn" id="bdAgain" style="flex:0 0 auto">Chơi lại</button>' : ''}<button class="btn ghost" id="bdMenu" style="flex:0 0 auto">Chọn trận khác</button></div></div>`;
+    const ag = $('#bdAgain', app); if (ag) ag.onclick = () => newGame('bot', {lv:G.lvK}); $('#bdMenu', app).onclick = () => { G = null; score(); lobby(); }; }
+  // ---------- sảnh chờ ----------
+  function lobby(note = ''){ const online = [...SOC.peers.entries()].filter(([id]) => S.students[id]);
+    lobbyEl.hidden = false; lobbyEl.innerHTML = `<div class="cu-card bd-lob"><h2>🏸 Cầu lông tiếng Anh</h2>
+      <p>Cầu bay về phía em sẽ mang một <b>từ tiếng Anh</b>. Gõ đúng cả từ trước khi cầu rơi để đánh trả; gõ xong sẽ hiện <b>nghĩa tiếng Việt</b>. Ai gõ không kịp thì mất điểm. Trận đấu tính như cầu lông thật: <b>21 điểm</b>, phải hơn 2 điểm, tối đa 30.</p>
+      ${note ? `<p class="notice">${note}</p>` : ''}
+      <div class="bd-set"><span>Bộ từ</span><div class="seg" role="group" aria-label="Bộ từ">${[6, 7, 8, 9, 10].map(x => `<button type="button" data-bg="${x}" aria-pressed="${BG.g === x}">${x === 10 ? 'THPT' : 'Khối ' + x}</button>`).join('')}</div></div>
+      <div class="bd-set"><span>Đấu với máy</span><div class="row" style="gap:6px;flex-wrap:wrap">${Object.entries(BADM_LV).map(([k, v]) => `<button class="btn ${k === BG.lv ? '' : 'ghost'} small" data-bl="${k}" style="flex:0 0 auto">${v.n}</button>`).join('')}</div></div>
+      ${m ? `<div class="bd-set"><span>Rủ bạn cùng chơi</span>${online.length ? `<div class="row" style="gap:6px;flex-wrap:wrap">${online.slice(0, 12).map(([id, p]) => `<button class="btn ghost small" data-binv="${h(id)}" style="flex:0 0 auto">🏸 ${h(firstN(p.name))} <span class="muted">${h(p.cls || '')}</span></button>`).join('')}</div>` : '<span class="muted">Chưa có bạn nào đang online. Khi bạn bè vào trường, tên các bạn sẽ hiện ở đây.</span>'}</div>` : '<p class="muted">Đăng nhập để rủ bạn cùng chơi và được cộng điểm thưởng.</p>'}
+      <p class="muted" style="font-size:.84rem;margin:0">Mẹo: trên điện thoại, chạm vào ô “Gõ từ” bên dưới sân để mở bàn phím trước khi chơi.</p></div>`;
+    $$('[data-bg]', lobbyEl).forEach(b => b.onclick = () => { BG.g = +b.dataset.bg; lobby(); });
+    $$('[data-bl]', lobbyEl).forEach(b => b.onclick = () => { BG.lv = b.dataset.bl; newGame('bot', {lv:b.dataset.bl}); });
+    $$('[data-binv]', lobbyEl).forEach(b => b.onclick = () => invite(b.dataset.binv)); }
+  function invite(fsid){ if (!m) return; const id = uid('bd'), seed = (Math.random()*4e9) >>> 0; BG.pending = {id, to:fsid, seed, g:BG.g};
+    socSend('badm', {t:'inv', id, sid, name:m.name, look:lookLite(look), to:fsid, seed, g:BG.g}); lobby(`Đã rủ <b>${h(firstN((SOC.peers.get(fsid) || {}).name))}</b>. Chờ bạn đồng ý…`); }
+  const myTok = {};
+  SOC.handlers.badm = d => { if (!alive()) return;
+    if (d.t === 'acc' && BG.pending && d.id === BG.pending.id){ const P = BG.pending; BG.pending = null; newGame('pvp', {id:P.id, seed:P.seed, g:P.g, opp:{sid:d.sid, name:d.name, look:d.look || {}}, meFirst:true}); G.started = false; G.wait = 1.5; toast(`${firstN(d.name)} đã vào sân`); return; }
+    if (d.t === 'dec' && BG.pending && d.id === BG.pending.id){ BG.pending = null; lobby(`${h(firstN(d.name))} chưa chơi được lúc này.`); return; }
+    if (!G || G.mode !== 'pvp' || d.id !== G.id) return;
+    if (d.t === 'ready' && !G.started){ G.started = true; G.wait = 1.5; socSend('badm', {t:'go', id:G.id, sid, to:G.opp.sid}); return; }
+    if (d.t === 'go'){ G.started = true; G.wait = 1.5; return; }
+    if (G.over) return;
+    if (d.t === 'prog' && G.shot && G.shot.n === d.n && G.shot.to === 'op') { G.shot.typed = Math.min(G.shot.en.length, +d.k || 0); return; }
+    if (d.t === 'hit' && G.shot && G.shot.n === d.n && G.shot.to === 'op' && !G.shot.done && G.phase === 'fly'){ hitBack('op'); return; }
+    if (d.t === 'miss' && G.shot && G.shot.n === d.n && G.shot.to === 'op') { point('me'); return; }
+    if (d.t === 'bye'){ G.phase = 'over'; G.me = Math.max(G.me, 21); G.op = Math.min(G.op, 19); score(); toast(`${firstN(G.opp.name)} đã rời sân.`); finish(); }
+  };
+  SOC.handlers.badm.token = myTok;
+  $('#bdExit', app).onclick = () => { if (G && G.mode === 'pvp' && !G.over) socSend('badm', {t:'bye', id:G.id, sid, to:G.opp.sid}); go('school'); };
+  const watch = setInterval(() => { if (!alive()){ clearInterval(watch); ro.disconnect(); if (G && G.mode === 'pvp' && !G.over) socSend('badm', {t:'bye', id:G.id, sid, to:G.opp.sid}); if (SOC.handlers.badm && SOC.handlers.badm.token === myTok) SOC.handlers.badm = null; } }, 1000);
+  if (!raf){ last = performance.now(); raf = requestAnimationFrame(loop); }
+  if (BG.join){ const j = BG.join; BG.join = null; newGame('pvp', {id:j.id, seed:j.seed, g:j.g, opp:j.opp, meFirst:false}); G.started = false; socStart().then(() => socSend('badm', {t:'ready', id:G.id, sid, to:j.opp.sid})); }
+  else if (BG.inviteTo){ const t = BG.inviteTo; BG.inviteTo = null; lobby(); socStart().then(() => invite(t)); }
+  else { lobby(); socStart().then(() => { if (alive() && !G) lobby(); }); }
+  if (window.__OLI_TEST) window.__bd = {get G(){ return G; }, newGame, launch:w => launch(w)};
 }
 
 function vChess(app){
@@ -4512,7 +4750,7 @@ function socStart(){
     if (!r || SOC.sid !== m.id){ if (r) r.leave().catch(() => {}); return null; }
     SOC.room = r;
     r.onPeers(c => { const map = new Map(); (c.peers || []).forEach(p => { const pr = p.presence || {}; if (pr.sid && pr.sid !== m.id) map.set(pr.sid, pr); }); SOC.peers = map; SOC.handlers.peers && SOC.handlers.peers(); SOC.handlers.peers2 && SOC.handlers.peers2(); });
-    ['pos', 'chat', 'invite', 'rcv', 'chess'].forEach(t => r.on(t, msg => socDispatch(t, msg.data || {})));
+    ['pos', 'chat', 'invite', 'rcv', 'chess', 'badm'].forEach(t => r.on(t, msg => socDispatch(t, msg.data || {})));
     socPresence();
     try { const now = r.peers ? r.peers() : []; const map = new Map(); now.forEach(p => { const pr = p.presence || {}; if (pr.sid && pr.sid !== m.id) map.set(pr.sid, pr); }); SOC.peers = map; } catch(e){}
     return r; }).catch(() => { SOC.joining = null; return null; });
@@ -4528,6 +4766,7 @@ function socDispatch(t, d){
     SOC.handlers.chat && SOC.handlers.chat(e); return; }
   if (t === 'invite'){ if (d.to === m.id) showInvite(d); return; }
   if (t === 'chess'){ if (d.to && d.to !== m.id) return; if (d.t === 'inv') return showChessInvite(d); SOC.handlers.chess && SOC.handlers.chess(d); return; }
+  if (t === 'badm'){ if (d.to && d.to !== m.id) return; if (d.t === 'inv') return showBadmInvite(d); SOC.handlers.badm && SOC.handlers.badm(d); return; }
   if (t === 'rcv'){
     if (d.t === 'start' && SOC.lobby && d.id === SOC.lobby.id && !SOC.handlers.rcv){ SOC.pendingStart = d; return; }
     SOC.handlers.rcv && SOC.handlers.rcv(d);
@@ -4632,6 +4871,7 @@ async function school3D(stage, below, kind = 'school', ext = {}){
     g.font = '600 26px "Patrick Hand", "Be Vietnam Pro", cursive'; g.fillText('Sân trường', 900, 1070);
     // bồn hoa
     BEDS.forEach(([x, y]) => { g.fillStyle = '#7fae4a'; g.fillRect(x, y, 70, 12); for (let i = 0; i < 10; i++){ g.fillStyle = ['#e8553a','#f2c14e','#ffffff','#e98ab0'][i % 4]; g.beginPath(); g.arc(x + 5 + i*6.5, y + 6, 3, 0, 7); g.fill(); } });
+    drawCourt(g);
     // bục cờ
     g.fillStyle = '#ddd4bd'; g.beginPath(); g.arc(FLAG.x, FLAG.y, 30, 0, 7); g.fill();
     const t = texOf(c); t.anisotropy = 8;
@@ -4713,6 +4953,13 @@ async function school3D(stage, below, kind = 'school', ext = {}){
   [0.22, 0.4, 0.62, 0.8].forEach(fr => [0.3, 0.7].forEach(fc => { const x = FIELD.x + FIELD.w*fc, y = FIELD.y + FIELD.h*fr; box(0.03, 0.18, 0.03, '#ffffff', X(x) - 0.2, 0.09, Z(y), scene, false); box(0.03, 0.18, 0.03, '#ffffff', X(x) + 0.2, 0.09, Z(y), scene, false); box(0.44, 0.05, 0.03, '#d92b25', X(x), 0.18, Z(y)); }));
   { const g = new THREE.Group(); g.position.set(X(FIELD.x + FIELD.w/2), 0, Z(FIELD.y - 14)); scene.add(g); box(0.04, 0.7, 0.04, '#6d4a2c', -0.5, 0.35, 0, g); box(0.04, 0.7, 0.04, '#6d4a2c', 0.5, 0.35, 0, g);
     const tp = textPlate('Đường đua tiếng Anh', {w:1.15, hgt:0.26, bg:'#3f3394', fg:'#ffffff', border:null}); tp.position.set(0, 0.62, 0.03); g.add(tp); box(1.2, 0.3, 0.04, '#3f3394', 0, 0.62, 0, g, false); }
+  // sân cầu lông: lưới, cột, biển tên
+  { const BD = SCH.BADM, nx = X(BD.x + BD.w/2), z0 = Z(BD.y + 6), z1 = Z(BD.y + BD.h - 6), zc = (z0 + z1)/2, len = z1 - z0;
+    [z0, z1].forEach(z => box(0.035, 0.42, 0.035, '#6d4a2c', nx, 0.21, z));
+    const nc = cv2(256, 64), ng = nc.getContext('2d'); ng.strokeStyle = 'rgba(31,33,64,.75)'; ng.lineWidth = 2; for (let i = 0; i <= 256; i += 10){ ng.beginPath(); ng.moveTo(i, 0); ng.lineTo(i, 64); ng.stroke(); } for (let j = 0; j <= 64; j += 10){ ng.beginPath(); ng.moveTo(0, j); ng.lineTo(256, j); ng.stroke(); } ng.fillStyle = '#ffffff'; ng.fillRect(0, 0, 256, 7);
+    const nt = texOf(nc); nt.wrapS = THREE.RepeatWrapping; nt.repeat.set(len*2, 1); const net = new THREE.Mesh(new THREE.PlaneGeometry(len, 0.16), new THREE.MeshBasicMaterial({map:nt, transparent:true, side:THREE.DoubleSide})); net.rotation.y = Math.PI/2; net.position.set(nx, 0.33, zc); scene.add(net);
+    const g2 = new THREE.Group(); g2.position.set(X(BD.x + BD.w/2), 0, Z(BD.y - 16)); scene.add(g2); box(0.04, 0.62, 0.04, '#6d4a2c', -0.45, 0.31, 0, g2); box(0.04, 0.62, 0.04, '#6d4a2c', 0.45, 0.31, 0, g2);
+    const tp2 = textPlate('Sân cầu lông', {w:1.0, hgt:0.24, bg:'#1e6b34', fg:'#ffffff', border:null}); tp2.position.set(0, 0.56, 0.03); g2.add(tp2); box(1.05, 0.28, 0.04, '#1e6b34', 0, 0.56, 0, g2, false); }
   const arrow = ink(mesh(new THREE.ConeGeometry(0.09, 0.18, 4), M('#f2c14e'), 0, 0, 0, scene, false)); arrow.rotation.x = Math.PI;
   const OUT = {s:[0, 1], n:[0, -1], e:[1, 0], w:[-1, 0]};
   hooks.push(st => { const T = st.T;
@@ -4969,7 +5216,8 @@ function vSchool(app){
     ...SCH.BOARDS.map(b => ({...b, ax:b.x, ay:b.y + 26, r:36, verb:'Xem ' + b.label.toLowerCase()})),
     {id:'bot', kind:'bot', label:'Robot Ô Li', ax:SCH.ROBOT_AT.x, ay:SCH.ROBOT_AT.y + 4, r:40, verb:'Nói chuyện'},
     {id:'gate', kind:'cleanup', label:'Cổng trường · nhặt rác', ax:SCH.GATE.x, ay:SCH.H - 40, r:34, verb:'Ra cổng nhặt rác'},
-    {id:'race', kind:'race', label:'Đường đua tiếng Anh', ax:SCH.RACE.x, ay:SCH.RACE.y, r:90, verb:'Vào đường đua'}
+    {id:'race', kind:'race', label:'Đường đua tiếng Anh', ax:SCH.RACE.x, ay:SCH.RACE.y, r:90, verb:'Vào đường đua'},
+    {id:'badm', kind:'badminton', label:'Sân cầu lông tiếng Anh', ax:SCH.BADM.x + SCH.BADM.w/2, ay:SCH.BADM.y + SCH.BADM.h/2, r:110, verb:'Vào sân cầu lông'}
   ];
   const near = () => { let best = null, bd = 1e9; acts.forEach(a => { const z = a.zone, dd = z && P.x > z.x && P.x < z.x + z.w && P.y > z.y && P.y < z.y + z.h ? 1 : Math.hypot(P.x - a.ax, P.y - a.ay); if (dd < a.r && dd < bd){ bd = dd; best = a; } });
     mates.forEach(mt => { if (SOC.peers.has(mt.id)) return; const dd = Math.hypot(P.x - mt.x, P.y - mt.y); if (dd < 34 && dd < bd){ bd = dd; best = {kind:'mate', mt, label:mt.first, verb:'Chào ' + mt.first}; } });
@@ -5005,6 +5253,7 @@ function vSchool(app){
     if (a.kind === 'cleanup'){ P.y = SCH.H - 80; P.dir = 'up'; return enter('Đang ra ngoài cổng trường…', () => go('cleanup')); }
     if (a.kind === 'stem'){ outAt(a); return enter('Đang vào phòng STEM…', () => go('stem')); }
     if (a.kind === 'ai'){ outAt(a); return enter('Đang vào Lớp học AI…', () => go('ai')); }
+    if (a.kind === 'badminton'){ P.x = SCH.BADM.x + SCH.BADM.w + 20; P.y = SCH.BADM.y + SCH.BADM.h/2; P.dir = 'left'; return enter('Đang ra sân cầu lông…', () => go('badminton')); }
     if (a.kind === 'race'){ P.y = a.ay + 40; P.dir = 'down'; return enter('Đang ra đường đua tiếng Anh…', () => go('race')); }
     if (a.kind === 'honor'){ const bd = Object.values(S.boards).filter(b => b.published).sort((x, y) => y.month.localeCompare(x.month))[0];
       if (!bd) return dlg('Bảng vàng', 'Chưa có tháng nào được công bố.'); const [yy, mm] = bd.month.split('-');
@@ -5017,7 +5266,8 @@ function vSchool(app){
         {label:'Nhắn riêng', fn:() => openDM(a.fsid)},
         {label:'Chào bạn', fn:() => sendChat(`Chào ${first}! 👋`, a.fsid)},
         {label:'Rủ thi Rung chuông vàng', fn:() => inviteFriend(a.fsid)},
-        {label:'♟ Mời đánh cờ vua', fn:() => { CG.inviteTo = a.fsid; savePos(); go('chess'); }}], {...defaultLook(a.fsid), ...(pr.look || {})}); }
+        {label:'♟ Mời đánh cờ vua', fn:() => { CG.inviteTo = a.fsid; savePos(); go('chess'); }},
+        {label:'🏸 Rủ chơi cầu lông', fn:() => { BG.inviteTo = a.fsid; savePos(); go('badminton'); }}], {...defaultLook(a.fsid), ...(pr.look || {})}); }
     if (a.kind === 'booth'){ dlgOpen = true; playTopic(app, a.ev); return; }
     if (a.kind === 'ward'){ dlgOpen = true; openLookEditor(sid, L => { look = L; drawAva(); }, () => { dlgOpen = false; }); return; }
     if (a.kind === 'evlist') return enter('Đang mở lịch sự kiện…', () => go('hall'));
@@ -5030,7 +5280,7 @@ function vSchool(app){
     `Chào ${m ? '<b>' + h(m.name.split(' ').slice(-1)[0]) + '</b>' : 'em'}! Mình là <b>Ô Li</b>, robot hướng dẫn của trường. Chào mừng em đến <b>Trường THCS và THPT Lương Thế Vinh</b>!`,
     'Trên điện thoại: <b>chạm nhanh</b> vào chỗ muốn đến, hoặc <b>giữ và kéo</b> ở bất kì đâu để hiện cần điều khiển, kéo hết cỡ để <b>chạy</b>. Trên máy tính: phím <b>mũi tên / W A S D</b>, giữ <b>Shift</b> để chạy. Nút <b>toàn màn hình</b> ở góc phải giúp em chơi dễ hơn.',
     `Trường mình có <b>4 dãy nhà</b> bao quanh sân như một khu tứ hợp viện. <b>Dãy A</b> phía trên là lớp <b>THCS khối 6–9</b>, <b>dãy B</b> phía dưới (hai bên cổng) là lớp <b>THPT khối 10–12</b> và <b>phòng Tin học</b>, mỗi cửa một khối.${m ? ` Lớp của em ở cửa <b>Khối ${h(m.grade)}</b>.` : S.canEdit ? ' Thầy cô đi tới cửa <b>Phòng GV</b> ở cuối dãy (có mũi tên vàng) để vào làm việc: giao nhiệm vụ, soạn bài, chấm bài, quản lí tài khoản.' : ''} Đi tới cửa rồi bấm <b>Vào lớp</b> để học lý thuyết.`,
-    'Mọi khu học đều ở ngay trong sân trường: <b>dãy C</b> bên trái có <b>thư viện</b>, <b>Phòng tranh 3D</b> (mỗi tháng có phong trào vẽ tranh) và <b>câu lạc bộ cờ vua</b>; <b>dãy D</b> bên phải có phòng thí nghiệm Vật lí, Hóa học, Sinh học, <b>phòng STEM</b> và <b>Lớp học AI</b>; phía đông là <b>Hội trường</b> và <b>sân thể thao</b> với Đường đua tiếng Anh; ra <b>cổng trường</b> để nhặt rác. Giữa sân, <b>bảng tin</b> dán nhiệm vụ của em, <b>bảng vàng</b> có bảng xếp hạng.',
+    'Mọi khu học đều ở ngay trong sân trường: <b>dãy C</b> bên trái có <b>thư viện</b>, <b>Phòng tranh 3D</b> (mỗi tháng có phong trào vẽ tranh) và <b>câu lạc bộ cờ vua</b>; <b>dãy D</b> bên phải có phòng thí nghiệm Vật lí, Hóa học, Sinh học, <b>phòng STEM</b> và <b>Lớp học AI</b>; phía đông là <b>Hội trường</b> và <b>sân thể thao</b> với Đường đua tiếng Anh; góc dưới bên trái có <b>sân cầu lông tiếng Anh</b>; ra <b>cổng trường</b> để nhặt rác. Giữa sân, <b>bảng tin</b> dán nhiệm vụ của em, <b>bảng vàng</b> có bảng xếp hạng.',
     'Học và thực hành để nhận <b>XP</b>, lên hạng từ <b>Tập sự</b> tới <b>Huyền thoại</b>. Chúc em học vui!'
   ];
   const TUT_H = [
@@ -5049,7 +5299,7 @@ function vSchool(app){
   const ro = new ResizeObserver(resize); ro.observe(stage); resize();
   // bản đồ nhỏ
   const drawMini = () => { const MW = mini.width, MH = mini.height, sx = MW/M.W, sy = MH/M.H, k = MW/160; if (isHall) M.mini(mctx, sx, sy, k, stage.classList.contains('map-big')); else { mctx.fillStyle = '#5aa04d'; mctx.fillRect(0, 0, MW, MH); mctx.fillStyle = '#e9e0cb'; SCH.PAVES.forEach(([x, y, w, h]) => mctx.fillRect(x*sx, y*sy, w*sx, h*sy));
-    mctx.fillStyle = '#4fae55'; mctx.fillRect(SCH.FIELD.x*sx, SCH.FIELD.y*sy, SCH.FIELD.w*sx, SCH.FIELD.h*sy); Object.values(SCH.B).forEach(b => { mctx.fillStyle = b.roof; mctx.fillRect(b.x*sx, b.y*sy, b.w*sx, b.h*sy); });
+    mctx.fillStyle = '#4fae55'; mctx.fillRect(SCH.FIELD.x*sx, SCH.FIELD.y*sy, SCH.FIELD.w*sx, SCH.FIELD.h*sy); mctx.fillRect(SCH.BADM.x*sx, SCH.BADM.y*sy, SCH.BADM.w*sx, SCH.BADM.h*sy); Object.values(SCH.B).forEach(b => { mctx.fillStyle = b.roof; mctx.fillRect(b.x*sx, b.y*sy, b.w*sx, b.h*sy); });
     if (m){ const dd = SCH.DOORS.find(x => x.kind === 'class' && String(x.grade) === String(m.grade)); if (dd){ mctx.fillStyle = '#ffd54a'; mctx.beginPath(); mctx.arc(dd.x*sx, dd.y*sy, 3.5*k, 0, 7); mctx.fill(); } }
     if (game) game.bots.forEach(b => { mctx.fillStyle = b.out ? '#7a86a8' : '#3fe091'; mctx.fillRect(b.x*sx - k, b.y*sy - k, 2.5*k, 2.5*k); }); else { remotes().forEach(([id, r]) => { mctx.fillStyle = '#3fe091'; mctx.beginPath(); mctx.arc(r.x*sx, r.y*sy, 2.6*k, 0, 7); mctx.fill(); }); } if (!game) mates.forEach(mt => { if (SOC.peers.has(mt.id)) return; mctx.fillStyle = '#ffffff'; mctx.fillRect(mt.x*sx - k, mt.y*sy - k, 2.5*k, 2.5*k); });
     if (stage.classList.contains('map-big')){ mctx.font = `700 ${7*k}px "Be Vietnam Pro", system-ui`; mctx.textAlign = 'center'; mctx.fillStyle = '#ffffff'; Object.values(SCH.B).forEach(b => mctx.fillText(b.name.split(' · ')[0], (b.x + b.w/2)*sx, (b.y + b.h/2)*sy, b.w*sx + 10)); mctx.fillText('SÂN TRƯỜNG', 1200*sx, 900*sy); mctx.fillText('CỔNG', SCH.GATE.x*sx, (SCH.H - 40)*sy); mctx.fillText('THỂ THAO', SCH.RACE.x*sx, SCH.RACE.y*sy, SCH.FIELD.w*sx); } }
@@ -11862,7 +12112,7 @@ async function rpExcel(D){
 }
 /* điểm thưởng vào bảng vàng: Lớp học AI và Phòng STEM */
 /* BẢNG ĐIỂM THƯỞNG: mọi hoạt động học tập đều cộng điểm vào bảng vàng (giữ lần cao nhất của mỗi hoạt động) */
-const PTS_RULES = [['📣', 'Ngày hội, phong trào trên Bảng tin', 'thưởng thêm x2 hoặc x3 khi tham gia đúng thời gian'], ['📚', 'Nhiệm vụ thầy cô giao (bài giảng, trắc nghiệm, thí nghiệm)', 'theo điểm thầy cô đặt, thường 10–20'], ['📖', 'Bài giảng thư viện (tự học)', '12–16 / bài'], ['🧪', 'Thí nghiệm 3D tự luyện', 'tối đa 5 / thí nghiệm'],
+const PTS_RULES = [['🏸', 'Sân cầu lông tiếng Anh', 'tối đa 10 / ngày (thắng máy mức Khó hoặc thắng bạn)'], ['📣', 'Ngày hội, phong trào trên Bảng tin', 'thưởng thêm x2 hoặc x3 khi tham gia đúng thời gian'], ['📚', 'Nhiệm vụ thầy cô giao (bài giảng, trắc nghiệm, thí nghiệm)', 'theo điểm thầy cô đặt, thường 10–20'], ['📖', 'Bài giảng thư viện (tự học)', '12–16 / bài'], ['🧪', 'Thí nghiệm 3D tự luyện', 'tối đa 5 / thí nghiệm'],
   ['🤖', 'Chuyên đề Lớp học AI hoàn thành', 'tối đa 10 / chuyên đề'], ['🔧', 'Thử thách Phòng STEM', '10 / thử thách'], ['🔔', 'Hội trường: Rung chuông vàng, chuyên đề', 'tối đa 10 / sự kiện'],
   ['♻️', 'Nhặt và phân loại rác cổng trường', 'tối đa 3 / ngày (kèm điểm rèn luyện)'], ['♟️', 'Thắng cờ ở Câu lạc bộ cờ vua', 'tối đa 5 / ngày'], ['✋', 'Giơ tay hỏi thầy cô khi học', '2 / ngày'], ['🏃', 'Đường đua tiếng Anh (vượt chướng ngại vật)', 'tối đa 10 / ngày']];
 async function awardPts(id, max, score, note, quiet){ const m = me(); if (!m || !S.db) return null; score = Math.max(0, Math.min(10, score)); const prev = S.subs[`${m.id}__${id}`]; if (prev && prev.score >= score) return null;
