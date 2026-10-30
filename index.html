@@ -2337,6 +2337,17 @@ html body button,html body a,html body input,html body select,html body textarea
 html body .bd-lobby{place-items:start center}html body .bd-lobby .cu-card{max-width:100%!important;width:100%!important;min-width:0!important;box-sizing:border-box;margin:auto 0}
 html body .bd-lob .seg{flex-wrap:wrap!important;overflow:visible}
 @media (max-width:560px){html body .bd-score{left:auto;right:8px;transform:none;font-size:.9rem;padding:3px 8px}html body .bd-score b{font-size:1.1rem}html body .bd-lob p{font-size:.9rem}}
+
+.bd-kbt{flex:0 0 auto}
+.bd-warn{margin:0;background:#fff4f3;border:2px solid #c62828;padding:8px 12px;font-size:.92rem;line-height:1.5}
+.bd-kb{display:flex;flex-direction:column;gap:6px;padding:8px 4px;background:#eceaf4;border:2px solid var(--ink,#1f2140);user-select:none;-webkit-user-select:none;touch-action:manipulation}
+.bd-kb[hidden]{display:none}
+.bd-kb div{display:flex;justify-content:center;gap:5px}
+.bd-kb button{flex:0 1 9.2%;min-width:26px;height:48px;border:1px solid #9a96b8;border-bottom-width:3px;background:#fff;font:800 1.15rem/1 "Be Vietnam Pro",system-ui;color:#1f2140;border-radius:5px;padding:0}
+.bd-kb button.on{background:#3f3394;color:#fff}
+@media (max-width:760px){.bd-kb{position:sticky;bottom:0;z-index:6}.bd-type{position:static}}
+
+@media (max-width:760px){html body .bd-type{padding:6px 8px;gap:6px}html body .bd-type input{min-height:38px;font-size:1.05rem;flex:1 1 160px}html body .bd-kb button{height:44px}html body .bd-page .sc-bar{display:none}}
 </style>
 
 <header class="top"><div class="wrap">
@@ -4469,7 +4480,9 @@ function vBadminton(app){
     <div class="sc-stage bd-stage" id="bdStage"><canvas id="bdCv" aria-label="Sân cầu lông"></canvas>
       <div class="bd-score" id="bdScore" aria-live="polite"></div><button class="hub-mini bd-exit" id="bdExit">← Thoát</button>
       <div class="cu-end bd-lobby" id="bdLobby"></div></div>
-    <div class="bd-type" id="bdType"><label for="bdIn">Gõ từ trên quả cầu</label><input id="bdIn" type="text" inputmode="latin" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="done" placeholder="Gõ từ tiếng Anh ở đây…"><span class="bd-hint" id="bdHint">Bấm vào ô này để mở bàn phím</span></div>
+    <div class="bd-type" id="bdType"><label for="bdIn">Gõ từ trên quả cầu</label><input id="bdIn" type="text" inputmode="latin" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="done" placeholder="Gõ từ tiếng Anh ở đây…"><span class="bd-hint" id="bdHint">Gõ từ đang bay về phía em, không cần bấm Enter</span><button type="button" class="btn ghost small bd-kbt" id="bdKbT"></button></div>
+    <p class="bd-warn" id="bdWarn" hidden role="alert">⚠️ Máy đang bật <b>gõ tiếng Việt</b> (Unikey, EVKey hoặc bàn phím Telex) nên chữ bị đổi dấu. Phần mềm vẫn cố nhận phím em gõ, nhưng để chơi mượt em nên <b>tắt gõ tiếng Việt</b>: trên máy tính bấm <kbd>Ctrl</kbd>+<kbd>Shift</kbd> hoặc chuyển Unikey sang chữ <b>E</b>; trên điện thoại dùng <b>bàn phím ảo</b> của trò chơi.</p>
+    <div class="bd-kb" id="bdKb" hidden aria-label="Bàn phím ảo"></div>
   </div></section>`;
   const stage = $('#bdStage', app), cv = $('#bdCv', app), g = cv.getContext('2d'), inp = $('#bdIn', app), lobbyEl = $('#bdLobby', app);
   const alive = () => document.body.contains(cv);
@@ -4501,19 +4514,43 @@ function vBadminton(app){
     if (badmOver(G.me, G.op)) { G.phase = 'over'; setTimeout(() => finish(), 900); } };
   const score = () => { if (!G) { $('#bdScore', app).innerHTML = ''; return; } $('#bdScore', app).innerHTML = `<span class="${G.server === 'me' ? 'srv' : ''}">Em <b>${G.me}</b></span><i>–</i><span class="${G.server === 'op' ? 'srv' : ''}"><b>${G.op}</b> ${h(G.opp.bot ? 'Máy' : firstN(G.opp.name))}</span>`; };
   // ---------- gõ phím ----------
-  const onType = () => { if (!G || G.phase !== 'fly' || !G.shot || G.shot.to !== 'me' || G.shot.done){ inp.value = ''; return; }
-    const s = G.shot, want = s.en.toLowerCase(), v = inp.value.toLowerCase().replace(/\s+/g, '');
-    if (want.startsWith(v)){ s.typed = v.length; if (G.mode === 'pvp') socSend('badm', {t:'prog', id:G.id, sid, to:G.opp.sid, n:s.n, k:s.typed});
-      if (v === want){ inp.value = ''; if (G.mode === 'pvp') socSend('badm', {t:'hit', id:G.id, sid, to:G.opp.sid, n:s.n}); hitBack('me'); } }
-    else { inp.value = s.en.slice(0, s.typed); s.err = 0.3; inp.classList.remove('bad'); void inp.offsetWidth; inp.classList.add('bad'); clearTimeout(inp._bt); inp._bt = setTimeout(() => inp.classList.remove('bad'), 450); } };
+  // gõ phím: nhận từng phím vật lí (không bị bộ gõ tiếng Việt đổi chữ) + bàn phím ảo trên điện thoại + ô nhập dự phòng
+  const myTurn = () => G && G.phase === 'fly' && G.shot && G.shot.to === 'me' && !G.shot.done;
+  const sync = () => { const s = G && G.shot; inp.value = myTurn() ? s.en.slice(0, s.typed) : ''; };
+  const wrong = () => { const s = G.shot; s.err = 0.3; inp.classList.remove('bad'); void inp.offsetWidth; inp.classList.add('bad'); clearTimeout(inp._bt); inp._bt = setTimeout(() => inp.classList.remove('bad'), 450); try { navigator.vibrate && navigator.vibrate(30); } catch(e){} };
+  const progress = () => { const s = G.shot; if (G.mode === 'pvp') socSend('badm', {t:'prog', id:G.id, sid, to:G.opp.sid, n:s.n, k:s.typed});
+    if (s.typed >= s.en.length){ inp.value = ''; if (G.mode === 'pvp') socSend('badm', {t:'hit', id:G.id, sid, to:G.opp.sid, n:s.n}); hitBack('me'); } else sync(); };
+  const feed = ch => { if (!myTurn()) return false; const s = G.shot, want = s.en.toLowerCase(); if (want[s.typed] === ch){ s.typed++; progress(); return true; } wrong(); sync(); return false; };
+  // khôi phục phím Telex bị bộ gõ tiếng Việt "nuốt": ẻ = e + r, â = a + a, ư = u + w …
+  const TONE = {'́':'s', '̀':'f', '̉':'r', '̃':'x', '̣':'j'}, MOD = {'̂':c => c, '̆':() => 'w', '̛':() => 'w'};
+  const telexOf = str => { let out = ''; for (const ch of str.normalize('NFD')){ if (TONE[ch]) out += TONE[ch]; else if (MOD[ch]) out += MOD[ch](out.slice(-1)); else if (ch === 'đ' || ch === 'Đ') out += 'dd'; else out += ch; } return out.toLowerCase(); };
+  const plainOf = str => str.normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/đ/gi, 'd').toLowerCase();
+  let vnWarned = false, lastKeyAt = 0;
+  const vnWarn = () => { if (vnWarned) return; vnWarned = true; $('#bdWarn', app).hidden = false; };
+  const onType = () => { if (!myTurn()){ inp.value = ''; return; } const s = G.shot, want = s.en.toLowerCase(), raw = inp.value.replace(/\s+/g, '');
+    if (/[^\x00-\x7f]/.test(raw)) vnWarn();
+    let best = s.typed; for (const v of [raw.toLowerCase(), telexOf(raw), telexOf(raw.replace(/(^|[^a-zA-Z])[ưƯ]/g, '$1w')), plainOf(raw)]){ let k = 0; while (k < v.length && k < want.length && v[k] === want[k]) k++; if (k === v.length && k > best) best = k; else if (k > best && k >= v.length - 1) best = k; }
+    if (best > s.typed){ s.typed = best; progress(); } else if (raw.length > s.typed){ wrong(); sync(); } };
   inp.addEventListener('input', onType);
-  inp.addEventListener('keydown', e => { if (e.key === 'Enter') e.preventDefault(); });
-  const keyH = e => { if (!alive()){ document.removeEventListener('keydown', keyH); return; } if (G && G.phase === 'fly' && document.activeElement !== inp && /^[a-z]$/i.test(e.key) && !e.ctrlKey && !e.metaKey){ inp.focus(); } };
+  inp.addEventListener('keydown', e => { if (e.key === 'Enter'){ e.preventDefault(); return; }
+    if (e.isComposing || e.keyCode === 229 || e.ctrlKey || e.metaKey || e.altKey) return;   // bàn phím điện thoại: xử lí ở sự kiện input
+    const m1 = /^Key([A-Z])$/.exec(e.code || ''); if (m1){ e.preventDefault(); lastKeyAt = performance.now(); if (myTurn()) feed(m1[1].toLowerCase()); return; }
+    if (e.key === 'Backspace' || e.key === 'Delete'){ e.preventDefault(); return; }
+    const k1 = (e.key || '').normalize('NFC'); if (k1.length === 1 && /[^\x00-\x7f]/.test(k1)){ e.preventDefault(); vnWarn(); if (!myTurn() || performance.now() - lastKeyAt < 80) return; const want = G.shot.en.toLowerCase()[G.shot.typed], tx = telexOf(k1), opts = [tx.slice(-1), plainOf(k1)];
+      if (opts.includes(want)) feed(want); else wrong(); } });
+  const keyH = e => { if (!alive()){ document.removeEventListener('keydown', keyH); return; } if (G && G.phase === 'fly' && document.activeElement !== inp && /^Key[A-Z]$/.test(e.code || '') && !e.ctrlKey && !e.metaKey){ inp.focus(); } };
   document.addEventListener('keydown', keyH);
+  // bàn phím ảo
+  const kb = $('#bdKb', app);
+  kb.innerHTML = ['qwertyuiop', 'asdfghjkl', 'zxcvbnm'].map(r => `<div>${[...r].map(c => `<button type="button" data-k="${c}" aria-label="${c}">${c}</button>`).join('')}</div>`).join('');
+  kb.addEventListener('pointerdown', e => { const b = e.target.closest('[data-k]'); if (!b) return; e.preventDefault(); b.classList.add('on'); setTimeout(() => b.classList.remove('on'), 120); if (!feed(b.dataset.k) && !myTurn()) SFX.tick(); });
+  const useKb = touchDev(); kb.hidden = !useKb; if (useKb){ inp.setAttribute('inputmode', 'none'); inp.readOnly = true; $('#bdHint', app).textContent = 'Chạm các phím chữ bên dưới để gõ'; }
+  $('#bdKbT', app).onclick = () => { const on = kb.hidden; kb.hidden = !on; inp.readOnly = on; inp.setAttribute('inputmode', on ? 'none' : 'text'); $('#bdKbT', app).textContent = on ? 'Dùng bàn phím máy' : 'Dùng bàn phím ảo'; if (!on) inp.focus(); };
+  $('#bdKbT', app).textContent = useKb ? 'Dùng bàn phím máy' : 'Dùng bàn phím ảo';
   cv.addEventListener('pointerdown', () => { if (G && !G.over) inp.focus(); });
   // ---------- vòng lặp ----------
   function loop(now){ if (!alive()){ cancelAnimationFrame(raf); raf = 0; return; } const dt = Math.min(0.05, (now - last)/1000); last = now; T += dt;
-    if (G) step(dt); draw(); raf = requestAnimationFrame(loop); }
+    if (G) step(dt); draw(); const ph = !G || G.over ? 'Gõ từ tiếng Anh ở đây…' : myTurn() ? 'Gõ: ' + G.shot.en : 'Chờ cầu bay về phía em…'; if (inp.placeholder !== ph) inp.placeholder = ph; raf = requestAnimationFrame(loop); }
   function step(dt){ ['me', 'op'].forEach(k => G.swing[k] = Math.max(0, G.swing[k] - dt)); G.fx.forEach(f => f.t -= dt); G.fx = G.fx.filter(f => f.t > 0); if (G.flash){ G.flash.t -= dt; if (G.flash.t <= 0) G.flash = null; }
     const s = G.shot;
     if (G.phase === 'wait'){ if (!G.started) return; G.wait -= dt; if (G.wait <= 0){ G.phase = 'serve'; G.wait = 1.0; G.shot = null; } return; }
@@ -4560,7 +4597,7 @@ function vBadminton(app){
       const ang = s.to === 'me' ? Math.PI : 0; shuttle(x, y, ang + (s.to === 'me' ? -1 : 1)*Math.min(0.6, (s.t/s.dur - 0.5)), C.k*0.9);
       if (G.phase === 'fly' && !s.done) bubble(x, y - 8, s.en, s.typed, s.to === 'me' ? {big:true, time:1 - s.t/s.dur, err:s.err > 0} : {fade:true}); }
     G.fx.forEach(f => { const x = f.who === 'me' ? C.xMe : C.xOp, y = C.gy - 64*C.k*(f.who === 'me' && look.role === 'teacher' ? 1.15 : 1); g.globalAlpha = Math.min(1, f.t/0.4); g.font = '700 15px "Be Vietnam Pro", system-ui'; const txt = `${f.en} = ${f.vi}`, tw = g.measureText(txt).width + 18;
-      const bx = Math.max(6, Math.min(W - tw - 6, x - tw/2)), by = y - 26 - (2.2 - f.t)*10; g.fillStyle = '#fff3c4'; rr(bx, by, tw, 26, 5); g.fill(); g.strokeStyle = '#c9961f'; g.lineWidth = 1.5; g.stroke(); g.fillStyle = '#1f2140'; g.textAlign = 'left'; g.textBaseline = 'middle'; g.fillText(txt, bx + 9, by + 13); g.globalAlpha = 1; });
+      const bx = Math.max(6, Math.min(W - tw - 6, x - tw/2)), by = y - 26 - (2.2 - f.t)*10 - (f.who === 'op' ? 40 : 0); g.fillStyle = '#fff3c4'; rr(bx, by, tw, 26, 5); g.fill(); g.strokeStyle = '#c9961f'; g.lineWidth = 1.5; g.stroke(); g.fillStyle = '#1f2140'; g.textAlign = 'left'; g.textBaseline = 'middle'; g.fillText(txt, bx + 9, by + 13); g.globalAlpha = 1; });
     if (G.phase === 'serve' || (G.phase === 'wait' && G.started)){ g.font = `800 ${Math.max(16, W/40)}px "Be Vietnam Pro", system-ui`; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillStyle = '#1f2140'; g.fillText(G.server === 'me' ? 'Em giao cầu…' : `${G.opp.bot ? 'Máy' : firstN(G.opp.name)} giao cầu…`, W/2, H*0.18); }
     if (G.phase === 'wait' && !G.started){ g.font = `700 ${Math.max(15, W/46)}px "Be Vietnam Pro", system-ui`; g.textAlign = 'center'; g.fillStyle = '#1f2140'; g.fillText(`Chờ ${firstN(G.opp.name)} vào sân…`, W/2, H*0.18); }
     if (G.flash){ g.globalAlpha = Math.min(1, G.flash.t/0.3); g.font = `800 ${Math.max(20, W/30)}px "Be Vietnam Pro", system-ui`; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillStyle = G.flash.good ? '#1e8a3c' : '#c62828'; g.fillText(G.flash.txt, W/2, H*0.3); g.globalAlpha = 1; }
