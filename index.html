@@ -4527,26 +4527,36 @@ function vBadminton(app){
   const plainOf = str => str.normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/đ/gi, 'd').toLowerCase();
   let vnWarned = false, lastKeyAt = 0;
   const vnWarn = () => { if (vnWarned) return; vnWarned = true; $('#bdWarn', app).hidden = false; };
-  const onType = () => { if (!myTurn()){ inp.value = ''; return; } const s = G.shot, want = s.en.toLowerCase(), raw = inp.value.replace(/\s+/g, '');
+  // Cách 1 (máy tính): bắt phím vật lí ở cấp toàn trang theo e.code (KeyA…KeyZ). e.code vẫn có khi bật Unikey/EVKey
+  // hay bộ gõ tiếng Việt của Windows (lúc đó e.key = 'Process'), nên không phụ thuộc chữ hiện trong ô nhập.
+  let keyMode = false, composing = false;
+  const onKey = e => { if (!alive()){ document.removeEventListener('keydown', onKey, true); return; }
+    if (e.ctrlKey || e.metaKey || e.altKey) return; const tg = e.target; if (tg && tg !== inp && /^(INPUT|TEXTAREA|SELECT)$/.test(tg.tagName)) return;
+    if (!G || G.over || lobbyEl.hidden === false) return;
+    const m1 = /^Key([A-Z])$/.exec(e.code || '');
+    if (m1){ keyMode = true; lastKeyAt = performance.now(); e.preventDefault(); if (myTurn()) feed(m1[1].toLowerCase()); if (e.keyCode === 229 || e.key === 'Process') vnWarn(); return; }
+    if (e.key === 'Backspace' || e.key === 'Delete' || e.key === 'Enter'){ if (tg === inp) e.preventDefault(); return; }
+    const k1 = (e.key || '').normalize('NFC');
+    if (k1.length === 1 && /[^\x00-\x7f]/.test(k1)){ e.preventDefault(); vnWarn(); if (!myTurn() || performance.now() - lastKeyAt < 80) return; const want = G.shot.en.toLowerCase()[G.shot.typed], opts = [telexOf(k1).slice(-1), plainOf(k1)]; if (opts.includes(want)) feed(want); else wrong(); return; }
+    if (/^[a-z]$/i.test(k1) && !e.code){ e.preventDefault(); keyMode = true; lastKeyAt = performance.now(); if (myTurn()) feed(k1.toLowerCase()); } };
+  document.addEventListener('keydown', onKey, true);
+  // Cách 2 (điện thoại, bàn phím không báo phím): đọc chữ trong ô nhập. Không xóa ô khi đang ghép chữ (IME) để tránh lỗi bộ gõ.
+  const onType = ev => { if (keyMode && performance.now() - lastKeyAt < 1500){ if (!composing) sync(); return; }
+    if (!myTurn()){ if (!composing) inp.value = ''; return; } const s = G.shot, want = s.en.toLowerCase(), raw = inp.value.replace(/\s+/g, '');
     if (/[^\x00-\x7f]/.test(raw)) vnWarn();
     let best = s.typed; for (const v of [raw.toLowerCase(), telexOf(raw), telexOf(raw.replace(/(^|[^a-zA-Z])[ưƯ]/g, '$1w')), plainOf(raw)]){ let k = 0; while (k < v.length && k < want.length && v[k] === want[k]) k++; if (k === v.length && k > best) best = k; else if (k > best && k >= v.length - 1) best = k; }
-    if (best > s.typed){ s.typed = best; progress(); } else if (raw.length > s.typed){ wrong(); sync(); } };
+    if (best > s.typed){ s.typed = best; progress(); } else if (!composing && raw.length > s.typed){ wrong(); sync(); } };
   inp.addEventListener('input', onType);
-  inp.addEventListener('keydown', e => { if (e.key === 'Enter'){ e.preventDefault(); return; }
-    if (e.isComposing || e.keyCode === 229 || e.ctrlKey || e.metaKey || e.altKey) return;   // bàn phím điện thoại: xử lí ở sự kiện input
-    const m1 = /^Key([A-Z])$/.exec(e.code || ''); if (m1){ e.preventDefault(); lastKeyAt = performance.now(); if (myTurn()) feed(m1[1].toLowerCase()); return; }
-    if (e.key === 'Backspace' || e.key === 'Delete'){ e.preventDefault(); return; }
-    const k1 = (e.key || '').normalize('NFC'); if (k1.length === 1 && /[^\x00-\x7f]/.test(k1)){ e.preventDefault(); vnWarn(); if (!myTurn() || performance.now() - lastKeyAt < 80) return; const want = G.shot.en.toLowerCase()[G.shot.typed], tx = telexOf(k1), opts = [tx.slice(-1), plainOf(k1)];
-      if (opts.includes(want)) feed(want); else wrong(); } });
-  const keyH = e => { if (!alive()){ document.removeEventListener('keydown', keyH); return; } if (G && G.phase === 'fly' && document.activeElement !== inp && /^Key[A-Z]$/.test(e.code || '') && !e.ctrlKey && !e.metaKey){ inp.focus(); } };
-  document.addEventListener('keydown', keyH);
+  inp.addEventListener('compositionstart', () => { composing = true; });
+  inp.addEventListener('compositionend', () => { composing = false; setTimeout(() => { if (myTurn()) sync(); else inp.value = ''; }, 0); });
   // bàn phím ảo
   const kb = $('#bdKb', app);
   kb.innerHTML = ['qwertyuiop', 'asdfghjkl', 'zxcvbnm'].map(r => `<div>${[...r].map(c => `<button type="button" data-k="${c}" aria-label="${c}">${c}</button>`).join('')}</div>`).join('');
   kb.addEventListener('pointerdown', e => { const b = e.target.closest('[data-k]'); if (!b) return; e.preventDefault(); b.classList.add('on'); setTimeout(() => b.classList.remove('on'), 120); if (!feed(b.dataset.k) && !myTurn()) SFX.tick(); });
-  const useKb = touchDev(); kb.hidden = !useKb; if (useKb){ inp.setAttribute('inputmode', 'none'); inp.readOnly = true; $('#bdHint', app).textContent = 'Chạm các phím chữ bên dưới để gõ'; }
-  $('#bdKbT', app).onclick = () => { const on = kb.hidden; kb.hidden = !on; inp.readOnly = on; inp.setAttribute('inputmode', on ? 'none' : 'text'); $('#bdKbT', app).textContent = on ? 'Dùng bàn phím máy' : 'Dùng bàn phím ảo'; if (!on) inp.focus(); };
-  $('#bdKbT', app).textContent = useKb ? 'Dùng bàn phím máy' : 'Dùng bàn phím ảo';
+  const phone = matchMedia('(pointer: coarse)').matches && !matchMedia('(pointer: fine)').matches;
+  const useKb = touchDev(); kb.hidden = !useKb; if (useKb){ if (phone) inp.setAttribute('inputmode', 'none'); $('#bdHint', app).textContent = 'Chạm các phím chữ bên dưới hoặc gõ bàn phím'; }
+  $('#bdKbT', app).onclick = () => { const on = kb.hidden; kb.hidden = !on; inp.setAttribute('inputmode', on && phone ? 'none' : 'text'); $('#bdKbT', app).textContent = on ? 'Ẩn bàn phím ảo' : 'Hiện bàn phím ảo'; if (!on) inp.focus(); };
+  $('#bdKbT', app).textContent = useKb ? 'Ẩn bàn phím ảo' : 'Hiện bàn phím ảo';
   cv.addEventListener('pointerdown', () => { if (G && !G.over) inp.focus(); });
   // ---------- vòng lặp ----------
   function loop(now){ if (!alive()){ cancelAnimationFrame(raf); raf = 0; return; } const dt = Math.min(0.05, (now - last)/1000); last = now; T += dt;
